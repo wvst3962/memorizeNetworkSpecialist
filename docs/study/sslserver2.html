@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SSL Server Certificate - Part 2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ssl">SSLサーバ証明書の種類</a></li>
+<li><a href="#ssl_1">SSLサーバ証明書のインストール先</a></li>
+<li><a href="#ssl_2">SSLサーバ証明書の導入</a></li>
+<li><a href="#sslcsr-">SSLサーバ証明書を導入するサーバでのCSRの生成 - 用語の理解</a></li>
+<li><a href="#sslcsr-csr">SSLサーバ証明書を導入するサーバでのCSRの生成 - CSRの概念</a></li>
+<li><a href="#sslcsr-_1">SSLサーバ証明書を導入するサーバでのCSRの生成 - ディスティングイッシュネームとは</a></li>
+<li><a href="#sslcsr-iis">SSLサーバ証明書を導入するサーバでのCSRの生成 - IISの場合</a></li>
+<li><a href="#pkcs">参考 ： PKCSとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ssl-server-certificate-part-2">SSL Server Certificate - Part 2</h1>
+<hr>
+<p>◆　以下の記事を読む前に <a href="sslserver1.html">SSLサーバ証明書をはじめからその1</a> を読んで頂けると理解しやすくなります。</p>
+<h2 id="ssl">SSLサーバ証明書の種類</h2>
+<p>SSLサーバ証明書には「企業認証型」と「ドメイン認証型」の大きく2タイプある。ベリサインを例に見ます。
+最もセキュリティの可視性が高く、セキュリティ意識の高い企業の証明となるのはEV SSLサーバ証明書です。</p>
+<table>
+<thead>
+<tr>
+<th>証明書のタイプ</th>
+<th>証明書の種類</th>
+<th>機能</th>
+<th>シマンテックブランド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企業認証型</td>
+<td>EV SSLサーバ証明書</td>
+<td>?@　SSLによる通信の暗号化<br>?A　Webサイトの身元証明（なりすまし対策）<br>→　厳格な発行基準による企業認証<br>→　アドレスバーは緑色</td>
+<td>Norton Secured<br>by VeriSign</td>
+</tr>
+<tr>
+<td>企業認証型</td>
+<td>SSLサーバ証明書</td>
+<td>?@　SSLによる通信の暗号化<br>?A　Webサイトの身元証明（存在証明）<br>→　適切な発行基準による企業認証<br>→　アドレスバーは白色</td>
+<td>Norton Secured<br>by VeriSign</td>
+</tr>
+<tr>
+<td>ドメイン認証型</td>
+<td>SSLサーバ証明書</td>
+<td>?@　SSLによる通信の暗号化<br>→　ドメイン名の管理者の申請確認で発行<br>→　アドレスバーは白色</td>
+<td>GeoTrust</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ssl_1">SSLサーバ証明書のインストール先</h2>
+<p>発行されたSSLサーバ証明書はWebサーバにインストールして利用すると申し上げましたが、その他にも
+ロードバランサにインストールして、ロードバランサがSSLサーバとしてSSL通信を終端させることも可能。
+一般的に、ロードバランサにSSLサーバ証明書をインストールし、SSL通信を行わせることがほとんどです。</p>
+<p><img alt="画像" src="../studygif/sslserver2a.png"></p>
+<h2 id="ssl_2">SSLサーバ証明書の導入</h2>
+<p>SSLサーバ証明書の導入は、通常は以下のようなフローで行います。</p>
+<p>?@　SSLサーバ証明書を導入するサーバでのCSRの生成
+?A　オンライン申請、及び各種申請資料の送付
+?B　認証局（CA）で、CSRに署名を行いサーバ証明書として発行
+?C　認証局（CA）のルート証明書、及び発行されたサーバ証明書の受領とインストール
+?D　検証完了後にリリース</p>
+<h2 id="sslcsr-">SSLサーバ証明書を導入するサーバでのCSRの生成 - 用語の理解</h2>
+<p>先ず、以下の3つの用語を理解しておきましょう。</p>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSR</td>
+<td>・　CSR（Certificate Signing Request）は、認証局（CA）に提出する署名要求のこと。<br>・　CSRは、「 公開鍵とディスティングイッシュネーム 」を合わせた電子データのこと。<br>・　CSRは、SSLサーバ証明書をインストールするサーバ側で生成する。</td>
+</tr>
+<tr>
+<td>コモンネーム</td>
+<td>・　SSLサーバ証明書をインストールするサーバのURLのFQDN部分のこと。<br>・　https:// から一番最初に表示される "/ "までの部分が該当する。<br>・　https://<strong class="memory-answer">www.infraexpert.com</strong>/study/　の場合は、赤文字部分が該当する。<br>・　https://<strong class="memory-answer">192.168.0.100</strong>/index.html　の場合は、赤文字部分のIPアドレスが該当。</td>
+</tr>
+<tr>
+<td>ディスティングイッシュネーム</td>
+<td>・　証明書の"<strong class="memory-answer">サブジェクト</strong>"に格納されている情報<br>・　コモンネーム、Webサイトを運営する組織に関する各種情報</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sslcsr-csr">SSLサーバ証明書を導入するサーバでのCSRの生成 - CSRの概念</h2>
+<p><img alt="画像" src="../studygif/sslserver2b.png"></p>
+<h2 id="sslcsr-_1">SSLサーバ証明書を導入するサーバでのCSRの生成 - ディスティングイッシュネームとは</h2>
+<p>CSRを生成するためには、以下の情報から構成されるディスティンイッシュネームを決める必要がある。
+ここで指定した文字列がそのままサーバ証明書の情報として反映される。下記の項目と入力例については
+通常のSSLサーバ証明書に適用できる内容であり、EV SSLサーバ証明書の場合は下記の入力例と異なる。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>意味</th>
+<th>内容</th>
+<th>入力例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CN</td>
+<td>コモンネーム</td>
+<td>サーバにSSL通信する際に入力するブラウザのURL情報。<br><strong class="memory-answer">FQDN</strong>または<strong class="memory-answer">IPアドレス</strong>を入力する。</td>
+<td>www.infraexpert.com</td>
+</tr>
+<tr>
+<td>OU</td>
+<td>部門名</td>
+<td>部門、部署名など<strong class="memory-answer">任意</strong>の識別名称</td>
+<td>myhobby</td>
+</tr>
+<tr>
+<td>O</td>
+<td>組織名</td>
+<td>Webサイトを運営する組織の<strong class="memory-answer">正式</strong>英語名称</td>
+<td>infraexpert Corp.</td>
+</tr>
+<tr>
+<td>L</td>
+<td>市区町村</td>
+<td>Webサイトを運営する組織の所在地</td>
+<td>Minato-ku</td>
+</tr>
+<tr>
+<td>S</td>
+<td>都道府県名</td>
+<td>Webサイトを運営する組織の所在地</td>
+<td>Tokyo</td>
+</tr>
+<tr>
+<td>C</td>
+<td>国別番号</td>
+<td>国別コード</td>
+<td>JP</td>
+</tr>
+</tbody>
+</table>
+<p>例えばANAさんでは、EV SSLサーバ証明書ではなく通常のSSLサーバ証明書を利用されているので入力例を
+見てみます。重要なポイントとして、SSL暗号化通信の際にWebブラウザは指定したURLアドレスと接続先の
+Webサイトの証明書のCN（コモンネーム）が一致しているどうかを検証します。この値が一致しない場合は
+ブラウザは警告メッセージを表示させます。</p>
+<p><img alt="画像" src="../studygif/sslserver2d.png"></p>
+<h2 id="sslcsr-iis">SSLサーバ証明書を導入するサーバでのCSRの生成 - IISの場合</h2>
+<p>例えば、Windows Server 2012のIISでCSRを発行する場合、フローの概要は以下の通りです。</p>
+<p>?@　ディスティングイッシュネームを入力
+?A　暗号化サービスプロバイダー（MS RSA SChannel Cryptographic Provider）ビット長(2048)を選択
+→　この際にキーペア（公開鍵 ・ 秘密鍵 ）が作成されます。
+?B　CSRの保存先とファイル名の指定 ( txt形式で保存 )</p>
+<p>認証局（CA）で発行された証明書をファイルとして保存した後、サーバに証明書をインストールして完了。
+例えばベリサインの場合、IISにはSSLサーバ証明書と中間CA証明書とクロスルート設定用証明書を併せた
+PKCS7形式の証明書が発行されるため、別途、中間CA証明書とクロスルート設定用証明書のinstallは不要。</p>
+<p><img alt="画像" src="../studygif/sslserver2c.png"></p>
+<h2 id="pkcs">参考 ： PKCSとは</h2>
+<p>PKCS（Public-Key Cryptography Standards）とは、RSAセキュリティにより考案された公開鍵暗号標準
+のグループのこと。PKCS #3、PKCS #7、PKCS #10、PKCS #11、PKCS #12 がよく利用されています。</p>
+<table>
+<thead>
+<tr>
+<th>PKCS</th>
+<th>名称</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PKCS #3</td>
+<td>Diffie-Hellman鍵共有標準</td>
+<td>共通鍵を確立できるようにする暗号プロトコルの規定</td>
+</tr>
+<tr>
+<td>PKCS #7</td>
+<td>暗号メッセージ構文標準</td>
+<td>PKIでメッセージを署名や暗号化するのに使用される。その規定。<br>PKCS #10メッセージの応答として、証明書の配布のためにも利用</td>
+</tr>
+<tr>
+<td>PKCS #10</td>
+<td>証明書署名要求</td>
+<td>電子証明書をCA（認証局）に要求するためのメッセージ構文の規定</td>
+</tr>
+<tr>
+<td>PKCS #11</td>
+<td>暗号トークンインタフェース (Cryptoki)</td>
+<td>PCカードなどのデバイスと暗号鍵の受け渡しをするためのAPIの規定</td>
+</tr>
+<tr>
+<td>PKCS #12</td>
+<td>個人情報交換構文の標準</td>
+<td>パスワードに基づく鍵(暗号)により保護された秘密鍵とそれに関連する<br>公開鍵証明書を保管するために利用されるファイルフォーマットの定義。<br>PFXはPKCS#12の旧称であるゆえ、エクスポートファイルを <strong class="memory-answer">.pfx</strong> から<br><strong class="memory-answer">.p12</strong> へ拡張子を変更して利用する場合がある。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study44.html">SSL/TLS、SSLサーバ証明書、SSL-VPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

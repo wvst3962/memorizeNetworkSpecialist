@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>QoS - DiffServ QoS Model | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#qos-diffserv">QoS - DiffServモデルの処理フロー</a></li>
+<li><a href="#diffserv">DiffServモデルの処理フロー（分類）</a></li>
+<li><a href="#diffserv_1">DiffServモデルの処理フロー（マーキング）</a></li>
+<li><a href="#diffserv_2">DiffServモデルの処理フロー（キューイングとスケジューリング）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="qos-diffserv-qos-model">QoS - DiffServ QoS Model</h1>
+<hr>
+<h2 id="qos-diffserv">QoS - DiffServモデルの処理フロー</h2>
+<p>DiffServモデルでは「?@分類 ?Aマーキング ?B キューイング ?Cスケジューリング」の順番で処理されます。
+ルータにFTPトラフィックや音声トラフィックが混在して着信した時に、どのような処理が行われて音声
+トラフィックが優先され送出していくのかを見ていきます。説明図を分かりやすくするため1パケットずつ。</p>
+<p><img alt="画像" src="../studygif/telephony7a.png"></p>
+<p>QoSは、上図フローを理解できればOK。以下に詳細に解説していますが、はじめてQoSを学習する人は何となくの理解でOK。
+QoSの実装はメーカーの機器によって異なることもあり、その機器に実際に実装していくタイミングで深く理解していければOK。</p>
+<h2 id="diffserv">DiffServモデルの処理フロー（分類）</h2>
+<p>ルータやスイッチなどのネットワーク機器のインターフェースに着信したパケットを分類するためには、
+IPアドレス、TCP/UDPポート番号、CoS / DSCP / IP Precendence値などの情報をもとに分類します。</p>
+<h2 id="diffserv_1">DiffServモデルの処理フロー（マーキング）</h2>
+<p>各パケットに対して優先度を付けます。マーキングの方法には、L2でのマーキングとL3でのマーキング
+があります。スイッチではL2またはL3でのマーキングが可能です。ルータでは、L3のマーキングのみが
+可能です。L2マーキングの場合、Ethernet LANのトランクされた各リンク上でしか情報が保持されない
+ことからエンドツーエンドで優先度の情報を保持し続けられるL3マーキングを使用することが多いです。</p>
+<p>L2マーキングでは<strong class="memory-answer">CoS</strong>値が使用されます。CoS値は802.1Qタグ付けフレームのタグの中のフィールドで
+定義されます。3ビットのフィールドで 0 ～ 7 の8段階の優先度を定義することができます。</p>
+<p><img alt="画像" src="../studygif/telephony7b.png"></p>
+<p>L3マーキングでは「<strong class="memory-answer">IP Precedence</strong>値または<strong class="memory-answer">DSCP</strong>値」が使用されます。これらの値はIPv4ヘッダの中の
+ToS（Type of Service）フィールドで定義されます。ToSフィールドでは8ビットあるのですがそのうちの
+先頭3ビットだけを使用してマーキング値を表すのがIP Precedenceであり、先頭6ビットを使用するのが
+DSCP値となります。IP Precedence0～7の8段階で優先度を、DSCPは0～63の64段階で優先度を表します。</p>
+<p><img alt="画像" src="../studygif/telephony7c.png"></p>
+<p>DSCP値により処理を決めることを<strong class="memory-answer">PHB</strong>（Per Hop Behavior）と言います。PHBごとのDSCP値は以下。</p>
+<table>
+<thead>
+<tr>
+<th>PHB</th>
+<th>DSCP値（2進数）</th>
+<th>DSCP値（10進数）</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td>000 000</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS0</td>
+<td>000 000</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS1</td>
+<td>001 000</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS2</td>
+<td>010 000</td>
+<td>16</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS3</td>
+<td>011 000</td>
+<td>24</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS4</td>
+<td>100 000</td>
+<td>32</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS5</td>
+<td>101 000</td>
+<td>40</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS6</td>
+<td>110 000</td>
+<td>48</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">CS</strong> ( Class Selector )</td>
+<td>CS7</td>
+<td>111 000</td>
+<td>56</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF11</td>
+<td>001 010</td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF12</td>
+<td>001 100</td>
+<td>12</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF13</td>
+<td>001 110</td>
+<td>14</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF21</td>
+<td>010 010</td>
+<td>18</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF22</td>
+<td>010 100</td>
+<td>20</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF23</td>
+<td>010 110</td>
+<td>22</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF31</td>
+<td>011 010</td>
+<td>26</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF32</td>
+<td>011 100</td>
+<td>28</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF33</td>
+<td>011 110</td>
+<td>30</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF41</td>
+<td>100 010</td>
+<td>34</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF42</td>
+<td>100 100</td>
+<td>36</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AF</strong>（Assured Forwarding）</td>
+<td>AF43</td>
+<td>100 110</td>
+<td>38</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">EF</strong> （Expedited Forwarding)</td>
+<td>101 110</td>
+<td>46</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>上表のDefault、Class Selector、Assured Forwarding、Expedited Forwardingの意味は以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>PHBの各項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td>ベストエフォートで転送する。優先しないPCのデータトラフィックに通常割り当てる。</td>
+</tr>
+<tr>
+<td>Class Selector</td>
+<td>IP Precedenceとの下位互換性。例えばDSCP値40であるCS5は、IP Precedence5と同じ意味。</td>
+</tr>
+<tr>
+<td>Assured Forwarding</td>
+<td>確認転送用のクラス。4段階の優先度（先頭3bit：001、010、011、100）。高い優先度が100。</td>
+</tr>
+<tr>
+<td>Expedited Forwarding</td>
+<td>緊急転送用のクラス。DSCP値46であるEFは、最優先処理する音声トラフィックに通常割り当てる。</td>
+</tr>
+</tbody>
+</table>
+<p>下図を理解できれば、AF41は優先度が高く、破棄レベルが低い、AF43は優先度が高く、破棄レベルが高い
+位置付けの値であることが分かります。EFについては、破棄レベルが高い110の値となっていますが、EFの
+場合、最優先処理されて転送されていくので破棄は考慮されていません。※ つまり、破棄されることはない。</p>
+<p><img alt="画像" src="../studygif/telephony7d.png"></p>
+<h2 id="diffserv_2">DiffServモデルの処理フロー（キューイングとスケジューリング）</h2>
+<p>インターフェースに着信したパケットを出力インターフェースから送出する前に、インターフェースにある
+キューにパケットを格納することを<strong class="memory-answer">キューイング</strong>と言います。キューとは、パケットの格納場所のことであり
+通常1つのインターフェースに複数のキューがあります。複数あるキューのうち、どのキューにあるパケット
+から送出していくのかを決めていく事は<strong class="memory-answer">スケジューリング</strong>です。最優先処理されるキュー（Priority Queue）
+に音声パケットを格納することで音声パケットは優先的に送出されていきます。代表的なキューイング及び
+スケジューリング方式には以下のようなものがあります。なおルータで最も使用されている方式は <strong class="memory-answer">LLQ</strong> です。</p>
+<table>
+<thead>
+<tr>
+<th>キューイング、<br>スケジューリング方式の種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIFO（First In First Out）</td>
+<td>着信してきた順番でパケットを送出していく方式。実質的にQoSではない方式。</td>
+</tr>
+<tr>
+<td>PQ（Priority Queuing）</td>
+<td>複数のキューの中で優先度の高いキューを設定し、特定のパケットを最優先処理する方式。</td>
+</tr>
+<tr>
+<td>WFQ(Weighted Fair Queuing)</td>
+<td>通信フローごとにキューを作成し、キューの優先度に応じてパケットを送出ていく方式。</td>
+</tr>
+<tr>
+<td>CBWFQ（Class Based WFQ）</td>
+<td>管理者が作成したクラスごとに帯域幅を割り当て、各トラフィックが帯域幅を確保できる方式。</td>
+</tr>
+<tr>
+<td>LLQ（Low Latency Queuing）</td>
+<td>CBWFQにPQを追加した方式。帯域幅の割り当てと最優先処理キュ―を割り当てられる方式。</td>
+</tr>
+</tbody>
+</table>
+<p>QoSの実装方式には、通信速度を一定の値を超えないように制限する<strong class="memory-answer">ポリシング</strong>や<strong class="memory-answer">シェーピング</strong>などの
+手法もあります。ポリシングでは、定義した通信速度を超過した場合、それ以上のパケットを破棄します。
+シェーピングでは、定義した通信速度を超過した場合、それ以上のパケットはバッファに格納しておいて
+通信速度の超過が落ち着いてきてからトラフィックを送信していく方式。WANルータでよく設定する方式。</p>
+<hr>
+<p>← <a href="telephony6.html">QoSとは</a>　<a href="https://www.infraexpert.com/study/telephony8.html">QoS - WANでのシェーピング</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

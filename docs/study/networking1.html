@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Network Topology | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ネットワークトポロジーとは</a></li>
+<li><a href="#_2">バス型トポロジー</a></li>
+<li><a href="#_3">スター型トポロジー</a></li>
+<li><a href="#_4">リング型トポロジー</a></li>
+<li><a href="#_5">フルメッシュ型トポロジー</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="network-topology">Network Topology</h1>
+<hr>
+<h2 id="_1">ネットワークトポロジーとは</h2>
+<p><strong class="memory-answer">ネットワークトポロジー</strong>とは、コンピュータネットワークの接続形態のことです。ネットワークにおいて
+PC、サーバ、スイッチ等の機器（ノード）がどのような形で接続するのかを表します。トポロジーには、
+物理トポロジーと論理トポロジーがあります。物理トポロジーは、実際にLANケーブルやPCがどのように
+接続するのかを示す物理的な構成のことです。論理トポロジーは、データの流れ方を表す論理的な構成の
+ことです。代表的なネットワークトポロジーにバス型、スター型、リング型、フルメッシュ型があります。</p>
+<h2 id="_2">バス型トポロジー</h2>
+<p><strong class="memory-answer">バス型</strong>トポロジーは、1本のケーブル（同軸ケーブル）に複数のノードを接続しているトポロジーのこと。
+一本の同軸ケーブルの両端にターミネータと呼ばれる抵抗器を取り付けて、終端での信号の反射、乱れを
+防ぎます。バス型のトポロジーでは、中心となる同軸ケーブルに障害が発生するとそれに接続する全ての
+ノードが通信できなくなります。10Base2 / 10Base5など<strong class="memory-answer">大昔のLAN規格で使用する物理トポロジー</strong>です。</p>
+<p><img alt="画像" src="../studygif/networking1a.png"></p>
+<h2 id="_3">スター型トポロジー</h2>
+<p><strong class="memory-answer">スター型</strong>トポロジーは1つの集線装置（ハブやスイッチ）に複数のノードを接続しているトポロジーのこと。
+バス型トポロジーとは異なり、1本のケーブルに障害が発生した場合でも他のノード通信に影響は出ませんが、
+集線装置に障害が発生すると全てのノードの通信に影響が発生します。<strong class="memory-answer">今日のLANの主流のトポロジー</strong>です。</p>
+<p><img alt="画像" src="../studygif/networking1b.png"></p>
+<p>スター型トポロジーのハブに、さらに別のハブを接続するような構成は<strong class="memory-answer">拡張スター型</strong>トポロジーと言います。</p>
+<p><img alt="画像" src="../studygif/networking1c.png"></p>
+<h2 id="_4">リング型トポロジー</h2>
+<p>バス型とスター型では物理トポロジーを紹介しましたが、<strong class="memory-answer">リング型</strong>トポロジーといえばトークンリングLANに
+おける論理トポロジーが代表例なので、今回は論理トポロジーを紹介します。リング型トポロジーにおいては
+ノードは論理的にリング状に接続され、トークンと呼ばれるデータがリング状を高速に巡回しています。この
+トークンを得たノードがデータを送信する事ができます。シングルリング型トポロジーではどこか一箇所でも
+障害が発生すると全体が通信できなくなります。リング型は、<strong class="memory-answer">現在では見ることのない過去のトポロジー</strong>です。</p>
+<p><img alt="画像" src="../studygif/networking1d.png"></p>
+<p>シングルリング型の耐障害性を強めたトポロジーが、デュアルリング型トポロジーです。このトポロジーでは
+もう1つの予備のリングを設けることにより、プライマリリングに障害が発生した場合でも通信を継続できる
+仕組みになっています。FDDI LANの論理トポロジーが代表例です。トークンリングLANと同様 FDDI LANは
+現在ではほぼ使用されていないのでシングルリング、デュアルリングともに、見ることがないトポロジーです。</p>
+<p><img alt="画像" src="../studygif/networking1e.png"></p>
+<table>
+<thead>
+<tr>
+<th>IEEE</th>
+<th>トークンパッシング採用のLAN</th>
+<th>使用するケーブル</th>
+<th>論理トポロジー</th>
+<th>物理トポロジー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>802.4 (解散）</td>
+<td>トークンバス</td>
+<td>同軸ケーブル</td>
+<td>リング型</td>
+<td>バス型</td>
+</tr>
+<tr>
+<td>802.5</td>
+<td>トークンリング</td>
+<td>STPケーブル &amp; MSAU</td>
+<td>リング型</td>
+<td>スター型</td>
+</tr>
+<tr>
+<td>-</td>
+<td>FDDI</td>
+<td>光ファイバー &amp; コンセントレータ</td>
+<td>リング型</td>
+<td>スター型</td>
+</tr>
+</tbody>
+</table>
+<p>※　トークンリング、FDDI の論理トポロジーはともにリング型です。なお、物理トポロジーはスター型となります。</p>
+<h2 id="_5">フルメッシュ型トポロジー</h2>
+<p>バス型、スター型、リング型ではノードを中心に紹介してきましたが、フルメッシュ型やパーシャルメッシュ
+型のトポロジーは、特にルータなどのネットワーク機器における物理または論理トポロジーが代表例ですので
+今回はノードをルータに置き換えて解説します。フルメッシュ型の場合は、全てのルータと相互接続しており、
+特定のルータとのリンクに障害が発生した場合でも、他のルータとのリンクを介して、継続して通信できます。</p>
+<p><img alt="画像" src="../studygif/networking1f.png"></p>
+<p>フルメッシュ構成は耐障害性に優れていますが、物理トポロジーでフルメッシュにするとコストがかかって
+しまいます。そこで、中心となるセンター側のルータや、一部のルータだけをメッシュ型にするパーシャル
+メッシュにすれば、コストを抑えられて、そしてある程度の冗長性と耐障害性を維持することができます。</p>
+<p><img alt="画像" src="../studygif/networking1g.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

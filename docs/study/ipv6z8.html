@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - Dual Stack / NAT-PT | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv4ipv6">IPv4ネットワークからIPv6ネットワークへの移行</a></li>
+<li><a href="#ipv6-">IPv6移行技術 - デュアルスタック</a></li>
+<li><a href="#ipv6-_1">IPv6移行技術 - トランスレータ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-dual-stack-nat-pt">IPv6 - Dual Stack / NAT-PT</h1>
+<hr>
+<h2 id="ipv4ipv6">IPv4ネットワークからIPv6ネットワークへの移行</h2>
+<p>IPv4からIPv6ネットワークへいきなり全てのシステムを切り替えるのは現実的ではなく、段階的な移行が
+必要とされます。IPv6への移行に際して使用される代表的な技術は大きく3つあります。<strong class="memory-answer">デュアルスタック</strong>、
+<strong class="memory-answer">トランスレータ</strong>、<strong class="memory-answer">トンネリング</strong>です。これらの技術を実装することでIPv4とIPv6が併存することができます。</p>
+<h2 id="ipv6-">IPv6移行技術 - デュアルスタック</h2>
+<p>デュアルスタックとは、単一の機器に、IPv4とIPv6の異なるプロトコルスタックを共存させる仕組みのこと。
+Ciscoルータでは、1つのインターフェースにIPv4アドレスとIPv6アドレスの両方を設定することができます。
+デュアルスタックのルータがパケットを受信した場合、データリンク層のヘッダにあるタイプフィールドの値
+によって識別 (IPv4=0x800、IPv6=0x86DD) して、IPv4、IPv6のどちらのパケットでもルーティング可能。
+デュアルスタックによるIPv6移行技術が最もシンプルで設計がしやすく、一般的に採用されている手法です。</p>
+<p><img alt="画像" src="../studygif/ipv6z8a.png"></p>
+<h2 id="ipv6-_1">IPv6移行技術 - トランスレータ</h2>
+<p>トランスレータは「IPv4からIPv6への通信」または「IPv6からIPv4への通信」を実現するための技術。
+このトランスレータの代表的な方式には<strong class="memory-answer">Proxy</strong>方式、<strong class="memory-answer">NAT-PT</strong>方式、<strong class="memory-answer">TCP Relay</strong>方式の3つがあります。</p>
+<table>
+<thead>
+<tr>
+<th>トランスレータ方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proxy</td>
+<td>IPv4のプロキシ同様に、アプリケーションごとに送信元の代理となり宛先へ通信する方式</td>
+</tr>
+<tr>
+<td>NAT-PT</td>
+<td>プロトコル変換とアドレス変換を同時に行い、IPv4とIPv6間を相互に通信する方式</td>
+</tr>
+<tr>
+<td>TCP Relay</td>
+<td>トランスレータがTCP/UDP通信を横取りし、代理となりトランスポート層のデータを取得し通信する方式</td>
+</tr>
+</tbody>
+</table>
+<p>今回はNAT-PTを詳細に解説します。NATはIPv4アドレスのプライベートアドレスとグローバルアドレス変換
+の際によく使用する技術ですが、NAT-PT（NAT-Protocol Translation）は、IPv4パケットをIPv6パケットに
+<strong class="memory-answer">プロトコル変換</strong>するのと同時に、IPv4アドレスをIPv6アドレスに<strong class="memory-answer">アドレス変換</strong>する技術です。NAT-PTでは、
+DNS-ALG（RFC2764）と組み合わせて使用します。※アプリ層のペイロード部分を変換できない問題点あり。</p>
+<p><img alt="画像" src="../studygif/ipv6z8b.png"></p>
+<p>Ciscoルータで、IPv6プレフィックスをNAT-PTプレフィックスとして割り当てる場合は <strong class="memory-answer">ipv6 nat prefix</strong>
+コマンドを使用しますが、サポートされるプレフィックスの長さは「 /96 」だけとなります。次の通り
+に設定することで、IPv6パケット内で一致した宛先プレフィックスは、NAT-PTによって変換されます。</p>
+<p>(config)# ipv6 nat prefix 2001:0db8::/96</p>
+<p>CiscoルータでNAT-PTを実装させるためには、その他に「IPv4 ⇔ IPv6マッピング」の設定が必要です。
+なお、CiscoルータではNAT-PTの使用は推奨されていません。今後は NAT64 の使用を推奨しています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

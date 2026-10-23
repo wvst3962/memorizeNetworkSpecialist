@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ansible / Puppet / Chef | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">ネットワーク自動化 - 構成管理ツールとは</a></li>
+<li><a href="#-_1">構成管理ツール - 導入のメリット</a></li>
+<li><a href="#ansible">Ansibleとは</a></li>
+<li><a href="#ansible-3">Ansible - 3つの特長</a></li>
+<li><a href="#ansible-">Ansible - 仕組み</a></li>
+<li><a href="#ansiblepuppetchef">構成管理ツール：Ansible、Puppet、Chefの比較</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ansible-puppet-chef">Ansible / Puppet / Chef</h1>
+<hr>
+<h2 id="-">ネットワーク自動化 - 構成管理ツールとは</h2>
+<p>構成管理ツールとは、多くのサーバに対してあらかじめ用意した設定ファイルに従い、ソフトウェアの
+インストールや、設定を自動的に実行できるツールのことです。代表的な構成管理ツールにRedHat社が
+開発するオープンソースの<strong class="memory-answer">Ansible</strong>があります。Ansible以外にも、PuppetやChefなどがあります。</p>
+<p>構成管理ツールは、サーバだけでなく、ネットワークが自動化された大規模ネットワークインフラでは
+ネットワーク機器に対しても活用されています。Ansibleでは、以下のサーバーOS、ネットワーク製品、
+クラウド製品を管理できます。Cisco、Juniper、F5、A10、ARISTA、NOKIAなどにも対応しています。</p>
+<p><img alt="画像" src="../studygif/sdn10d.png"></p>
+<h2 id="-_1">構成管理ツール - 導入のメリット</h2>
+<p>構成管理ツールを使用しない場合、設定・管理対象のネットワーク機器ごとに、ログインしコマンドを
+実行し、設定ファイルの更新、管理を行う必要があります。 一方、構成管理ツールを使用する場合には
+<strong class="memory-answer">一元的に集中管理できます</strong>。管理サーバにAnsibleをインストールすれば、各ネットワーク機器の設定や
+起動状態などを一元的に管理できます。</p>
+<p><img alt="画像" src="../studygif/sdn10a.png"></p>
+<p>構成管理ツールを導入することにより<strong class="memory-answer">構成ドリフトを抑制できる</strong>メリットもあります。構成ドリフトは
+手順が正しく従わなかったり、適切に実装されなかったりした場合に発生します。</p>
+<p>構成管理ツールを導入することによって、手順書管理の手動オペレーションを自動化し安全で効率的な
+システム構成を管理できるようになり、構成ドリフトが発生しにくいネットワークシステムとなります。</p>
+<h2 id="ansible">Ansibleとは</h2>
+<p>Ansible（アンジブル）は、Red Hat社が開発するオープンソースの構成管理ツールです。Ansibleには、
+構成管理ツールを含めて、正確には大きく以下の機能があります。</p>
+<p>・　<strong class="memory-answer">構成管理ツール</strong>
+・　<strong class="memory-answer">デプロイメントツール</strong>
+・　<strong class="memory-answer">オーケストレーションツール</strong></p>
+<p>Ansibleはデプロイメントツールとして、サーバ上に任意のファイルをデプロイしたり、パッケージの
+インストールを行わせる機能もあります。また、オーケストレーションツールとしてシステム、アプリ、
+サービスの設定・運用管理を自動化する機能もあります。</p>
+<h2 id="ansible-3">Ansible - 3つの特長</h2>
+<p>Ansibleには大きく以下の3つの特徴があります。</p>
+<p>・　<strong class="memory-answer">エージェントレス</strong>
+・　<strong class="memory-answer">モジュールによる拡張性の高さ</strong>
+・　<strong class="memory-answer">後発製品であるため、従来の構成管理ツールの問題点を克服</strong></p>
+<p>Ansibleの管理対象のサーバやネットワーク機器に、エージェントツールのインストールは不要であり、
+<strong class="memory-answer">エージェントレス</strong>モデルを採用しています。Ansibleには、管理対象となるサーバ、ネットワーク機器、
+<strong class="memory-answer">サービスごとに様々なモジュール</strong>が用意されており、サービス起動・停止行うモジュール、iptablesの
+ファイアウォール設定するモジュール、クラウドインフラを制御するAnsibleモジュールなどがあります。</p>
+<p>Ansibleは従来の構成管理ツールで手順を記述する際に求められてた<strong class="memory-answer">プログラミングの知識は不要</strong>であり
+YAML形式のテキストファイルで手順を列挙するだけで良い利点もあります。</p>
+<h2 id="ansible-">Ansible - 仕組み</h2>
+<p>Ansibleでは<strong class="memory-answer">Playbook</strong>と呼ばれるファイルを元に、AnsibleサーバがPython codeの生成後に管理対象
+となるサーバやネットワーク機器に転送して、SSHやNETCONFなどのプロトコル経由で実行します。</p>
+<p><img alt="画像" src="../studygif/sdn10b.png"></p>
+<p>Ansibleを動作させる上で最も重要なファイル（コード）は以下の2つとなります。</p>
+<table>
+<thead>
+<tr>
+<th>Ansibleを動作させるコード</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Playbook（プレイブック）</td>
+<td>管理対象となる対象デバイスやAnsibleが実行するタスクを記述するファイル</td>
+</tr>
+<tr>
+<td>Inventory（インベントリ）</td>
+<td>管理対象の役割とホスト情報を記述するファイル</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/sdn10c.png"></p>
+<h2 id="ansiblepuppetchef">構成管理ツール：Ansible、Puppet、Chefの比較</h2>
+<p>Ansibleの場合、構成管理サーバから管理対象のデバイス（サーバやネットワーク機器）へ設定情報を
+送信する<strong class="memory-answer">Push型</strong>（プッシュ型）の通信形態となりますが、PuppetとChefでは、構成管理サーバから
+設定情報を取得する<strong class="memory-answer">Pull型</strong>（プル型）の通信形態となります。</p>
+<p>Ansibleは、構成管理の対象デバイスにソフトウェアのインストールする必要がない<strong class="memory-answer">エージェントレス</strong>
+<strong class="memory-answer">モデル</strong>を採用しています。一方、PuppetとChefは、構成管理対象の対象デバイスに別途ソフトウェア
+のインストールが必要となる<strong class="memory-answer">エージェントモデル</strong>を採用しています。その他の違いは以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Ansible</th>
+<th>Puppet</th>
+<th>Chef</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>開発組織</td>
+<td>RedHat</td>
+<td>Puppet Labs</td>
+<td>Chef Software</td>
+</tr>
+<tr>
+<td>使用言語</td>
+<td>Python</td>
+<td>Ruby</td>
+<td>Ruby</td>
+</tr>
+<tr>
+<td>アーキテクチャ</td>
+<td>エージェントレス</td>
+<td>エージェント</td>
+<td>エージェント</td>
+</tr>
+<tr>
+<td>構成管理方法</td>
+<td>Push型通信</td>
+<td>Pull型通信</td>
+<td>Pull型通信</td>
+</tr>
+<tr>
+<td>制御ファイル</td>
+<td>playbook</td>
+<td>manifest</td>
+<td>Recipe</td>
+</tr>
+<tr>
+<td>コード記述言語</td>
+<td>YAML</td>
+<td>独自言語</td>
+<td>Ruby</td>
+</tr>
+<tr>
+<td>使用プロトコル</td>
+<td>SSH/NETCONF</td>
+<td>HTTP/HTTPS</td>
+<td>HTTP/HTTPS</td>
+</tr>
+<tr>
+<td>サーバ側待ち受けポート</td>
+<td>-</td>
+<td>TCP 8140</td>
+<td>TCP 10002</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

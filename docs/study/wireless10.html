@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - Security | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan">無線LANのセキュリティ上の問題</a></li>
+<li><a href="#lan_1">無線LANのセキュリティ対策 ( 従来の実装 )</a></li>
+<li><a href="#lan_2">無線LANのセキュリティ対策 (さらなるセキュリティ対策)</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-security">Wireless LAN - Security</h1>
+<hr>
+<h2 id="lan">無線LANのセキュリティ上の問題</h2>
+<p>無線LANではデータを電波に乗せて伝送する特性上、有線LANに比べてセキュリティの問題が多くあります。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANにおけるセキュリティ上の問題</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不正接続 ( 侵入 )</td>
+<td>有線LANでは、データの不正接続を行うためには必ず物理接続が必要となるが、<br>無線LANでは、電波の届く範囲において周波数（チャネル）と変調方式があえば<br>許可なく無線LANフレームが得られて、それによりESSIDなどの情報が得られる。<br>APに認証または暗号化の設定がない場合は容易に不正接続を行うことができる。</td>
+</tr>
+<tr>
+<td>不正傍受 ( 盗聴 )</td>
+<td>無線LANへの不正接続の後、データの暗号化が行われていない場合、無線LANの<br>パケットを傍受して簡単に復元できる。これにより外部への情報流出の可能性もある。</td>
+</tr>
+<tr>
+<td>不正AP ( おとり )</td>
+<td>正当なAPと同じ設定を行い、正当なAPにみせかけて、正当なWLAN端末を接続させて<br>IDやパスワード情報を不正に傍受するフィッシング詐欺の一種。APフィッシングともいう。</td>
+</tr>
+</tbody>
+</table>
+<p>※　その他、自動車などで移動しながら電波を拾い、セキュリティ実装の甘いAPを探す行為を<strong class="memory-answer">ウォードライビング</strong>といいます。</p>
+<h2 id="lan_1">無線LANのセキュリティ対策 ( 従来の実装 )</h2>
+<p>上記で紹介した無線LANのセキュリティ上の問題点に対して、以下のようなセキュリティ対策があります。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANにおけるセキュリティ上の対策</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>問題点</td>
+<td>セキュリティ対策</td>
+<td>内容</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>ESSIDの隠蔽</td>
+<td>ESSIDはビーコンやプローブに平文で含まるため、誰でも簡単に入手できる。<br>ESSIDの隠蔽とは、?@ ビーコンにESSIDを含めない ?A そもそもビーコンを<br>ブロードキャストしない　?B ESSIDが一致しない限り、プローブ要求を無視<br>するという3つの実装のこと。<strong class="memory-answer">ESSIDステルス</strong>とも呼ばれる。AP側で設定する。</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>ANY接続の拒否</td>
+<td>無線LANでは、ESSIDが分からない場合でも無線LAN接続可能な方法がある。<br>APで 「ANY接続許可」 の設定状態である場合、WLAN端末はESSIDを<strong class="memory-answer">ANY</strong><br>または空欄した場合は無線LAN接続が可能となる。これはAP側で無効にする。</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>MACアドレスの<br>フィルタリング</td>
+<td>WLAN端末の無線LANカードのMACアドレスにより、無線LAN接続を許可するか<br>どうかを判断する実装。あらかじめAPに登録したMACアドレスのWLAN端末のみ<br>アクセスできるようにする。MACアドレスという一意の識別情報を利用した実装。</td>
+</tr>
+<tr>
+<td>不正傍受</td>
+<td>WEPによる暗号化</td>
+<td>WEPとは、IEEE802.11において定義されている通信データの暗号化機能のこと。<br>WEPは、RC4アルゴリズムをベースとした共通鍵暗号を採用しており、暗号化の<br>際には64ビット or 128ビットの共通鍵が使用される。APとWLAN端末側で実装。<br><strong class="memory-answer">※ 現在はWEP、WPA、WPA2ではなく WPA3 による暗号化が推奨されています。</strong></td>
+</tr>
+<tr>
+<td>不正AP</td>
+<td>無線LAN<br>コントローラの導入</td>
+<td>無線LANコントローラにより、不正APの監視、検知、排除を行うことができる。<br>また、干渉回避、カバレッジホール解消、出力調整、動的チャネル割り当てなど<br>の自動調節を行いAPのパフォーマンスを最適化する（ Cisco WLCの実装例 ）</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wireless10a.png"></p>
+<h2 id="lan_2">無線LANのセキュリティ対策 (さらなるセキュリティ対策)</h2>
+<p>上記で紹介したセキュリティ対策にはいくつかの欠陥がある。そこでさらなるセキュリティ対策を紹介します。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANにおけるセキュリティ上の対策</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>問題点</td>
+<td>セキュリティ対策 1</td>
+<td>セキュリティ対策1の欠陥</td>
+<td>さらなるセキュリティ対策 2</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>ESSIDの隠蔽</td>
+<td>この実装は行うべきだが、アソシエーション<br>の際にはSSIDが必要である上に、SSIDは<br>暗号化されないので完全な秘匿は不可能。</td>
+<td>ESSIDは漏洩されること前提として<br>以下のセキュリティ対策を実装する。<br>?@　デフォルト値は変更する<br>?A　興味を持たれる名前にしない</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>ANY接続の拒否</td>
+<td>特に問題なし（実装すればOK）</td>
+<td>特になし</td>
+</tr>
+<tr>
+<td>不正接続</td>
+<td>MACアドレスの<br>フィルタリング</td>
+<td>無線LANカードの紛失または盗難にあって<br>それが不正利用された場合、不正接続を<br>阻止する術はない。また、MACアドレスは<br>偽造可能であるため、なりすましによる不正<br>接続が行われた場合はこれを阻止できない。</td>
+<td>認証サーバを導入して集中管理する<br>実装を行う。予算的に認証サーバを<br>導入できなくMACのフィルタリングを<br>行う場合、NICの資産管理を徹底する。</td>
+</tr>
+<tr>
+<td>不正傍受</td>
+<td>WEPによる暗号化</td>
+<td>全員が同じWEPキーを共有していることから<br>誰か一人のWEPキーが漏洩した場合、全員<br>の通信データを解読されてしまう。また、WEP<br>には脆弱性があり、脆弱なパケット(Weak IV)<br>を入手できればWEPキーが解読されてしまう。</td>
+<td>WEPを利用する場合は以下の対策<br>?@　WEPキーの定期的な変更<br>?A　AP毎に異なるWEPキーを設定<br>?B　128bitのWEPキーの使用</td>
+</tr>
+<tr>
+<td>不正AP</td>
+<td>無線LAN<br>コントローラ導入</td>
+<td>特に問題なし（導入すればOK）</td>
+<td>特になし</td>
+</tr>
+</tbody>
+</table>
+<p>※　現在の企業ネットワークでは、上記で紹介したセキュリティ対策よりもさらに高度なセキュリティ実装を行っています。</p>
+<hr>
+<p>← <a href="wireless9.html">無線LAN - WEP</a>　<a href="wireless11.html">無線LAN - 高度なセキュリティ</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

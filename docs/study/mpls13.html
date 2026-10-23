@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VPLS （Virtual Private LAN Service） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vplsvirtual-private-lan-service">VPLS（Virtual Private LAN Service）とは</a></li>
+<li><a href="#3">広域イーサネットの3つの実装方式</a></li>
+<li><a href="#vpls">VPLSの仕組み</a></li>
+<li><a href="#vpls-2">VPLSの仕組み - 2つのラベル</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vpls-virtual-private-lan-service">VPLS （Virtual Private LAN Service）</h1>
+<hr>
+<h2 id="vplsvirtual-private-lan-service">VPLS（Virtual Private LAN Service）とは</h2>
+<p>VPLS（仮想プライベートLANサービス）は、<strong class="memory-answer">MPLSを使用してEthernetフレームを転送させる</strong>ことが
+できる技術のことです。MPLS網上で、仮想的なEthernet LANをVPNごとに構築できることからも、
+利用するプロトコルはIPに依存しないため、いわゆるLayer 2 VPNを提供することができる技術です。
+VPLSにより、地理的に分散されたEthernet LANサイトをMPLSバックボーン全体で相互接続できます。</p>
+<p>先ず、広域イーサネットサービスで、VPLSがどのような位置づけにあるのか見てみましょう。</p>
+<h2 id="3">広域イーサネットの3つの実装方式</h2>
+<p>キャリアの提供する広域イーサネットのWANサービスは、大きく3つの実装方式があります。</p>
+<p>1.　<strong class="memory-answer">Q-in-Q</strong>（ IEEE802.1ad ）
+イーサネットフレームにタグを二重に付与する方式です。スタックドVLANとも呼ばれます。</p>
+<p>2.　<strong class="memory-answer">MAC-in-MAC</strong>（ IEEE802.1ah ）
+広域イーサネット網内だけに有効なMACアドレスを使用して、MACフレームをMACフレームで
+カプセル化する方式です。PBB（Provider Backbone Bridging）とも呼ばれます。</p>
+<p>3.　<strong class="memory-answer">VPLS（Virtual Private LAN Service）</strong>
+VPLSはMPLSプロトコルを利用した方式です。VPLSは、EoMPLSの1つの形態とも言えます。
+VPLSでは、広域イーサネットサービス（WANサービス）をルータで構築することができます。</p>
+<h2 id="vpls">VPLSの仕組み</h2>
+<p>VPLSでは、MPLSで利用するラベルごとの仮想的な伝送路であるLSPを、PEルータ同士でフルメッシュに
+張ることにより、EthernetフレームをMPLSを使用しMultipoint to Multipointで転送することができます。</p>
+<p>VPLSとMPLSとの違いは、利用者（企業）から送信されるパケットを<strong class="memory-answer">IPアドレスではなくMACアドレスに</strong>
+<strong class="memory-answer">基づき転送することができる点</strong>です。PEルータ（VPLSルータ）では、企業ごとのMACアドレスと転送先
+パスの対応テーブルを持っており、その情報に基づいてラベルを付加して転送します。</p>
+<p>MPLS網内のコアルータ（Pルータ）はそのラベルに基づきフレームを転送するだけでよく、コアルータは
+MACアドレスを学習する必要はありません。</p>
+<p><img alt="画像" src="../studygif/mpls13a.png"></p>
+<p>LANスイッチの場合、RSTPを実装しても障害発生時の切り替わりが約1秒は必要となってしまいますが、
+VPLSルータの場合には、<strong class="memory-answer">Fast Rerouteと呼ばれる機能</strong>によって、障害発生時に迂回経路にミリ秒レベル
+にまで高速収束（パスの移行）を実現することが可能になります。</p>
+<p>そして、VPLSではMPLSベースの冗長化機能が使えるだけではなく、MPLS網側から受信したフレームを
+MPLS網側には戻さないスプリットホライズン機能によりループも防止できます。</p>
+<h2 id="vpls-2">VPLSの仕組み - 2つのラベル</h2>
+<p>VPLSでは、ユーザ側から転送されるイーサネットフレームに、キャリア側のPEルータ（VPLSルータ）で
+2つのラベル付けが行われます。TunnelラベルとVCラベルの2つです。</p>
+<p><img alt="画像" src="../studygif/mpls13b.png"></p>
+<table>
+<thead>
+<tr>
+<th>VPLSのラベル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tunnelラベル</td>
+<td>PEルータ、Pルータ、PEルータ間のトンネルで転送するための外側のラベル。</td>
+</tr>
+<tr>
+<td>VCラベル</td>
+<td>ユーザ側のイーサネットフレームを識別するための内側のラベル。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study29.html">MPLSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

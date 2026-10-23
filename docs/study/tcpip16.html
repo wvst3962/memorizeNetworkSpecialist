@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>HTTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#http_1">HTTPとは</a></li>
+<li><a href="#url">URLの構造</a></li>
+<li><a href="#http_2">HTTPのパケット</a></li>
+<li><a href="#web">Webアクセスの仕組み</a></li>
+<li><a href="#http_3">HTTPのバージョン</a></li>
+<li><a href="#http_4">HTTPリクエストメッセージ</a></li>
+<li><a href="#http_5">HTTPレスポンスメッセージ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="http">HTTP</h1>
+<hr>
+<h2 id="http_1">HTTPとは</h2>
+<p>HTTP (HyperText Transfer Protocol) は、WebサーバとクライアントのWebブラウザがデータを送受信
+するために使用する<strong class="memory-answer">アプリケーション層のプロトコル</strong>です。HTTPにより、Webページを記述するために
+使用する言語（HTML）による文書、画像、音声、動画等のファイルを表現形式を含めてやりとりできます。</p>
+<h2 id="url">URLの構造</h2>
+<p>Webアクセスのためには、Webブラウザで<strong class="memory-answer">URL</strong>(Uniform Resource Locators)を指定する必要があります。
+インターネット上の資源の場所を示す URL は以下の書式で記述します。大きく3つの構成要素があります。</p>
+<p><img alt="画像" src="../studygif/tcpip16a.png"></p>
+<table>
+<thead>
+<tr>
+<th>URLの構成</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スキーム</td>
+<td>アクセスするプロトコルを指定する部分。HTTPによるWebアクセスを行うためには「 <strong class="memory-answer">http</strong> 」と入力。<br>HTTPにSSLを使用した暗号化によるWebアクセスを行うためには「 <strong class="memory-answer">https</strong> 」と入力。ポート番号443。<br>例えば、WebブラウザでFTPサーバにアクセスしたい場合は「ftp」 と入力する。</td>
+</tr>
+<tr>
+<td>ホスト名</td>
+<td>アクセスするホスト名を指定する部分。DNSでは<strong class="memory-answer">FQDN</strong>と呼ばれている部分。<br>ホスト名の後にポート番号を指定することができる。ポート番号を省略した場合はデフォルトで<br>「http」 でアクセスする場合ポート番号に「80」を使用する。つまり、以下の入力結果は同じ意味。<br>「　http://www.infraexpert.com/　」　＝　「　http://www.infraexpert.com:80/　」</td>
+</tr>
+<tr>
+<td>パス</td>
+<td>Webブラウザで表示させたいWebページのファイル名を指定する部分。ファイル名を指定しない場合<br>デフォルトで「index.html」のファイル名が呼び出される。つまり以下は同じWebページが表示される。<br>「　http://www.infraexpert.com/　」　＝　「　http://www.infraexpert.com/index.html　」</td>
+</tr>
+</tbody>
+</table>
+<p>※　当サイトのURLを「 http://～ 」で入力しても、「http<strong class="memory-answer">s</strong>://～」にリダイレクトさせるようにWebサーバで設定しています。</p>
+<h2 id="http_2">HTTPのパケット</h2>
+<p>HTTPはTCPプロトコル上で動作しており、Webサーバにアクセスするために使用しているポート番号は80。</p>
+<p><img alt="画像" src="../studygif/tcpip16b.png"></p>
+<h2 id="web">Webアクセスの仕組み</h2>
+<p>HTTPはとてもシンプルなプロトコル。HTTPでは、データを要求する<strong class="memory-answer">HTTPリクエスト</strong>とそれに応答して
+要求されたデータを送り返す<strong class="memory-answer">HTTPレスポンス</strong>の2つのやりとりを繰り返してWebページを表示しています。</p>
+<p><img alt="画像" src="../studygif/tcpip16c.png"></p>
+<table>
+<thead>
+<tr>
+<th>シーケンス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>利用者がWebブラウザにURLを入力してEnterキーを押す。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>Webブラウザは指定したWebサーバにHTTPリクエストを送信して、Webページのデータを要求。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>Webサーバは、Webブラウザから受信したHTTPリクエストを解析。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>Webサーバが、Webブラウザに要求されたデータをHTTPレスポンスとして返信。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>Webブラウザは、受信したデータを解析してWebページとして表示。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http_3">HTTPのバージョン</h2>
+<p>HTTPのバージョンには3つのバージョンがありますが、HTTP/2とHTTP/3ともに広く普及しつつあります。</p>
+<table>
+<thead>
+<tr>
+<th>HTTPバージョン</th>
+<th>派生元</th>
+<th>RFC</th>
+<th>導入年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP/1.1（ HTTPバージョン1.1 ）</td>
+<td>-</td>
+<td>RFC 9112</td>
+<td>1997年</td>
+</tr>
+<tr>
+<td>HTTP/2（ HTTPバージョン2 ）</td>
+<td>SPDY</td>
+<td>RFC 9113</td>
+<td>2015年</td>
+</tr>
+<tr>
+<td>HTTP/3（ HTTPバージョン3 ）</td>
+<td>QUIC</td>
+<td>RFC 9114</td>
+<td>2022年</td>
+</tr>
+</tbody>
+</table>
+<p>HTTP/1.1では、HTTPリクエストとレスポンスをやり取りするごとに、TCPコネクションを切断しますが、
+HTTP/2では、1つのTCPコネクション上で複数のHTTPリクエストとHTTPレスポンスをやりとりできます。
+複数のHTTPリクエストを同時に処理できるので、HTTP/2の方がウェブページの読み込みが早くなります。</p>
+<h2 id="http_4">HTTPリクエストメッセージ</h2>
+<p>HTTPリクエストのメッセージはリクエスト行、メッセージヘッダ、空白行、メッセージボディで構成。</p>
+<p><img alt="画像" src="../studygif/tcpip16d.png"></p>
+<table>
+<thead>
+<tr>
+<th>HTTPリクエストの構成</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>リクエスト行</td>
+<td>Webサーバに要求する情報を示す。<strong class="memory-answer">メソッド</strong>、<strong class="memory-answer">URI</strong>、<strong class="memory-answer">HTTPバージョン</strong>の情報がある。<br>メソッドとはWebサーバに要求を示すコマンドのこと。URIとはリクエストの対象となるデータ<br>を指す情報のこと。HTTPバージョンとは、Webブラウザがサポートするバージョンのこと。</td>
+</tr>
+<tr>
+<td>メッセージヘッダ</td>
+<td>WebサーバにWebブラウザの情報を示す。具体的に、Webブラウザ側でサポートする<br>データのタイプ、データの圧縮方法、ブラウザの種類などの情報がある。</td>
+</tr>
+<tr>
+<td>空白行</td>
+<td>Webサーバにメッセージヘッダーの終わりを伝えるために使用する。</td>
+</tr>
+<tr>
+<td>メッセージボディ</td>
+<td>Webサーバにデータを送るために使用する。例えば、Webページ上で入力欄がある場合<br>そこに入力したテキスト情報をWebサーバに送るために使用。入力情報がなければ空白。</td>
+</tr>
+</tbody>
+</table>
+<p>リクエスト行にあるメソッドには主に以下のようなものがあります。とても重要な内容です。</p>
+<table>
+<thead>
+<tr>
+<th>メソッドの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>データを取得することをWebサーバに要求</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>データそのものは要求せず、メッセージヘッダだけを取得することをWebサーバに要求</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Webサーバに、データを送信</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Webサーバに、ファイルをアップロード</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Webサーバ上にあるデータを削除することを要求</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td>例えばプロキシサーバなどに、トンネルの確立を要求</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http_5">HTTPレスポンスメッセージ</h2>
+<p>HTTPレスポンスのメッセージはステータス行、メッセージヘッダ、空白行、メッセージボディで構成。</p>
+<p><img alt="画像" src="../studygif/tcpip16e.png"></p>
+<table>
+<thead>
+<tr>
+<th>HTTPレスポンスの構成</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ステータス行</td>
+<td>Webブラウザに、Webサーバでの処理結果を伝える。<br><strong class="memory-answer">HTTPのバージョン</strong>、ステータスコード、説明文などの情報がある。</td>
+</tr>
+<tr>
+<td>メッセージヘッダ</td>
+<td>WebブラウザにWebサーバの情報を示す。具体的に、サーバの種類<br>返信するデータのタイプ、データの圧縮方法などの情報がある。</td>
+</tr>
+<tr>
+<td>空白行</td>
+<td>Webブラウザにメッセージヘッダーの終わりを伝えるために使用する。</td>
+</tr>
+<tr>
+<td>メッセージボディ</td>
+<td>HTML文書、画像ファイル、動画ファイルなどのデータを格納するために使用する。</td>
+</tr>
+</tbody>
+</table>
+<p>ステータス行にあるステータスコードは多くの種類があり、ステータスコードの番号帯により以下の通り
+内容によって、5つ（情報、成功、リダイレクト、クライアントエラー、サーバエラー）に分類できます。</p>
+<table>
+<thead>
+<tr>
+<th>ステータス<br>コード</th>
+<th>説明</th>
+<th>ステータスコード例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100番台</td>
+<td><strong class="memory-answer">情報</strong><br>続きの情報があることを伝える。</td>
+<td>100 ( Continue )<br>続きの情報があるのでリクエストして！</td>
+</tr>
+<tr>
+<td>200番台</td>
+<td><strong class="memory-answer">成功</strong><br>Webサーバがリクエストに処理できたことを伝える。</td>
+<td>200 ( OK )<br>リクエストを無事に処理した！</td>
+</tr>
+<tr>
+<td>300番台</td>
+<td><strong class="memory-answer">リダイレクト</strong><br>別のURLへリクエストし直すように要求する。</td>
+<td>301 ( Moved Permanently )</td>
+</tr>
+<tr>
+<td>400番台</td>
+<td><strong class="memory-answer">クライアントエラー</strong><br>クライアントのリクエストに問題があり処理できなかった事を伝える。</td>
+<td>404 ( Not Found )<br>指定したURLのデータは存在しない！</td>
+</tr>
+<tr>
+<td>500番台</td>
+<td><strong class="memory-answer">サーバエラー</strong><br>サーバ側に問題があり処理できなかったことを伝える。</td>
+<td>503 ( Service Unavailable )<br>サーバの負荷が高くて処理できない！</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>詳細なステータスコード</th>
+<th>説明</th>
+<th>結果フレーズ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>情報 ( Informational )</td>
+<td>Continue</td>
+</tr>
+<tr>
+<td>101</td>
+<td>情報 ( Informational )</td>
+<td>Switching Protocols</td>
+</tr>
+<tr>
+<td>102</td>
+<td>情報 ( Informational )</td>
+<td>Processing</td>
+</tr>
+<tr>
+<td>200</td>
+<td>成功 ( Success )</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>201</td>
+<td>成功 ( Success )</td>
+<td>Created</td>
+</tr>
+<tr>
+<td>202</td>
+<td>成功 ( Success )</td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td>203</td>
+<td>成功 ( Success )</td>
+<td>Non-Authoritative Information</td>
+</tr>
+<tr>
+<td>204</td>
+<td>成功 ( Success )</td>
+<td>No Content</td>
+</tr>
+<tr>
+<td>205</td>
+<td>成功 ( Success )</td>
+<td>Reset Content</td>
+</tr>
+<tr>
+<td>206</td>
+<td>成功 ( Success )</td>
+<td>Partial Content</td>
+</tr>
+<tr>
+<td>207</td>
+<td>成功 ( Success )</td>
+<td>Multi-Status</td>
+</tr>
+<tr>
+<td>226</td>
+<td>成功 ( Success )</td>
+<td>IM Used</td>
+</tr>
+<tr>
+<td>300</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Multiple Choices</td>
+</tr>
+<tr>
+<td>301</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Moved Permanently</td>
+</tr>
+<tr>
+<td>302</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Found</td>
+</tr>
+<tr>
+<td>303</td>
+<td>リダイレクト ( Redirect )</td>
+<td>See Other</td>
+</tr>
+<tr>
+<td>304</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Not Modified</td>
+</tr>
+<tr>
+<td>305</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Use Proxy</td>
+</tr>
+<tr>
+<td>306</td>
+<td>リダイレクト ( Redirect )</td>
+<td>(Unused)</td>
+</tr>
+<tr>
+<td>307</td>
+<td>リダイレクト ( Redirect )</td>
+<td>Temporary Redirect</td>
+</tr>
+<tr>
+<td>400</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Unauthorized</td>
+</tr>
+<tr>
+<td>402</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Payment Required</td>
+</tr>
+<tr>
+<td>403</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Forrbidden</td>
+</tr>
+<tr>
+<td>404</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Not Found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Method Not Allowed</td>
+</tr>
+<tr>
+<td>406</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Not Acceptable</td>
+</tr>
+<tr>
+<td>407</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Proxy Authentication Required</td>
+</tr>
+<tr>
+<td>408</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Request Timeout</td>
+</tr>
+<tr>
+<td>409</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Conflict</td>
+</tr>
+<tr>
+<td>410</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Gone</td>
+</tr>
+<tr>
+<td>411</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Length Required</td>
+</tr>
+<tr>
+<td>412</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Precondition Failed</td>
+</tr>
+<tr>
+<td>413</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Request Entity Too Large</td>
+</tr>
+<tr>
+<td>414</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Request-URI Too Long</td>
+</tr>
+<tr>
+<td>415</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Unsupported Media Type</td>
+</tr>
+<tr>
+<td>416</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Requested Range Not Satisfiable</td>
+</tr>
+<tr>
+<td>417</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Expectation Failed</td>
+</tr>
+<tr>
+<td>418</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>I'm a teapot</td>
+</tr>
+<tr>
+<td>422</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Unprocessable Entity</td>
+</tr>
+<tr>
+<td>423</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Locked</td>
+</tr>
+<tr>
+<td>424</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Failed Dependency</td>
+</tr>
+<tr>
+<td>426</td>
+<td>クライアントエラー ( Client Error )</td>
+<td>Upgrade Required</td>
+</tr>
+<tr>
+<td>500</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Internal Server Error</td>
+</tr>
+<tr>
+<td>501</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Not Implemented</td>
+</tr>
+<tr>
+<td>502</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Bad Gateway</td>
+</tr>
+<tr>
+<td>503</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Service Unavailable</td>
+</tr>
+<tr>
+<td>504</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Gateway Timeout</td>
+</tr>
+<tr>
+<td>505</td>
+<td>サーバエラー ( Server Error )</td>
+<td>HTTP Version Not Supported</td>
+</tr>
+<tr>
+<td>506</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Variant Also Negotiates</td>
+</tr>
+<tr>
+<td>507</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Insufficient Storage</td>
+</tr>
+<tr>
+<td>509</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Bandwidth Limit Exceeded</td>
+</tr>
+<tr>
+<td>510</td>
+<td>サーバエラー ( Server Error )</td>
+<td>Not Extended</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="tcpip15.html">DNSとは</a>　<a href="tcpip17.html">SMTP/POPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

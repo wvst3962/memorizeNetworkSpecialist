@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6_1">IPv6とは</a></li>
+<li><a href="#ipv6_2">IPv6の特徴</a></li>
+<li><a href="#ipv6_3">IPv6のヘッダ</a></li>
+<li><a href="#ipsecmobile-ip">セキュリティ（IPsec）とモビリティ（Mobile IP）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6">IPv6</h1>
+<hr>
+<h2 id="ipv6_1">IPv6とは</h2>
+<p><a href="ip3.html">IPアドレス</a>といえば、一般的に<strong class="memory-answer">IPv4アドレス</strong>を指します。このIPv4アドレスが企業ネットワークだけでなく
+インターネットなどで広く利用されているプロトコルです。IPv4はアドレス長が<strong class="memory-answer">32ビット</strong>なので最大43億
+の割り当てが可能ですが、世界的に利用者が急増したことで、IPアドレスが枯渇する可能性が出てきました。</p>
+<p>そこで開発されたのが<strong class="memory-answer">IPv6</strong> ( Internet Protocol version 6 ) です。IPv6は、アドレス長が<strong class="memory-answer">128ビット</strong>なので
+最大340澗 ( 340,282,366,920,938,463,463,374,607,431,768,211,456 ) 個のIPアドレスを割り当てる
+ことが可能になり、IPアドレス枯渇の問題は解消し、アドレス不足によるNATやPATの実装も不要となります。</p>
+<p><img alt="画像" src="../studygif/ipv6z1a.png"></p>
+<h2 id="ipv6_2">IPv6の特徴</h2>
+<table>
+<thead>
+<tr>
+<th>IPv6の特徴</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>広大なアドレス空間</td>
+<td>IPv6は<strong class="memory-answer">128ビット</strong>アドレスであることから、事実上無制限にIPアドレスをデバイスに割り当てられる。</td>
+</tr>
+<tr>
+<td>自動設定機能</td>
+<td>IPv6アドレスの自動設定機能により、例えばクライアントPCは自動的にIPv6アドレスを使用できる。</td>
+</tr>
+<tr>
+<td>効率的な経路集約</td>
+<td>IPv6アドレスの階層構造が厳密であるため、より効率的な経路集約を実現し、ルータの負荷を軽減。</td>
+</tr>
+<tr>
+<td>シンプルなヘッダ</td>
+<td>IPv6の簡素なヘッダにより、パケット転送の際のルーティング処理による負荷が軽減される。</td>
+</tr>
+<tr>
+<td>モビリティ（移動性）</td>
+<td>IPv6のMobile IPv6により移動通信中でも同一のIPアドレスを使用して通信を途切れなく通信できる。</td>
+</tr>
+<tr>
+<td>セキュリティ（安全性）</td>
+<td>IPv6は<strong class="memory-answer">IPse</strong>cの実装が必須であり、実装させたい場合は、特別な機器を必要せずIPsecを実装できる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipv6_3">IPv6のヘッダ</h2>
+<p>IPv6のヘッダは、パケット転送時に必要な制御情報のみを「固定長の基本ヘッダ」に組み込んでいます。
+そして、パケット転送時に必ずしも必要としないオプション情報は「拡張ヘッダ」に組み込むことにより
+IPv6パケットを受信したIPv6対応ルータは、パケット転送の際に固定長の基本ヘッダさえ読み取れば転送
+することができます。これで余分なヘッダを読み込まずにすみルーティング処理速度を向上させられます。</p>
+<p>先ずはIPv4のヘッダを見てみます。IPv4ヘッダの赤文字のフィールドは、IPv6では削除されるフィールド。</p>
+<p><img alt="画像" src="../studygif/ipv6z1b.png"></p>
+<p>IPv6ではヘッダチェックサムが削除されていますが、そもそもTCPやアプリケーション側でエラーチェック
+を行っているためIPレベルのエラーチェックは不要だとして削除されました。一方「フローラベル」という
+新たなフィールドが追加されました。フローラベルは、通信経路の品質確保、経路の優先選択のために使用。</p>
+<p>IPv4のプロトコルフィールドはIPv6ではネクストヘッダに名称が変更されているだけで、次にくるヘッダ
+タイプや上位層プロトコルを指定する情報です。 IPv6では「ネクストヘッダ」にTCP/UDPなどの上位層の
+プロトコルが指定されている場合は、拡張ヘッダがないと判断します。拡張ヘッダとは、IPv6ヘッダ以下の
+付加的な情報がある場合に基本ヘッダの後につけるヘッダのことです。複数の拡張ヘッダを使用する場合は
+拡張ヘッダを連結させます。</p>
+<p><img alt="画像" src="../studygif/ipv6z1c.png"></p>
+<table>
+<thead>
+<tr>
+<th>各フィールド</th>
+<th>ビット数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バージョン</td>
+<td>4</td>
+<td>IPv6 を意味する 「 0110 」</td>
+</tr>
+<tr>
+<td>トラフィッククラス</td>
+<td>8</td>
+<td>IPv4のToSに該当するフィールド。パケット送信時のQoSを指定。</td>
+</tr>
+<tr>
+<td>フローラベル</td>
+<td>20</td>
+<td>通信経路の品質確保、経路の優先選択のために使用。いわばQoS。</td>
+</tr>
+<tr>
+<td>ペイロード長</td>
+<td>16</td>
+<td>IPv6ヘッダを除く、「拡張ヘッダ」と「ペイロード」のデータ部の長さ。</td>
+</tr>
+<tr>
+<td>ネクストヘッダ</td>
+<td>8</td>
+<td>IPv4の 「プロトコル」 に該当するフィールド。拡張ヘッダや上位プロトコルの<br>タイプを表す。拡張ヘッダが複数ある場合、最初の拡張ヘッダのタイプを表す。</td>
+</tr>
+<tr>
+<td>ホップリミット</td>
+<td>8</td>
+<td>IPv4のTTLに該当するフィールド。通過できるルータの数を制限する。</td>
+</tr>
+<tr>
+<td>送信元アドレス</td>
+<td>128</td>
+<td>送信元のIPv6アドレス</td>
+</tr>
+<tr>
+<td>宛先アドレス</td>
+<td>128</td>
+<td>あて先のIPv6アドレス</td>
+</tr>
+<tr>
+<td>拡張ヘッダ</td>
+<td>可変</td>
+<td>IPv6ヘッダーは固定長(40オクテット)であり、オプションをヘッダ内に付加<br>できないが、IPv6では拡張ヘッダで機能を拡張できる。サイズは可変である。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipsecmobile-ip">セキュリティ（IPsec）とモビリティ（Mobile IP）</h2>
+<p>IPsec、Mobile IPの両方ともIPv4、IPv6の両方で使用可能ですが、IPv6ではIPsecが標準でサポートされて
+おり、またMobile IPについても現在の接続を中断せずに移動できるように実装されています。IPsecは全ての
+IPv6ノードで有効にされ使用可能となっているため、IPv6によるインターネットはよりセキュアになります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

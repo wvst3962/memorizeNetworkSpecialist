@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancer - One-Arm | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ワンアーム構成とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancer-one-arm">Load Balancer - One-Arm</h1>
+<hr>
+<h2 id="_1">ワンアーム構成とは</h2>
+<p>ロードバランサの配置には、クライアント ⇔ サーバ間の通信経路上に配置する「インライン構成」と、
+クライアント ⇔ サーバ間の通信経路上のスイッチに横付けに配置する「<strong class="memory-answer">ワンアーム構成</strong>」があります。
+今回は以下のワンアーム構成でその特性と注意点について考えていきます。通信要件によって、下図の
+ように、リアルサーバ、バーチャルサーバ、デフォルトゲートウェイを同セグにするケースがあります。</p>
+<p><img alt="画像" src="../studygif/loadbalancer10a.png"></p>
+<p>上図は、10.1.1.10 のクライアントPCが「172.16.1.100:80」に通信する時の行きのフローとなります。
+VS「172.16.1.100：80」に着信したパケットは、LBで設定されたロードバランス方式に従ってパケット
+転送されます。そして、リアルサーバのデフォルトゲートウェイがLBのIPアドレスを指定していることで
+パケットの行きと戻りが同じパスとなり正常に通信ができます。しかし、通信要件により、リアルサーバ
+のデフォルトゲートウェイにL3スイッチのIPアドレスを指定する必要がある場合には、問題が発生します。</p>
+<p>ロードバランサではTCPセッションのステートを管理しています。以下のように「行き」と「戻り」とで
+経路が異なる場合、ロードバランサでセッションが確立できず基本的に正常に通信することができません。
+※　DSR（Direct Server Return）を実装する場合、非対称ルートでも正常にも通信することができます。</p>
+<p>行きのパケット ： クライアント ⇒ ロードバランサ ⇒ リアルサーバ
+戻りのパケット ： リアルサーバ ⇒ クライアント</p>
+<p>ワンアーム構成でこの問題を回避するためには、ロードバランサからリアルサーバにパケットを送信する際、
+送信元アドレスを<strong class="memory-answer">LBの I/F のアドレスにNAT変換</strong>することで回避できて、行きと戻りが同じ経路となります。</p>
+<p><img alt="画像" src="../studygif/loadbalancer10b.png"></p>
+<p>リアルサーバのデフォルトゲートウェイをLBのI/FのIPアドレスに向けている場合、LBでのSNATは不要です。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

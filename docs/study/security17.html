@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAF | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#waf-web-application-firewall">WAF（ Web Application Firewall ）とは</a></li>
+<li><a href="#firewallipswaf">Firewall、IPS、WAFの違い</a></li>
+<li><a href="#web">Webアプリケーションに対する脅威</a></li>
+<li><a href="#wafips">WAFとIPSとの違い</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="waf">WAF</h1>
+<hr>
+<h2 id="waf-web-application-firewall">WAF（ Web Application Firewall ）とは</h2>
+<p><strong class="memory-answer">WAF</strong>（Webアプリケーションファイアウォール）とは、従来のファイアウォールやIDS/IPSでは防ぐことが
+できない不正な攻撃から<strong class="memory-answer">Webアプリケーションを防御するファイアウォール</strong>のこと。Webアプリケーション
+という観点から、一般的にはWAFといえばWebサーバーが利用するポート <strong class="memory-answer">80</strong>番、<strong class="memory-answer">443</strong>番のトラフィックを
+双方向で監視して、悪意あるユーザーからWebアプリケーションとその背後にあるデータを守る製品のこと。</p>
+<p>ファイアウォールがIPとポートを防御、IPSがプラットフォームレイヤーを防御、WAFはアプリケーション
+レイヤーを防御します。下図からもサービス提供型の公開ネットワークシステムにおいては、Firewall、IPS、
+WAFの3セットが必要であることが分かるかと思います。※　どれか1つでも欠けていると致命的と言えます。</p>
+<p><img alt="画像" src="../studygif/security17a.png"></p>
+<h2 id="firewallipswaf">Firewall、IPS、WAFの違い</h2>
+<p>IPS、WAFのどちらの製品も検出パターンに基づいて通信の中身を検査します。IPSは定義された検出パターン
+に基づいて様々な種類の攻撃（ OSの脆弱性を悪用する攻撃、ファイル共有サービスの攻撃など ）への通信を
+検査するのに対して、WAFは定義された検出パターンに基づき<strong class="memory-answer">Webアプリケーションに特化</strong>して検査をします。</p>
+<table>
+<thead>
+<tr>
+<th>製品</th>
+<th>通信のリクエストに対するアクション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firewall</td>
+<td>通信における送信元情報と送信先情報（IP アドレスやポート番号等）を検査して防御を行う。<br>FWを通過するデータを読み取り、動的にポート解放と閉鎖する機能は<strong class="memory-answer">ステートフルインスペクション</strong>。</td>
+</tr>
+<tr>
+<td>IPS</td>
+<td>多様なアプリケーション（プロトコル）へのリクエストに対して、<strong class="memory-answer">シグネチャ</strong>に基づいて防御を行う。<br>シグネチャとは、攻撃や不正アクセスの特徴を定義したデータのこと。</td>
+</tr>
+<tr>
+<td>WAF</td>
+<td>Webアプリケーションへのリクエストに対して、<strong class="memory-answer">シグネチャ</strong>や<strong class="memory-answer">ホワイトリスト</strong>に基づき防御を行う。<br>ホワイトリストとは、正常な通信を定義した検出パターンのこと。保護対象は、Webアプリケーションのみ。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="web">Webアプリケーションに対する脅威</h2>
+<p>Webアプリケーションへの脅威として以下の攻撃がありますが、WAFはこれらの攻撃を防ぐことができます。</p>
+<p>◇　<strong class="memory-answer">SQLインジェクション</strong>
+例えば、ショッピングサイトなどのログイン画面や登録画面の入力フォームに不正なSQL文を挿入することで
+不正にユーザ情報を入手したりデータベースを改ざんしたりできます。これが「SQLインジェクション」です。</p>
+<p><img alt="画像" src="../studygif/security17b.png"></p>
+<p>◇　<strong class="memory-answer">OSコマンドインジェクション</strong>
+外部からサーバー上の任意のOSコマンドを実行することで、サーバ内のデータ破壊、重要ファイルの流出、
+攻撃者によるサーバの乗っ取りを行う攻撃のことをOSコマンドインジェクションと言います。</p>
+<p><img alt="画像" src="../studygif/security17c.png"></p>
+<p>◇　<strong class="memory-answer">クロスサイトスクリプティング</strong>
+悪意のあるスクリプトをXSS（クロスサイトスクリプティング）の脆弱性のあるWebサイトにしかけることで
+不正なスクリプトをユーザに実行させる攻撃をクロスサイトスクリプティングと言います。下図のフロー通り
+実際の被害はユーザ側で発生することになりますが、標的にされた<strong class="memory-answer">XSSの脆弱性のあるWebサイト</strong>は信頼性を
+失いユーザの個人情報が流出する可能性があるので、実質的にユーザ同様に被害を受けます。</p>
+<p><img alt="画像" src="../studygif/security17d.png"></p>
+<p>攻撃者のWebサイトと、XSS脆弱性のあるWebサイトをまたがって発生するため<strong class="memory-answer">クロスサイト</strong>と呼ばれます。</p>
+<p>その他の攻撃手法として以下があります。
+・　フォースフルブラウジング
+・　バッファーオーバーフロー
+・　Hiddenフィールドの改竄
+・　メタキャラクタインジェクション
+・　ユニコード及びURLの符号化（検知回避）</p>
+<p>そもそも脆弱性がないシステムであれば、WAFが
+導入されていなくても問題ないのですが、脆弱性が
+発覚して被害があってからWAFを導入しても手遅れ
+であることから公共的な公開サーバやEコマース系
+の公開サーバのインフラには、WAFの導入は必須。</p>
+<h2 id="wafips">WAFとIPSとの違い</h2>
+<p>IPSは、OSやミドルウェアを含むプラットフォームレイヤーが防御対象です。WAFは、プラットフォーム上
+で動作する固有のWebアプリケーションが防御対象です。なお、以下の内容は特にWAFならではの機能です。</p>
+<table>
+<thead>
+<tr>
+<th>WAF特有の主な機能</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cookieの改ざん防止機能</td>
+<td>セッションの乗っ取りを防止するため、Cookie値が改ざんされている場合にブロックする。</td>
+</tr>
+<tr>
+<td>データの改ざん防止機能</td>
+<td>金額の改ざん防止のため、パラメーター値が改ざんされている場合にブロックする。</td>
+</tr>
+<tr>
+<td>カードのマスキング機能</td>
+<td>サーバからのレスポンスにクレジットカード情報が含まれている場合、マスキング処理する。</td>
+</tr>
+<tr>
+<td>SSLアクセラレータ機能</td>
+<td>暗号化された通信内容をひもといて、通信内容を分析できる。<br>SSL通信の復号/暗号化処理を行うことでサーバ側の処理を軽減する。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

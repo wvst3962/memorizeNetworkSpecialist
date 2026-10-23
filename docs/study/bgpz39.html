@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>BGP Flowspec | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#bgp-flowspec_1">BGP Flowspecとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="bgp-flowspec">BGP Flowspec</h1>
+<hr>
+<h2 id="bgp-flowspec_1">BGP Flowspecとは</h2>
+<p>BGP Flowspecとは、トラフィックを特定するためのIPアドレス・ポート番号などLayer3/Layer4情報や
+特定したトラフィックの処理方法をBGPルータにアドバタイズさせる技術のことです。DDoS攻撃を防御
+するために使用される技術でもあります。</p>
+<p>BGP Flowspecでは、DDoS攻撃の宛先IPアドレス情報だけでなく、DDoS攻撃の送信元IPアドレスや宛先
+ポート番号などの情報を組み合わせてBGPルータにアドバタイズし、悪意ある通信をフィルタリングする
+ことができます。</p>
+<p><img alt="画像" src="../studygif/bgpz39a.png"></p>
+<p>DDoS攻撃対策としては、BGP Flowspec以外にも、<strong class="memory-answer">RTBH</strong>（ Remote Triggered Black Hole Filtering ）
+という手法があります。RTBHは、BGP Flowspecと同様に<strong class="memory-answer">DDoS攻撃を緩和するための技術</strong>となります。
+従って、BGP FlowspecでもRTBHでもルータ等の<strong class="memory-answer">ネットワーク機器の負荷増大を防止</strong>できます。ただし
+RTBH機能は宛先IPベースであることから、DDoS攻撃の宛先IPアドレス宛ての通信を廃棄することになり
+正当なトラフィックも遮断されてしまう可能性があります。</p>
+<p>一方、BGP Flowspecでは、宛先IPアドレス単位だけでなく、<strong class="memory-answer">送信元IPアドレスやポート番号の情報</strong>などに
+基づいてフィルタリングできるだけでなく、悪意ある該当トラフィックの遮断（drop）や転送（redirect）
+速度制限（rate-limit）など、<strong class="memory-answer">きめ細かな通信制御が可能</strong>であり、正常な通信を廃棄する範囲が小さいです。
+以上のことから、DDoS対策ではRTBH方式よりもBGP Flowspec方式を実装することが推奨されています。</p>
+<hr>
+<p><a href="study60.html">BGP（Border Gateway Protocol）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>MSTP ( Multiple Spanning Tree Protocol ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#mstp">MSTPとは</a></li>
+<li><a href="#stppvst-rstprapid-pvst">STP（PVST+）と RSTP（Rapid PVST+）の動作</a></li>
+<li><a href="#mstp_1">MSTP の動作</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="mstp-multiple-spanning-tree-protocol">MSTP ( Multiple Spanning Tree Protocol )</h1>
+<hr>
+<h2 id="mstp">MSTPとは</h2>
+<p>MSTP（ Multiple Spanning Tree Protocol ）は、複数のVLANを<strong class="memory-answer">インスタンス</strong>という単位で処理できる
+機能がある IEEE802.1S で定義されているプロトコルです。インスタンスとは、ネットワークにおける
+論理トポロジーのこと。PVST+ ではVLANごとに異なるSTPインスタンスを生成し、Rapid PVST+では
+VLANごとに異なるRSTPインスタンスを生成してVLANごとにSTP計算が行われますが、MSTP は複数の
+VLANを1つにまとめた<strong class="memory-answer">インスタンスごとにSTP計算</strong>が行われるため、スイッチのCPU負荷を軽減できます。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>STP</th>
+<th>RSTP</th>
+<th>MSTP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE定義</td>
+<td>IEEE802.1D</td>
+<td>IEEE802.1W</td>
+<td>IEEE802.1S</td>
+</tr>
+<tr>
+<td>Catalystのサポートモード</td>
+<td><strong class="memory-answer">PVST+</strong></td>
+<td><strong class="memory-answer">Rapid PVST+</strong></td>
+<td><strong class="memory-answer">MSTP</strong></td>
+</tr>
+<tr>
+<td>CatalystのSTP計算の単位</td>
+<td>VLANごと</td>
+<td>VLANごと</td>
+<td>複数VLANをまとめたインスタンスごと</td>
+</tr>
+<tr>
+<td>spanning-tree mode</td>
+<td>pvst</td>
+<td>rapid-pvst</td>
+<td>mst</td>
+</tr>
+<tr>
+<td>対象ネットワークの規模</td>
+<td>小・中規模</td>
+<td>小・中・大規模</td>
+<td>大規模</td>
+</tr>
+</tbody>
+</table>
+<p>以上の通りCiscoでサポートしているスパニングツリープロトコルは「PVST+」「Rapid PVST+」「MSTP」
+の3種類となります。他メーカでサポートする「STP」や「RSTP」も含めた比較表は以下の通りとなります。</p>
+<table>
+<thead>
+<tr>
+<th>プロトコル</th>
+<th>標準化</th>
+<th>収束</th>
+<th>負荷分散</th>
+<th>ツリーの数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STP</td>
+<td>IEEE802.1D</td>
+<td>低速</td>
+<td>不可</td>
+<td>1つ</td>
+</tr>
+<tr>
+<td>PVST+</td>
+<td>Cisco独自</td>
+<td>低速</td>
+<td>可</td>
+<td>VLANごとに1つ</td>
+</tr>
+<tr>
+<td>RSTP</td>
+<td>IEEE802.1W</td>
+<td>高速</td>
+<td>不可</td>
+<td>1つ</td>
+</tr>
+<tr>
+<td>Rapid PVST+</td>
+<td>Cisco独自</td>
+<td>高速</td>
+<td>可</td>
+<td>VLANごとに1つ</td>
+</tr>
+<tr>
+<td>MSTP</td>
+<td>IEEE802.1S</td>
+<td>高速</td>
+<td>可</td>
+<td>複数のVLANに1つ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stppvst-rstprapid-pvst">STP（PVST+）と RSTP（Rapid PVST+）の動作</h2>
+<p>PVST＋では、Per-VLAN でVLAN単位ごとにSTPが構築されて、下図のとおり最適に負荷分散されます。
+ただし、PVST+の場合はVLANごとに1つのスパニングツリーインスタンスが保持されるため、下図では
+論理トポロジーは2つだけなのに600の経路計算が必要となります。その結果、VLANごとにBPDUが送信
+されることなり、ネットワーク上の全スイッチのCPUリソースが消費されます。Rapid PVST+ でも同じ。</p>
+<p><img alt="画像" src="../studygif/stpz16a.png"></p>
+<h2 id="mstp_1">MSTP の動作</h2>
+<p>MSTPでは、「複数のVLANを1つのインスタンスにマッピングする」ことで、VLAN単位ごとではなくて、
+インスタンスごとにSTP計算できるようになりました。下図では、1 ～ 300のVLANを「インスタンス 1」
+301 ～ 600のVLANを「インスタンス 2」にマッピングした結果、論理トポロジーと同じ数の「2」だけの
+経路計算だけでOKであり、ネットワーク上の全スイッチのCPUリソースの負荷が軽減されます。</p>
+<p><img alt="画像" src="../studygif/stpz16b.png"></p>
+<p>MSTPは、RSTPに基づいたプロトコルであるため、MSTPを有効化するとRSTPの高速収束も有効になり、
+正常時と障害時の動作はRSTP同様に高速です。MSTPの場合、STPやRSTPに比べて設定が難しくなります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/stpz17.html">MSTP - インスタンス、リージョン、リビジョン、IST、MST、CST、CIST</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

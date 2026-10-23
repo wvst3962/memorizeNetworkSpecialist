@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>authoritative DNS server / cache DNS server | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dns">権威DNSサーバとは</a></li>
+<li><a href="#dns_1">キャッシュDNSサーバとは</a></li>
+<li><a href="#dnsdns">権威DNSサーバとキャッシュDNSサーバの違い</a></li>
+<li><a href="#dnsdnsdns">権威DNSサーバ：プライマリDNSサーバとセカンダリDNSサーバ</a></li>
+<li><a href="#dnsdnsdns_1">キャッシュDNSサーバ：優先DNSサーバと代替DNSサーバ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="authoritative-dns-server-cache-dns-server">authoritative DNS server / cache DNS server</h1>
+<hr>
+<h2 id="dns">権威DNSサーバとは</h2>
+<p><strong class="memory-answer">権威DNSサーバ</strong>は、<strong class="memory-answer">ドメイン名とIPアドレスが対応づけられたゾーン情報</strong>を保持して、他のDNSサーバに
+問い合わせることなく応答を返せるDNSサーバのことです。権威DNSサーバは自身が管理するゾーン情報と
+委任先の権威サーバに関する情報を保持し、<strong class="memory-answer">名前解決の問い合わせには自身が管理する情報のみ応答</strong>します。</p>
+<h2 id="dns_1">キャッシュDNSサーバとは</h2>
+<p><strong class="memory-answer">キャッシュDNSサーバ</strong>は、LAN内のWebクライアントから問い合わせを受け、代わりにインターネットへ
+問い合わせるDNSサーバのことです。Webクライアントからドメイン名に対する名前解決の問い合わせを
+受け付けて、該当するドメイン名を管理する権威DNSサーバに問い合わせをしていきます。そして、その
+ドメイン名に対応する<strong class="memory-answer">IPアドレス情報をクライアントへ応答して、問い合わせた結果はキャッシュ</strong>します。</p>
+<p><img alt="画像" src="../studygif/tcpip15.5a.png"></p>
+<h2 id="dnsdns">権威DNSサーバとキャッシュDNSサーバの違い</h2>
+<p>権威DNSサーバとキャッシュDNSサーバの違いは以下の通りです。なお、権威DNSサーバは別名として
+DNSコンテンツサーバと呼ばれ、キャッシュDNSサーバはDNSキャッシュサーバとも呼ばれています。
+現在、皆さんがPC、スマホ、タブレットなどで指定しているDNSサーバは<strong class="memory-answer">キャッシュDNSサーバ</strong>です。</p>
+<table>
+<thead>
+<tr>
+<th>2種類のDNSサーバ</th>
+<th>別名</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>権威DNSサーバ</td>
+<td>DNSコンテンツサーバ</td>
+<td>・　ドメイン名とIPアドレスの対応表を「ゾーン」という単位で管理。<br>・　名前解決の問い合わせをされた際、自信が管理する情報のみ応答。</td>
+</tr>
+<tr>
+<td>キャッシュDNSサーバ</td>
+<td>DNSキャッシュサーバ</td>
+<td>・　クライアントからドメイン名の名前解決の問い合わせを受ける。<br>・　該当するドメイン名を管理する権威DNSサーバに問い合わせる。<br>・　名前解決された問い合わせ結果は、一定期間キャッシュする。<br>・　名前解決の問い合わせが同じ内容であればキャッシュ情報を使用。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dnsdnsdns">権威DNSサーバ：プライマリDNSサーバとセカンダリDNSサーバ</h2>
+<p>権威DNSサーバには<strong class="memory-answer">プライマリDNSサーバ</strong>と<strong class="memory-answer">セカンダリDNSサーバ</strong>の2種類あり、プライマリDNSサーバは
+セカンダリDNSサーバに定期的にゾーン情報を転送して同期を取ります。このことを<strong class="memory-answer">ゾーン転送</strong>と言います。</p>
+<table>
+<thead>
+<tr>
+<th>権威DNSサーバ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プライマリDNSサーバ</td>
+<td>ゾーン情報のマスターデータを管理するDNSサーバ</td>
+</tr>
+<tr>
+<td>セカンダリDNSサーバ</td>
+<td>プライマリDNSサーバからゾーン情報の複製を受け取り、プライマリが応答しない時に代理で応答</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dnsdnsdns_1">キャッシュDNSサーバ：優先DNSサーバと代替DNSサーバ</h2>
+<p>パソコンなどのネットワーク設定には、クライアントがDNSによる名前解決を行う場合にどのDNSサーバを
+優先して問い合わせするのかの設定項目（<strong class="memory-answer">優先DNSサーバ</strong>と<strong class="memory-answer">代替DNSサーバ</strong>）があります。クライアントが
+最初に問い合わせるDNSサーバは優先DNSサーバであり、優先DNSサーバが応答しない際にクライアントが
+問い合わせるのが代替DNSサーバです。DHCP環境であれば、通常は自動的に割り当てられることが多いです。
+※　PCの「優先DNSサーバ、代替DNSサーバ」設定に入力するDNSサーバのIPアドレスは、キャッシュDNSサーバのIPアドレスです。</p>
+<table>
+<thead>
+<tr>
+<th>キャッシュDNSサーバ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>優先DNSサーバ</td>
+<td>クライアントから、DNSによる名前解決の最初の問い合わせ先となるキャッシュDNSサーバ</td>
+</tr>
+<tr>
+<td>代替DNSサーバ</td>
+<td>優先DNSサーバが応答しない際に、クライアントの問い合わせ先となるキャッシュDNSサーバ</td>
+</tr>
+</tbody>
+</table></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

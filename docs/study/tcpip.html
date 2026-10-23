@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>TCP/IP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#tcpip_1">TCP/IPとは</a></li>
+<li><a href="#tcpip_2">TCP/IPの階層モデル</a></li>
+<li><a href="#_1">各階層における役割</a></li>
+<li><a href="#tcpip_3">TCP/IPの階層モデルにおけるカプセル化と非カプセル化</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="tcpip">TCP/IP</h1>
+<hr>
+<h2 id="tcpip_1">TCP/IPとは</h2>
+<p>TCP/IP（Transmission Control Protocol/Internet Protocol）は、現在のインターネット通信および
+イントラネット通信において最も利用されている通信プロトコルです。TCP/IPは複数のプロトコルから
+なりますが、中心的な役割を果たすのがTCPとIPであることから <strong class="memory-answer">TCP/IP</strong> と呼ばれるようになりました。
+※　IP通信で使用するプロトコル群（ IP, ICMP, TCP, UDP, HTTP, SMTP, SSH,TELNETなど ）を総称してTCP/IPと呼びます。</p>
+<h2 id="tcpip_2">TCP/IPの階層モデル</h2>
+<p>TCP/IPにおける階層モデルは4階層から構成されています。アプリケーション層、トランスポート層、
+インターネット層、ネットワークインターフェース層の4つです。ネットワークインターフェース層は
+ネットワークアクセス層とも呼ばれています。下図はOSI参照モデルとTCP/IP階層モデルの対応表です。</p>
+<p><img alt="画像" src="../studygif/tcpipa.png"></p>
+<p>上図の通り、TCP/IPの階層モデルにおける<strong class="memory-answer">アプリケーション層</strong>は、OSI参照モデルのアプリケーション層、
+プレゼンテーション層、セッション層に相当します。TCP/IPの<strong class="memory-answer">トランスポート層</strong>はOSI参照モデルにおける
+トランスポート層に相当して、TCP/IPの階層モデルの<strong class="memory-answer">インターネット層</strong>はOSI参照モデルのネットワーク層
+に相当して、<strong class="memory-answer">ネットワークインターフェース層</strong>は、OSI参照モデルのデータリンク層と物理層に相当します。</p>
+<p><img alt="画像" src="../studygif/tcpipb.png"></p>
+<h2 id="_1">各階層における役割</h2>
+<p>TCP/IPの階層モデルの説明を読む前に、事前に<a href="networking3.html">OSI参照モデル</a>の解説をしっかりと読んでおきましょう。</p>
+<table>
+<thead>
+<tr>
+<th>TCP/IPプロトコルスタック</th>
+<th>各層の役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>アプリケーション層</td>
+<td>主にアプリケーションごとの固有の規定。この層ではHTTP, FTP, SMTP, SSHなどの<br>アプリケーション層のプロトコルにより、通信アプリケーションの機能が実現されます。</td>
+</tr>
+<tr>
+<td>トランスポート層</td>
+<td>主にノード間のデータ転送の信頼性を確保するための規定。この層では、TCPまたは<br>UDPのプロトコルを使用します。TCPを使用する場合、信頼性の高い通信を実現して<br>UDPを使用する場合、信頼性ではなく効率重視のデータ転送を実現することになります。</td>
+</tr>
+<tr>
+<td>インターネット層</td>
+<td>主にネットワーク間のエンドツーエンドの通信のための規定。この層では、IPが代表的な<br>プロトコルになります。IPにより、ネットワーク上のノードに対し自分の位置情報となる<br>論理アドレス（IPアドレス）を割り当てられるのでエンドツーエンドの通信を実現します。</td>
+</tr>
+<tr>
+<td>ネットワーク<br>インターフェース層</td>
+<td>主に直接的に接続されたノード間の通信のための規定。この層では、LANプロトコルは<br>イーサネット、WANプロトコルはPPPが代表的なプロトコルです。イーサネットでは、<br>セグメント上のノードに対して、自分の位置情報となる物理アドレス（MACアドレス）を<br>割り当てることができるので、ローカルでのノード間の通信が実現することになります。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tcpip_3">TCP/IPの階層モデルにおけるカプセル化と非カプセル化</h2>
+<p>コンピュータ間で通信する場合、送信側のコンピュータでは「アプリケーション層」 ⇒ 「トランスポート層」
+⇒ 「インターネット層」 ⇒ 「ネットワークインターフェース層」 ⇒ 「通信ケーブル」の順番でカプセル化を
+行いデータが送出され、受信側のコンピュータでは「通信ケーブル」 ⇒ 「ネットワークインターフェース層」
+⇒ 「インターネット層」 ⇒ 「トランスポート層」 ⇒ 「アプリケーション層」の順番で非カプセル化を行って
+送信側で付加したヘッダを取り除いていきます。つまりOSI参照モデルの場合と同様の考え方ということです。</p>
+<p><img alt="画像" src="../studygif/tcpipc.png"></p>
+<p>例えば、イーサネットLANにあるコンピュータがWebサイトを参照するためには、アプリケーション層では
+HTTPプロトコル、トランスポート層ではTCPプロトコル、インターネット層ではIPプロトコル、ネットワー
+クインターフェース層ではEthernetプロトコルを使用しますが、下図では送信側では各層で処理されるたびに
+これらのプロトコルのヘッダが付加されて送信されて、受信側では、各階層でそのヘッダを取り除いています。</p>
+<hr>
+<p><a href="tcpip1.html">IPプロトコルとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

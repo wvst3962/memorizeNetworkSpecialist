@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - IEEE802.11e | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211e">IEEE802.11e</a></li>
+<li><a href="#ieee80211e-edca">IEEE802.11e - EDCA</a></li>
+<li><a href="#ieee80211e-hcca">IEEE802.11e - HCCAとは</a></li>
+<li><a href="#lan-qos">無線LAN設計 - そもそもQoSのまえに・・・</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-ieee80211e">Wireless LAN - IEEE802.11e</h1>
+<hr>
+<h2 id="ieee80211e">IEEE802.11e</h2>
+<p>IEEE802.11eとは無線LAN環境においてQoSを実現するための規格です。2005年10月に策定されました。
+IEEE802.11eは音声データの伝送や動画のストリーミング配信を効率よく行うために実装することが多い。
+IEEE802.11eでは、QoSを実現するために2種類の方式を規定しています。1つは優先度の高いフレームを
+優先して送信するようにする<strong class="memory-answer">EDCA</strong>という方式です。もう1つは優先度の高いフレームに専用の帯域を割り
+当てる<strong class="memory-answer">HCCA</strong>という方式です。現時点では、IEEE802.11eといえば一般的にEDCAを指します。</p>
+<h2 id="ieee80211e-edca">IEEE802.11e - EDCA</h2>
+<p>EDCA（Enhanced Distributed Channel Access）では、パケットを4つのアクセスカテゴリ（AC）に分類
+して各送信キューに格納します。次にそれぞれの優先度に応じてパケットを送信していきます。4つのACは
+以下の通りです。優先順位は1→4であり優先度の高いトラフィックから送信キューから送信されていきます。
+パケットの分類はIPパケットのTOSフィールド値、またはVLANタグのプライオリティ値に基づき分類します。</p>
+<table>
+<thead>
+<tr>
+<th>EDCA - 4つのアクセスカテゴリ ( AC )</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>優先度</td>
+<td>AC</td>
+<td>Traffice Type</td>
+</tr>
+<tr>
+<td>1</td>
+<td>AC_VO</td>
+<td>Voice</td>
+</tr>
+<tr>
+<td>2</td>
+<td>AC_VI</td>
+<td>Video</td>
+</tr>
+<tr>
+<td>3</td>
+<td>AC_BE</td>
+<td>Best Effort</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AC_BK</td>
+<td>Back Ground</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wireless16a.png"></p>
+<p>優先度ごとに設定するパラメータには4種類あります。これらの値を調整することにより優先制御を行います。</p>
+<table>
+<thead>
+<tr>
+<th>EDCA - 4つの設定パラメータ</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>パラメータ</td>
+<td>説明</td>
+</tr>
+<tr>
+<td>CWmin</td>
+<td>CW (Contention Window) の<strong class="memory-answer">最小値</strong>。送信待ちの時間を決めるパラメータ。<br>送信待ちの時間が短い方がそのキューが送信権を得る確率が高くなるため<br>優先キューであればあるほど、この値を小さくする必要がある。</td>
+</tr>
+<tr>
+<td>CWmax</td>
+<td>CW (Contention Window) の<strong class="memory-answer">最大値</strong>。送信待ちの時間を決めるパラメータ。<br>送信待ちの時間が短い方がそのキューが送信権を得る確率が高くなるため<br>優先キューであればあるほど、この値を小さくする必要がある。</td>
+</tr>
+<tr>
+<td>AIFS</td>
+<td>AIFS (Arbitration Inter Frame Space) はフレームの送信間隔。この値が小さいほど<br>キューの優先度が高くなるので、 優先キューであればあるほど、この値を小さくする。</td>
+</tr>
+<tr>
+<td>TXOP Limit</td>
+<td>TXOP (Transmission Opportunity) は、チャネルの占有時間のこと。この値が大きい<br>ほど一度得た送信権でより多くのフレームを転送できるが、キューのリアルタイム性が<br>損なわれるので調整が必要。値を 0 にした場合、1 回の送信権で1フレームだけ<br>送信できます。「AC_BK」や「AC_BE」などは、この値を 0 にしておくことが一般的。</td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.11eを使用する場合は、無線APだけでなく、無線LANクライアントのPCで使用するアダプタも
+IEEE802.11e EDCA (<strong class="memory-answer">WMM-EDCA</strong>) に対応している必要があります。また、有線LAN側のQoSの設定値と
+無線LAN側のQoSの設定値が整合性がとれる状態にする必要があります。無線と有線ではQoSが異なります。</p>
+<h2 id="ieee80211e-hcca">IEEE802.11e - HCCAとは</h2>
+<p>HCCA（Hybrid coordination function Controlled Channel Access）では、無線APがWLAN端末に対して
+QoS CF-Pollという制御フレームを送信します。QoS CF-Pollには、WLAN端末がチャネルを使用できる期間
+(TXOP)の値が入っています。各WLAN端末のフレームの特性（優先度の高い/低い）を考慮した上で、APは
+この QoS CF-Poll の制御フレームを送信します。送信権を得たWLAN端末だけが、割り当てられた時間だけ
+送信することができるので、他の許可されていないWLAN端末のフレームと衝突することなく通信できます。</p>
+<p><img alt="画像" src="../studygif/wireless16b.png"></p>
+<p>無線APが各WLAN端末をコントロールすることになるので、実装はEDCAより大変となりますが、厳密な
+QoS制御を実装することができます。難点は、HCCAに対応している無線LAN製品がほとんどないことです。
+HCCAによるQoSを実現するためには、APだけでなくWLAN端末でもHCCAに対応している必要があります。</p>
+<h2 id="lan-qos">無線LAN設計 - そもそもQoSのまえに・・・</h2>
+<p>無線LANネットワークにおいて、無線LANクライアントPCと無線IP電話が混在する環境の場合は、そもそも
+QoS以前に大切な基本設計事項があります。それは、データトラフィックと音声トラフィックを送受信する
+<strong class="memory-answer">周波数を完全に分離する</strong>ということです。アクセスポイントは一般的に、その1つのAPで IEEE802.11b/g と
+IEEE802.11aの両方の規格を有効にすることができます。現在の無線IP電話はIEEE802.11b/g対応のものが
+多いので、無線IP電話で送受信される音声トラフィックをIEEE802.11b/gの周波数でデータ伝送を行って、
+無線LANクライアントPCで送受信するデータトラフィック、802.11a の周波数で伝送をさせるようにします。</p>
+<p><img alt="画像" src="../studygif/wireless16c.png"></p>
+<p>例えば、IEEE802.11b/gの周波数でデータトラフィックと音声トラフィックの両方が流れていて音声品質が
+悪くてどうしようといった場合、先ず上図の通り周波数を分離しましょう。それだけで品質は改善されます。</p>
+<p>しかし「無線IP電話」と「無線LANクライアントPC」の両方ともIEEE802.11b/g しか対応していない場合や
+IEEE802.11a でデータ伝送している無線LANクライアントPCにおいて、フレームの優劣をつけたい場合等は
+IEEE802.11e によるQoSの実装を行いましょう。EDCAによる適正な実装を行えば、要件は満たせるでしょう。</p>
+<p>※ 上記構成では1台のAPに対する無線IP電話の同時接続数は10～15、無線クライアントPCの同時接続数も10～15にすることが推奨。
+※ 1台のAPへのクライアントの同時接続数はmax-associationsコマンドで、SSIDにアソシエートする最大数を制限することで実現。
+※ <strong class="memory-answer">802.11b</strong>での同時通話数のCiscoの推奨はAPあたりの同時G.711コールを<strong class="memory-answer">7</strong>以下、APあたりの同時G.729コールを<strong class="memory-answer">8</strong>以下にすること。
+※ <strong class="memory-answer">802.11a, g</strong>での同時通話数のCiscoの推奨はAPあたりの同時コールを<strong class="memory-answer">20</strong>以下とすることにしているが実際には10～15が妥当です。</p>
+<p>シスコ無線LANソリューションでは、Autonomous
+APではSSIDに対してアソシエートする最大数を制限
+することができますが、WLCを用いるCAPWAP AP
+においてはSSIDごとの最大数の制限はできません。</p>
+<p>なお、WLCを用いる無線LAN構成の場合、無線LAN
+クライアントPCのSSIDにはロードバランス設定を
+有効にして、APの負荷分散を行うのが一般的です。</p>
+<p>一方で、無線IP電話のSSIDには、ロードバランスの
+設定は無効にします。なぜならロードバランシング
+が有効になっている無線LANではローミング遅延が
+発生する事から遅延に敏感なアプリに適さないから。</p>
+<hr>
+<p>← <a href="wireless15.html">無線LAN - IEEE802.11nとは</a>　<a href="wireless17.html">無線LAN - 無線LANスイッチとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

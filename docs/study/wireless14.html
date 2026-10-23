@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IEEE802.1X | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee8021x_1">IEEE802.1Xとは</a></li>
+<li><a href="#ieee8021x_2">IEEE802.1Xの構成要素</a></li>
+<li><a href="#eap">EAPとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ieee8021x">IEEE802.1X</h1>
+<hr>
+<h2 id="ieee8021x_1">IEEE802.1Xとは</h2>
+<p>IEEE802.1Xとは、有線LANや無線LANにおけるユーザ認証の規格です。当初は有線LANでクライアントPC
+をネットワーク接続する際にユーザ認証を行う目的で策定された規格なのですが、無線LANの初期においては
+WEPによるセキュリティしかなかったため、WEPにはないユーザ認証などの仕組みが無線LAN環境において
+セキュリティ的に最適であったことから有線LANよりも無線LAN環境で先に普及しました。今回は無線LANの
+技術解説でIEEE802.1Xの技術解説を行いますが、<strong class="memory-answer">以下の技術解説は有線LANにおいても適用</strong>できる内容です。</p>
+<h2 id="ieee8021x_2">IEEE802.1Xの構成要素</h2>
+<p>IEEE802.1X認証を行うためには<strong class="memory-answer">サプリカント</strong>、<strong class="memory-answer">認証装置</strong>、<strong class="memory-answer">認証サーバ</strong>の3つの構成要素が必要となります。</p>
+<table>
+<thead>
+<tr>
+<th>3つの構成要素</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サプリカント<br>（Supplicant)</td>
+<td>IEEE802.1Xにおけるクライアントのこと。またはクライアントにインストールするソフトウェア。<br>認証を受けるクライアントはPCにインストールする必要があるが、最近のPCには標準搭載されている。</td>
+</tr>
+<tr>
+<td>認証装置<br>(Authenticator)</td>
+<td>サプリカントと認証サーバの仲介役となるネットワーク機器。IEEE802.1X対応のLANスイッチまたは<br>無線LANアクセスポイントのこと。これらの機器はサプリカントと認証サーバとの認証結果を受けて、<br>ネットワークへのアクセス制御を行う。Ciscoは有線/無線LANスイッチともにIEEE802.1Xに標準対応。</td>
+</tr>
+<tr>
+<td>認証サーバ<br>(Authentication Server)</td>
+<td>ユーザ認証を行うサーバのこと。IEEE802.1X/EAPに対応したRadiusサーバを使用する。</td>
+</tr>
+</tbody>
+</table>
+<p>これら3つの構成要素以外に、クライアント認証の際に「証明書」を使用する場合、証明書を発行するための <strong class="memory-answer">CA（認証局）</strong>が必要。</p>
+<p><img alt="画像" src="../studygif/wireless14a.png"></p>
+<p>※　EAP-TLSでは、SSL3.0（Secure Sockets Layer3.0）を基に標準化したTLS1.0を、EAPのパケットフォーマットで実行します。</p>
+<h2 id="eap">EAPとは</h2>
+<p>802.1X認証では、様々な認証が行えるように<strong class="memory-answer">EAP</strong>（PPP Extensible Authentication Protocol）プロトコルを
+サポートしています。EAPはPPP（Point-to-Point Protocol）を拡張したプロトコルであり、データリンク層
+プロトコルと認証プロトコルの仲介役となります。下図はIEEE802.1X/EAPにおける<strong class="memory-answer">プロトコルスタック</strong>です。</p>
+<p>利用する認証方式で使用するAuthentication層のプロトコル（MD5, TLS, TTLS, PEAP, LEAP) が異なります。
+これらのAuthentication層プロトコルはサーバとクライアントとで一致しなければ通信できません。</p>
+<p><img alt="画像" src="../studygif/wireless14b.png"></p>
+<table>
+<thead>
+<tr>
+<th>各層</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データリンク層</td>
+<td>802.1X認証を行うための物理的なネットワーク。有線LAN接続、無線LAN接続のどちらでも利用できる。</td>
+</tr>
+<tr>
+<td>EAP層</td>
+<td>EAPがデータリンク層とAuthentication層の仲介をしています。EAPOL (EAP over LAN) は、有線LANや<br>無線LANにてEAPを使えるようにするプロトコルであり、データリンク層のメディアの違いを吸収している。</td>
+</tr>
+<tr>
+<td>Authentication層</td>
+<td>802.1X/EAPでサポートする認証方式。有線LANと無線LANではEAP層が仲介するので、どの認証方式でも<br>利用することができる。現在のところ、TLS、MD5、TTLS、PEAP、LEAP、EAP-FASTなどがある。</td>
+</tr>
+</tbody>
+</table>
+<p>上図のIEEE802.1X/EAPプロトコルスタックには IP がありません。どうやって認証サーバと通信するのか、
+それはサプリカントから受信したEAPメッセージを認証装置がIPパケットに変換し認証サーバに送信します。</p>
+<p><img alt="画像" src="../studygif/wireless14c.png"></p>
+<p>※　EAPの認証方式（MD5、LEAP、EAP-FAST、TLS、TTLS、PEAP）の違いを詳しく学習したい方は <a href="wireless51.html">802.1X/EAP その2</a> をご参考。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

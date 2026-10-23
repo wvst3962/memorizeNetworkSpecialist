@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DNS | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dns_1">DNSとは</a></li>
+<li><a href="#_1">ドメイン名の構造</a></li>
+<li><a href="#dns_2">DNSの構成</a></li>
+<li><a href="#dns_3">DNSのパケット</a></li>
+<li><a href="#dns_4">DNSによる名前解決の仕組み</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dns">DNS</h1>
+<hr>
+<h2 id="dns_1">DNSとは</h2>
+<p>DNS ( Domain Name System ) は、ドメイン名（コンピュータを識別する名称）をIPアドレスに自動的に
+変換してくれる<strong class="memory-answer">アプリケーション層プロトコル</strong>です。DNSの仕組みにより、覚えにくいIPアドレスではなく
+ローマ字でURLを入力しWebアクセスしたり、ローマ字でメールアドレスを入力してメール送信ができます。</p>
+<p>DNSの仕組みがないと、例えばYahooのWebサーバにアクセスするために https://www.yahoo.co.jp/ と
+入力するのではなく「https://192.168.100.212」のようにIPを入力しアクセスすることが必要になります。</p>
+<h2 id="_1">ドメイン名の構造</h2>
+<p>DNSはドメイン名をIPアドレスに変換してくれるのですが、先ずそのドメイン名の構造について解説します。
+ドメイン名は、コンピュータを識別する名称のことです。ドメイン名はホスト名や組織名を識別するために
+<strong class="memory-answer">階層構造</strong>がとられており、英字がピリオドによりつながれています。下図の通りドメイン名の一番右側から
+トップレベルドメイン、第2レベルドメイン、第3レベルドメイン、第4レベルドメインと続きます。</p>
+<p><img alt="画像" src="../studygif/tcpip15a.png"></p>
+<p>「www」のホスト名を省略せずに指定した記述形式「www.example.co.jp」は <strong class="memory-answer">FQDN</strong> (Fully Qualified Domain Name) といいます。</p>
+<table>
+<thead>
+<tr>
+<th>ドメインレベル</th>
+<th>説明</th>
+<th>ドメイン名の例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トップレベルドメイン<br>( Top Level Domain )</td>
+<td>トップレベルドメイン（TLD）では、国別、地域、<br>商用などを表すドメインとなっている。</td>
+<td>jp (日本)　us (アメリカ)　com (商用)</td>
+</tr>
+<tr>
+<td>第2レベルドメイン</td>
+<td>第2レベルドメイン(SLD)では、組織の種類を<br>表すドメインとなっている。ただしトップレベル<br>ドメインによりこのポリシーは異なる。 ※1</td>
+<td>co (一般企業) ac (教育機関) go (政府機関)</td>
+</tr>
+<tr>
+<td>第3レベルドメイン</td>
+<td>第3レベルドメインでは、具体的な企業名や<br>組織などを表すドメインとなっている。ただし、<br>トップレベルドメインによりこのポリシーは異なる。</td>
+<td>yahoo (ヤフー) keio (慶応義塾) ntt (NTT)</td>
+</tr>
+<tr>
+<td>第4レベルドメイン</td>
+<td>第4レベルドメインは、「ホスト名」に位置づけ<br>されるドメインです。一般的にWebサーバであれば<br>「www」として、FTPサーバであれば「ftp」とする。</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>※1　トップレベルドメインに「com」を選んだ場合、セカンドレベルドメインは「cisco」等の組織名を表すドメイン名となります。</p>
+<p>ドメインはツリー構造となっています。ドメインの頂点にルートドメインが存在し、ルートドメイン配下に
+トップレベルドメインがありその配下に第2レベルドメインと続き、下図のように階層構造となっています。</p>
+<p><img alt="画像" src="../studygif/tcpip15b.png"></p>
+<h2 id="dns_2">DNSの構成</h2>
+<p>DNS (Domain Name System) は<strong class="memory-answer">DNSサーバ</strong>と<strong class="memory-answer">リゾルバ</strong>により構成されます。DNSサーバは各階層ごとに
+存在します。ルートドメインに位置する<strong class="memory-answer">ルートDNSサーバ</strong>は全世界で13組あります。ルートDNSサーバは、
+下位のDNS（jp のDNSサーバ、com のDNSサーバ) のIPアドレスを管理しています。つまりDNSサーバは
+そのドメインのドメイン名とIPアドレスの対応表だけでなく下位DNSサーバのIPアドレスも管理しています。</p>
+<table>
+<thead>
+<tr>
+<th>DNSの構成</th>
+<th>役割</th>
+<th>使用される機器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DNSサーバ</td>
+<td>ドメイン名とIPアドレスの対応表を保持するホスト、<br>またはソフトウェアのこと。各階層ごとに存在する。</td>
+<td>Windowsサーバ、Linuxサーバなど</td>
+</tr>
+<tr>
+<td>リゾルバ</td>
+<td>DNSサーバに問い合わせを行うホスト、または<br>ソフトウェアのこと。DNSクライアントとも呼ばれる。</td>
+<td>Windows OSなどのパソコンなど</td>
+</tr>
+</tbody>
+</table>
+<p>各階層のDNSサーバは耐障害性を考慮して複数のDNSサーバにより構成されます。DNSサーバはゾーン情報の
+マスターデータを管理する<strong class="memory-answer">プライマリDNSサーバ</strong>と、バックアップとなる１台以上の<strong class="memory-answer">セカンダリDNSサーバ</strong>に
+よって構成されます。これらのサーバが同じ情報を共有するために、プライマリDNSサーバはセカンダリDNS
+サーバに定期的にゾーン情報を転送することによって同期を取っています。このことを<strong class="memory-answer">ゾーン転送</strong>といいます。</p>
+<p>※ ゾーン情報は、あるドメインについてその中の<strong class="memory-answer">ドメイン名とIPアドレスなどが対応付けられたデータベース</strong>。
+※ ゾーン情報を管理するDNSサーバは、権威DNSサーバ（DNSコンテンツサーバ）と言います。</p>
+<p><img alt="画像" src="../studygif/tcpip15c.png"></p>
+<p>例えば yahoo.co.jp のDNSゾーンで、プライマリDNSサーバに ns1.yahoo.co.jp、セカンダリDNSサーバに
+ns2.yahoo.co.jp、ns3.yahoo.co.jp、ns4.yahoo.co.jpがあるとします。ns1.yahoo.co.jpのサーバに障害が
+発生しても ns1はns2,ns3,ns4と同期を取っているので yahoo.co.jp ドメインでは問題なく名前解決されます。
+※ ゾーン転送は、セキュリティ上の観点からそのドメイン内のセカンダリDNSサーバ以外と行わないのが基本。</p>
+<h2 id="dns_3">DNSのパケット</h2>
+<p>リゾルバがDNSサーバに行うドメイン名からのIPアドレスの名前解決にはUDP（ポート番号53）を使用します。
+一方、DNSサーバとDNSサーバとがゾーン情報のファイル転送を行う場合 TCP(ポート番号53）を使用します。</p>
+<p><img alt="画像" src="../studygif/tcpip15d.png"></p>
+<p>※　ゾーン情報のファイル転送を行わないDNS通信でも、512バイトを超えるDNS応答を取り扱う場合はUDPではなくTCPを使用。</p>
+<h2 id="dns_4">DNSによる名前解決の仕組み</h2>
+<p>ブラウザで「https://www.infraexpert.com/」と入力すると、PCで指定したDNSサーバに問い合わせます。
+対応表がそのDNSサーバのゾーン情報になくキャッシュにもない場合、ルートDNSサーバへ問い合わせます。
+同じような流れで問い合わせと通知が下図の通り行われます。しかし実際には、リゾルバやローカルのDNS
+サーバに一度調べた情報がキャッシュに残っているため、毎回このようなルートへの問い合わせはしません。</p>
+<p><img alt="画像" src="../studygif/tcpip15e.png"></p>
+<p><strong class="memory-answer">キャッシュDNSサーバ</strong>は、ドメイン名に対する名前解決の問い合わせを受け付けて、該当するドメイン名を
+管理するDNSサーバに問い合わせをしていき、最終的にWebクライアントに結果のIPアドレスを応答します。
+<strong class="memory-answer">権威DNSサーバ</strong>は、ドメイン名とIPアドレスを対応づけられたゾーン情報を管理して、問い合わせに対して
+自身が管理する情報のみを応答します。</p>
+<hr>
+<p>← <a href="tcpip14.html">DHCPリレーエージェント</a>　<a href="tcpip16.html">HTTPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

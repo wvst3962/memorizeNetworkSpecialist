@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 addressing - Manual or EUI-64 or Autoconfig | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6ipv6">IPv6ルータへのIPv6アドレスの割り当て</a></li>
+<li><a href="#ipv6-">IPv6アドレス - ?@ 管理者の手動による割り当て</a></li>
+<li><a href="#ipv6-a-eui-64">IPv6アドレス - ?A EUI-64の生成による割り当て</a></li>
+<li><a href="#ipv6-b-ipv6">IPv6アドレス - ?B IPv6アドレスの自動取得</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-addressing-manual-or-eui-64-or-autoconfig">IPv6 addressing - Manual or EUI-64 or Autoconfig</h1>
+<hr>
+<h2 id="ipv6ipv6">IPv6ルータへのIPv6アドレスの割り当て</h2>
+<p>IPv6ルータのインタフェースにIPv6アドレスを割り当てる方法は以下の3パターンがあります。</p>
+<table>
+<thead>
+<tr>
+<th>対象機器</th>
+<th>割り当て方法</th>
+<th>割り当て対象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPv6ルータ</td>
+<td><strong class="memory-answer">管理者の手動</strong>による割り当て</td>
+<td>プレフィックス ＋ インターフェースID</td>
+</tr>
+<tr>
+<td>IPv6ルータ</td>
+<td><strong class="memory-answer">EUI-64の生成</strong>による割り当て</td>
+<td>プレフィックス ＋ インターフェースID （ 自動生成 ）</td>
+</tr>
+<tr>
+<td>IPv6ルータ</td>
+<td><strong class="memory-answer">autoconfig</strong>コマンドで自動取得</td>
+<td>プレフィックス ＋ インターフェースID + デフォルトルート</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipv6-">IPv6アドレス - ?@ 管理者の手動による割り当て</h2>
+<p>管理者の手動の割り当てでは「プレフィックス」と「インターフェースID」の両方を手動で割り当てます。
+例えば、Ciscoルータでは以下のように設定します。</p>
+<p><img alt="画像" src="../studygif/ipv6z5.1a.png"></p>
+<h2 id="ipv6-a-eui-64">IPv6アドレス - ?A EUI-64の生成による割り当て</h2>
+<p>EUI-64の生成による割り当てでは、「プレフィックス」を手動で割り当て、「インターフェースID」は
+EUI-64で自動で生成させます。例えばCiscoルータでは、以下のように最後に<strong class="memory-answer">eui-64</strong>とつけて設定します。</p>
+<p><img alt="画像" src="../studygif/ipv6z5.1b.png"></p>
+<h2 id="ipv6-b-ipv6">IPv6アドレス - ?B IPv6アドレスの自動取得</h2>
+<p>IPv6ホストと同様、IPv6ルータのインターフェースでもIPv6アドレスを自動取得することは可能。ただし
+この設定は一般的なIPv6アドレスの割り当て手法ではなく、あまり使用されることはない方式となります。</p>
+<p><img alt="画像" src="../studygif/ipv6z5.1c.png"></p>
+<p>ipv6 address autoconfig 後にdefaultと指定することで、RA情報に基づきルーティングテーブルにデフォルトルートも追加されます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

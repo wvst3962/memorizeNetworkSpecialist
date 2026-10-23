@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPsec ( Security Architecture for IP ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipsec">IPsecとは</a></li>
+<li><a href="#ipsec_1">IPsecの動作するレイヤー</a></li>
+<li><a href="#ipsec2">IPsecを構成する2つのプロトコルと鍵交換のプロトコル</a></li>
+<li><a href="#ipsec_2">IPsecを理解するための全体イメージ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipsec-security-architecture-for-ip">IPsec ( Security Architecture for IP )</h1>
+<hr>
+<h2 id="ipsec">IPsecとは</h2>
+<p>IPsecは、<a href="ipsec3.html">暗号化システム</a>の技術によりネットワーク層にて、データのセキュリティを保護するのに使用
+されるプロトコルです。 IPsecは、AH、ESP、IKEなどのプロトコルから構成されています。このIPsecを
+使用したVPN接続により、インターネットなどの公共インフラでも安全に通信することが可能になります。</p>
+<h2 id="ipsec_1">IPsecの動作するレイヤー</h2>
+<p>IPsecはネットワーク層で動作するので、上位層であるトランスポート層でTCPであろうがUDPであろうが
+問題なく動作するし、制限もない事から特定のアプリケーションに依存しません。ただしネットワーク層は
+<strong class="memory-answer">IP</strong>である必要があります。ちなみにIPsecとは関係ありませんが、SSLはセッション層で動作します。そして
+ネットワーク層は<strong class="memory-answer">IP</strong>、トランスポート層は<strong class="memory-answer">TCP</strong>である必要があります。このためTCP/IPを利用するすべての
+アプリケーションは「HTTP/FTP/SMTP」など利用できますが、UDPのアプリケーションは使用できません。</p>
+<p><img alt="画像" src="../studygif/ipsec5a.png"></p>
+<h2 id="ipsec2">IPsecを構成する2つのプロトコルと鍵交換のプロトコル</h2>
+<p>IPsec自体は、その名のとおり、セキュリティのアーキテクチャです。IPsecは<strong class="memory-answer">AH</strong>、<strong class="memory-answer">ESP</strong>、<strong class="memory-answer">IKE</strong>などの複数の
+プロトコルから構成されています。AHは「Authentication Header」の略であり、その名の通り、認証機能
+を持っています。ESPは「Encapsulating Security Payload」の略であり、ペイロード部に対して暗号化を
+行うことができます。IKEは「Internet Key Exchage」の略であり鍵交換を行う事ができるプロトコルです。</p>
+<table>
+<thead>
+<tr>
+<th>IPsecプロトコル</th>
+<th>役割</th>
+<th>プロトコル種別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AH</td>
+<td>・　パケットが改ざんされていないかどうか認証を行う。(HMAC)<br>・　パケットの暗号化はできない。</td>
+<td>IPプロトコル番号 51</td>
+</tr>
+<tr>
+<td>ESP</td>
+<td>・　パケットが改ざんされていないかどうか認証を行う。(HMAC)<br>・　パケットのペイロード部の暗号化 ( DES or 3DES or AES ) を行う。</td>
+<td>IPプロトコル番号 50</td>
+</tr>
+<tr>
+<td>IKE</td>
+<td>・　秘密鍵情報の交換を安全に行う。IKEは [ ISAKMP/Oakley ] のこと。<br>つまり、ISAKMPプロトコル上でOakley鍵交換の手順を実装したもの。<br>・　Diffie-Hellman鍵交換のアルゴリズムはOakleyコンポーネントの１つ。</td>
+<td>UDPポート番号 500</td>
+</tr>
+</tbody>
+</table>
+<p>RFC2406とRFC4303形式のESPには<strong class="memory-answer">認証トレーラ</strong>機能があります。これにより、AHを併用しないで
+改ざん防止をできます。従ってIPsecは、AHなしで、ESPとIKEだけでも構成することができるのです。
+ただしESPの認証トレーラ機能では、IPヘッダの部分まではその完全性を保証することはできません。</p>
+<p>また、ESPが全てのセキュリティサービスを実装できるにも関わらず、AHも実装させることがある理由は
+AHがESPより負荷がかからない、AHに輸出規制がない、AHはIPv6コンプライアンスに必須である事です。
+※　現在の日本におけるIPsec-VPNといえば、AHを使用しない「ESPとIKE」だけによるIPsec-VPNが一般的な実装方式と言えます。</p>
+<p><img alt="画像" src="../studygif/ipsec5b.png"></p>
+<table>
+<thead>
+<tr>
+<th>AHの各フィールド</th>
+<th>各フィールドの説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Next Header</td>
+<td>AHの後にくるプロトコルのタイプ（TCP/UDPなど）を示すフィールド。</td>
+</tr>
+<tr>
+<td>Payload Length</td>
+<td>AHの長さを示すフィールド。</td>
+</tr>
+<tr>
+<td>Reserved</td>
+<td>将来用に予約されたフィールド。0 に設定されている。</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>そのパケットに利用されている SA（ Security Association ）を示すフィールド</td>
+</tr>
+<tr>
+<td>Sequence Number</td>
+<td>各パケットに割り振られるシーケンス番号を示すフィールド。これによりパケットリプレイを防止可。</td>
+</tr>
+<tr>
+<td>Authentication Data</td>
+<td>そのパケットのHMAC値が示されたフィールド。その値は ICV（Integrity Check Value）と呼ばれる。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsec5c.png"></p>
+<table>
+<thead>
+<tr>
+<th>ESPの各フィールド</th>
+<th>各フィールドの説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPI</td>
+<td>そのパケットに利用されている SA（ Security Association ）を示すフィールド</td>
+</tr>
+<tr>
+<td>Sequence Number</td>
+<td>各パケットに割り振られるシーケンス番号を示すフィールド。これによりパケットリプレイを防止可。</td>
+</tr>
+<tr>
+<td>Payload Data</td>
+<td>Next Headerのフィールドで定義されるデータを含む可変長フィールド</td>
+</tr>
+<tr>
+<td>Padding</td>
+<td>ペイロードデータの長さをアルゴリズムが要求するサイズまで調節するための調整用フィールド。</td>
+</tr>
+<tr>
+<td>Pad Length</td>
+<td>Paddingバイトのバイト数を示す。</td>
+</tr>
+<tr>
+<td>Next Header</td>
+<td>ESPの後にくるプロトコルのタイプ(TCP/UDPなど)を示すフィールド。</td>
+</tr>
+<tr>
+<td>Authentication Data</td>
+<td>そのパケットのHMAC値が示されたフィールド。その値はICV（Integrity Check Value）と呼ばれる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipsec_2">IPsecを理解するための全体イメージ</h2>
+<p>先の説明どおり、IPsec自体はセキュリティアーキテクチャなので下図の通り枠組み規定しているだけです。
+従って、IPsec通信の際に実際に使用するプロトコル、暗号化アルゴリズムを選択していく必要があります。
+例えば上記説明したIPsecプロトコルにはAH、ESP、AHとESPの3つの選択肢があるのでそれを選択します。
+その他にも、この後のIPsecの解説を読めば分かると思いますが、暗号化、認証、鍵交換などを選択します。</p>
+<p><img alt="画像" src="../studygif/ipsec5d.png"></p>
+<p>実際にCiscoルータなどでIPsecのための設定を行う際に、上図のキーワードを入力していくことになります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

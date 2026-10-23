@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - Cell | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan-">無線LAN - セルとは</a></li>
+<li><a href="#lan-_1">無線LAN - 伝送速度</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-cell">Wireless LAN - Cell</h1>
+<hr>
+<h2 id="lan-">無線LAN - セルとは</h2>
+<p>無線LANにおいて<strong class="memory-answer">セル</strong>とはアクセスポイントから電波が届く範囲のことです。<strong class="memory-answer">カバレッジ</strong>とも呼ばれます。
+無線LANクライアントがAPとデータを送受信するためには、このセルの範囲内に位置する必要があります。
+なお、電波の信号は距離に応じて弱くなることから、電波の中心から外へ行くほど通信速度が遅くなります。</p>
+<p><img alt="画像" src="../studygif/wireless4a.png"></p>
+<p>例えば、IEEE802.11bで通信速度を11Mbpsで通信したい場合、APの信号強度やAP設置フロアの障害物の
+状況にもよりますが、APを起点として30メートル以内に無線LANクライアントを配置する必要があります。</p>
+<p>IEEE802.11gで通信方式をOFDMで通信する場合、上図のIEEE802.11aと同様のセル範囲と伝送速度の
+考え方となりますが、IEEE802.11b 互換性モードで動作している場合は変調方式が異なるので、上図の
+IEEE802.11b のセル範囲と伝送速度の考え方となります。</p>
+<h2 id="lan-_1">無線LAN - 伝送速度</h2>
+<p>このように無線LANでは、電波信号の強度（セルの範囲）により伝送速度が異なります。そしてこの伝送
+速度は、段階的な定められた速度になります。例えば、IEEE802.11b の場合は11Mbpsのセル範囲よりも
+外に位置する無線LANクライアントの通信速度は少しずつ遅くなるのではなく、規格上の理論上の速度は
+11Mbpsの次はいきなり5.5Mbpsとなります。無線LANクライアントは「<strong class="memory-answer">フォールバック機能</strong>」によって、
+信号強度に応じて伝送速度を自動調整します。以下はIEEE802.11b / a / g の伝送速度の一覧となります。</p>
+<table>
+<thead>
+<tr>
+<th>伝送規格</th>
+<th>伝送速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>802.11b</td>
+<td>11Mbps/ 5.5Mbps/ 2Mbps/ 1Mbps</td>
+</tr>
+<tr>
+<td>802.11a</td>
+<td>54Mbps/ 48Mbps/ 36Mbps/ 24Mbps/ 18Mbps/ 12Mbps/ 9Mbps/ 6Mbps</td>
+</tr>
+<tr>
+<td>802.11g</td>
+<td>54Mbps/ 48Mbps/ 36Mbps/ 24Mbps/ 18Mbps/ 12Mbps/ 11Mbps/ 9Mbps/ 6Mbps/ 5.5Mbps/ 2Mbps/ 1Mbps</td>
+</tr>
+</tbody>
+</table>
+<p>※ IEEE802.1g のセル範囲に対する理論上の伝送速度は、変調方式により上記で記載した以外の伝送速度になる場合もあります。</p>
+<p>伝送速度で注意すべきことがもう1つあります。IEEE802.11b / a / g での理論上の最大伝送速度は
+それぞれ、11b = 11Mbps、11a = 54Mbps、11g = 54Mbpsですが、この値は1台のAP配下にいる
+全ての無線LANクライアントで共有する必要がある速度です。例えば1つのAPの配下に2台の無線LAN
+クライアントがいる場合、11b 規格なら11Mbpsの速度を2台のPCで共有して通信する必要があります。</p>
+<p><img alt="画像" src="../studygif/wireless4b.png"></p>
+<p>有線LANの場合、HUBの1ポートに対して10/100/1000Mbpsといったように占有して使用できましたが、
+無線LANの場合、物理的に分割が不可能な「電波」を共有する必要があるからです。ただし、実際には
+それぞれの無線LANクライアントが送出するトラフィックの量（データの送受信量）は、ばらばらなので
+上図のように無線LANクライアントの台数に応じた均等な伝送速度になりません。</p>
+<p>1つのAPに複数の無線LANクライアントが接続する環境で、無線LANの CSMA/CA がある瞬間において
+アクセスポイントが<strong class="memory-answer">通信する無線LANクライアントは1台</strong>とはいえ、その「ある瞬間に」1台の無線LANの
+クライアントが最大速度 (11b = 11Mbps、11g = 54Mbps、11a = 54Mbps) を使用できる訳ではない。</p>
+<p>複数台の無線LANクライアントがいる以上、CSMA/CA方式により交互に通信を行うことから待ち時間が
+発生することで1秒間に転送できるビット数（= <strong class="memory-answer">bps</strong>）は遅くなります。WLAN端末一台にどのくらいの
+通信速度が必要なのか通信要件を確認してAP数やAPに対するWLAN端末の接続制限数を検討しましょう。</p>
+<hr>
+<p>← <a href="wireless3.html">無線LAN - チャネルとは</a>　<a href="wireless5.html">無線LAN - BSSID と ESSID</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SMTP Submission Port | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#smtp-">SMTPプロトコル - 認証する場合の問題点</a></li>
+<li><a href="#smtp-_1">SMTPプロトコル - 認証しない場合の問題点</a></li>
+<li><a href="#op25b-outbound-port-25-blocking">OP25B ( Outbound Port 25 Blocking )</a></li>
+<li><a href="#_1">サブミッションポート</a></li>
+<li><a href="#_2">サブミッションポートの設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="smtp-submission-port">SMTP Submission Port</h1>
+<hr>
+<h2 id="smtp-">SMTPプロトコル - 認証する場合の問題点</h2>
+<p>前回に解説した<a href="tcpip17.html">SMTPとPOP3の仕組み</a>の通り、POP3の場合はメール受信の際にメールサーバにユーザ名と
+パスワードの情報を送信して認証が行われますが、SMTPの場合は認証が行われていません。SMTPが使用
+されるのがメーラからメールサーバに送信するためだけなら、SMTPでも認証必須で良いかもしれませんが
+メールサーバ間のメール転送にもSMTPが使用されるため、SMTPがPOP3と同様に認証を必須とした場合、
+任意のドメインのメールサーバからメールを転送できなくなるのでSMTPは認証を必須としていないのです。</p>
+<p><img alt="画像" src="../studygif/tcpip18a.png"></p>
+<h2 id="smtp-_1">SMTPプロトコル - 認証しない場合の問題点</h2>
+<p>SMTPが認証しないプロトコルということは、例えばNTTぷららと契約していてもぷららのメールサーバを
+利用せずに、インターネット上に存在するセキュリティ設定の甘いメールサーバを利用して送信することが
+可能であることを意味します。<strong class="memory-answer">スパマー</strong>（不特定多数の人に一方的な広告メールを送信する人）は、自身の
+身元が特定されないように、このような手法を利用し（その他の手法もあわせて）スパム行為をしています。</p>
+<p><img alt="画像" src="../studygif/tcpip18b.png"></p>
+<h2 id="op25b-outbound-port-25-blocking">OP25B ( Outbound Port 25 Blocking )</h2>
+<p>OP25Bとは、自身が契約しているISPのメールサーバにメールを送信するのではなく、他のメールサーバに
+出て行こうとするメールを遮断するものです。スパムメールの多くは、自身の契約したISPのメールサーバ
+を介さずに、インターネット上のセキュリティの甘いメールサーバ（あるいは悪意のあるメールサーバ）に
+直接送信されていたことから、ISP各社がOP25Bを採用することで、近年スパムメールは減ってきています。</p>
+<p><img alt="画像" src="../studygif/tcpip18c.png"></p>
+<h2 id="_1">サブミッションポート</h2>
+<p>OP25Bはスパムメール対策として、かなり効果のある対策であったのですが、正しく利用しているユーザに
+弊害のある対策でもありました。例えば、ホテルなどの外出先でインターネット接続する場合、ホテルが契約
+しているISPのメールサーバを利用できる訳ではないですし、また自身が契約しているISPのメールサーバに
+アクセスしようとしても、ホテルが契約しているISP側でOP25Bが実施されているのでメールが届きません。</p>
+<p><img alt="画像" src="../studygif/tcpip18d.png"></p>
+<p>この弊害を解決するためにサブミッションポートが利用されるようになりました。サブミッションポートは
+クライアントPCの「メーラからメールサーバにメールを送信する際に使用する宛先ポート（587）」です。
+今までと同様にプロトコルにはSMTPを使用しますが、宛先ポートが「25」ではなく「<strong class="memory-answer">587</strong>」を使用します。</p>
+<p><img alt="画像" src="../studygif/tcpip18e.png"></p>
+<p>これにより、宛先ポート「587」のSMTPパケットは遮断されている訳ではないので、外出先から自身が契約
+しているISPのメールサーバにメールを送信できます。ただしこのサブミッションポートでも認証がない場合
+結局は、スパマーも宛先ポートを「587」に変更してメールを送信すればいいだけとなってしまうので、この
+サブミッションポート宛てにアクセスしてきた通信には<strong class="memory-answer">SMTP認証</strong>が行われます。SMTP認証はメールを送信
+する際にユーザ認証を行い、認証された場合にメールを送信する技術です。サブミッションポートはあくまで
+<strong class="memory-answer">メーラーからメールサーバに</strong>メールを送る際に使用するポートなので、<strong class="memory-answer">メールサーバからメールサーバへ</strong>の
+メールの送信は引き続き、認証を行わない宛先ポート番号25のSMTPを使用するので全て丸くおさまります。</p>
+<p><img alt="画像" src="../studygif/tcpip18f.png"></p>
+<p>自宅にいる時はSMTPの宛先ポートを25、外出している時にはSMTPの宛先ポートを587にその都度変更
+するのは手間なので、あらかじめ宛先ポート587に設定しておくのが一般的です。自宅でもサブミッション
+ポートでもアクセスできるので「25・587」のどちらを指定しても問題ありません。プロバイダにもよる。</p>
+<h2 id="_2">サブミッションポートの設定</h2>
+<p>メーラでサブミッションポートを設定するために、SMTPのポート番号を「25」から「587」へ変更します。</p>
+<p><img alt="画像" src="../studygif/tcpip18g.png"></p>
+<p>次に、送信メールサーバ（SMTPサーバ）においてSMTP認証を行うために、「このサーバは認証が必要」
+というチェックボックスにチェックをいれます。続いて右側にある「設定（E)」というボタンをクリック。</p>
+<p><img alt="画像" src="../studygif/tcpip18h.png"></p>
+<p>SMTP認証に使用するユーザ名とパスワードは、POP3で使用するものと同じにするプロバイダが多いです。
+その場合、「受信メールサーバと同じ設定を使用する」を選択して「ＯＫ」。別途、SMTP認証のための
+パスワードが付与されている場合「次のユーザ名とパスワードでログオンする」を選択し情報を入力します。</p>
+<p><img alt="画像" src="../studygif/tcpip18i.png"></p>
+<hr>
+<p>← <a href="tcpip17.html">POP3/SMTPとは</a>　<a href="tcpip19.html">telnet/SSHとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

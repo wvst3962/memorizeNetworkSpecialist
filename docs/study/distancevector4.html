@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Distance Vector Routing - Part 4 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ホールドダウンタイマー</a></li>
+<li><a href="#_2">トリガードアップデート</a></li>
+<li><a href="#rip5">今まで紹介したRIPの5つの機能のおさらい ( 総集編 )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="distance-vector-routing-part-4">Distance Vector Routing - Part 4</h1>
+<hr>
+<h2 id="_1">ホールドダウンタイマー</h2>
+<p>ホールドダウンタイマーとは、ある経路情報がダウンした事を示すアップデートを受信した時、その経路情報
+を誤って再登録しないように、その経路情報がダウンしたことを全てのルータが認識できるようにするための
+待ち時間のことです。ホールドタイマーは、ルートポイズニングによる到達不能な経路情報（メトリック 16）
+を受信した時、または一定時間（180秒）を過ぎても隣接ルータから経路が通知されない時に作動し始めます。
+※ 一定時間を過ぎても隣接ルータから経路情報が通知されない時とは、無効タイマー（<strong class="memory-answer">Invalid Timer</strong>）が180秒を経過した時のこと。</p>
+<p>下図では?@のルートポイズニングを受信したR2は [ 192.168.0.0/24] の経路を [ possibly down ] としますが
+このpossibly downがホールドダウンタイマーの作動を意味します。180秒はpossibly downとして保持します。</p>
+<p><img alt="画像" src="../studygif/distancevector4a.png"></p>
+<p>経路情報が [ possibly down ] となっている時の動作は3点理解しましょう。１点目は、possibly down でも
+[ 192.168.0.0/24 ] 宛てのパケットは通常通りルーティングされるという事です。2点目は possibly down の
+状態では隣接ルータから [ 192.168.0.0/24 ] の経路情報を受信しても、以前と同じメトリック値の経路情報か
+以前よりも大きなメトリック値の経路情報は破棄します。3点目は以前よりも小さいメトリック値の経路情報を
+受信すれば最適なルートと判断し、ホールドダウンタイマーを停止してルーティングテーブルに登録します。</p>
+<p><img alt="画像" src="../studygif/distancevector4b.png"></p>
+<p>このホールドダウンタイマーは以前よりもメトリック値の低い経路情報として受信した場合に停止されるか、
+タイマー作動時間である180秒後にも停止します。あるいはフラッシュタイマーが停止した時にも停止します。</p>
+<h2 id="_2">トリガードアップデート</h2>
+<p>トリガードアップデートは、定期的なアップデートとは別にネットワーク状態(メトリック値)に変化があると
+すぐに送信されるアップデート。このトリガードアップデートではルーティングテーブル全体ではなく変更の
+あった経路だけをアップデートします。下図では[ 192.168.0.0/24 ] のリンクダウンが発生したことからルート
+ポイズニングを直ちにトリガードアップデートとして送信します。トリガードアップデートで送られる場合は
+状態変化のあった [ 192.168.0.0/24 ] だけが即座にアップデートされます。そして、その経路情報を受信した
+R2では、状態変化のあった [ 192.168.0.0/24 ] だけをトリガードアップデートとして直ちにR3に送信します。</p>
+<p><img alt="画像" src="../studygif/distancevector4c.png"></p>
+<p>上図では、ルートポイズニングを受信した後に返送されるポイズンリバース動作やホールドダウンタイマー動作の説明を省略します。</p>
+<h2 id="rip5">今まで紹介したRIPの5つの機能のおさらい ( 総集編 )</h2>
+<p>正常な状態では、30秒ごとの定期的なルーティングアップデートで以下の内容のアップデートが行われます。
+ここではR2のアップデート内容だけに着目してみます。R2ではスプリットホライズンが有効なので、R1から
+受け取った経路情報をR1に送り返したり、R3から受け取った経路情報をR3に送り返す無駄なことはしません。</p>
+<p><img alt="画像" src="../studygif/distancevector4d.png"></p>
+<p>次に障害発生時のトラフィックフローを見てみましょう。下図の?@から?Eの障害内容を説明していきます。</p>
+<p><img alt="画像" src="../studygif/distancevector4e.png"></p>
+<p>?@　「192.168.0.0/24」のインターフェースでリンクダウンが発生します。</p>
+<p>?A　R1は即座にルーティングテーブルから「192.168.0.0/24」の経路情報を削除します。</p>
+<p>?B　R1は [ 192.168.0.0/24 ] がダウンした事を通知するためにメトリック値を最大16にして経路を通知します。
+（<strong class="memory-answer">ルートポイズニング</strong>）。また、R1はネットワーク状態(メトリック値の状態)に変化があったことから、R1は
+状態変化のあった[ 192.168.0.0/24 ]の経路だけ即座に隣接ルータに通知します（<strong class="memory-answer">トリガードアップデート</strong>）。</p>
+<p>?C　R2は[ 192.168.0.0/24 16hop ]という経路情報がダウンしたことを示すアップデートを受信したので、R2
+のルーティングテーブルで 192.168.0.0/24 の経路をpossibly downとしてホールダウンタイマーを作動します。</p>
+<p>?D　R2は[ 192.168.0.0/24 16hop] の到達不能な経路情報を受信したので、受信した経路情報のメトリック値
+を最大値 <strong class="memory-answer">16</strong> にして、その経路を同じインターフェースから隣接ルータに送り返します（<strong class="memory-answer">ポイズンリバース</strong>）。</p>
+<p>?E　R2は [ 192.168.0.0/24 16hop ] の到達不能な経路情報を受信したので、ネットワーク状態（メトリック
+値の状態）に変化があったことから、R1は状態変化のあった [ 192.168.0.0/24 ] の経路だけ即座に通知します。
+(<strong class="memory-answer">トリガードアップデート</strong>)。なお、?Fから?Hの流れは、?Cから?Eの流れと全く同じ考え方で動作します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study21.html">ディスタンスベクタ型ルーティング - RIP</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

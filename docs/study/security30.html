@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Mail Security | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">なりすましメール対策</a></li>
+<li><a href="#_2">なりすましメール対策：メールの暗号化・デジタル署名</a></li>
+<li><a href="#_3">なりすましメール対策：通信の暗号化</a></li>
+<li><a href="#_4">なりすましメール対策：送信ドメイン認証</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="mail-security">Mail Security</h1>
+<hr>
+<h2 id="_1">なりすましメール対策</h2>
+<p>なりすましメール対策としては、メールセキュリティの観点から、大きく３種類の対策方法があります。
+直接的で最も効果のあるなりすましメール対策は「SPF、DKIM、DMARC」の<strong class="memory-answer">送信ドメイン認証</strong>ですが、
+メールを「S/MIME、PGP」で暗号化・デジタル署名したり、通信を暗号化してくれるTLSを利用した
+送受信プロトコルの「SMTPS、IMAPS、POPS」を使用することも、なりすましメール対策になります。</p>
+<p><img alt="画像" src="../studygif/security30a.png"></p>
+<h2 id="_2">なりすましメール対策：メールの暗号化・デジタル署名</h2>
+<p>電子メールのセキュリティを向上させる暗号化方式には<strong class="memory-answer">S/MIME</strong>と<strong class="memory-answer">PGP</strong>などがあります。S/MIMEとPGPの
+主な違いはメールの暗号化と復号の際に使用される公開鍵の扱いです。信頼できる第三者認証局が保証する
+S/MIMEの方が信頼性が高いと言えます。ただし、S/MIMEもPGPもあまり普及していません。</p>
+<p>S/MIMEはメールの送信者と受信者の間で公開鍵基盤（PKI）を利用し、送信者が付与した<strong class="memory-answer">デジタル署名</strong>を
+受信者が検証することにより、メールとして転送されるデータの安全性の確保と<strong class="memory-answer">送信者の確認</strong>ができます。</p>
+<table>
+<thead>
+<tr>
+<th>メールの暗号化/電子署名</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S/MIME</td>
+<td>S/MIMEは、<strong class="memory-answer">メールの暗号化</strong>で盗聴防止し、<strong class="memory-answer">メールへのデジタル署名</strong>で改ざんを検知できる。<br>公開鍵の正当性は CA（認証局）が署名することで保証される。</td>
+</tr>
+<tr>
+<td>PGP</td>
+<td>PGPは、<strong class="memory-answer">メールの暗号化</strong>で盗聴防止し、<strong class="memory-answer">メールへのデジタル署名</strong>で改ざんを検知できる。<br>公開鍵の正当性はWeb of turst（信用の輪）の考えに基づき信頼できる相手と互いに署名しあう。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/security30b.png"></p>
+<h2 id="_3">なりすましメール対策：通信の暗号化</h2>
+<p>電子メールの送受信プロトコルであるSMTP、IMAP、POPにデータ通信を暗号化するプロトコルのTLSを
+組み合わせたプロトコル（<strong class="memory-answer">SMTPS</strong>、<strong class="memory-answer">IMAPS</strong>、<strong class="memory-answer">POPS</strong>）を使用することで、メールメッセージや認証情報を
+暗号により保護して安全に送受信できるようになります。ただし、クライアントPC ⇔ メールサーバ間や
+メールサーバ⇔メールサーバ間では暗号化されますが、<strong class="memory-answer">メールサーバ上ではメールは暗号化されない</strong>ので
+完全にエンドツーエンドで暗号化したい場合、S/MIMEやPGPを使用する必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>通信データの暗号化</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMTPS<br>（STMP over SSL/TLS）</td>
+<td>SMTPSは通信を暗号化して送信するプロトコルのTLSを使用し、SMTPをセキュアにするプロトコル。<br>SMTPSにより送信するメールメッセージ、添付ファイルを暗号化する。</td>
+</tr>
+<tr>
+<td>IMAPS<br>(IMAP over SSL/TLS）</td>
+<td>IMAPSは通信を暗号化して受信するプロトコルのTLSを使用し、IMAPをセキュアにするプロトコル。<br>IMAPSによりメールメッセージ、添付ファイル、認証情報を暗号化。TCPポート番号993を使用する。</td>
+</tr>
+<tr>
+<td>POPS<br>(POP over SSL/TLS）</td>
+<td>POPSは通信を暗号化して受信するプロトコルのTLSを使用し、POPをセキュアにするプロトコル。<br>POPSによりメールメッセージ、添付ファイル、認証情報を暗号化。TCPポート番号995を使用する。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">なりすましメール対策：送信ドメイン認証</h2>
+<p>なりすましメール対策で最も効果的な方法は<strong class="memory-answer">送信ドメイン認証</strong>です。送信ドメイン認証とは、送信元の
+メールサーバのIPアドレスで判別したり、デジタル署名により送信元を認証したりする仕組みのことです。
+送信ドメイン認証には <strong class="memory-answer">SPF</strong>、<strong class="memory-answer">DKIM</strong>、<strong class="memory-answer">DMRAC</strong> の大きく3つの方法があります。</p>
+<table>
+<thead>
+<tr>
+<th>送信ドメイン認証</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPF</td>
+<td>SPF（Sender Policy Framework）では、メール送信時に使用する<strong class="memory-answer">メールサーバのIPアドレス</strong>を<br>送信側のDNSサーバにSPFレコードとして登録しておき、メール受信時に受信側のメールサーバは<br>送信側のDNSサーバのSPFレコードと照合して、送信者がなりすましであるかどうかを判断する。</td>
+</tr>
+<tr>
+<td>DKIM</td>
+<td>DKIM（DomainKeys Identified Mail）では、メール送信時に<strong class="memory-answer">デジタル署名</strong>し、受信側はメールの<br>受信時にそれを検証することで、送信者のなりすましや、メール改ざんを検知できるようにする。<br>受信側が確認するデジタル署名の検証に必要な<strong class="memory-answer">公開鍵は送信元ドメインのDNSサーバで公開</strong>される。<br>なお、DKIMでは暗号化方式のアルゴリズムに<strong class="memory-answer">RSA</strong>形式のみをサポートしている<br>DKIMでは、送信者のドメインのゾーン情報を管理する権威DNSサーバを利用して、デジタル署名の<br>真正性の検証に使用する鍵を公開する。DNSをUDP上で動作させる場合、DNSメッセージの最大長が<br>512バイトという制限があるので<strong class="memory-answer">512バイトに収まる鍵長として一般に2048ビットの鍵が利用される</strong>。</td>
+</tr>
+<tr>
+<td>DMARC</td>
+<td>DMARC（Domain-based Message Authentication Reporting and Conformance）は、上述の<br>SPFとDKIMを利用したメールの送信ドメイン認証を補強する技術である。SPFやDKIMを使用して、<br>送信元ドメインを認証する際、認証失敗時にメールをどのように処理するかは受信者の判断となる。<br>DMARCでは、<strong class="memory-answer">認証失敗時にどのようにメールを処理するかを、DMARCポリシーで定めている</strong>。<br>送信者が受信者に対してDMARCポリシーのレコードを、送信側のDNSサーバ上で公開しておいて<br>認証失敗時、受信側はそのDMARCポリシーに基づいたアクション（受信、隔離、拒否）を実施する。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

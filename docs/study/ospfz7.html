@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OSPF - DR / BDR / 2way | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ospf-drbdr">OSPF - DRとBDR</a></li>
+<li><a href="#ospf-drbdr_1">OSPF - DRとBDRの選出</a></li>
+<li><a href="#ospf-drbdr_2">OSPF - DRとBDRの動作</a></li>
+<li><a href="#ospf-">OSPF - ネイバー関係、アジャセンシ―関係（ 用語のまとめ ）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ospf-dr-bdr-2way">OSPF - DR / BDR / 2way</h1>
+<hr>
+<h2 id="ospf-drbdr">OSPF - DRとBDR</h2>
+<p>OSPFでは、イーサネットのようなマルチアクセスネットワークで<strong class="memory-answer">DR</strong> (Designated Router) と呼ばれる
+代表ルータと、<strong class="memory-answer">BDR</strong> (Backup Designated Router) と呼ばれるバックアップ代表ルータが選出されます。
+DR、BDRに選出されなかったOSPFルータは<strong class="memory-answer">DROTHER</strong>と呼ばれます。LANごとにDRとBDRを選出して、
+DR、BDRとだけの間でLSAを交換するようになることから <strong class="memory-answer">LSA を交換するネイバールータを減らせます。</strong></p>
+<p><img alt="画像" src="../studygif/ospfz7a.png"></p>
+<p>※　どのOSPFルータもネイバー関係は確立されますが、上図の通り、<strong class="memory-answer">LSAを交換するネイバーはDRとBDR</strong>だけになります。</p>
+<h2 id="ospf-drbdr_1">OSPF - DRとBDRの選出</h2>
+<p>DRとBDRの選出には<strong class="memory-answer">OSPFプライオリティ値</strong>が使用されます。OSPFプライオリティ値はHelloパケットに
+含まれており、OSPFルータがHelloパケットを交換して2Way Stateになった後にDR/BDRが選出されます。
+DRとBDRの選出は<strong class="memory-answer">OSPFプライオリティ値</strong>が使用されます、その値が同じ場合には<strong class="memory-answer">ルータID</strong>を使用します。</p>
+<p>?@　OSPFプライオリティ値が最も大きいルータがDRになる。
+?A　OSPFプライオリティ値が2番目に大きいルータがBDRになる。
+?B　OSPFプライオリティ値が同じ場合、ルータIDが最も大きいルータがDR、２番目に大きいルータがBDR。</p>
+<p>※ OSPFプライオリティ値はデフォルトで <strong class="memory-answer">1</strong> です。なお、OSPFプライオリティ値が <strong class="memory-answer">0</strong> のOSPFルータは必ずDROTHERになります。</p>
+<p>下図の場合、R1とR2が最もプライオリティ値が高く同じ値ですが、R1とR2ではルータIDがR2の方が大きい
+のでR2がDRとなってR1がBDRとなります。DR/BDR選出後は、全てのOSPFルータはDROTHERとなります。</p>
+<p><img alt="画像" src="../studygif/ospfz7b.png"></p>
+<p>DRとBDRは<strong class="memory-answer">セグメントごとに選出</strong>されます。OSPFプライオリティ値はインターフェースごとに設定するので
+あるOSPFルータはセグメント1ではDRとなっても、セグメント2ではDROTHERになっている場合もあります。</p>
+<p><img alt="画像" src="../studygif/ospfz7c.png"></p>
+<h2 id="ospf-drbdr_2">OSPF - DRとBDRの動作</h2>
+<p><img alt="画像" src="../studygif/ospfz7d.png"></p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>R1 のインターフェースでネットワーク（192.168.1.0/24）にダウンが発生したことを検知。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>R1 は、192.168.1.0/24 のLSAを更新したLSUを、セグメント1 のDR/BDRへマルチキャスト（<strong class="memory-answer">224.0.0.6</strong>）で送信。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>LSUを受信したDR（R3）は、セグメント1 の全OSPFルータへマルチキャスト（<strong class="memory-answer">224.0.0.5</strong>）で送信。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>このフラッディングされたLSAをエリア内に伝搬するために、R3 はセグメント2のDR/BDRへ（<strong class="memory-answer">224.0.0.6</strong>）で送信。</td>
+</tr>
+</tbody>
+</table>
+<p>?C以降は同一エリアの範囲内で?A～?Cの流れが繰り返されます。なお、?AのLSUをセグメント１のBDRである
+R4が受信した後、Waitタイマーをセットした上で、DR（R3）からも同じLSUが送信されてくるのを待ちます。
+このWaitタイマーが切れるまでにLSUを受信できない場合、DRがダウンしたと判断しBDRがDRへ昇格します。</p>
+<h2 id="ospf-">OSPF - ネイバー関係、アジャセンシ―関係（ 用語のまとめ ）</h2>
+<p>OSPFの使用用語において、隣り合い接続するルータの関係のことを、近接接続、隣接接続、ネイバー接続、
+アジャセンシと色々な呼び方をしたり、Full State、2Wayなどがありますが実際には<strong class="memory-answer">2種類の概念だけ</strong>です。
+マルチアクセスネットワークでDR/BDR間とは<strong class="memory-answer">アジャセンシー</strong>を確立し、DROTHER間では<strong class="memory-answer">ネイバー</strong>を確立。</p>
+<p><img alt="画像" src="../studygif/ospfz7e.png"></p>
+<table>
+<thead>
+<tr>
+<th>OSPFルータ間の関係</th>
+<th>ステータス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neighbor（ネイバー）</td>
+<td>2Way</td>
+<td>ただネイバー接続しているOSPFルータ同士の関係</td>
+</tr>
+<tr>
+<td>Adjacency（アジャセンシ―）</td>
+<td>Full</td>
+<td>LSAを交換し合うOSPFルータ同士の関係</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study30.html">OSPF 設定</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

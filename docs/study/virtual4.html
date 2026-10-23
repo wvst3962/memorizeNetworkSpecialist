@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Cloud computing | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">クラウドコンピューティングとは</a></li>
+<li><a href="#_2">クラウドコンピューティングの技術による分類</a></li>
+<li><a href="#saassoftware-as-a-service">SaaS（Software as a Service）： サース</a></li>
+<li><a href="#paasplatform-as-a-service">PaaS（Platform as a Service）： パース</a></li>
+<li><a href="#iaasinfrastructure-as-a-service">IaaS（Infrastructure as a Service）： アイアース</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="cloud-computing">Cloud computing</h1>
+<hr>
+<h2 id="_1">クラウドコンピューティングとは</h2>
+<p>クラウドコンピューティングとは、コンピュータネットワークをベースとしたコンピュータ資源の利用形態
+の1つであり、<strong class="memory-answer">クラウド</strong>と呼ばれています。クラウドは、自身のPCで管理して利用していたソフトウェアや
+データなどを、<strong class="memory-answer">インターネットなどを介してサービスの形で必要に応じて利用</strong>する方式です。</p>
+<p>例えば、iPhoneを利用している方は「iCloud」を利用しているかと思いますが、これはApple社が提供する
+クラウドコンピューティングを利用していることになります。クラウドの技術はそれだけ身近なものです。
+なお、クラウドコンピューティングにより提供されるサービスのことを「 <strong class="memory-answer">クラウドサービス</strong> 」と言います。</p>
+<p><img alt="画像" src="../studygif/virtual4a.png"></p>
+<p>クラウドのサービスの「事業者」は大規模DCに多数のサーバを導入して、「利用者」がインターネットを
+介してソフトウェアやデータを利用できる保管領域を確保するための大規模なシステムを構築しています。
+利用者ごとに一意のサーバを提供する必要があるサービスでは、事業者はクラウドコンピューティングで
+導入するサーバに対して、一般的に<a href="virtual.html">サーバ仮想化</a>技術を実装して、そのサービスの要求を実現しています。</p>
+<p>利用者は、利用料金を支払うことで、ソフトウェア購入、インストール、更新作業、作成したファイルの
+バックアップ作業などが不要となり、必要な時に必要なソフトウェアを利用できます。クラウドにより提供
+されるサービスには<strong class="memory-answer">オフィスソフト</strong>、<strong class="memory-answer">メールソフト</strong>、<strong class="memory-answer">オンラインストレージ</strong>、<strong class="memory-answer">データベース</strong>等があります。</p>
+<p>例えば<strong class="memory-answer">クラウドベースのDNSサービス</strong>（例 Google Cloud DNS）では、DNSにおける<a href="tcpip15.html">ゾーン</a>を作成すれば
+自動的にSOAレコードとNSレコードが生成されます。そして、提供される複数のDNSサーバ間で自動的に
+ゾーン情報が同期されます。また、対障害性の面でも可用性に優れたプラットフォーム上にDNSサービスが
+構築されることから問題はありません。設定もWebベースのGUIであり非常に分かりやすい。このように、
+DNSサーバの運用を<strong class="memory-answer">自社管理からクラウドベースに移行することによって</strong><strong class="memory-answer">運用管理の手間を抑えられます。</strong></p>
+<h2 id="_2">クラウドコンピューティングの技術による分類</h2>
+<p>クラウドコンピューティングにより提供するサービスは、その利用形態により以下の3種類に分類できます。
+<strong class="memory-answer">SaaS</strong>、<strong class="memory-answer">PaaS</strong>、<strong class="memory-answer">IaaS</strong>は総称して「 <strong class="memory-answer">XaaS</strong> 」と呼ぶ場合があります。</p>
+<h2 id="saassoftware-as-a-service">SaaS（Software as a Service）： サース</h2>
+<p>インターネット経由でソフトウェアパッケージを提供する利用形態。利用者はソフトウェアを購入する必要が
+なく利用期間や利用人数に応じて、クラウドサービスを提供する事業者に料金を支払います。SaaSで提供する
+サービスには、Google社の<strong class="memory-answer">Google Apps</strong>、Microsoft社の<strong class="memory-answer">Microsoft Online Services</strong>、Salesforce.com社の
+<strong class="memory-answer">Salesforce</strong>などがあります。</p>
+<h2 id="paasplatform-as-a-service">PaaS（Platform as a Service）： パース</h2>
+<p>インターネット経由でアプリケーション実行用のプラットフォームを提供する利用形態。利用者がアプリを
+開発して稼働させるために必要な開発環境となるプラットフォームを事業者は提供します。PaaSで提供する
+サービスには、アマゾン社の<strong class="memory-answer">AWS（Amazon Web Services）</strong>の<strong class="memory-answer">Amazon S3</strong>や<strong class="memory-answer">Amazon DynamoDB</strong>、
+Salesforce.com社の<strong class="memory-answer">Force.comプラットフォーム</strong>、Google社の<strong class="memory-answer">Google App Engine</strong>、<strong class="memory-answer">AppScale</strong>、MS社の
+<strong class="memory-answer">Windows Azure</strong>などがあります。</p>
+<h2 id="iaasinfrastructure-as-a-service">IaaS（Infrastructure as a Service）： アイアース</h2>
+<p>インターネット経由でハードウェアリソース（CPU/メモリ/ストレージ）のITインフラを提供する利用形態。
+より正確に説明すると、<strong class="memory-answer">サーバ仮想化技術</strong>を利用してハードウェアリソース（CPU/メモリ/ストレージ）の
+ITインフラを提供します。IaaSを提供するサービスにはAmazon Web Servicesの<strong class="memory-answer">Amazon EC2</strong>があります。</p>
+<p><img alt="画像" src="../studygif/virtual4b.png"></p>
+<p>※　Runtime：プログラムの実行時に必要となるライブラリなどのソフトウェアの部品のこと。
+※　Middleware：OSとアプリケーションソフトの中間に位置し、様々なソフトウェアから共通して利用される機能を提供するもの。</p>
+<p>なお、クラウドサービスを利用せず情報システム企業が「自社で保有して、自社の設備で運用」することを
+<strong class="memory-answer">オンプレミス</strong>と言います。オンプレミスでは、<strong class="memory-answer">自前で構築するため要望に合わせて柔軟にカスタマイズ可能</strong>
+であり、<strong class="memory-answer">社内システムとの連携や統合などの自由度が高いメリット</strong>がありますが、ネットワーク機器の導入、
+サーバ機器の導入、ソフトウェアライセンスの購入が必要であり、<strong class="memory-answer">初期費用が高額であることがデメリット</strong>。</p>
+<p><img alt="画像" src="../studygif/virtual4c.png"></p>
+<p>クラウドコンピューティングのメリットは以下の通りです。※　クラウドサービスにSaaS、PaaS、IaaSの
+どのサービスを選択するかによって、以下の内容はメリットにならない場合もあります。</p>
+<p>・　<strong class="memory-answer">コスト削減</strong>
+⇒　クラウドの場合は初期費用が無料であることが多く、低コストで利用開始することができます。また、
+ネットワーク機器、サーバ機器、ソフトウェアライセンスなどの購入費用がかかりません。</p>
+<p>・　<strong class="memory-answer">インフラの調達期間が短納期</strong>
+⇒　利用登録が完了すれば利用できます。サーバ台数の増減やスペック変更などがWeb上などから行えます。</p>
+<p>・　<strong class="memory-answer">システムの柔軟性</strong>
+⇒　必要なサービスを必要な時に選択・利用できる形態であり、システムの柔軟性が高くなります。</p>
+<p>・　<strong class="memory-answer">運用管理の負担の軽減</strong>
+⇒　利用者はソフトウェアのインストール、アプリのアップデート作業が必要なくなるだけではなくて、
+データ管理やバックアップ作業も不要となり、利用者の運用管理の負担を軽減します。</p>
+<p>・　<strong class="memory-answer">BCP（事業継続計画）対策</strong>
+⇒　データセンター利用による対災害性、高セキュリティを実現するだけでなく、アウトソーシングにより
+システム保守の品質が向上します。また、仮想化による冗長化機能によって、ビジネス継続性が向上します。</p>
+<hr>
+<p><a href="virtual.html">サーバ仮想化</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

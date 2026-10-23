@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SNMP - community / version | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#snmp">SNMPコミュニティとは</a></li>
+<li><a href="#snmp_1">SNMPのバージョン</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="snmp-community-version">SNMP - community / version</h1>
+<hr>
+<h2 id="snmp">SNMPコミュニティとは</h2>
+<p>SNMPコミュニティとは、SNMPで<strong class="memory-answer">管理するネットワークシステムの範囲</strong>のことです。SNMPマネージャと
+SNMPエージェントとの間で、同じコミュニティ名にすることで情報を共有することができます。監視対象
+ごとに異なるコミュニティ名を設定することにより、効率的な管理とアクセス権限の分離を実現できます。</p>
+<p><img alt="画像" src="../studygif/tcpip21.5a.png"></p>
+<p>上図の通り、コミュニティごとにMIBへのアクセス権限を分けることができます。MIBへのアクセス権限は
+<strong class="memory-answer">RO</strong>、<strong class="memory-answer">RW</strong>、<strong class="memory-answer">Read-write-all</strong> の3種類があります。MIBへの書き込み（RW）できるということは、たとえば
+SNMPマネージャがSNMPエージェントであるルータを強制的に再起動（MIBへ書込）できるようになります。</p>
+<table>
+<thead>
+<tr>
+<th>MIBへのアクセス権限</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RO</td>
+<td>Read-only。MIB情報の読み取りが可能</td>
+</tr>
+<tr>
+<td>RW</td>
+<td>Read-write。MIB情報の読み書きが可能</td>
+</tr>
+<tr>
+<td>Read-write-all</td>
+<td>コミュニティを含めてMIB情報の読み書きが可能</td>
+</tr>
+</tbody>
+</table>
+<h2 id="snmp_1">SNMPのバージョン</h2>
+<p>SNMPのバージョンには、正確には「SNMPv1、SNMPv2、SNMPv2c、SNMPv3」の4つのバージョンが
+あります。しかし「SNMPv2」は、ほぼ使用されることなく「SNMPv2c」へ移行したことから、多くの
+ネットワーク製品でサポートしているSNMPバージョンは「SNMPv1、SNMPv2c、SNMPv3」の3つです。
+その他のメーカーと同様、シスコ機器も「<strong class="memory-answer">SNMPv1</strong>、<strong class="memory-answer">SNMPv2c</strong>、<strong class="memory-answer">SNMPv3</strong>」の3つをサポートしています。</p>
+<table>
+<thead>
+<tr>
+<th>SNMPバージョン</th>
+<th>RFC</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SNMPv1</td>
+<td>RFC 1157</td>
+<td>SNMPコミュニティによる平文認証。SNMPトラップにおける再送確認なし。</td>
+</tr>
+<tr>
+<td>SNMPv2c</td>
+<td>RFC 1901</td>
+<td>SNMPコミュニティによる平文認証。SNMPトラップにおける再送確認あり。</td>
+</tr>
+<tr>
+<td>SNMPv3</td>
+<td>RFC 2273～5</td>
+<td>ユーザ単位の暗号化されたパスワード認証。SNMPトラップにおける再送確認あり。</td>
+</tr>
+</tbody>
+</table>
+<p>SNMPv1、SNMPv2c、SNMPv3の違いは上記の通りです。推奨はv3ですが、v2cが広く使用されています。
+SNMPv1とSNMPv2cに互換性があることもあり、現在でもSNMPv1が使用されている環境も多くあります。
+SNMPv1で使用されるSNMPメッセージには以下の5つがあります。</p>
+<table>
+<thead>
+<tr>
+<th>SNMPメッセージ</th>
+<th>送信側</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get Request</td>
+<td>SNMPマネージャ</td>
+<td>SNMPエージェントから得たい情報を、OIDを指定して要求</td>
+</tr>
+<tr>
+<td>GetNext Request</td>
+<td>SNMPマネージャ</td>
+<td>直前に指定したOIDの次のOIDを指定して要求。</td>
+</tr>
+<tr>
+<td>Set Request</td>
+<td>SNMPマネージャ</td>
+<td>SNMPエージェントの設定変更を行いたい場合、OIDを指定して要求</td>
+</tr>
+<tr>
+<td>Get Response</td>
+<td>SNMPエージェント</td>
+<td>SNMPマネージャから要求されたOIDに対して、値を挿入して返信</td>
+</tr>
+<tr>
+<td>TRAP</td>
+<td>SNMPエージェント</td>
+<td>SNMPエージェントが機器の状態に変化があった場合、自発的に送信</td>
+</tr>
+</tbody>
+</table>
+<p>SNMPv2で使用されるSNMPメッセージは、上記の5つだけでなく、以下の2つも追加されています。</p>
+<table>
+<thead>
+<tr>
+<th>SNMPメッセージ</th>
+<th>送信側</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GetBulk Request</td>
+<td>SNMPマネージャ</td>
+<td>一括参照要求と言われるように、高速に複数の管理情報を取得。</td>
+</tr>
+<tr>
+<td>Inform Request</td>
+<td>SNMPエージェント</td>
+<td>SNMPエージェントからマネージャへ通知する時に確認応答も要求。</td>
+</tr>
+</tbody>
+</table>
+<p>SNMPv3では、SNMPv2と同じように上記の 7 つのSNMPメッセージを使用することができます。そして、
+SNMPv3では、コミュニティ名ではなく<strong class="memory-answer">USM</strong>（User-based Security-Model）と呼ばれる、ユーザごとの
+パスワード認証機能と、<strong class="memory-answer">VACM</strong>（View-based Access Control Model）と呼ばれる、ユーザごとにアクセス
+可能なMIBの範囲を定義できる機能が備わっています。</p>
+<p>SNMPv3のUSMにおけるユーザ認証には以下の3つのセキュリティレベルがあります。セキュリティレベルの
+用語はメーカによって異なります。以下の表は、Cisco機器におけるセキュリティレベルの説明となります。</p>
+<table>
+<thead>
+<tr>
+<th>セキュリティレベル</th>
+<th>認証</th>
+<th>暗号化</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>noAuthNoPriv</td>
+<td>ユーザ名</td>
+<td>なし</td>
+<td>ユーザ名だけを使用して認証。暗号化なし</td>
+</tr>
+<tr>
+<td>authNoPriv</td>
+<td>MD5 or SHA</td>
+<td>なし</td>
+<td>HMAC-MD5 or HMAC-SHAを使用して認証。暗号化なし</td>
+</tr>
+<tr>
+<td>authPriv</td>
+<td>MD5 or SHA</td>
+<td>DES or AES</td>
+<td>HMAC-MD5 or HMAC-SHAを使用して認証。※1で暗号化</td>
+</tr>
+</tbody>
+</table>
+<p>※1　次の暗号化レベルを指定可能　⇒　「CBC-DES」「3DES」「AES128」「AES192」「AES256」</p>
+<p>SNMPv3を使用する場合、SNMPマネージャとエージェントの両方がSNMPv3に対応している必要があります。</p>
+<hr>
+<p>← <a href="tcpip21.html">SNMPをはじめから</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Dynamic Routing - Part 2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ルーティングプロトコルの分類</a></li>
+<li><a href="#igp">IGPのルーティングプロトコルの分類 ( アルゴリズムによる分類 )</a></li>
+<li><a href="#igp_1">IGPのルーティングプロトコルの分類（クラスフル/クラスレスによる分類）</a></li>
+<li><a href="#_2">経路集約</a></li>
+<li><a href="#_3">クラスフルルーティングの問題点（ 不連続サブネットの問題点 ）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dynamic-routing-part-2">Dynamic Routing - Part 2</h1>
+<hr>
+<h2 id="_1">ルーティングプロトコルの分類</h2>
+<p>ルーティングプロトコルには、<strong class="memory-answer">RIP</strong>、<strong class="memory-answer">EIGRP</strong>、<strong class="memory-answer">OSPF</strong>、<strong class="memory-answer">IS-IS</strong>、<strong class="memory-answer">BGP</strong>など多くの種類があります。これらは
+内部ゲートウェイプロトコルのIGP（ Interior Gateway Protocol ）と、外部ゲートウェイプロトコルの
+EGP(Exterior Gateway Protocol) の大きく2種類に分類されます。下図の<strong class="memory-answer">AS</strong> (Autonomous System) は
+1つのISP、企業、研究機関など共通ポリシーにより運用されるネットワークの集合体のことを意味します。</p>
+<table>
+<thead>
+<tr>
+<th>内部 or 外部</th>
+<th>説明</th>
+<th>ルーティングプロトコルの例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IGP</td>
+<td>AS内で使用されるルーティングプロトコル</td>
+<td>RIP、EIGRP、OSPF、IS-IS</td>
+</tr>
+<tr>
+<td>EGP</td>
+<td>AS間で使用されるルーティングプロトコル</td>
+<td>BGP</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/routing6a.png"></p>
+<p>この自律システムには一意の識別番号が割り当てられており、それをIANAが管理し、日本ではJPNICが割り
+当てを行っています。具体例としてNTT東日本のAS番号は"17933"、早稲田大学は"7956"となっています。
+上図でも分かる通りインターネットとはASの集合体とも言えます。なおAS内でどのルーティングプロトコル
+（RIP or EIGRP or OSPF or IS-IS）を使用するのかはネットワーク環境や導入機器の実装などに依存します。</p>
+<h2 id="igp">IGPのルーティングプロトコルの分類 ( アルゴリズムによる分類 )</h2>
+<p>ルーティングプロトコルには大きくIGPとEGPがあることが分かりました。そして、IGPにはRIP、EIGRP
+OSPF、IS-ISなどがあることが分かりました。さて、このIGPですが、ルーティングのアルゴリズムにより
+<strong class="memory-answer">ディスタンスベクター</strong>、<strong class="memory-answer">リンクステート</strong>、<strong class="memory-answer">ハイブリッド</strong>の3つに分類できます。それぞれの特性は以下です。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>ディスタンスベクター</th>
+<th>リンクステート</th>
+<th>ハイブリッド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最適ルートの決め方</td>
+<td>距離と方向（ホップ数）</td>
+<td>リンクの状態（コスト値）</td>
+<td>距離と方向（複合値）</td>
+</tr>
+<tr>
+<td>使用するアルゴリズム</td>
+<td>ベルマンフォード</td>
+<td>SPF</td>
+<td>DUAL</td>
+</tr>
+<tr>
+<td>コンバージェンス</td>
+<td>遅い</td>
+<td>速い</td>
+<td>速い</td>
+</tr>
+<tr>
+<td>ルータの負荷</td>
+<td>小さい</td>
+<td>大きい</td>
+<td>小さい</td>
+</tr>
+<tr>
+<td>ルーティングプロトコル</td>
+<td>RIPv1、RIPv2</td>
+<td>OSPF、IS-IS</td>
+<td>EIGRP</td>
+</tr>
+</tbody>
+</table>
+<p>コンバージェンス（収束）とはネットワークの安定した状態のこと。具体的にはネットワーク上の全ての
+ルータがルーティングテーブル上に本来あるべき必要な宛先ルートを安定して保持している状態のことです。</p>
+<p>ディスタンスベクターはディスタンス（距離）とベクター（方向）で最適なルートを決定するアルゴリズム。
+簡単にいえば、ホップ数により最適なルートを決定します。ルータ間では定期的にルーティングテーブル全体
+を交換し合うことでリモートネットワークの宛先ルートを受信します。単純な動作で収束が遅いのが特徴です。</p>
+<p>リンクステートは、ルーティングプロトコルがネットワーク全体のトポロジーを把握した上で宛先への最適
+ルートを決定するアルゴリズム。最適ルートの計算にSPF (Shortest Path First) を使用します。ルータ間で
+ルーティングテーブル全体を交換するのではなくて、LSA (Link State Advertisement) と呼ばれるリンク、
+つまり、I/Fに関連する状態を交換して、ネットワーク変化時に必要な情報だけをルータ間でやりとりします。</p>
+<p>ハイブリッドは、ディスタンスベクターとリンクステートの両方の機能を組み合わせたアルゴリズム。これは
+Cisco Systems独自のアルゴリズムであるDUALを使用し、宛先への最適ルートの計算を行っています。この
+DUALでは最適ルートの決定と同時にバックアップルートを決定するため、収束が高速なのが特徴となります。</p>
+<h2 id="igp_1">IGPのルーティングプロトコルの分類（クラスフル/クラスレスによる分類）</h2>
+<p>先ほどはIGPのルーティングプロトコルを「ルーティングアルゴリズム」の点から分類してみました。今回は
+IGPのルーティングプロトコルを通知するルート情報にサブネットマスクを含めるかどうかの点で分類します。
+通知するルート情報にサブネットマスクを含めないのがクラスフルルーティングプロトコルです。それに対し
+通知するルート情報にサブネットマスクを含めるのがクラスレスルーティングプロトコルです。一般的に使用。</p>
+<table>
+<thead>
+<tr>
+<th>クラスフル / クラスレス</th>
+<th>説明</th>
+<th>ルーティングプロトコルの例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラスフルルーティングプロトコル</td>
+<td>通知するルート情報にサブネットマスクを含めない</td>
+<td>RIPv1</td>
+</tr>
+<tr>
+<td>クラスレスルーティングプロトコル</td>
+<td>通知するルート情報にサブネットマスクを含める</td>
+<td>RIPv2、EIGRP、OSPF、IS-IS</td>
+</tr>
+</tbody>
+</table>
+<p>クラスフルルーティングプロトコルは通知するルート情報にサブネットマスクを含まないため、同じクラスフル
+ネットワークにおいては同じサブネットマスクを使用する必要があります。例えば、以下のネットワーク体系と
+なります。ネットワーク上の機器台数に関係なく全てのネットワークで同じサブネットマスクにする必要がある
+ため効率的なアドレッシングができません。このアドレッシングが、<strong class="memory-answer">FLSM</strong>（ 固定長サブネットマスク ）です。</p>
+<p><img alt="画像" src="../studygif/routing6b.png"></p>
+<p>クラスレスルーティングプロトコルは、通知するルート情報のサブネットマスクを含むので、同じクラスフル
+ネットワークにおいて異なるサブネットマスクを使用することができます。例えば、以下のネットワーク体系
+となります。ネットワーク上の機器台数に応じて、異なるサブネットマスクを使用することができることから
+効率的なIPアドレッシングが可能です。このアドレッシングが、<strong class="memory-answer">VLSM</strong>（ 可変長サブネットマスク ）です。</p>
+<p><img alt="画像" src="../studygif/routing6c.png"></p>
+<h2 id="_2">経路集約</h2>
+<p>ルーティングテーブル上の複数のルートを1つのルートにまとめることを<strong class="memory-answer">経路集約</strong>と言います。経路集約には
+自動経路集約と手動経路集約の2つがあり。自動経路集約はクラスフルネットワーク（クラスA or B or C）の
+境界で自動的に行われる経路集約です。手動経路集約は、管理者で手動で設定可能な経路集約です。</p>
+<p><strong class="memory-answer">自動経路集約</strong>では、集約される経路はクラスA ( /8 )、クラスB ( /16 )、クラスC ( /24 ) の3通りとなります。
+下図においてR2はクラスフルネットワークの境界ルータとなります。R1からR2に対しては「172.16.0.0/24」
+「172.16.1.0/24」「172.16.2.0/24」のネットワークは「/24」として通知されますがクラス境界ルータの
+R2からR3にルート情報を通知する場合には、自動的に経路集約されて「172.16.0.0/16」として通知されます。</p>
+<p><img alt="画像" src="../studygif/routing6d.png"></p>
+<p><strong class="memory-answer">手動経路集約</strong>では、集約経路は管理者がルート情報の内容に応じて自由に定義することができます。上図R2が
+クラスフルネットワークの境界ルータです。R2に「172.16.0.0/24」「172.16.1.0/24」「172.16.2.0/24」
+のネットワークは「/24」として通知されます。境界ルータにおいて「172.16.0.0/24 ～ 172.16.3.0/24」の
+4つのルートを持っている場合、これら4つのルートを含めることができる「172.16.0.0/22」というルートを
+手動で定義することで、無駄なく適正に隣接ルータにルート情報を通知できます。手動で経路集約を行う場合
+その集約経路に含めたいルートが含まれているかどうかを「<a href="https://www.infraexpert.com/study/tea3.htm">サブネットマスクの計算ツール</a>」でご確認下さい。</p>
+<p><img alt="画像" src="../studygif/routing6e.png"></p>
+<p>クラスフルルーティングプロトコルであるRIPv1では、自動経路集約が自動的に実行されます。さらに
+自動経路集約は強制で、無効化することができません。一方で、クラスレスルーティングプロトコルでは
+RIPv2とEIGRPでは自動経路集約と手動経路集約のどちらでも実行可能で自動経路集約も無効化できます。
+OSPFとIS-ISでは、手動経路集約のみ実行可能です。ややこしいので、これらの内容を下表にまとめます。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ルーティングプロトコル</th>
+<th>自動経路集約</th>
+<th>手動経路集約</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラスフルルーティングプロトコル</td>
+<td>RIPv1</td>
+<td>○ （ 無効化は不可 )</td>
+<td>×</td>
+</tr>
+<tr>
+<td>クラスレスルーティングプロトコル</td>
+<td>RIPv2、EIGRP</td>
+<td>○ （ 無効化は可能 ）</td>
+<td>○</td>
+</tr>
+<tr>
+<td>クラスレスルーティングプロトコル</td>
+<td>OSPF、IS-IS</td>
+<td>×</td>
+<td>○</td>
+</tr>
+</tbody>
+</table>
+<p>クラスレスルーティングプロトコルで手動経路集約を行わない場合、上図では「172.16.0.0/24～3.0/24」の
+経路が「/24」としてそのままR3に通知されることになります。従って、R2で手動経路集約が行われない場合
+R3のルーティングテーブルでは「172.16.0.0/24」「172.16.1.0/24」「172.16.2.0/24」「172.16.3.0/24」
+の状態で存在します。クラスレスルーティングプロトコルではサブネットマスクの情報が通知されるからです。</p>
+<h2 id="_3">クラスフルルーティングの問題点（ 不連続サブネットの問題点 ）</h2>
+<p>クラスフルルーティングでは不連続サブネットをサポートできません。不連続サブネットとは異なるクラスフル
+ネットワークにより分断されているサブネットのことです。例えば下図の「172.16.1.0/24 と 172.16.2.0/24」
+のネットワークは、「192.168.1.0/24」や「192.168.2.0/24」の異なるクラスフルネットワークによって分断
+されていて、クラスフルルーティングプロトコルのRIPv1を使用した場合には、通信上に不具合が発生します。</p>
+<p><img alt="画像" src="../studygif/routing6f.png"></p>
+<p>R1がR2に「172.16.1.0/24」ネットワークを通知する時は、自動経路集約が実行される結果「172.16.0.0/16」
+として通知されるので、R2のルーティングテーブルでは「172.16.0.0/16」のネクストホップは192.168.1.254
+として登録されます。また、R3がR2に「172.16.2.0/24」のネットワークを通知する時には自動経路集約が実行
+される結果「172.16.0.0/16」として通知されることから、R2のルーティングテーブルの「172.16.0.0/16」の
+ネクストホップは今度は「192.168.2.254」として登録されます。</p>
+<p>結果、R2のルーティングテーブルでは「172.16.0.0/16」という宛先ルートが2つ登録される結果となります。
+このような状態では上図の説明にあるように通信できなくなります。以上のことからも、不連続サブネットが
+存在するネットワークにおいては、クラスレスルーティングプロトコルをルータに実装させる必要があります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study19.html">ルーティング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

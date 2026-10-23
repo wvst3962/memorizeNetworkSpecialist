@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SSL-VPN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ssl-vpn_1">SSL-VPNとは</a></li>
+<li><a href="#ssl-vpn_2">SSL-VPN（リバースプロキシ）</a></li>
+<li><a href="#ssl-vpn_3">SSL-VPN（ ポートフォワーディング ）</a></li>
+<li><a href="#ssl-vpn-l2">SSL-VPN ( L2フォワーディング )</a></li>
+<li><a href="#cisco-asassl-vpn">参考 ： Cisco ASAにおけるSSL-VPN</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ssl-vpn">SSL-VPN</h1>
+<hr>
+<h2 id="ssl-vpn_1">SSL-VPNとは</h2>
+<p>SSL-VPNとは、<strong class="memory-answer">暗号化にSSL技術を使用したリモートアクセスVPN</strong>のことです。リモートアクセスVPNには
+IPsecによるリモートアクセスVPNと、SSLによるリモートアクセスVPNの大きく2つがありますが、IPsec
+によるリモートアクセスVPNの場合、クライアントPCに必ずVPN Clientのソフトウェアをインストールする
+必要があるのに対して、SSLによるリモートアクセスVPNの場合はWebブラウザさえあれば通信可能です。
+※　SSL-VPN（ L2フォワーディング ）の場合、クライアントPCに<strong class="memory-answer">SSL-VPNソフトウェア</strong>をインストールする必要があります。</p>
+<h2 id="ssl-vpn_2">SSL-VPN（リバースプロキシ）</h2>
+<p>SSL-VPNには「<strong class="memory-answer">リバースプロキシ</strong>、<strong class="memory-answer">ポートフォワーディング</strong>、<strong class="memory-answer">L2フォワーディング</strong>」の3方式があります。
+SSL-VPN接続にて、よく利用されている接続方式は「 SSL技術とリバースプロキシ技術 」を組み合わせた
+<strong class="memory-answer">リバースプロキシ</strong>の接続方式です。リバースプロキシ方式では先ずリモートアクセスを行うクライアント
+PCがSSL-VPNゲートウェイとSSL通信を行うためにWebブラウザでhttps://～のURLを入力します。次に
+アクセスしてきたクライアントPCのユーザ認証を行います。最後に、SSL-VPNゲートウェイは?Bのような
+URL変換を行います。このようにしてクライアントPCはイントラネット上のWebサーバと通信を行えます。</p>
+<p><img alt="画像" src="../studygif/security8a.png"></p>
+<p>※ リバースプロキシ方式では、Webブラウザ
+だけでSSL-VPNの通信が行えますが、Web
+ブラウザ上で動作するアプリケーションしか
+使用できないため、社内のメールサーバと
+通信を行いたい場合、SSL-VPNゲートウェイ
+が社内のメールサーバに代理でアクセスして
+その結果をWeb画面に表示させる仕様にする
+必要があります。いわゆるWebメールの仕様。</p>
+<h2 id="ssl-vpn_3">SSL-VPN（ ポートフォワーディング ）</h2>
+<p>リバースプロキシ方式は、Webブラウザで動作しないアプリケーションは使用できない問題点がありました。
+そこで、リモートアクセスしてくるクライアントにJavaやActiveXで作成されたモジュールを追加させた上で
+SSL-VPN通信を行う方法が考えられました。その方法が<strong class="memory-answer">ポートフォワーディング</strong>と<strong class="memory-answer">L2フォワーディング</strong>です。</p>
+<p>ポートフォワーディング方式は、基本的に以下の通信フローです。また、このシーケンスのどこかでメーカー
+の仕様に従ってユーザ認証が行われます。ポートフォワーディング方式では、SSL-VPNゲートウェイの設定で
+イントラネット内で使用するサーバのIPアドレスとポート番号を事前に定義する必要があることから、FTPの
+通信中に動的にポート番号が変更するアプリケーションは使用することができない、という問題点があります。</p>
+<p><img alt="画像" src="../studygif/security8b.png"></p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>クライアントPCから、SSL-VPNゲートウェイにアクセスする。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>クライアントPCは、SSL-VPNゲートウェイからJavaアプレットなどのモジュールを自動的にダウンロードする。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>そのJavaアプレットが、SSL-VPNゲートウェイとSSL通信を確立する。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>クライアントPC上で起動したアプリケーションが、そのPC上のSSL-VPNエージェントと通信する。つまり、<br>VPN先にいるイントラネットのサーバにアクセスしようとする場合、そのデータがJavaアプレットに送信される。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>SSL-VPNエージェントは、アプリからの通信のTCP/UDPポート番号に対応したSSLコネクションを確立。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>SSL-VPNゲートウェイは、事前に定義したイントラネット内のサーバの情報（IPアドレス/ポート番号）に<br>に基づきクライアントPCから送られてきたデータをイントラネット内のサーバに送信する（パケットフォワーダ）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ssl-vpn-l2">SSL-VPN ( L2フォワーディング )</h2>
+<p>リバースプロキシ方式の次に使用されている方式がL2フォワーディング方式。L2フォワーディングでは
+PCに<strong class="memory-answer">SSL-VPNクライアントソフト</strong>がインストールされます。この方式では、全てのアプリケーションを
+SSL-VPN通信で使用することができます。L2フォワーディングでは、アプリケーションのデータをHTTP
+パケットでカプセル化してSSL通信を行います。ポートフォワーディングのように事前にSSL-VPNゲート
+ウェイで通信するサーバのIPアドレス/ポート番号の事前定義は必要ないので、FTPなどの動的にポート
+番号が変わるアプリケーションの通信を実現しています。プロトコル制限もないのでUDP通信もOKです。</p>
+<p><img alt="画像" src="../studygif/security8c.png"></p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>クライアントPCから、SSL-VPNゲートウェイにアクセスする。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>クライアントPCは、SSL-VPNゲートウェイからSSL-VPNクライアントソフトを自動的にダウンロードする。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>そのSSL-VPNクライアントソフトが、SSL-VPNゲートウェイとSSL通信を確立する。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>SSL-VPNクライアントソフトは、クライアントPC上に仮想NICを構築する。<br>その仮想NICには、SSL-VPNゲートウェイで事前に定義されたIPアドレスが割り当てられる。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>クライアントPCが、イントラネット内のサーバにアクセスしようとすると、仮想NICによって宛先がチェックされて<br>イントラネット内のサーバが宛先である場合、仮想NICを経由してSSL通信し、SSL-VPNゲートウェイに送信される。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>SSL-VPNゲートウェイは、イントラネット内のサーバに送信する。</td>
+</tr>
+</tbody>
+</table>
+<p>※　仮想NICをインストールするために、クライアントPCにログインするユーザは管理者権限が必要となります。</p>
+<p>企業ネットワークにSSL-VPNを導入する場合、ログアウト後にそのクライアントPCにデータが残らないよう
+<strong class="memory-answer">自動的にデータが削除されるような実装や外部メディアに書き込まれないように実装させるのが一般的です。</strong></p>
+<h2 id="cisco-asassl-vpn">参考 ： Cisco ASAにおけるSSL-VPN</h2>
+<p>Cisco ASAでSSL-VPNを行う場合、以下の2方式から選択します。つまり、技術的にはリバースプロキシか、
+L2ポートフォワーディングを使用します。ポートフォワーディング方式は中途半端なので使われていません。</p>
+<table>
+<thead>
+<tr>
+<th>Cisco SSL-VPN用語</th>
+<th>SSL-VPN方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クライアントレスSSL-VPN</td>
+<td>リバースプロキシ</td>
+<td>クライアントには<strong class="memory-answer">Webブラウザ</strong>がさえあればOK。このアクセス方式で<br>CIFSでのWindowsファイルのブラウズとWebアクセス、FTPが利用可能。</td>
+</tr>
+<tr>
+<td>AnyConnect VPN</td>
+<td>L2ポート<br>フォワーディング</td>
+<td>クライアントがWebブラウザでSSL-VPN接続時に、ブラウザ経由で<br>SSL-VPN専用の<strong class="memory-answer">クライアントソフトウェア</strong>（Any Connect VPN）を<br>自動的にダウンロードし、IPsec-VPNライクに完全なアクセスが可能</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study44.html">SSL/TLS、SSLサーバ証明書、SSL-VPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

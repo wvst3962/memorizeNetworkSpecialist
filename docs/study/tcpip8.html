@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>TCP header | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#tcp">TCPヘッダのフォーマット</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="tcp-header">TCP header</h1>
+<hr>
+<h2 id="tcp">TCPヘッダのフォーマット</h2>
+<p>TCPセグメント（TCPパケット）は以下の通り「TCPヘッダ」と「TCPペイロード」で構成されます。
+TCPヘッダの中身は以下です。TCPペイロードはTCPより上位のプロトコルを含むデータのことです。</p>
+<p><img alt="画像" src="../studygif/tcpip8a.png"></p>
+<table>
+<thead>
+<tr>
+<th>各フィールド</th>
+<th>ビット数</th>
+<th>各フィールドの説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>送信元ポート番号</td>
+<td>16 bit</td>
+<td>送信元のポート番号の値。</td>
+</tr>
+<tr>
+<td>宛先ポート番号</td>
+<td>16 bit</td>
+<td>宛先のポート番号の値。</td>
+</tr>
+<tr>
+<td>シーケンス番号</td>
+<td>32 bit</td>
+<td>送信したデータの順序を示す値。「相手から受信した確認応答番号」の値。</td>
+</tr>
+<tr>
+<td>確認応答番号</td>
+<td>32 bit</td>
+<td>確認応答番号の値。「相手から受信したシーケンス番号」＋「データサイズ」。</td>
+</tr>
+<tr>
+<td>データオフセット</td>
+<td>4 bit</td>
+<td>TCPヘッダの長さを示す値。</td>
+</tr>
+<tr>
+<td>予約</td>
+<td>3 bit</td>
+<td>全ビット「0」が入る。将来の拡張のために用意されている。</td>
+</tr>
+<tr>
+<td>コントロールフラグ</td>
+<td>9 bit</td>
+<td>NS、CWR、ECE、URG、ACK、PSH、RST、SYN、FINの9ビットで構成。<br>これらのビットは「 1 」の値が入る（フラグを立てる）場合に意味をなす。</td>
+</tr>
+<tr>
+<td>ウィンドウサイズ</td>
+<td>16 bit</td>
+<td>受信側が一度に受信することができるデータ量を送信側に通知するために<br>使用される。送信側は、この値のデータ量を超えて送信することはできない。</td>
+</tr>
+<tr>
+<td>チェックサム</td>
+<td>16 bit</td>
+<td>TCPヘッダとデータ部分のエラーチェックを行うために使用される値が入る。</td>
+</tr>
+<tr>
+<td>緊急ポインタ</td>
+<td>16 bit</td>
+<td>コントロールフラグのURGの値が「1」である場合にのみ使用されるフィールド。<br>緊急データの開始位置を示す情報が入る。</td>
+</tr>
+<tr>
+<td>オプション</td>
+<td>可変長</td>
+<td>TCPの通信において、性能を向上させるために利用する。例えば<br>TCPコネクションの際に、MSSを決定するために使用されたりします。</td>
+</tr>
+<tr>
+<td>パディング</td>
+<td>可変長</td>
+<td>TCPヘッダの長さを32ビットの整数にするために<br>詰め物(Padding)として空データの 「 0 」 の値を入れることにより調整する。</td>
+</tr>
+</tbody>
+</table>
+<p>以下の表は、TCPヘッダのフィールドにある「コントロールフラグ」の 9 bitの詳細となります。</p>
+<table>
+<thead>
+<tr>
+<th>コントロールフラグの詳細</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ビット</td>
+<td><strong class="memory-answer">値が「1」である（フラグが立っている）時の意味</strong></td>
+</tr>
+<tr>
+<td>NS</td>
+<td>ECN-nonce 輻輳保護を示す。</td>
+</tr>
+<tr>
+<td>CWR</td>
+<td>輻輳制御ウィンドウ縮小（Congestion Window Reduced）を示す。</td>
+</tr>
+<tr>
+<td>ECE</td>
+<td>ECN-Echo を示す。SYNフラグがセットされている場合、ECNが利用であることを意味する。</td>
+</tr>
+<tr>
+<td>URG (Urgent)</td>
+<td>緊急に処理すべきデータ含まれていることを示す。</td>
+</tr>
+<tr>
+<td>ACK (Acknowledgement)</td>
+<td>確認応答番号のフィールドが有効であることを示す。最初のSYN以外は常に「1」となる。</td>
+</tr>
+<tr>
+<td>PSH ( Push )</td>
+<td>受信したデータをバッファリングせずに、即座にアプリケーション（上位）に渡すことを示す。</td>
+</tr>
+<tr>
+<td>RST ( Reset )</td>
+<td>コネクションが強制的に切断されることを示す。何らかの異常を検出した場合に送信される。</td>
+</tr>
+<tr>
+<td>SYN ( Synchronize )</td>
+<td>コネクションの確立を要求することを示す。</td>
+</tr>
+<tr>
+<td>FIN ( Fin )</td>
+<td>コネクションの正常な終了を要求することを示す。</td>
+</tr>
+</tbody>
+</table>
+<p>これらのTCPヘッダの値はTCPの特徴である「ポート番号を使用」、「コネクションの確立、維持切断」
+「順序制御」、「再送制御」、「ウィンドウ制御」、「フロー制御」で、しっかりと生かされています。</p>
+<hr>
+<p>← <a href="tcpip7.html">TCP - ポート番号の割り当て</a>　<a href="tcpip9.html">TCP - コネクション確立、維持、切断</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

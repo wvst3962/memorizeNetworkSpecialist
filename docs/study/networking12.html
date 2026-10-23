@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Fault Avoidance / Fault Tolerance | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">フォールトアボイダンスとは、フォールトトレランスとは</a></li>
+<li><a href="#rasis">RASIS（レイシス）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="fault-avoidance-fault-tolerance">Fault Avoidance / Fault Tolerance</h1>
+<hr>
+<h2 id="_1">フォールトアボイダンスとは、フォールトトレランスとは</h2>
+<p><strong class="memory-answer">フォールトアボイダンス</strong>（Fault Avoidance）とは、システムの信頼性を高めて障害や故障を発生させない
+ようにする考え方のことです。<strong class="memory-answer">フォールトトレランス</strong>（Fault Tolerance）とは、障害や故障が発生した時も
+予備のシステムに切り替えるなどして、システムを正常に稼働させ続ける考え方または仕組みのことです。</p>
+<p>フォールトトレランスの手法には、<strong class="memory-answer">フェールセーフ、フェールソフト、フェールオーバー、フールプルーフ</strong>
+などがあります。これらの手法により障害発生時でも完全に機能を保った状態でシステムを継続処理させる
+ことができたり、機能の低下があるもののシステムの処理を続行させることができます。</p>
+<p><img alt="画像" src="../studygif/networking12a.png"></p>
+<table>
+<thead>
+<tr>
+<th>フォールトトレランス手法</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>フェールセーフ<br>（ fail safe ）</td>
+<td>システムに障害や故障が発生すると、被害を最小限にして、安全側に倒すようにすること。<br>復旧不能な致命的ダメージを回避するために<strong class="memory-answer">システムが安全に機能を停止</strong>することを意味する。</td>
+</tr>
+<tr>
+<td>フェールソフト<br>（ fail soft ）</td>
+<td>システムに障害や故障が発生しても、故障個所だけを切り離し、システムを完全に停止させずに<br>機能を維持した状態で処理を続行させること。フェールセーフと違い停止せずに<strong class="memory-answer">縮退運転</strong>させる。</td>
+</tr>
+<tr>
+<td>フェールオーバー<br>（ faileover ）</td>
+<td>システムに障害や故障が発生しても、自動的に別システムや機器に切り替えて稼働を続けること。<br>フェールセーフの停止やフェールソフトの縮退運転と違い、完全に<strong class="memory-answer">引き継いで処理を続行</strong>させる。</td>
+</tr>
+<tr>
+<td>フールプルーフ<br>（ fool proof ）</td>
+<td>ユーザが間違った操作をしても、システム側で誤作動をしないような設計や構造にすること。<br>fool（愚か者）に proof（耐える）ように、そもそも<strong class="memory-answer">誤操作させないように配慮する設計手法</strong>。</td>
+</tr>
+</tbody>
+</table>
+<p>システムの信頼性を向上させるための考え方として、フォールトアボイダンスとフォールトトレランスを
+解説しましたが、以下ではシステムの信頼性の評価基準である<strong class="memory-answer">RASIS</strong>について解説します。</p>
+<h2 id="rasis">RASIS（レイシス）とは</h2>
+<p>RASISとは、コンピュータシステムに関する以下の5つの指標の頭文字を並べたものです。これらの5つの
+要素によりシステムの性能を計る概念のことです。元の概念となった先頭3つからなる<strong class="memory-answer">RAS</strong>は、米IBM社が
+メインフレーム製品の特性を表す用語として示され、後に「I」と「S」が追加されてRASISとなりました。</p>
+<p>Reliability（信頼性）
+Availability（可用性）
+Serviceability（保守性）
+Integrity（完全性）
+Security（機密性）</p>
+<table>
+<thead>
+<tr>
+<th>RASIS</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reliability（信頼性）</td>
+<td>障害が発生しにくいこと、不具合による停止が発生しにくいことを示す指標</td>
+</tr>
+<tr>
+<td>Availability（可用性）</td>
+<td>高い稼働率を維持できることを示す指標</td>
+</tr>
+<tr>
+<td>Serviceability（保守性）</td>
+<td>障害発生時に迅速に復旧できることやメンテナンスのしやすさを示す指標</td>
+</tr>
+<tr>
+<td>Integrity（完全性）</td>
+<td>データの消失や不整合を起こさずに一貫性を保っていることを示す指標</td>
+</tr>
+<tr>
+<td>Security（機密性）</td>
+<td>機密性が高く、外部からの攻撃（不正アクセスや改ざん）などがないことを示す指標</td>
+</tr>
+</tbody>
+</table>
+<p>Reliability（信頼性）の評価指標として<strong class="memory-answer">MTBF</strong>（平均故障間隔）があげられます。Serviceability（保守性）の
+評価指標としては<strong class="memory-answer">MTTR</strong>（平均修理時間）があげられます。</p>
+<table>
+<thead>
+<tr>
+<th>評価指標</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MTBF<br>（Mean Time Between Failures）</td>
+<td>MTBFは、システムが正常に安定稼働し続ける平均時間。平均してどのくらいの時間で<br>1回の故障が発生するかを示す。<strong class="memory-answer">MTBFが長い場合</strong>、システムの信頼性が高いと言える。</td>
+</tr>
+<tr>
+<td>MTTR<br>（Mean Time To Repair）</td>
+<td>MTTRは、システムを修理するのに必要な平均時間。<strong class="memory-answer">MTTRが短い場合</strong>、システムは<br>短時間で修復できていることを示しているのでシステムの信頼性が高まることになる。</td>
+</tr>
+</tbody>
+</table>
+<p>MTBFとMTTRの値から、以下の計算式でAvailability（可用性）の指標である稼働率を導くことができます。</p>
+<p><img alt="画像" src="../studygif/networking12b.png"></p>
+<p>なお、MTTRを短くしたい場合、つまりシステムを修理するのに必要な時間を短くしたい場合には例えば、
+システムにエラーログ取得機能があれば、障害発生時の原因特定が早くなり短時間で修復可能となります。</p>
+<p>また、システムの信頼性を向上させるという観点では、<strong class="memory-answer">ステージング環境での最終的な動作確認を徹底</strong>する
+ことも重要です。ステージング環境とは、本運用システムとほぼ同じ構成のシステムを用意して、システム
+リリース前の最終テストを行う環境のことです。</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

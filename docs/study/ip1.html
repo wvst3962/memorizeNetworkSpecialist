@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>2進数 &amp; 10進数 &amp; 16進数 - Part 1 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#2">コンピュータで使用される2進数</a></li>
+<li><a href="#2_1">2進数</a></li>
+<li><a href="#210">2進数から10進数への変換方法</a></li>
+<li><a href="#102">10進数から2進数への変換方法</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="2-10-16-part-1">2進数 &amp; 10進数 &amp; 16進数 - Part 1</h1>
+<hr>
+<h2 id="2">コンピュータで使用される2進数</h2>
+<p>人が日常使用している数値は10進数ですが、コンピュータは内部で数値を表現する場合、2進数を使用
+しています。しかし、「0」と「1」だけの2進数では人が分かりにくいため、人間が見えるところでは
+コンピュータは2進数を10進数や16進数が変換して表現しています。ここではその変換方法を学びます。</p>
+<h2 id="2_1">2進数</h2>
+<p>2進数とは、｢0」と「1」の2種類の数字を用いて全ての数を表現します。10進数では0から数えて「9」の
+次は位があがることになりますが、2進数では「 1 」の次に位があります。位があがれば、その新しい桁は
+｢ 1 ｣ となり、それ以下の桁は全て 「 0 」 となります。それでは、2進数の数の増え方を見てみましょう。</p>
+<p><img alt="画像" src="../studygif/ip1a.png"></p>
+<p>ところで、2進数を表現する時は一般的に8桁単位で表現するため、8桁未満の場合は頭に0をつけます。
+つまり、上の2進数の値は順番に 00000000　→ 00000001 → 00000010 → 00000011 → 00000100 →
+00000101 → 00000110 → 00000111 → 00001000 と表します。以下は2進数と10進数の対応表です。</p>
+<table>
+<thead>
+<tr>
+<th>2進数と10進数の対応表</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10進数</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>・・・</td>
+</tr>
+<tr>
+<td>2進数</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>11</td>
+<td>100</td>
+<td>101</td>
+<td>110</td>
+<td>111</td>
+<td>1000</td>
+<td>1001</td>
+<td>1010</td>
+<td>・・・</td>
+</tr>
+</tbody>
+</table>
+<h2 id="210">2進数から10進数への変換方法</h2>
+<p>10進数と2進数の対応表は以下の通りです。2進数の桁が上がる時の10進数の値が以下となります。</p>
+<table>
+<thead>
+<tr>
+<th>2進数と10進数の対応表</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10進数</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>128</td>
+</tr>
+<tr>
+<td>2進数</td>
+<td>00000001</td>
+<td>00000010</td>
+<td>00000100</td>
+<td>00001000</td>
+<td>00010000</td>
+<td>00100000</td>
+<td>01000000</td>
+<td>10000000</td>
+</tr>
+</tbody>
+</table>
+<p>従って、2進数で｢1」となっている桁に対応する上記の10進数の基準値を合計することにより、2進数から
+10進数の値を求めることができます。例えば、2進数の「 00101010 」を10進数に変換する場合、基準値が
+32、8、2の所でビットが1なので下図の通り、2進数の「 00101010 」は10進数では「42」だと分かります。</p>
+<p><img alt="画像" src="../studygif/ip1b.png"></p>
+<h2 id="102">10進数から2進数への変換方法</h2>
+<p>10進数の数値を「 0 」になるまで「 2 」で割り算していき、その結果の「余りの数 」を並べることで
+ある10進数の値を2進数の値へ変換することができます。それでは、具体的に変換して見て行きましょう。</p>
+<p><img alt="画像" src="../studygif/ip1c.png"></p>
+<p>例えば、10進数の「160」を2で割り算していくと上図の結果となります。後は、余りの数を下から順番に
+並べれば 「 10100000 」 の値が算出されます。次に、「22」を2で割り算していき余りの数を下から順に
+並べれば 「 10110 」 の値が算出されます。ネットワークにおいては、2進数を一般的に8桁で表示する
+ことから、8桁になるよう上位に「 0 」を追加して「 00010110 」とします。当然「 10110 」と同じ値。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>802.11n - Wi-Fi 4 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211nwi-fi-4">IEEE802.11n（Wi-Fi 4）とは</a></li>
+<li><a href="#ieee80211n-">IEEE802.11n - チャネルボンディングとは</a></li>
+<li><a href="#ieee80211n-mimo">IEEE802.11n - MIMOとは</a></li>
+<li><a href="#ieee80211n-_1">IEEE802.11n - 通信速度 ( なぜ製品により理論上の最大速度がバラバラなのか ）</a></li>
+<li><a href="#ieee80211n-_2">IEEE802.11n - 高速化を実現するために</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="80211n-wi-fi-4">802.11n - Wi-Fi 4</h1>
+<hr>
+<h2 id="ieee80211nwi-fi-4">IEEE802.11n（Wi-Fi 4）とは</h2>
+<p>IEEE802.11nは、理論上600Mbps、スループットで100Mbpsを実現する2009年9月策定の無線LAN規格。
+IEEE802.11nでは、<strong class="memory-answer">チャネルボンディング</strong>と<strong class="memory-answer">MIMO</strong>という大きく2つの技術により高速化を実現しています。
+先ずはIEEE802.11nの仕様を確認してみましょう。IEEE802.11n の場合は1つの規格であるにも関わらず
+2.4GHz帯と5GHz帯の2つの周波数帯域を利用することができるので、下表では一部を分離して記載します。
+※　IEEE802.11n 通信を行う際には無線LAN端末/アクセスポイントの暗号化を<strong class="memory-answer">AES</strong>にする必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANの伝送規格</th>
+<th>IEEE802.11n</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周波数帯域</td>
+<td>2.4 GHz帯</td>
+<td>5 GHz帯</td>
+</tr>
+<tr>
+<td>同時使用チャネル数</td>
+<td>2ch</td>
+<td>9 ch</td>
+</tr>
+<tr>
+<td>利用可能チャネル数</td>
+<td>13 ch</td>
+<td>19 ch</td>
+</tr>
+<tr>
+<td>最大伝送速度</td>
+<td>600Mbps ※1</td>
+<td></td>
+</tr>
+<tr>
+<td>無線アクセス方式</td>
+<td>OFDM</td>
+<td></td>
+</tr>
+<tr>
+<td>屋外での利用</td>
+<td>△</td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11bとの互換性</td>
+<td>○</td>
+<td></td>
+</tr>
+<tr>
+<td>策定時期</td>
+<td>2009年9月</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>※1 <strong class="memory-answer">40MHzのチャネルボンディング</strong>を行い、さらに<strong class="memory-answer">4つのアンテナ</strong>（4ストリーム）を使用した場合、理論上最大で600Mbpsの速度。</p>
+<h2 id="ieee80211n-">IEEE802.11n - チャネルボンディングとは</h2>
+<p>チャネルボンディングとは、無線LANで使用する周波数帯域において、隣り合う2つのチャネルを束ねて
+通信する技術のことです。IEEE802.11a /g では1つのチャネルが使用する帯域は<strong class="memory-answer">20MHz</strong>でありましたが
+IEEE802.11nでは2チャネル分の<strong class="memory-answer">40MHz</strong>で通信することにより、伝送速度を2倍以上になります。例えば、</p>
+<p>IEEE802.11aで36chは周波数5.18GHz、40chは周波数5.20GHzなので、5.20GHz － 5.18GHz により
+IEEE802.11aが１つのチャネルで使用する帯域が20MHzであることが分かります。そして 802.11n では
+下図のようにこれらの2つのチャネルを束ねて40MHzの帯域として使用できるので、高速化が実現します。</p>
+<p><img alt="画像" src="../studygif/wireless15a.png"></p>
+<p>上図の通り、IEEE802.11nで周波数を5GHz帯を使用すると、最大同時チャネルが9であることが分かります。
+一方で下図の通り、IEEE802.11nで周波数を2.4GHz帯を使用すると、最大同時チャネルが2だと分かります。
+つまりIEEE802.11nにおけるチャネル設計では企業ネットワークでは5GHz帯を使用することが推奨されます。</p>
+<p><img alt="画像" src="../studygif/wireless15b.png"></p>
+<p>※ 2.4GHzにおける40MHzのチャネルボンディングは他のAPの干渉を受けやすくなり、むしろ電波品質が
+劣化してしまう可能性があるため、Ciscoの無線LAN製品ではサポートしていませんが、MIMOやフレーム
+アグリゲーションの実装により、2.4GHzにおける11nでも高速通信を実現します。（5GHzよりは遅いです）</p>
+<p>IEEE802.11n対応クライアントと、IEEE802.11n非対応クライアントが混在する環境では、802.11n対応クライアントは5GHz帯を
+使用するように設計し、802.11n非対応クライアントは2.4GHz帯を使用するよう設計する事が推奨。パフォーマンスが向上します。</p>
+<h2 id="ieee80211n-mimo">IEEE802.11n - MIMOとは</h2>
+<p>MIMO (Multiple Input Multiple Output) とは、複数のアンテナを使用してデータを同時伝送することで
+無線通信を高速化させる技術です。たとえば、下図では送信側、受信側の無線LAN機器において、ともに
+2つのアンテナがあるとします。送信側の機器でデータを2分割して、2つのアンテナでその分割データを
+送信します。受信側の機器はその分割データを2つのアンテナで受信してそれをもとにデータに復元します。</p>
+<p>このように複数のアンテナを使用することで生じる複数の経路を1つの伝送路として見なして、データを
+送受信することで高速化を実現しているので、アンテナの数が多ければ多いほど伝送速度が速くなります。</p>
+<p><img alt="画像" src="../studygif/wireless15c.png"></p>
+<p>アンテナといっても、例えば無線LANクライアントになるノートPCに内蔵されたものは、とても小型ですから
+最近のものでは、例えばAdvanced-N + WiMAX 6250のIntelのチップには2本（ 2×2 ）も搭載されています。
+「2×2」というのは「送信用アンテナ2本、受信用アンテナ2本」という意味です。アンテナが2本ある場合は
+2つのデータの通信路（ストリーム）を形成することができるのでストリーム数は「2ストリーム」と言います。</p>
+<h2 id="ieee80211n-_1">IEEE802.11n - 通信速度 ( なぜ製品により理論上の最大速度がバラバラなのか ）</h2>
+<p>802.11n規格に準じた製品といえど、製品によってチャネルボンディングに対応していなかったり、つまり
+使用する周波数帯域（20MHzなのか40MHzなのか）が異なったり、製品によってアンテナの数が異なるので
+ストリーム数が異なったりすることで、製品により理論上の最大通信速度が異なります。40MHzを使用する
+ようにチャネルボンディングに対応した製品は多いですが、アンテナ4つ実装したアクセスポイントは少ない
+ことから、一般的に300Mbpsくらいの理論上の最大通信速度を実現する無線LAN機器が主流と言えるでしょう。</p>
+<table>
+<thead>
+<tr>
+<th>IEEE802.11nの理論上の最大伝送速度</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ストリーム数</td>
+<td>20MHz使用</td>
+<td>40MHz使用</td>
+</tr>
+<tr>
+<td>1ストリーム　（ 1×1 ）</td>
+<td>72.2Mbps</td>
+<td>150Mbps</td>
+</tr>
+<tr>
+<td>2ストリーム　（ 2×2 ）</td>
+<td>144.4Mbps</td>
+<td>300Mbps</td>
+</tr>
+<tr>
+<td>3ストリーム　（ 3×3 ）</td>
+<td>216.7Mbps</td>
+<td>450Mbps</td>
+</tr>
+<tr>
+<td>4ストリーム　（ 4×4 ）</td>
+<td>288.9Mbps</td>
+<td>600Mbps</td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.11nでも、上図の「1ストリーム」と「20MHz使用」の場合では、アンテナが1つであることと、
+チャネルボンディングも行っていない点から、802.11aやgと全く同じ通信状態なわけですが、54Mbpsでは
+なく72.2Mbpsを理論上の最大伝送速度が実現します。理由はMIMOやチャネルボンディング以外の802.11n
+における高速化の技術で実現できるからです。802.11nでは、例えばデータ送信の間の時間短縮を行えます。</p>
+<h2 id="ieee80211n-_2">IEEE802.11n - 高速化を実現するために</h2>
+<p>?@　IEEE802.11n の規格どおり、暗号化にはAESを採用する。</p>
+<p>?A　IEEE802.11n ネットワークでは、11n 非対応のWLAN端末を存在させないようにする。
+※　11n 環境で、11n非対応のWLAN端末が通信を開始すると、11n対応のクライアントPCの速度は低下する。</p>
+<p>?B　IEEE802.11n ネットワークには5GHz帯を使用するようにして、チャネルボンディングを行うようにする。</p>
+<p>?C　IEEE802.11n ネットワークでは、11n 非対応のWLAN端末が存在する場合、802.11n対応クライアントを
+5GHz帯を使用させるようにして、11n非対応のクライアントに2.4GHz帯を使用させるようSSID設計する。</p>
+<hr>
+<p>← <a href="wireless14.html">無線LAN - IEEE802.1X認証</a>　<a href="wireless16.html">無線LAN - IEEE802.11e</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

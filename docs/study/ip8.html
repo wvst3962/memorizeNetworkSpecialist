@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP address - VLSM / CIDR / ip subnet-zero | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip-vlsm">IPアドレス - VLSM とは</a></li>
+<li><a href="#ip-cidr">IPアドレス - CIDR とは</a></li>
+<li><a href="#ip-">IPアドレス - ゼロサブネットとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-address-vlsm-cidr-ip-subnet-zero">IP address - VLSM / CIDR / ip subnet-zero</h1>
+<hr>
+<h2 id="ip-vlsm">IPアドレス - VLSM とは</h2>
+<p>VLSM（ Variable Length Subnet Mask ）とは、1つのIPネットワークをサブネットに分割する際に、
+複数の長さのサブネットマスクを利用する技術です。VLSMは<strong class="memory-answer">可変長サブネットマスク</strong>とも呼ばれます。
+ネットワークを分割する時に例えば「 /27 と /30 」の異なるサブネットを同時に利用する構成のこと。</p>
+<p><img alt="画像" src="../studygif/ip8a.png"></p>
+<p>このように、VLSMはクラスの概念にとらわれない<strong class="memory-answer">クラスレスアドレッシング</strong>の手法の1つと言えます。
+VLSMを利用することで、<strong class="memory-answer">効率的なIPアドレッシングが実現</strong>できるのですが、VLSMを対応していない
+クラスフルルーティングプロトコル（RIPv1）が稼動しているネットワークではVLSMは使用できません。</p>
+<h2 id="ip-cidr">IPアドレス - CIDR とは</h2>
+<p><strong class="memory-answer">CIDR</strong>（Classless InterDomain Routing）とは、IPネットワークの経路情報を集約する際にクラスの概念を
+なくした技術のことです。CIDRにより複数のクラスCアドレスを1つのネットワークに集約することができ、
+集約したネットワークは <strong class="memory-answer">SuperNet</strong>（元のクラスのナチュラルマスクよりも短いマスクの経路）と言います。</p>
+<p>CIDRによって、例えば「200.0.0.0/24」～「200.0.7.0/24」の8つのネットワークを、1つのネットワークに
+集約をして「 200.0.0.0/21 」として扱うことができます。例えばインターネット上である組織がクラスCの
+ネットワークではIPアドレスが足らないことからクラスBのネットワークを取得を希望した場合に、クラスBの
+ネットワークを付与するのではなく、必要としているIPアドレスの数と同じくらいの数となるよう、連続する
+複数のクラスCのネットワークを、1つのネットワークとして割り当てればIPアドレス空間を有効利用できます。</p>
+<p><img alt="画像" src="../studygif/ip8b.png"></p>
+<p>※　ルータは8つのルートを処理するのではなく、CIDRにより1つのルートを処理すればいいのでルータの<strong class="memory-answer">負荷軽減</strong>となります。</p>
+<p>これがCIDRの本来の意味なのですが、広義ではクラスを使用しないIPアドレッシングのことでもあります。
+ただし、CIDRについては間違った解説が非常に多いので注意が必要です。</p>
+<p>VLSMの場合は複数の異なるサブネットを作成していく時に「ホスト部のビット」を消費していくのに対し
+CIDRの場合は複数のネットワークを1つのネットワークにする時に、「ネットワーク部」のビットを消費
+していきます。CIDRでは、1つの大きなネットワークを作成するためにホスト部のビットを増やしてます。</p>
+<p><img alt="画像" src="../studygif/ip8c.png"></p>
+<h2 id="ip-">IPアドレス - ゼロサブネットとは</h2>
+<p>ゼロサブネットとは、サブネット部が全て 0 bitのネットワークのことです。例えば「 172.16.10.0<strong class="memory-answer">/24</strong> 」
+の場合ではサブネット部が全て 0bit になりませんが、「 172.16.0.0<strong class="memory-answer">/24</strong> 」の場合はサブネット部が全て
+0bit になります。このようなサブネットを<strong class="memory-answer">ゼロサブネット</strong>と言います。従来のサブネット計画においては、
+このゼロサブネットと、サブネット部が全て「 1bit 」のネットワークの使用は推奨されていませんでした。</p>
+<p><img alt="画像" src="../studygif/ip8d.png"></p>
+<p>詳細は以下で確認頂きたいのですが、サブネットが全て「0bit」である「172.16.0.0<strong class="memory-answer">/24</strong>」のサブネットは
+もとのネットワーク「 172.16.0.0<strong class="memory-answer">/16</strong> 」とネットワークアドレスが同じで混同してしまいます。また、
+サブネットが全て「1bit」の「172.16.255.0/24」のサブネットはもとのネットワーク「172.16.0.0/16」
+とブロードキャストアドレスが同じであるため混同してしまいます。しかし、現在のネットワーク機器では
+これらの問題が解決しておりサブネット計画で全て 0 ビットのサブネット、全て 1 ビットのサブネットは
+使用することが可能です。</p>
+<table>
+<thead>
+<tr>
+<th>サブネットが全て　「 0bit 」　の場合</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPアドレスの例</td>
+<td>ネットワークアドレス</td>
+<td>ブロードキャストアドレス</td>
+</tr>
+<tr>
+<td>172.16.0.0/24</td>
+<td>172.16.0.0</td>
+<td>172.16.0.255</td>
+</tr>
+<tr>
+<td>172.16.0.0/16</td>
+<td>172.16.0.0</td>
+<td>172.16.255.255</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>サブネットが全て　「 1bit 」　の場合</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPアドレスの例</td>
+<td>ネットワークアドレス</td>
+<td>ブロードキャストアドレス</td>
+</tr>
+<tr>
+<td>172.16.255.0/24</td>
+<td>172.16.255.0</td>
+<td>172.16.255.255</td>
+</tr>
+<tr>
+<td>172.16.0.0/16</td>
+<td>172.16.0.0</td>
+<td>172.16.255.255</td>
+</tr>
+</tbody>
+</table>
+<p>Ciscoルータでも、IOS12.0以降では、<strong class="memory-answer">ip subnet-zero</strong>というコマンドがデフォルトで有効になっているので
+デフォルトで全て0ビットのサブネット、全て1ビットのサブネットは使用できます。逆に、 ip subnet-zero
+が有効でない機器ではゼロサブネットなどは使えないので、サブネット計算で算出結果から「-2」が必要です。</p>
+<p>Cisco(config)# ip subnet-zero</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

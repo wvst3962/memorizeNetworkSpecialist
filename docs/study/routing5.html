@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Dynamic Routing | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ダイナミックルーティングとは</a></li>
+<li><a href="#_2">ルーティングプロトコルの設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dynamic-routing">Dynamic Routing</h1>
+<hr>
+<h2 id="_1">ダイナミックルーティングとは</h2>
+<p>ダイナミックルートとは、ルータで設定されたルーティングプロトコルで動的に追加されるルートのこと。
+ダイナミックルートの情報は、ルータで設定されたルーティングプロトコルの動作に従って他のルータに
+対して自動的に通知されます。また、ネットワークの状態に変化があった場合、他に有効な宛先ルートが
+あれば自動的にそのルートに切り替わります。ネットワーク経路の追加、変更等は全て動的に伝わります。
+ルータでルーティングプロトコルを使用したルーティングのことを<strong class="memory-answer">ダイナミックルーティング</strong>と言います。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>スタティックルーティング</th>
+<th>ダイナミックルーティング</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ルートの設定方法</td>
+<td>管理者が手動で設定</td>
+<td>ルーティングプロトコルにより動的に追加</td>
+</tr>
+<tr>
+<td>ネットワーク状態の変化時</td>
+<td>宛先ルートに変化なし</td>
+<td>宛先ルートが動的に更新される</td>
+</tr>
+<tr>
+<td>ルータの負荷</td>
+<td>負荷はない</td>
+<td>ルーティングプロトコルでCPUとメモリをやや消費</td>
+</tr>
+<tr>
+<td>管理者の負荷</td>
+<td>ネットワークが大きい場合、設定する<br>ルート数が多くなり、設定の手間がある</td>
+<td>複雑なネットワークの場合においては<br>ルーティングプロトコルの深い知識が必要となる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">ルーティングプロトコルの設定</h2>
+<p>ルーティングプロトコルにはRIP、EIGRP、OSPF、IS-IS、BGPなどの種類があります。今回は、RIPv2を
+使用してどのような設定が必要になるのか、ダイナミックルートがどのように追加されるのかを解説します。</p>
+<p>下図では、それぞれのルータの I/F にIPアドレスの設定と有効化（ no shutdown ）をしている状態です。
+この時点でルータは直接接続ルートを追加することになるので、ルーティングテーブルは下図の通りです。
+この状態ではルーティングテーブルどおり端末AからBにパケットを送信しても届きません。なぜならR1の
+ルーティングテーブルには宛先IPアドレス「192.168.2.10」に該当する宛先ルートが存在しないからです。</p>
+<p><img alt="画像" src="../studygif/routing5a.png"></p>
+<p>端末AとBが通信できるように、R1とR2のルータでRIPv2を有効にし、RIPv2を有効化させるI/Fを指定します。</p>
+<p><img alt="画像" src="../studygif/routing5e.png"></p>
+<p><img alt="画像" src="../studygif/routing5f.png"></p>
+<p><img alt="画像" src="../studygif/routing5b.png"></p>
+<p>上記のように設定すると、R1とR2それぞれが自身のルーティングテーブルにある経路情報を、ルーティング
+アップデートとして隣接ルータに通知（アドバタイズ）します。結果、R1は自身のルーティングテーブルには
+ない「192.168.2.0/24」の宛先ルートをルーティングテーブルに登録し、同様にR2は「192.168.0.0/24」の
+宛先ルートをルーティングテーブルに登録します。その結果、ルーティングテーブルは下図の通りになります。</p>
+<p><img alt="画像" src="../studygif/routing5c.png"></p>
+<p>下図は、端末A ⇔ B間で双方向に通信している様子を表したものです。下図で、赤字にしている部分が実際に
+パケットの着信時に参照されるルーティングテーブルの該当箇所となっています。ダイナミックルーティング
+の場合、通信させたいネットワークのインターフェースを有効化すれば自動的に経路情報がアドバタイズされて
+いくのでスタティックルーティングのようにネクストホップのアドレスを確認しながら1つ1つ指定する必要が
+ありません。大規模ネットワークでは、ダイナミックルーティングプロトコルを使用することが適しています。</p>
+<p><img alt="画像" src="../studygif/routing5d.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study19.html">ルーティング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

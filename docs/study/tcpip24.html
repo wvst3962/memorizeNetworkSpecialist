@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DNS resolver / recursive query iterative query | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dns-">DNS - 用語理解</a></li>
+<li><a href="#dns-_1">DNS - リゾルバとは</a></li>
+<li><a href="#dns-2dns">DNS - 2種類のDNSサーバ</a></li>
+<li><a href="#dns-_2">DNS - 再帰問い合わせ、反復問い合わせ</a></li>
+<li><a href="#dns-_3">DNS - フォワーダとは</a></li>
+<li><a href="#dns-dnsdns">DNS - 内部DNSサーバと外部DNSサーバ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dns-resolver-recursive-query-iterative-query">DNS resolver / recursive query iterative query</h1>
+<hr>
+<h2 id="dns-">DNS - 用語理解</h2>
+<p>重要用語には、「スタブリゾルバとフルサービスリゾルバ」「キャッシュDNSサーバと権威DNSサーバ」
+「再帰問い合わせと反復問い合わせ」 の大きく3つがあります。それでは詳細を以降で解説していきます。
+※　キャッシュDNSサーバは「DNSキャッシュサーバ」、権威DNSサーバは「DNSコンテンツサーバ」とも呼ばれています。</p>
+<p><img alt="画像" src="../studygif/tcpip24a.png"></p>
+<h2 id="dns-_1">DNS - リゾルバとは</h2>
+<p>リゾルバとは簡単に言うと<strong class="memory-answer">DNSクライアント</strong>のことです。厳密に言うと、ドメイン名からIPアドレスの情報
+を検索したり、IPアドレスからドメイン名の情報を検索する<strong class="memory-answer">名前解決を行うソフトウェアプログラム</strong>のこと。
+リゾルバには以下の2種類があり、DNSサーバにもPC同様にリゾルバのソフトウェアは組み込まれています。</p>
+<table>
+<thead>
+<tr>
+<th>リゾルバの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スタブリゾルバ</td>
+<td>DNSリクエストを送信するだけのクライアントPC、またはDNSサーバ。</td>
+</tr>
+<tr>
+<td>フルサービスリゾルバ</td>
+<td>スタブリゾルバからの再帰問い合わせ（Recursive）を受けて、<br>反復問い合わせ（Iterative）によって完全にDNS解決を行えるDNSサーバ。</td>
+</tr>
+</tbody>
+</table>
+<p>※　クライアントPCのDNSのキャッシュ情報は ipconfig /displaydns で確認可能で、ipconfig /flushdns でキャッシュを消せます。</p>
+<h2 id="dns-2dns">DNS - 2種類のDNSサーバ</h2>
+<p>DNSサーバには<strong class="memory-answer">キャッシュDNSサーバ</strong>と<strong class="memory-answer">権威DNSサーバ</strong>の大きく2種類があります。キャッシュDNSサーバは
+<strong class="memory-answer">フルサービスリゾルバ</strong>とも呼ばれています。ちなみに個人が自宅でインターネット接続する際に指定している
+ISPから付与されたDNSサーバは<strong class="memory-answer">キャッシュDNSサーバ</strong>になります。</p>
+<table>
+<thead>
+<tr>
+<th>DNSサーバの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キャッシュDNSサーバ</td>
+<td>ドメイン名とIPアドレスの対応の問い合わせを行い、その結果をキャッシュする。</td>
+</tr>
+<tr>
+<td>権威DNSサーバ</td>
+<td>ドメイン名とIPアドレスの対応表を「ゾーン」という単位で管理する。</td>
+</tr>
+</tbody>
+</table>
+<p>※　クライアントPCの設定には<strong class="memory-answer">優先DNSサーバ</strong>と <strong class="memory-answer">代替DNSサーバ</strong>の設定があります。文字通り、優先DNSサーバに指定した
+DNSサーバを優先的に使用し、優先DNSサーバからDNSリプライが返されない際のバックアップとして<strong class="memory-answer">代替DNSサーバ</strong>を使用します。</p>
+<h2 id="dns-_2">DNS - 再帰問い合わせ、反復問い合わせ</h2>
+<p>ドメイン名とIPアドレス対応に関する問い合わせは、再帰問い合わせ（Recursive query）と反復問い合わせ
+（Iterative query）の２種類があります。反復問い合わせは、<strong class="memory-answer">非再帰問い合わせ</strong>とも呼ばれています。</p>
+<table>
+<thead>
+<tr>
+<th>問い合わせの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>再帰問い合わせ</td>
+<td>リゾルバからの問い合わせ要求を受けたDNSサーバが、他のDNSサーバに問い合わせを行い<br>その最終的な結果をリゾルバに応答する必要のある問い合わせのこと。</td>
+</tr>
+<tr>
+<td>反復問い合わせ</td>
+<td>リゾルバから再帰問い合わせを受けたDNSサーバ（キャッシュDNSサーバ）が、再帰問い合わせの<br>結果を返すために、答えを得られるまで繰り返し他のDNSサーバへ行う問い合わせのことであり、<br>その反復問い合わせを受けたDNSサーバは、 自身が管理するゾーン情報（またはキャッシュ情報、<br>または情報がないと）だけを応答するだけでよく、他のDNSサーバに問い合わせをする必要がない。</td>
+</tr>
+</tbody>
+</table>
+<p>以上の内容を理解できれば、下図の流れも理解できるかと思います。</p>
+<p><img alt="画像" src="../studygif/tcpip24d.png"></p>
+<h2 id="dns-_3">DNS - フォワーダとは</h2>
+<p>フォワーダ機能を使用すると、<strong class="memory-answer">自身のDNSで解決できないDNSリクエスト</strong>をフォワーダに指定したDNS
+サーバに転送することができます。結果、フォワーダに指定したDNSサーバがキャッシュDNSサーバとして
+つまり、フルサービスリゾルバとして動作してくれDNSリクエストに対するDNSリプライを返してくれます。</p>
+<p>例えば、個人、SOHO、中小企業などが社内LANとしてDNSサーバを構築したとしても、一般的には性能、
+<strong class="memory-answer">レスポンスなどの点からフォワーダとしてISPのDNSサーバを指定することが推奨</strong>です。なお、フォワーダ
+を指定しない場合、ルートDNSサーバへ問い合わせをすることになりますが、マナー的にもよくありません。</p>
+<p><img alt="画像" src="../studygif/tcpip24b.png"></p>
+<p>※　クライアントPCはルータをDNSサーバとして指定し、ルータがISPのDNSサーバをフォワーダとして指定する構成もあります。</p>
+<h2 id="dns-dnsdns">DNS - 内部DNSサーバと外部DNSサーバ</h2>
+<p>社内LANにある内部DNSサーバでは、クライアントPCからの再帰問い合わせを受けることになることから、
+内部DNSサーバでは<strong class="memory-answer">再帰問い合わせを許可する</strong>のが一般的です。再帰問い合わせが可能な場合、その他の
+DNSサーバの応答内容をキャッシュとして一時的に保存し、外部DNSサーバへのクエリの回数を減らせます。</p>
+<p>一方、DMZの公開セグメントにある外部DNSサーバは、そのDMZセグメントに配置された各種公開サーバの
+Aレコードを応答する役割として一般的に位置づけられることから、反復問い合わせを受けることはあっても、
+再帰問い合わせを受けることはありません。従って、外部DNSサーバでは<strong class="memory-answer">再帰問い合わせを拒否する</strong>ことが
+推奨です。外部DNSサーバで再帰問い合わせを許可（例えば送信元 any）すると、攻撃者が不正な応答内容
+を送信してきてキャッシュ内に保存してしまうと、キャッシュがクリアされるまで間違った名前解決が行われ
+攻撃者のホストを信頼するホストとみなしてしまう危険性があります。それゆえ再帰問い合わせを拒否します。</p>
+<p><img alt="画像" src="../studygif/tcpip24c.png"></p>
+<p>※　内部DNSサーバは一般的にWindowsのDNSサーバで、外部DNSサーバはBINDで構築することが多いです。</p>
+<hr>
+<p>← <a href="tcpip15.html">DNSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

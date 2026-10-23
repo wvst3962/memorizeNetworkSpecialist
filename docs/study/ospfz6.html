@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OSPF - Neighbor / Adjacency | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ospf-neighbor-2way-state">OSPFネイバー関係（ Neighbor ）の確立 - 2Way State</a></li>
+<li><a href="#ospf-adjacency-full-state">OSPFアジャセンシー関係（ Adjacency ）の確立 - Full State</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ospf-neighbor-adjacency">OSPF - Neighbor / Adjacency</h1>
+<hr>
+<h2 id="ospf-neighbor-2way-state">OSPFネイバー関係（ <strong class="memory-answer">Neighbor</strong> ）の確立 - 2Way State</h2>
+<p>ここでは、OSPFルータがネイバー関係を確立する流れを、リンクアップ時の最初から詳細に見てみましょう。</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>State</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>Down State</td>
+<td>停止状態。OSPFルータを起動した直後の状態。リンクアップするとHelloパケットの送信を開始。<br>Helloパケットはマルチキャストアドレス ( 224.0.0.5 ) 宛てに送信されて隣接ルータに到達する。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>Init State</td>
+<td>初期状態。ネイバールータ（R1）から Helloパケットをはじめて受信した状態。このHelloパケット<br>を受信すると、R2ではネイバールータにR1を追加する。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>2Way State</td>
+<td>双方向状態。ネイバールータ（R1）の存在を認識したOSPFルータがHelloパケットを送信して、<br>そのHelloパケットをネイバールータ（R1）が受信した状態。R1ではネイバールータにR2を追加。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ospfz6a.png"></p>
+<p>OSPFルータには、識別のために<strong class="memory-answer">ルータID</strong>が割り当てられます。ルータIDは32ビットの値でIPアドレスと同様
+4オクテットで区切り10進数で表記します。ルータIDは重複しないよう割り当てる必要があります。ルータID
+の決定は以下の優先順位 ?@ → ?A → ?Bで決定します。上図では明示的に?@を設定した事を前提としています。</p>
+<p>?@　router-id コマンドで設定した値
+?A　ループバックインターフェースの中で最も大きいIPアドレス
+?B　アクティブなインターフェースの中で最も大きいIPアドレス</p>
+<h2 id="ospf-adjacency-full-state">OSPFアジャセンシー関係（ <strong class="memory-answer">Adjacency</strong> ）の確立 - Full State</h2>
+<p>OSPFルータは2Way State状態になり<a href="ospfz7.html">DR/BDRの選出</a>が完了すると、アジャセンシー関係（Adjacency）に
+至るルータ間では、LSAを交換してLSDBを同期するフローに移行します。そのフローを以下で解説します。</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>State</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?C</td>
+<td>Exstart State</td>
+<td>起動後状態。どちらのルータからLSAに関するデータの送信を開始するかを決定するプロセス。<br>ルータIDが大きいルータから送信を開始。送信開始側をマスター、もう一方をスレーブと呼ぶ。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>Exchange State</td>
+<td>交換状態。マスターからDBD（LSDBに格納されるLSAリスト）パケットを送信し相手からも送信。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>Loading State</td>
+<td>ロード状態。受信したDBDと自身のLSDBを比較し、不足分のLSAについてはLSRで情報を要求。</td>
+</tr>
+<tr>
+<td>?F</td>
+<td>Full State</td>
+<td>完全状態。隣接ルータと完全にLSDBを同期できた状態。これにより同期プロセスが完了。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ospfz6b.png"></p>
+<p>LSUパケットは、ネイバーから要求されたLSAを送るために使用されるパケットですが、このLSUに含まれる
+LSAには複数のタイプが存在します。LSAの種類によりフラッディングされる範囲や役割が異なります。この
+LSAタイプには <strong class="memory-answer">1 ～ 11</strong> までありますがCiscoでサポートしているのは <strong class="memory-answer">1 ～ 5 、7</strong> となります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study30.html">OSPF 設定</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

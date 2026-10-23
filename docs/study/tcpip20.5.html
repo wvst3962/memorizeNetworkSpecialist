@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>TFTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#tftp_1">TFTPとは</a></li>
+<li><a href="#tftp_2">TFTPのパケット</a></li>
+<li><a href="#tftp_3">TFTPの仕組み</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="tftp">TFTP</h1>
+<hr>
+<h2 id="tftp_1">TFTPとは</h2>
+<p>TFTP（Trivial File Transfer Protocol) とは、特定のコンピュータ間でファイル転送する時に使用する
+アプリケーション層プロトコル。FTPとの違いは大きく2つあります。1つは、FTPのようにユーザ名と
+パスワード<strong class="memory-answer">認証が行われない</strong>点、もう1つはFTPはTCP上で動作する信頼性のある通信ですが、TFTPでは
+<strong class="memory-answer">UDP上で動作</strong>しており信頼性よりも転送効率を重視しているという点です。TFTPはルータなどのソフト
+をアップロードやダウンロード時によく使用されます。TFTPではデータは<strong class="memory-answer">512バイトずつ</strong>区切り送受信。</p>
+<h2 id="tftp_2">TFTPのパケット</h2>
+<p>TFTPクライアントがTFTPサーバにアクセスする際、宛先ポート番号としてUDPのポート番号 <strong class="memory-answer">69</strong> を使用。
+ただし宛先ポート 69 を使用するのは、TFTPクライアントからTFTPサーバへの最初のリクエスト時だけ
+であり、以降のTFTPクライアントとサーバとの通信ではTFTPサーバはランダムなポート番号を使用します。</p>
+<p><img alt="画像" src="../studygif/tcpip20.5a.png"></p>
+<p>TFTPプロトコルをNWエンジニアが使用する時はルータをTFTPクライアント、PCをTFTPサーバとして
+ルータのIOSソフトウェアをアップロード、またはダウンロードする際に使用するケースがほとんどです。</p>
+<h2 id="tftp_3">TFTPの仕組み</h2>
+<p>CiscoルータをTFTPクライアント、PCをTFTPサーバとします。先ず、Ciscoルータにtelnet接続、または
+コンソール接続します。次に、TFTPサーバにIOSソフトのダウンロードを要求するためのコマンドを実行。
+その際、TFTPクライアントからサーバに宛先ポート番号<strong class="memory-answer">69</strong>宛のTFTPリクエストメッセージが送信されます。
+TFTPサーバは要求されたファイルを転送します。この時、TFTPサーバは送信元ポート番号に69を使用する
+のではなくランダムなポート番号を使用します。ポート番号に<strong class="memory-answer">69</strong>を使用するのは最初の「要求」時だけです。</p>
+<p><img alt="画像" src="../studygif/tcpip20.5b.png"></p>
+<p>TFTPサーバはファイルを512バイト毎に分割して送信していきます。分割データには１から順にシーケンス
+の番号が割り振られて送信されます。そのデータを受信したTFTPクライアントは確認応答（ACK）を返信。
+TFTPはUDP上で動作することから、UDPが確認応答するではなくアプリケーション層プロトコルのTFTPが
+確認応答を行います。最終的に512バイト未満のデータを受信するとファイル転送が終了した事を認識します。</p>
+<hr>
+<p>← <a href="tcpip19.html">telnet / SSHとは</a>　<a href="tcpip21.html">SNMPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

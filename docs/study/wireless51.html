@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IEEE802.1X - Part 2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee8021x-">IEEE802.1X - 認証の流れ</a></li>
+<li><a href="#ieee8021xeap-">IEEE802.1X/EAP - 認証方式の比較表</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ieee8021x-part-2">IEEE802.1X - Part 2</h1>
+<hr>
+<p>※　以下の技術解説を読む前に「<a href="wireless14.html">802.1X認証とは、EAPとは</a>」でIEEE802.1X認証の基礎をご参考下さい。</p>
+<h2 id="ieee8021x-">IEEE802.1X - 認証の流れ</h2>
+<p>下図はサプリカントが802.1X認証を行い、ネットワーク接続できるようになるまでの流れを示しています。
+※　認証方式によってシーケンスは異なります。また、?Dと?EはIEEE802.1X認証ではオプション機能です。</p>
+<p><img alt="画像" src="../studygif/wireless51a.png"></p>
+<p>?@　無線LANクライアント（サプリカント）は通信を開始するために、AP（認証装置）にプローブ信号
+（プローブ要求）を送信します。このタイミングで無線LANクライアントが実行したい認証方式を要求。</p>
+<p>?A　APは無線LANクライアントから指定された認証方式を通知して、EAP処理を開始します。</p>
+<p>?B　指定された認証方式に従い無線LANクライアントと認証サーバとの間でやりとりします。この時点
+では、直接トラフィックをやりとりせずに、APが両者のトラフィックをプロトコル変換をしています。</p>
+<p>?C　認証が成功すると認証サーバから認証が成功したことを通知。この時にポートのブロックが解除。</p>
+<p>?D　認証サーバはアクセスポイントに対して、ユーザ用のセッション鍵のもとになる情報を送信します。</p>
+<p>?E　APは認証サーバから受信したセッション鍵の情報から暗号鍵を生成し、無線LANクライアントに配布。</p>
+<p>?F　802.1X認証が無事に終えて、かつトラフィックを暗号化するための鍵を手に入れたので通信を開始。</p>
+<h2 id="ieee8021xeap-">IEEE802.1X/EAP - 認証方式の比較表</h2>
+<p>802.1X/EAP認証には色々な種類がありますが、実際によく使用されている方式は<strong class="memory-answer">TLS</strong>と<strong class="memory-answer">PEAP</strong>といえます。
+MD5はサーバ認証が行わないので、クライアントが不正なサーバにアクセスしてしまう可能性があるだけで
+はなく、動的WEPにも対応していないのでセキュリティ的に非常に弱く導入企業を見たことがありません。
+LEAPは辞書攻撃の脆弱性が発覚したことがありベンダーとして提案できません。LEAPの後継がEAP-FAST。</p>
+<table>
+<thead>
+<tr>
+<th>認証方式</th>
+<th>クライアント<br>認証</th>
+<th>サーバ<br>認証</th>
+<th>認証局</th>
+<th>動的<br>WEP</th>
+<th>セキュリティ</th>
+<th>特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MD5</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>なし</td>
+<td>不要</td>
+<td>不可</td>
+<td>×</td>
+<td>・　Windows PCで標準搭載<br>・　チャレンジレスポンスによる認証<br>・　サーバ認証なし、WEPキーは固定</td>
+</tr>
+<tr>
+<td>LEAP</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>不要</td>
+<td>可</td>
+<td>△</td>
+<td>・　Cisco独自の認証方式<br>・　EAP-MD5よりもセキュリティが高い<br>・　辞書攻撃による脆弱性が発覚</td>
+</tr>
+<tr>
+<td>EAP-FAST</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>不要</td>
+<td>可</td>
+<td>○</td>
+<td>・　Cisco独自の認証方式<br>・　辞書攻撃による脆弱性を解消<br>・　セキュリティレベルが高く認証局も不要</td>
+</tr>
+<tr>
+<td>TLS</td>
+<td>証明書</td>
+<td>証明書</td>
+<td>必要</td>
+<td>可</td>
+<td>◎</td>
+<td>・　Windows PC で標準搭載<br>・　最もセキュリティレベルの高い方式<br>・　証明書発行などのスキルが要求される</td>
+</tr>
+<tr>
+<td>TTLS</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>証明書</td>
+<td>必要</td>
+<td>可</td>
+<td>○</td>
+<td>・　対応していないWindows製品がある<br>・　ユーザIDと証明書のハイブリッド認証<br>・　TLSの拡張版</td>
+</tr>
+<tr>
+<td>PEAP</td>
+<td>ユーザ名/<br>パスワード</td>
+<td>証明書</td>
+<td>必要</td>
+<td>可</td>
+<td>○</td>
+<td>・　Windows PCで標準搭載<br>・　ユーザIDと証明書のハイブリッド認証<br>・　人気のある認証方式</td>
+</tr>
+</tbody>
+</table>
+<p>クライアント認証で「ユーザ名/パスワード」ということは、Radiusサーバで認証を受ける際にユーザ名/パスワードを入力して認証を
+受けることを意味します。また、クライアントもサーバが信頼できるサーバである事を確認する必要があります。サーバ認証で証明書
+という事はCAが発行した証明書をサーバ、クライアントともにインストールをして、クライアント側では<strong class="memory-answer">その証明書を信頼する必要</strong>。</p>
+<p>大企業で情報システム部の技術レベルが高く、従業員もITリテラシーが高い場合は、セキュリティレベル
+の高い<strong class="memory-answer">TLS</strong>を導入するケースが多いですが、クライアント証明書の運用、管理に手間のかからない<strong class="memory-answer">PEAP</strong>が</p>
+<p>一般的に人気があります。<strong class="memory-answer">TTLS</strong>はWindows XPの場合
+サプリカントが有償とはいえOSの制限も少ないので、
+不特定多数のクライアントが利用する公衆無線LANや、
+大学内の無線LANサービスで利用されるケースがある。</p>
+<p>また、CA（認証局）を導入する予算や運用力がないが
+IEEE802.1Xを導入することで現状よりセキュリティを
+高めるという観点で、CA(認証局）の導入が必要のない
+<strong class="memory-answer">EAP-FAST</strong>の実装を選択する企業もいらっしゃいます。</p>
+<p>Microsoft 802.1X 認証クライアントに実装されているPEAPでは、サーバー認証とクライアント認証の両方に証明書を使用する
+<strong class="memory-answer">PEAP-TLS</strong>と、サーバ認証に証明書を使用してクライアント認証にパスワードを使用する<strong class="memory-answer">PEAP-MS-CHAPv2</strong> をサポートします。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

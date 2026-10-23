@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DHCP Relay Agent | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dhcp">DHCPリレーエージェント</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dhcp-relay-agent">DHCP Relay Agent</h1>
+<hr>
+<h2 id="dhcp">DHCPリレーエージェント</h2>
+<p>DHCPサーバとDHCPクライアントとの通信ではブロードキャストアドレスが使用されるので、DHCPサーバと
+DHCPクライアントは同じネットワーク（サブネット）にいる必要があります。が、現在のLANネットワークは
+多くのサブネットが存在し、そのサブネットをルータやL3スイッチで分離しています。ルータやL3スイッチは
+ブロードキャストを通過させないのでDHCP環境を構築したい場合、サブネットごとにDHCPサーバを導入する
+必要がありますが、コスト的に現実的ではありません。そこで、DHCPリレーエージェント機能が役立ちます。</p>
+<p><img alt="画像" src="../studygif/tcpip14a.png"></p>
+<p><strong class="memory-answer">DHCPリレーエージェント</strong>機能により、DHCPサーバとDHCPクライアントが異なるサブネットに存在しても
+DHCPクライアントから受信した<strong class="memory-answer">ブロードキャストをユニキャストに変換</strong>して、DHCPサーバに転送します。
+現在では、ルータやL3スイッチのネットワーク機器でDHCPリレーエージェント機能を持たせるのが一般的。</p>
+<p><img alt="画像" src="../studygif/tcpip14b.png"></p>
+<hr>
+<p>← <a href="tcpip13.html">DHCPとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Digital Certificate | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">デジタル証明書とは</a></li>
+<li><a href="#ca">認証局（CA）とは</a></li>
+<li><a href="#_2">デジタル証明書の仕組み</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="digital-certificate">Digital Certificate</h1>
+<hr>
+<h2 id="_1">デジタル証明書とは</h2>
+<p>デジタル署名によりデータの改ざんは検知することが分かりました。しかしながら、デジタル署名だけでは
+そもそも配布されている公開鍵が本当に正しい公開鍵（下図ではAさんの公開鍵）なのかを確認することが
+できません。デジタル署名の解析用の公開鍵が正しいことを証明するためには<strong class="memory-answer">デジタル証明書</strong>を使用します。</p>
+<p><img alt="画像" src="../studygif/security6a.png"></p>
+<p><strong class="memory-answer">デジタル証明書をデジタル署名に付属させる</strong>ことで、データの改ざんを検知できるだけでなく、公開鍵が
+正しいものであると確認できて、さらに<strong class="memory-answer">認証局</strong>（<strong class="memory-answer">CA</strong>）を通してデータの作成者を証明することができます。
+デジタル証明書のフォーマットは<strong class="memory-answer">ITU-T X.509</strong>で規定されています。印鑑証明書と比較して見てみましょう。</p>
+<p><img alt="画像" src="../studygif/security6b.png"></p>
+<p>デジタル証明書のフォーマットの詳細は、「バージョン情報、シリアル番号、公開鍵証明書の署名方式、
+公開鍵証明書の発行者である認証局の X.500 識別名、有効期限、本証明書内に含まれる公開鍵に対応
+する秘密鍵の所有者の X.500 識別名」などがあります。では、実際にデジタル証明書を見てみましょう。</p>
+<p>例えば、デジタル署名されているメールならWindows Liveの場合、メールを右クリックし「プロパティ
+⇒ セキュリティ ⇒ 証明書の表示 ⇒ 署名の証明書 ⇒ 詳細」で、以下の内容を確認することができます。</p>
+<p>また、Internet Exploreを使用してhttps（HTTP over SSL）のWebサイトにアクセスするとブラウザに <img alt="画像" src="../studygif/security6e.png">
+のアイコンが表示されるのでクリックし「証明書の表示」を選択すると以下の内容を確認することができます。</p>
+<p><img alt="画像" src="../studygif/security6f.png"></p>
+<p><img alt="画像" src="../studygif/security6g.png">
+※　上図の「値」の情報は一部削除しています。</p>
+<p>デジタル証明書に公開鍵がありますね。公開キーを選択すれば実際の鍵の情報を確認することができます。
+つまり、デジタル証明書を受け取るということは「信頼できる情報として」公開鍵を受け取るということ。
+※　デジタル証明書は<strong class="memory-answer">電子証明書</strong>とも呼ばれます。デジタル署名は<strong class="memory-answer">電子署名</strong>とも呼ばれていますが、正確には意味が異なります。</p>
+<h2 id="ca">認証局（CA）とは</h2>
+<p>デジタル証明書を発行する機関のことを認証局（CA）と言います。例えば、ベリサインは商用の認証局です。
+商用の認証局からデジタル証明書の交付を受けるためには「時間と費用」がかかるため、組織内でローカルに
+認証局を構築して証明書を発行することもできます。しかしそのようなWebサイトに一般ユーザがアクセスし
+デジタル証明書を受け取ったとしても、Webブラウザ上で警告メッセージが表示されることになります。一方
+ベリサインなどのデジタル証明書は、すでにWebブラウザにインストールされているため警告表示は出ません。</p>
+<p>最上位である認証局は<strong class="memory-answer">ルート認証局</strong>と言います。ルート認証局は最上位のため、上位の認証局による承認
+を受けることなく正当性を証明しています。ルート認証局以外の認証局は「<strong class="memory-answer">中間認証局</strong>」と呼ばれています。
+中間認証局はルート認証局などの上位の局からデジタル証明書を発行してもらうことで正当性を証明します。</p>
+<p>ルート認証局自身は正当性を証明するために厳しい監査を受けていることや、<strong class="memory-answer">CPS</strong>（認証業務運用規程）を
+公開することにしています。また、今までの認証局の運用実績等の社会的な根拠に基づき信頼されています。</p>
+<p><img alt="画像" src="../studygif/security6c.png"></p>
+<p>以上の知識を身に付けたところで、デジタル証明書を使用したデジタル署名の仕組みを見てみましょう。</p>
+<h2 id="_2">デジタル証明書の仕組み</h2>
+<p>認証局（CA）から発行されたデジタル証明書を利用したデジタル署名により、データの改ざんを検知すること
+ができるだけでなく公開鍵が正しいものであると確認できて、さらにデータ作成者を証明することができます。</p>
+<p><img alt="画像" src="../studygif/security6d.png"></p>
+<p>上図の?@～?Eの流れにより、Webサーバから送信された公開鍵が正当な公開鍵であることを確認できます。</p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>Webサーバ側で公開鍵と秘密鍵を生成する。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>公開鍵が正しいことを証明するために、公開鍵と各種証明書を認証局に送信して、デジタル証明書の発行を依頼する。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>認証局は公開鍵や所有者情報と、これらをハッシュ値にした上で認証局に秘密鍵で暗号化したデジタル署名つきの<br>デジタル証明書を発行する。デジタル証明書を受け取ったWebサーバは、デジタル証明書をインストールする。<br>詳細に解説すると、このデジタル証明書は、<strong class="memory-answer">リポジトリ</strong>と呼ばれるデジタル証明書の保管場所でも公開される。<br>リポジトリはインターネット上で公開されているサーバのことであり、リポジトリからもデジタル証明書をダウンロード<br>できる。なお、リポジトリには、<strong class="memory-answer">CRL</strong>(certificate revocation list) と呼ばれる<strong class="memory-answer">証明書失効リスト</strong>も登録されている。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>クライアントPCからWebサーバに対して接続要求を行う。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>接続要求を行ったクライアントPCに対して、Webサーバはデジタル証明書をクライアントPCに送付する。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>クライアントPCは、受信したデジタル証明書が認証局から発行されたものかどうかを確認するために、認証局の<br>公開鍵を使用して、秘密鍵で暗号化されたデジタル署名部分の復号を行う。そして、同じハッシュ結果なら正当な<br>公開鍵を判断する。※ 認証局の公開鍵を含んだデジタル証明書は、代表的な認証局のデジタル証明書の場合、<br>クライアントPCのブラウザにインストールされている。インストールされていない場合、ブラウザで警告表示される。</td>
+</tr>
+</tbody>
+</table>
+<p>このように公開鍵暗号を利用したセキュリティインフラのことを<strong class="memory-answer">PKI</strong>(Public Key Infrastructure)と言います。
+このPKI（公開鍵基盤）のセキュリティインフラとは、RSAなどの公開鍵暗号、SSLを組み込んだWebサーバ
+とクライアントPC、S/MIMEを使用した暗号化電子メール、デジタル証明書を発行するCAなどが含まれます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

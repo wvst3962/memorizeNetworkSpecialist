@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VXLAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vxlan_1">VXLANとは</a></li>
+<li><a href="#vxlan_2">VXLANパケットのフォーマット</a></li>
+<li><a href="#vxlan_3">VXLANを実装するメリット</a></li>
+<li><a href="#evpnvxlan">EVPN/VXLANとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vxlan">VXLAN</h1>
+<hr>
+<h2 id="vxlan_1">VXLANとは</h2>
+<p>VXLAN（Virtual eXtensible Local Area Network）とは、<strong class="memory-answer">L3ネットワーク上に論理的なL2ネットワーク</strong>を
+構築するトンネリングプロトコルのことです。VXLANでは、<strong class="memory-answer">VNI</strong>（VXLAN ID）でイーサネットフレームを
+カプセル化することでトンネリングを実現しています。2014/8 にIETF RFC7348として公開されています。</p>
+<p>VLANでは最大で約4000のネットワークしか構成できず、大規模ネットワークでは不足することがあります。
+VXLANでは<strong class="memory-answer">24ビット</strong>のVNI（VXLAN ID）で、最大で約1600万のネットワークを構成することができます。
+VXLANにより、大規模な複数のデータセンターにまたがった仮想データセンターを構築することができます。</p>
+<p><img alt="画像" src="../studygif/virtual3a.png"></p>
+<p><strong class="memory-answer">VTEP</strong>（ VXLAN Tunnel End Point ）とは、トラフィックがVXLANトンネルに出入りするループバックの
+インターフェースまたは仮想インターフェースのことですが、VXLANパケットを送受信できるVXLAN対応
+スイッチのことを指している場合もあります。</p>
+<p>送信側VTEPでイーサネットフレームに <strong class="memory-answer">VNI</strong>（VXLAN Network Identifier）と呼ばれる論理ネットワーク
+を識別するためのIDを付加した上でイーサネットフレームをVXLANパケットにカプセル化します。そして、
+L3ネットワークを介して宛先となる転送先のVTEP（ <strong class="memory-answer">リモートVTEP</strong> ）へ転送します。受信したVTEPでは、
+VXLANによるカプセル化を解除し、宛先となるデバイスへオリジナルのイーサネットフレームを転送します。</p>
+<h2 id="vxlan_2">VXLANパケットのフォーマット</h2>
+<p>VXLANではイーサネットフレームを<strong class="memory-answer">UDP/IPでカプセル化</strong>しますが、そのフォーマットは下図のとおりです。</p>
+<p><img alt="画像" src="../studygif/virtual3b.png"></p>
+<h2 id="vxlan_3">VXLANを実装するメリット</h2>
+<p>VXLANを使用せずとも、Layer3で分割して大規模なインフラを構築すればよいではないかと思われるかも
+しれませんが、例えば、仮想マシンのLayer3越えの移動の際に制約が発生する問題点があります。要件的に
+仮想マシン（VM）のリソースを配置、稼働させる場合に下図のような制約を発生させてはいけない事が多い。</p>
+<p><img alt="画像" src="../studygif/virtual3c.png"></p>
+<p>上図の問題点は、VXLANを実装してL2ネットワーク「A」と「B」を1つの大規模なL2ネットワークにする
+ことで解決します。VXLANでは送信元側でイーサネットフレームにVNI（VXLAN ID）を付加しUDP/IPで
+カプセル化することで、<strong class="memory-answer">仮想マシン（VM）は Layer3 ネットワークを超えて移動が可能</strong>なようになります。</p>
+<h2 id="evpnvxlan">EVPN/VXLANとは</h2>
+<p>EVPN/VXLANは、<strong class="memory-answer">L3ネットワーク上にオーバーレイでL2ネットワークを構築するためのL2VPN技術</strong>です。
+EVPN/VXLANは、コントロールプレーンとデータプレーンにより構成されます。コントロールプレーンを
+担うEVPN（Ethernet VPN）は<strong class="memory-answer">管理プロトコルにBGPを使用してテナントごとのMAC/IP情報を取り交わし</strong>
+データプレーンを担うVXLANでは、マルチテナント環境の拡張性のあるカプセリングプロトコルとして、
+L3ファブリックのネットワーク上にオーバーレイでL2ネットワークを提供します。</p>
+<p><img alt="画像" src="../studygif/virtual3d.png"></p>
+<p>EVPN/VXLANでは、拡張性に優れて効率的であるだけでなく、ループフリーなL2ネットワークの展開や
+ネットワーク帯域幅を完全に活用したアクティブ/アクティブ型の冗長リンクなども実現できることから
+データセンターなどの大規模ネットワークで実装することで大きなメリットが得られます。</p>
+<p>メリット1：<strong class="memory-answer">拡張性に優れて効率的な大規模なL2ネットワークの展開</strong>
+メリット2：<strong class="memory-answer">アクティブ/アクティブ型の冗長リンク</strong>（オールアクティブ マルチホーミング）
+メリット3：<strong class="memory-answer">BUMトラフィックの抑制</strong>（ブロードキャスト、不明なユニキャスト、マルチキャストの抑制）</p>
+<p>BUMトラフィックの抑制の一例として、EVPN/VXLANでは、VTEPはMP-BGPを使用してリモートVTEPの
+IPアドレスとVNI情報を事前に学習するだけでなく、リモートVTEPに接続されたサーバのMACアドレスも
+事前に学習するようになります。以上のことから、BUMトラフィックのうち、ARPリクエストのフレームの
+フラッディングの発生を低減することができます。その他のメリットとして、各VPNはEVIにより区別され、
+IP-VPNのようなL2VPNを構築でき運用しやすいメリットもあります。ES、ESI、EVIの用語説明は以下です。</p>
+<table>
+<thead>
+<tr>
+<th>EVPNの用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ES<br>（Ethernet Segment）</td>
+<td>イーサネットセグメントはマルチホームデバイスに接続する一連のイーサネットリンクのこと。<br>マルチホームデバイスまたはネットワークが、2つ以上のPEにイーサネットリンクを通じて接続<br>されている場合にイーサネットセグメントと言う。このESを識別する値をESIという。</td>
+</tr>
+<tr>
+<td>ESI<br>（Ethernet Segment ID）</td>
+<td>イーサネットセグメント識別子。ESIはEVPNでネットワーク全体にわたりイーサネットセグメントを<br>一意に表す識別子。EVPNを適用した場合、VTEPはMP-BGPを使用して自身に接続されたデバイスを<br>識別するESIを交換できるようになる。<strong class="memory-answer">同じESIを設定した論理インターフェースを持つ複数のVTEPは</strong><br><strong class="memory-answer">接続機器とリンクアグリゲーションできる</strong>ようになる。</td>
+</tr>
+<tr>
+<td>EVI<br>（ EVPN Instance ）</td>
+<td>EVPNインスタンス。EVIはPEルータ上のVPNを表す。EVIはIP-VPNルーティングとVRFと同じ役割<br>を果たし、<strong class="memory-answer">import/export の RT（ルートターゲット）が割り当てられる</strong>。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="virtual.html">仮想化とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP address - Subnet Calculator | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip-">IPアドレス - サブネット数の算出方法</a></li>
+<li><a href="#ip-_1">IPアドレス - ホストアドレス数の算出方法</a></li>
+<li><a href="#ip-_2">IPアドレス - サブネットマスクの算出方法</a></li>
+<li><a href="#ip-_3">IPアドレス - ネットワークアドレスとブロードキャストアドレスの算出方法</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-address-subnet-calculator">IP address - Subnet Calculator</h1>
+<hr>
+<h2 id="ip-">IPアドレス - サブネット数の算出方法</h2>
+<p>サブネットは、ホスト部のビットを使用することで作成できます。クラスA、B、Cに関係なく算出方法は
+以下の通りです。例えばホスト部を 4 ビット使用すれば、そのクラスでは最大16のサブネットができます。</p>
+<table>
+<thead>
+<tr>
+<th>サブネット数の算出</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ホスト部を消費するビット数</td>
+<td>2の乗数</td>
+<td>サブネット数</td>
+</tr>
+<tr>
+<td>1 bit</td>
+<td>21　=　2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2 bit</td>
+<td>22　=　4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3 bit</td>
+<td>23　=　8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4 bit</td>
+<td>24　=　16</td>
+<td>16</td>
+</tr>
+<tr>
+<td>5 bit</td>
+<td>25　=　32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>6 bit</td>
+<td>26　=　64</td>
+<td>64</td>
+</tr>
+<tr>
+<td>7 bit</td>
+<td>27　=　128</td>
+<td>128</td>
+</tr>
+<tr>
+<td>8 bit</td>
+<td>28　=　256</td>
+<td>256</td>
+</tr>
+<tr>
+<td>9 bit</td>
+<td>29　=　512</td>
+<td>512</td>
+</tr>
+<tr>
+<td>10 bit</td>
+<td>210　=　1024</td>
+<td>1024</td>
+</tr>
+<tr>
+<td>11 bit</td>
+<td>211　=　2048</td>
+<td>2048</td>
+</tr>
+<tr>
+<td>12 bit</td>
+<td>212　=　4096</td>
+<td>4096</td>
+</tr>
+<tr>
+<td>：</td>
+<td>：</td>
+<td>：</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ip7a.png"></p>
+<h2 id="ip-_1">IPアドレス - ホストアドレス数の算出方法</h2>
+<p>ホストアドレス数は各ネットワークでブロードキャストアドレスとネットワークアドレスを差し引いた数。
+例えば、ホスト部が 4 ビットあれば、1つのネットワークで使用できるホストアドレス数は最大 14 です。</p>
+<table>
+<thead>
+<tr>
+<th>ホストアドレス数の算出</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ホスト部のビット数</td>
+<td>2の乗数</td>
+<td>ホストアドレス数 ( 2の乗数 -2 )</td>
+</tr>
+<tr>
+<td>1 bit</td>
+<td>21　=　2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2 bit</td>
+<td>22　=　4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3 bit</td>
+<td>23　=　8</td>
+<td>6</td>
+</tr>
+<tr>
+<td>4 bit</td>
+<td>24　=　16</td>
+<td>14</td>
+</tr>
+<tr>
+<td>5 bit</td>
+<td>25　=　32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>6 bit</td>
+<td>26　=　64</td>
+<td>62</td>
+</tr>
+<tr>
+<td>7 bit</td>
+<td>27　=　128</td>
+<td>126</td>
+</tr>
+<tr>
+<td>8 bit</td>
+<td>28　=　256</td>
+<td>254</td>
+</tr>
+<tr>
+<td>9 bit</td>
+<td>29　=　512</td>
+<td>510</td>
+</tr>
+<tr>
+<td>10 bit</td>
+<td>210　=　1024</td>
+<td>1022</td>
+</tr>
+<tr>
+<td>11 bit</td>
+<td>211　=　2048</td>
+<td>2046</td>
+</tr>
+<tr>
+<td>12 bit</td>
+<td>212　=　4096</td>
+<td>4094</td>
+</tr>
+<tr>
+<td>：</td>
+<td>：</td>
+<td>：</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ip7b.png"></p>
+<h2 id="ip-_2">IPアドレス - サブネットマスクの算出方法</h2>
+<p>クラスCの以下のサブネットマスクの算出方法を暗記できれば、クラスAもBも考え方は同じとなります。
+例えば「 /16 」のサブネットマスクは 255.255.0.0 ですが、「 /17 」 は 255.255.128.0 となります。
+続いて「 /18 」は「 255.255.192.0 」となるので「 128→192→224→240 ・・」の増え方は同じです。</p>
+<table>
+<thead>
+<tr>
+<th>サブネットマスクの算出方法</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR表記</td>
+<td>10進数表記</td>
+<td>2進数表記</td>
+</tr>
+<tr>
+<td>/24</td>
+<td>255.255.255.0</td>
+<td>11111111.11111111.11111111.00000000</td>
+</tr>
+<tr>
+<td>/25</td>
+<td>255.255.255.128</td>
+<td>11111111.11111111.11111111.10000000</td>
+</tr>
+<tr>
+<td>/26</td>
+<td>255.255.255.192</td>
+<td>11111111.11111111.11111111.11000000</td>
+</tr>
+<tr>
+<td>/27</td>
+<td>255.255.255.224</td>
+<td>11111111.11111111.11111111.11100000</td>
+</tr>
+<tr>
+<td>/28</td>
+<td>255.255.255.240</td>
+<td>11111111.11111111.11111111.11110000</td>
+</tr>
+<tr>
+<td>/29</td>
+<td>255.255.255.248</td>
+<td>11111111.11111111.11111111.11111000</td>
+</tr>
+<tr>
+<td>/30</td>
+<td>255.255.255.252</td>
+<td>11111111.11111111.11111111.11111100</td>
+</tr>
+<tr>
+<td>/31</td>
+<td>255.255.255.254</td>
+<td>11111111.11111111.11111111.11111110</td>
+</tr>
+<tr>
+<td>/32</td>
+<td>255.255.255.255</td>
+<td>11111111.11111111.11111111.11111111</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ip-_3">IPアドレス - ネットワークアドレスとブロードキャストアドレスの算出方法</h2>
+<p>デフォルトのクラスA、B、Cアドレスにおける、ネットワークアドレスとブロードキャストアドレスの場合、
+ホスト部のビットを全て「0」にしたものがネットワークアドレス、ホスト部のオクテットを全て「1」に
+したものがブロードキャストアドレスであることから、オクテット単位で迷いなく算出することができます。</p>
+<table>
+<thead>
+<tr>
+<th>ネットワークアドレス &amp; ブロードキャストアドレスの算出方法</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPアドレスの例</td>
+<td>ネットワークアドレス</td>
+<td>ブロードキャストアドレス</td>
+</tr>
+<tr>
+<td>10.40.1.19/8</td>
+<td>10.0.0.0</td>
+<td>10.255.255.255</td>
+</tr>
+<tr>
+<td>172.16.20.101/16</td>
+<td>172.16.0.0</td>
+<td>172.16.255.255</td>
+</tr>
+<tr>
+<td>192.168.1.90/24</td>
+<td>192.168.1.0</td>
+<td>192.168.1.255</td>
+</tr>
+</tbody>
+</table>
+<p>クラス A、B、C の概念で、ホスト部をネットワークアドレスなら「 0 」、ブロードキャストアドレスなら
+「255」以外にあり得なく、深く考える必要がないのです。それではサブネット化した場合はどうでしょうか。
+多くの人は、10進数のIPアドレス情報を2進数へ変換して、ネットワーク部とホスト部にそれを分離してから
+ホスト部にあたるものを全て「0」ビットにしたものがネットワークアドレス、全て「1」ビットにしたものが
+ブロードキャストアドレスというやり方で算出すると思います。しかし<strong class="memory-answer">シンプルで高速な算出方法があります</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>ネットワークアドレス &amp; ブロードキャストアドレスの算出方法</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPアドレスの例</td>
+<td>ネットワークアドレス</td>
+<td>ブロードキャストアドレス</td>
+</tr>
+<tr>
+<td>10.40.1.19/12</td>
+<td>10.32.0.0</td>
+<td>10.47.255.255</td>
+</tr>
+<tr>
+<td>172.16.20.101/21</td>
+<td>172.16.16.0</td>
+<td>172.16.23.255</td>
+</tr>
+<tr>
+<td>192.168.1.90/27</td>
+<td>192.168.1.64</td>
+<td>192.168.1.95</td>
+</tr>
+</tbody>
+</table>
+<p>以下のステップにより簡単に算出できますし、2進数への変換も必要ありません。例を読めば分かります。</p>
+<p>?@　サブネットマスクの算出
+?A　256からサブネットマスク値をマイナス
+?B　?Aの値を 0 から加算していく（この結果がネットワークアドレス）
+?C　ネットワークアドレスから -1 としたものがブロードキャストアドレス。</p>
+<p>例えば「192.168.1.90/27」のサブネットマスクは「255.255.255.224」です。256 - 224 =「32」となり、
+192.168.1.0/27 → 192.168.1.<strong class="memory-answer">32</strong>/27 → 192.168.1.<strong class="memory-answer">64</strong>/27 → 192.168.1.<strong class="memory-answer">96</strong>/27がネットワークアドレスで
+あることが分かります。 例えば「192.168.1.90/27」は 64 ～ 96 間のアドレスであることから、その結果、
+ネットワークアドレスが「192.168.1.64」、ブロードキャストアドレスが「192.168.1.95」だと分かります。</p>
+<p>例えば「172.16.20.101/21」のサブネットマスクは「255.255.248.0」です。256 - 248 =「8」となり、
+172.16.0.0/21 → 172.16.<strong class="memory-answer">8</strong>.0/21 → 172.16.<strong class="memory-answer">16</strong>.0/21 → 172.16.<strong class="memory-answer">24</strong>.0/21・・・がネットワークアドレスで
+あることが分かります。 例えば 「172.16.20.101/21」 は 16 ～ 24 の間のアドレスであることから、結果、
+ネットワークアドレスが「172.16.16.0」、ブロードキャストアドレスが「172.16.23.255」だと分かります。</p>
+<p>実際に納得のいかないサブネットマスクに関する問題があれば<a href="https://www.infraexpert.com/study/tea3.htm">サブネット計算ツール</a>で確認してみましょう。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

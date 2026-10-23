@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WPA ( Wi-Fi Protected Access ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wpa">WPAとは</a></li>
+<li><a href="#wpa-tkiprc4">WPAの暗号化方式 - TKIPによるRC4（暗号化アルゴリズム）</a></li>
+<li><a href="#wpa-tkipmic">WPAの暗号化方式 - TKIPによるMIC (データの完全性の保証）</a></li>
+<li><a href="#wpa-tkip">WPAの暗号化方式 - TKIPのパケットフォーマット</a></li>
+<li><a href="#wpa-1">WPAの接続シーケンス その1 （アソシエーション処理）</a></li>
+<li><a href="#wpa-2-pmk">WPAの接続シーケンス その2 （PMKの共有）</a></li>
+<li><a href="#wpa-3-ptkgtktemporal-keydata-mic-key">WPAの接続シーケンス その3 （PTKの生成、GTKの生成、Temporal Key/Data MIC Keyの生成）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wpa-wi-fi-protected-access">WPA ( Wi-Fi Protected Access )</h1>
+<hr>
+<h2 id="wpa">WPAとは</h2>
+<p>WEPの脆弱性が発覚した時、この事態を深刻に受け止めたIEEE802.11では新たなセキュリティ規格として
+IEEE802.11i (WPA2) の策定化作業をはじめました。しかし標準化にはかなりの時間が必要であることが
+分かり、この事態に危機感を募らせたWi-Fi アライアンスが IEEE802.11i の中の仕様で容易に実装できる
+<strong class="memory-answer">セキュリティ技術を部分的に先取りした規格</strong>を策定しました。それがWPA (Wi-Fi Protected Access)です。
+2002年10月に発表されたWPAでは、WEPの以下の問題を解決するための様々な技術が実装されています。</p>
+<table>
+<thead>
+<tr>
+<th>暗号化方式</th>
+<th>WEP （セキュリティ規格 ： WEP）</th>
+<th>TKIP （セキュリティ規格 ： WPA）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>WEPによるRC4<br>(暗号の解読が容易）</td>
+<td>TKIPによるRC4</td>
+</tr>
+<tr>
+<td>整合性の検証</td>
+<td>WEPによるCRC32<br>(実質的にデータの改ざんを検出できない）</td>
+<td>TKIPによるMIC</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>WEPそのものにはないが<br>IEEE802.1X認証を採用することができる</td>
+<td>PSK (Pre-Shared Key) 認証、または<br>IEEE802.1X認証を採用することができる</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wpa-tkiprc4">WPAの暗号化方式　- TKIPによるRC4（暗号化アルゴリズム）</h2>
+<p>TKIPが優れた暗号化方式であるとはいえ、暗号化アルゴリズム自体はWEPと同様にRC4を採用しています。
+ただしTKIPではWEPよりも複雑な方法により暗号鍵を生成しています。暗号鍵のもとになる<strong class="memory-answer">Temporal Key</strong>
+をダイナミックに生成して、この暗号鍵と送信者のMACアドレスと IV を組み合わせてハッシングを行います。</p>
+<p><img alt="画像" src="../studygif/wireless12a.png"></p>
+<h2 id="wpa-tkipmic">WPAの暗号化方式　- TKIPによるMIC (データの完全性の保証）</h2>
+<p>TKIPではデータの完全性の保証に「MIC」を使用します。このMICは下図のとおり、動的に生成される
+<strong class="memory-answer">Data MIC Key</strong>、IEEE802.11ヘッダ、LLC、SNAP、Sequence番号、ペイロードの算出で求められます。
+ハッシュ関数の部分に、より安全性の高い HMAC-MD5 を使用せずに Michael を採用している理由は、
+TKIPがWEPを使用していたときの既存のハードウェアでも実装しやすくすることが一因となっています。</p>
+<p><img alt="画像" src="../studygif/wireless12b.png"></p>
+<p>以上により、TKIPによる暗号化方法やデータの完全性の保証方法は分かりました。最後にパケットフォーマットを見てみましょう。</p>
+<h2 id="wpa-tkip">WPAの暗号化方式 - TKIPのパケットフォーマット</h2>
+<p>一番目のフレームは暗号化が行われていないパケットです。2番目のフレームはデータの完全性を保証
+するために「<strong class="memory-answer">MIC</strong>」を実装させた時のパケットです。3番目のフレームは、最終的にTKIPのRC4で暗号化
+されたパケット、つまりTKIPのフレームフォーマットです。このパケットフォーマットは、よく見ると
+WEPで登場した「<strong class="memory-answer">ICV</strong>」があります。つまり、TKIPでは従来のICVに加えてMICも実装させているのです。</p>
+<p><img alt="画像" src="../studygif/wireless12c.png"></p>
+<h2 id="wpa-1">WPAの接続シーケンス その1 （アソシエーション処理）</h2>
+<p>WPAでは、無線LANクライアント（ = Supplicant ) と、アクセスポイント ( = Authenticator ) との間で
+以下の接続処理が行われます。アルゴリズムが複雑なので?@と?Aに焦点をあて解説します。?B～?Dにおける
+接続処理は簡単にいえば、SupplicantとAuthenticatorとで使用される「鍵を生成」しているということです。</p>
+<p>?@　アソシエーション処理　-　WPAにおける各種情報の共有
+?A　PMK (Pairwise Master Key) の共有　-　WPAで使用する様々な鍵のもとになるマスター鍵の生成
+?B　PTK (Pairwise Transient Key) の生成　-　 ユニキャスト通信で使用される鍵情報の生成
+?C　GTK (Group Transient Key) の生成　-　マルチキャスト、ブロードキャスト通信で使用される鍵情報の生成
+?D　Temporal KeyとData MIC Keyの生成　-　暗号化用の<strong class="memory-answer">Temporal Key</strong>、改ざん検知用の<strong class="memory-answer">Data MIC Key</strong>の生成</p>
+<p>?@の<strong class="memory-answer">アソシエーション処理</strong>では、無線LAN端末とアクセスポイントとでWPAの情報共有と双方の認証をします。
+最初にSupplicantからAuthenticatorにプローブ要求を送信します。プローブ要求を受信したAuthenticatorは
+プローブ応答を返します。その際にRSN IN (Robust Security Network Information Element) の情報を付加
+します。このRSN INにAuthenticatorがどのような暗号化や改ざん検知をサポートしているかのセキュリティ
+情報が入ります。この情報を受け取ることで Supplicant と Authenticator はWPAに関する情報を共有します。</p>
+<p><img alt="画像" src="../studygif/wireless12d.png"></p>
+<p>続いて802.11認証を行います。ここでは<strong class="memory-answer">オープン認証</strong>を行います。最後にSupplicantがAuthenticatorに
+アソシエーション要求を行いその際にSupplicantもRSN INの情報を送信します。そして、これらの情報の
+受信後、AuthenticatorはSupplicantにアソシエーション応答を返信して、アソシエーションは成功します。</p>
+<h2 id="wpa-2-pmk">WPAの接続シーケンス その2 （PMKの共有）</h2>
+<p>?A の<strong class="memory-answer">PMKの共有</strong>は、上記のアソシエーション処理の完了後に行われます。WPAでは、色々な鍵を使用して
+通信するのですがPMK (Pairwise Master Key) はこれらのもとになるマスターキーです。WPAの認証方式
+にPSK認証を使用する場合は、パスフレーズで設定したPSK (Pre-Shared Key) がPMKとして使用されます。
+IEEE802.1X認証を使用する場合、802.1X認証成功後に配布されるセッション鍵がPMKとして使用されます。
+※　WPAでのPSK認証のことを<strong class="memory-answer">WPAパーソナルモード</strong>、WPAでの802.1X認証のことを<strong class="memory-answer">WPAエンタープライズモード</strong>といいます。</p>
+<p>◇　WPA-PSK認証
+PSK認証は、無線LANクライアントとアクセスポイントにあらかじめ手動でPSKを設定する必要があります。
+ここで設定する「ネットワークキー/ネットワークセキュリティキー」は正確にはPSKではなく<strong class="memory-answer">パスフレーズ</strong>
+なのですが、WPAではこのパスフレーズからPSKを自動生成します。パスフレーズは8文字以上63文字以内
+で指定する必要があります。ちなみに総務省では、21文字以上のパスフレーズの設定を推奨としています。
+※ アクセスポイントがWPA-PSKの暗号化でAESも対応している場合、アクセスポイントも無線LAN端末もAESを選択した方が良い。</p>
+<table>
+<thead>
+<tr>
+<th>Windows Vista / 7 の設定画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="画像" src="../studygif/wireless12f.png"></td>
+</tr>
+</tbody>
+</table>
+<p>◇　WPA-IEEE802.1X認証
+IEEE802.1X認証では無線LANクライアントやアクセスポイントに手動で認証鍵の情報を設定したりしません。
+IEEE802.1X認証では認証成功後に認証サーバ（Radiusサーバ）が自動的に生成しクライアントに配布します。
+IEEE802.1X認証方式に応じEAPの種類や「ネットワーク認証方法の選択」の設定を変更する必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>Windows Vista / 7 - 設定画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="画像" src="../studygif/wireless12g.png"></td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.1X認証方式では、上の暗号化方式の設定以外に、以下の認証方式と認証情報の設定が必要です。
+ここではWindows XPでの設定画面を紹介します。※ワイヤレスアダプタの種類により画面は異なります。</p>
+<p>※ IEEE802.1X認証方式と認証情報の設定項目は、実装するIEEE802.1X認証の種類に応じて選択項目やチェック項目が異なります。
+※ EAPの種類で「スマートカードまたはその他の証明書」を選択した場合、認証方式に<strong class="memory-answer">EAP-TLSの方式を選択</strong>したことになります。</p>
+<h2 id="wpa-3-ptkgtktemporal-keydata-mic-key">WPAの接続シーケンス その3 （PTKの生成、GTKの生成、Temporal Key/Data MIC Keyの生成）</h2>
+<p>WPAのアソシエーションが完了しPMKを共有できたら、後はPMKの情報をもとにWPAで使用する鍵を自動的
+に生成します。それぞれの鍵を生成するためのシーケンスの説明は省略しますが、以下のイメージでOKです。</p>
+<p><img alt="画像" src="../studygif/wireless12e.png"></p>
+<hr>
+<p>← <a href="wireless11.html">無線LAN - 高度なセキュリティ</a>　<a href="wireless13.html">無線LAN - WPA2</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

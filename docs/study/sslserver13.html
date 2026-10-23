@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>CRL or OCSP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#crlcertificate-revocation-list">CRL（Certificate Revocation List）とは</a></li>
+<li><a href="#_1">証明書の有効性のチェック</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="crl-or-ocsp">CRL or OCSP</h1>
+<hr>
+<h2 id="crlcertificate-revocation-list">CRL（Certificate Revocation List）とは</h2>
+<p><strong class="memory-answer">CRL</strong>とは有効期限よりも前に失効させたデジタル証明書の一覧です。有効期限よりも前に失効させる
+というのは、例えば証明書の誤発行や証明書の秘密鍵紛失で悪用されるのを回避するための処置です。
+認証局では、そのような証明書をCRLに登録して管理します。CRLは日本語では<strong class="memory-answer">証明書失効リスト</strong>と
+言いますが、正確にはPKIにおける公開鍵証明書のリスト（ 証明書のシリアル番号のリスト ）のこと。</p>
+<h2 id="_1">証明書の有効性のチェック</h2>
+<p>デジタル証明書が<strong class="memory-answer">失効していないものなのか</strong>をチェックする方法は大きく以下の2パターンがあります。</p>
+<p>?@　CRLファイルをダウンロードしてローカルチェック
+デジタル証明書の受け取り側は、デジタル証明書とCRLを照合することで証明書が現在も有効であるかを
+確認できます。CRLは認証局（CA）から定期的に最新情報が配布されるので、それをダウンロードします。
+クライアント視点から解説すると、サーバ証明書の有効性をチェックする場合、Webサイトなどから受信
+したサーバ証明書のシリアル番号とCRLに登録された証明書のシリアル番号を照合して有効性を確認可能。</p>
+<p><img alt="画像" src="../studygif/sslserver13a.png"></p>
+<p>SSL-VPN接続などでは、クライアントPCから提示されたクライアント証明書の有効性をチェックする場合、
+例えばCisco ASAが指定したCRL参照先に問い合わせ、そのクライアント証明書の有効性をチェックします。</p>
+<p>?A　OCSP（Online Certificate Status Protocol）によるオンラインチェック
+クライアントがCRLファイルをダウンロードしてチェックする手法の場合は、保存したCRLファイルが最新
+とは限らないので定期的にダウンロードする必要がありますが、ここで紹介する<strong class="memory-answer">OCSP</strong>を使用したオンライン
+チェックでは、デジタル証明書の有効性をリアルタイムで確認できて、クライアントの処理も軽くなります。</p>
+<p>OCSPは、X.509公開鍵証明書の失効状態を取得するための通信プロトコルです。?@によるCRLの手法の
+代替手段として策定された実装です。OCSPクライアントがOCSPサーバ（ OCSPレスポンダ ）に対して
+デジタル証明書の有効性を確認させることでクライアントが自力でのCRL取得や照合する手間が省けます。</p>
+<p><img alt="画像" src="../studygif/sslserver13b.png"></p>
+<p>OCSPサーバ（OCSPレスポンダ）は、CA自身やCRLを集中管理する<strong class="memory-answer">VA</strong>（Validation Authority）が運営を
+行っています。VAはデジタル証明書の失効リスト（CRL）を集中管理して証明書の有効性をチェックする
+システムのことです。認証局（CA）とは異なりデジタル証明書の発行は行わず検証機能に特化しています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study44.html">SSL/TLS、SSLサーバ証明書、SSL-VPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

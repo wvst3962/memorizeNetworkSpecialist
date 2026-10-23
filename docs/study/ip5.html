@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP address - Global IP address / Private IP address | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip-ip">IPアドレス - グローバルIPアドレス</a></li>
+<li><a href="#ip-ip_1">IPアドレス - プライベートIPアドレス</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-address-global-ip-address-private-ip-address">IP address - Global IP address / Private IP address</h1>
+<hr>
+<h2 id="ip-ip">IPアドレス - グローバルIPアドレス</h2>
+<p>IPアドレスは大きく2種類あります。1つはグローバルIPアドレス、もう1つはプライベートIPアドレス。
+グローバルIPアドレスとは、インターネットに接続された機器に一意に割り当てられるIPアドレスであり、
+世界的には<strong class="memory-answer">ICANN</strong>、日本では<strong class="memory-answer">JPNIC</strong>という機関で管理しています。ICANNは<strong class="memory-answer">IANA</strong>の後継組織となります。</p>
+<table>
+<thead>
+<tr>
+<th>グローバルIPアドレスの範囲</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラス</td>
+<td>アドレス範囲</td>
+</tr>
+<tr>
+<td>クラスA</td>
+<td>1.0.0.0 ～ 9.255.255.255</td>
+</tr>
+<tr>
+<td>クラスA</td>
+<td>11.0.0.0 ～ 126.255.255.255</td>
+</tr>
+<tr>
+<td>クラスB</td>
+<td>128.0.0.0 ～ 172.15.255.255</td>
+</tr>
+<tr>
+<td>クラスB</td>
+<td>172.32.0.0 ～ 191.255.255.255</td>
+</tr>
+<tr>
+<td>クラスC</td>
+<td>192.0.0.0 ～ 192.167.255.255</td>
+</tr>
+<tr>
+<td>クラスC</td>
+<td>192.169.0.0 ～ 223.255.255.255</td>
+</tr>
+</tbody>
+</table>
+<p>今、この瞬間、みなさんは自分のPCをインターネット接続して「ネットワークエンジニアとして」の
+Webサイトを閲覧しているので、みなさんのPCには上記のグローバルIPアドレスが付与されています。
+※　NATやNAPTなどのアドレス変換技術をルータなどで使用している場合は、プライベートIPアドレスがPCに付与されます。</p>
+<h2 id="ip-ip_1">IPアドレス - プライベートIPアドレス</h2>
+<p>プライベートIPアドレスは、会社や家庭などの組織内（ローカル）で一意に割り当てられるIPアドレス。
+このIPアドレスはJPNICなどの機関に申請する必要はなく自由に使えます。自由に使用できるとはいえ
+組織内で一意でない場合は、宛先を混同して正常に通信できないので一意に割り当てる必要があります。
+また、このIPアドレスが割り当てられた機器はインターネットでは通信を行えないため、インターネット
+通信を行うためには、アドレス変換技術などでグローバルIPを持つ機器に中継してもらう必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>プライベートIPアドレスの範囲</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラス</td>
+<td>アドレス範囲</td>
+</tr>
+<tr>
+<td>クラスA</td>
+<td>10.0.0.0 ～ 10.255.255.255</td>
+</tr>
+<tr>
+<td>クラスB</td>
+<td>172.16.0.0 ～ 172.31.255.255</td>
+</tr>
+<tr>
+<td>クラスC</td>
+<td>192.168.0.0 ～ 192.168.255.255</td>
+</tr>
+</tbody>
+</table>
+<p>※　プライベートIPアドレスの情報だけを暗記して、プライベートIP以外がグローバルIPアドレスと覚える方が効率的です。</p>
+<p><img alt="画像" src="../studygif/ip5a.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

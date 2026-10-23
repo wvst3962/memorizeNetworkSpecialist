@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lanwi-fi">無線LAN（Wi-Fi）とは</a></li>
+<li><a href="#lan">無線LANの通信方式</a></li>
+<li><a href="#ieee80211">IEEE802.11の全体像</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan">Wireless LAN</h1>
+<hr>
+<h2 id="lanwi-fi">無線LAN（Wi-Fi）とは</h2>
+<p>無線LANはLANケーブルを必要としないイーサネットの通信技術です。無線LANの特徴は以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>無線LAN（ Wi-Fi ）の特徴</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モバイル性の向上</td>
+<td>メリット</td>
+<td>電波の届く範囲での移動しながらの通信、機器の自由な配置変更が行える。</td>
+</tr>
+<tr>
+<td>LAN敷設の工事費削減</td>
+<td>メリット</td>
+<td>LANケーブル、コネクタ、パッチパネルの部材や敷設工事費用が削減できる。</td>
+</tr>
+<tr>
+<td>通信品質の問題</td>
+<td>デメリット</td>
+<td>無線LANと同じ周波数を使用する機器が近くにある場合、電波の干渉により<br>速度低下の可能性がある。また、電波の到達範囲によりスループットが異なる。<br>※ <strong class="memory-answer">IEEE802.11n</strong>が規格化された現在、通信品質の問題は大幅に改善されている。</td>
+</tr>
+<tr>
+<td>セキュリティの問題</td>
+<td>デメリット</td>
+<td>無線LANでは、電波にデータをのせて通信が行われる。その電波が不正に<br>傍受された場合、暗号化が不十分であるとデータを解読される可能性がある。<br>※ 暗号化にAESを使用し、認証に<strong class="memory-answer">IEEE802.1X</strong>認証を採用すれば問題がない。</td>
+</tr>
+</tbody>
+</table>
+<p>無線LANのデメリットを解消するために、無線LANの規格化を行っている IEEE802.11Working Group は
+様々な規格の標準化を進めています。現在では、<strong class="memory-answer">11i</strong>、<strong class="memory-answer">11e</strong>、<strong class="memory-answer">11n</strong>、<strong class="memory-answer">11ac</strong>などが標準化されたことによって
+無線LAN特有の問題（ 特に通信品質とセキュリティ問題 ）はかなり解消されて普及に弾みがついています。
+次に、有線LANと無線LANの違いを見てみましょう。注目すべきは、無線LANのレイヤ1が電波であること。</p>
+<p><img alt="画像" src="../studygif/wirelessa.png"></p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>有線LAN</th>
+<th>無線LAN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標準規格</td>
+<td>IEEE802.3</td>
+<td>IEEE802.11</td>
+</tr>
+<tr>
+<td>伝送媒体</td>
+<td>ケーブル</td>
+<td>電波</td>
+</tr>
+<tr>
+<td>アクセス制御</td>
+<td>CSMA/CD方式</td>
+<td>CSMA/CA方式</td>
+</tr>
+<tr>
+<td>LAN通信で使用するアドレス</td>
+<td>MACアドレス</td>
+<td>MACアドレス</td>
+</tr>
+<tr>
+<td>PCで必要とするNIC</td>
+<td>有線LANカード ( PC内蔵が一般的 )</td>
+<td>無線LANカード ( PC内蔵が一般的 )</td>
+</tr>
+<tr>
+<td>PCの接続先となる機器</td>
+<td>スイッチ<br>( リピータハブ、L2/L3スイッチなど )</td>
+<td>アクセスポイント<br>( 無線LAN端末間を接続する電波中継機 )</td>
+</tr>
+</tbody>
+</table>
+<p>※　無線LANカードは別名として「 無線LANアダプタ、無線LANコネクタ、Wi-Fiアダプタ、Wi-Fiコネクタ 」と呼ばれています。</p>
+<h2 id="lan">無線LANの通信方式</h2>
+<p>無線LANの通信方式には大きく2つのモードがあります。1つは<strong class="memory-answer">アドホックモード</strong>（ad hoc mode）です。
+アドホックモードではアクセスポイントを使用せず（介さず）に無線LAN機器同士が直接通信を行います。
+このアドホックモードは <strong class="memory-answer">IBSS</strong> ( Independent Basic Service Set ) とも呼ばれています。</p>
+<p><img alt="画像" src="../studygif/wirelessb.png"></p>
+<p>もう1つは<strong class="memory-answer">インフラストラクチャモード</strong>（infrastructure mode）。このインフラストラクチャモードでは
+アクセスポイントを使用して無線LAN機器同士が通信を行うモードです。企業内ネットワークにおいては
+インフラストラクチャモードによる無線LAN通信が一般的です。一方、アドホックモードの無線LAN通信は
+無線LANカードを搭載したニンテンドーDSやPSPで対戦ゲームをする時によく使用されているモードです。</p>
+<h2 id="ieee80211">IEEE802.11の全体像</h2>
+<p><strong class="memory-answer">IEEE</strong>とは電気、電子分野における世界最大の学会。そして<strong class="memory-answer">IEEE802</strong>とはLAN規格を定めている委員会。
+そして、<strong class="memory-answer">IEEE802.11</strong>は無線LANに関する規格です。IEEE802.11はイーサネット（Ethernet）に関する
+規格を定めたIEEE802.3と下表の通り並列の位置づけにあります。IEEE802.11の詳細は下表の通りです。</p>
+<p><img alt="画像" src="../studygif/wirelessc.png"></p>
+<p>ネットワークエンジニアの設計・構築において、無線LANは問題が発生しやすい分野の1つと言えます。
+有線LANの物理ケーブルによるデータ伝送とは異なり、目に見えない電波によるデータ伝送であることが
+その要因の1つと言えますが、それだけではなく無線LAN技術に関する知識不足によるところも起因して
+いることが多いように思えます。今回は、正しい理解と知識に重点をおいて解説していきたいと思います。</p>
+<hr>
+<p><a href="wireless2.html">IEEE 802.11a / 11b / 11g / 11n / 11ac</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

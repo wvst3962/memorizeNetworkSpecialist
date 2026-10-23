@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>NIC teaming | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#nic">チーミングとは（NICチーミングとは）</a></li>
+<li><a href="#_1">チーミングの種類</a></li>
+<li><a href="#_2">ネットワーク設計の注意点 ( チーミング ： リンクアグリゲーション )</a></li>
+<li><a href="#_3">ネットワーク設計の注意点 ( 冗長化構成 )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="nic-teaming">NIC teaming</h1>
+<hr>
+<h2 id="nic">チーミングとは（NICチーミングとは）</h2>
+<p>チーミングとは、サーバ等に搭載した物理NIC（ネットワークアダプタ）を1つの仮想的なNICとして束ねる
+技術のことです。チーミングはNICチーミング（Network Interface Card Teaming）とも呼ばれています。</p>
+<p>チーミングにより<strong class="memory-answer">耐障害性の強化</strong>、<strong class="memory-answer">使用帯域の向上</strong>などが実現します。LANスイッチ側の冗長化だけでなく、
+サーバ側の物理NICで冗長化することで、システム全体の耐障害性が強くなります。なお、チーミングを行う
+ためにはOS側ではなく搭載された物理NICとそのドライバソフトがチーミングに対応している必要があります。</p>
+<p><img alt="画像" src="../studygif/etherchannel1a.png"></p>
+<p>※　Linuxでは Bonding（ボンディング）ドライバを使用していることから、チーミングのことを<strong class="memory-answer">ボンディング</strong>と呼んでいます。</p>
+<h2 id="_1">チーミングの種類</h2>
+<p>チーミングには、フォールトトレランス、リンクアグリゲーション、ロードバランシングの3種類があります。
+<strong class="memory-answer">フォールトトレランス</strong>では物理NICを束ねて1つをプライマリ（稼働）1つをセカンダリ（待機）として使用。
+プライマリの物理NICやケーブルに障害が発生した場合、セカンダリの物理NICで通信を行うようになります。</p>
+<p><img alt="画像" src="../studygif/etherchannel1b.png"></p>
+<p><strong class="memory-answer">ロードバランシング</strong>では、物理NICを束ねて冗長性を持たせるだけでなく、同時に複数の物理NICを使用して
+トラフィックを負荷分散を行います。通信セッションごとに複数の物理NICにトラフィックを分散させる方式。
+それぞれの各通信は物理NIC1枚だけで処理されます。これにより同時に複数の物理NICを使用することになり
+スループットは向上します。どちらかの物理NICに障害が発生しても残りの物理NIC経由で通信を継続します。
+※　リンクアグリゲーションと混同しそうですが、IEEE 802.3adモードではスイッチが受信パケットのロードバランシングを実現。</p>
+<p><img alt="画像" src="../studygif/etherchannel1c.png"></p>
+<p><strong class="memory-answer">リンクアグリゲーション</strong>では物理NICを束ねて冗長性を持たせるだけでなく、同時に複数の物理NICを使用し
+帯域幅を増加させる方式です。この方式では論理的に完全に1リンクとなります。その他の方式と同じように、
+どちらかの物理NICやケーブルに障害が発生しても、もう一方の物理NICで通信を継続できます。この方式を
+実装した場合、チーミングを設定したサーバが接続するLANスイッチでもリンクアグリゲーション設定が必要。
+※ 802.3ad 動的リンク・アグリゲーション・モードで双方向のアグリゲーションが利用できる場合のみ転送量を増やすことになります。</p>
+<p><img alt="画像" src="../studygif/etherchannel1d.png"></p>
+<h2 id="_2">ネットワーク設計の注意点 ( チーミング ： リンクアグリゲーション )</h2>
+<p>リンクアグリゲーションを実装した構成ではスイッチをまたいでリンクアグリゲーション設定はできないので
+上図の通りLANスイッチは1台にしてリンクアグリゲーションの設定を行う必要があります。しかしこの構成は
+問題点があります。サーバで物理NICを冗長化しても接続スイッチが1台なのでシングルポイントが生まれます。</p>
+<p>そこでサーバ側でリンクアグリゲーションのチーミングを設定する場合、物理スイッチを仮想的に1台に見せる
+<strong class="memory-answer">スタック</strong>技術対応の製品を導入することが推奨です。スタック可能なスイッチでは、2台のスイッチにまたがり
+リンクアグリゲーションの実装が可能となり耐障害性が強化されます。</p>
+<p><img alt="画像" src="../studygif/etherchannel1e.png"></p>
+<h2 id="_3">ネットワーク設計の注意点 ( 冗長化構成 )</h2>
+<p>紹介した3種類のチーミングでは、サーバ側の物理NICに障害が発生した場合は当然検知することができますが
+L2スイッチと上位のL3スイッチ間のリンクで障害が発生しても検知することはできません。従って下図構成で
+L2スイッチ ⇔ L3スイッチのリンク障害が発生すると障害をサーバで検知できない結果、通信に不具合が発生。</p>
+<p><img alt="画像" src="../studygif/etherchannel1f.png"></p>
+<p>上図の問題を発生させないための適正な冗長化されたネットワーク構成案には、以下の2つの案があります。
+1つ目はリンクステートトラッキング機能の実装です。リンクステートトラッキングは、スイッチ上で指定
+したリンク（例えば上位リンク）に障害が発生すると、関連づけたリンク（例えば下位リンク）を強制的に
+ダウンさせる仕組み。これで、サーバでチーミングを行っていても、下図のフロー通り安定した通信を実現。</p>
+<p><img alt="画像" src="../studygif/etherchannel1g.png"></p>
+<p>2つ目は<strong class="memory-answer">スパニングツリー</strong>を実装した冗長構成。プロトコルは高速収束できるRSTPの使用が推奨です。</p>
+<p><img alt="画像" src="../studygif/etherchannel1h.png"></p>
+<hr>
+<p><a href="etherchannel.html">リンクアグリゲーションとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

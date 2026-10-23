@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Multicast Routing Protocol - Dense mode / Sparse mode | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-2">マルチキャストルーティングプロトコル - 2つの動作モード</a></li>
+<li><a href="#-dense">マルチキャストルーティングプロトコル - Denseモード</a></li>
+<li><a href="#-sparse">マルチキャストルーティングプロトコル - Sparseモード</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="multicast-routing-protocol-dense-mode-sparse-mode">Multicast Routing Protocol - Dense mode / Sparse mode</h1>
+<hr>
+<h2 id="-2">マルチキャストルーティングプロトコル - 2つの動作モード</h2>
+<p>マルチキャストルーティングプロトコルには<strong class="memory-answer">Denseモード</strong>と<strong class="memory-answer">Sparseモード</strong>の大きく2種類のモードがあります。
+Denseモードの場合は「送信元ツリー」が使用され、Sparseモードの場合は「送信元ツリーと共有ツリー」を
+組み合わせて使用します。</p>
+<table>
+<thead>
+<tr>
+<th>動作モード</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>マルチキャストルーティングプロトコル - Denseモード</td>
+<td>送信元ツリーを使用</td>
+</tr>
+<tr>
+<td>マルチキャストルーティングプロトコル - Sparseモード</td>
+<td>送信元ツリーと共有ツリーを組み合わせて使用</td>
+</tr>
+</tbody>
+</table>
+<p>Denseモード、Sparseモードのどちらを使用するのかは、マルチキャストパケットを送信する<strong class="memory-answer">Senderの</strong>
+<strong class="memory-answer">配置状況</strong>、<strong class="memory-answer">受信するReceiverの配置状況</strong>、<strong class="memory-answer">ネットワークの帯域幅</strong>から判断して決めるのが一般的です。
+それでは、それぞれのモードで想定しているネットワーク環境、動作概要などについて解説していきます。</p>
+<h2 id="-dense">マルチキャストルーティングプロトコル - Denseモード</h2>
+<p>Denseは「密集」という意味です。Denseモードは、マルチキャストグループのメンバーがネットワークに
+高密度に位置してネットワークの帯域幅に余裕がある場合に使用します。つまり<strong class="memory-answer">SenderとReceiverともに</strong>
+<strong class="memory-answer">LAN上で狭い範囲に位置する場合</strong>（ 1つの拠点内のGigabitEthernet LAN等 ）に使用します。ただし1つの
+拠点内LANであっても、音声システムがある場合はDenseモードでなくSparseモードを使用することが多い。</p>
+<p><img alt="画像" src="../studygif/multicastz14a.png"></p>
+<p>Denseモードのマルチキャストルーティングプロトコルでは、<strong class="memory-answer">マルチキャストのトラフィックを定期的に</strong>
+<strong class="memory-answer">フラッディング</strong>します。Denseモードのマルチキャストルーティングプロトコルには、<strong class="memory-answer">PIM-DM</strong>、<strong class="memory-answer">DVMRP</strong>
+<strong class="memory-answer">MOSPF</strong>などがあります。一般的にはPIM-DMが使用されます。基本的な共通動作として、Receiverが存在
+する可能性のあるインターフェース全てにマルチキャストパケットを送信して、その後にReceiverが存在
+しないと判明したインターフェースへはフラッディングをしない <strong class="memory-answer">Flood &amp; Prune</strong> という動作となります。</p>
+<h2 id="-sparse">マルチキャストルーティングプロトコル - Sparseモード</h2>
+<p>Sparseは「希薄」という意味です。Sparseモードは、マルチキャストグループのメンバーがネットワークに
+散在して位置してネットワークの帯域幅に余裕がない場合に使用します。つまり、<strong class="memory-answer">SenderとReceiverともに</strong>
+<strong class="memory-answer">WANを経由して通信する場合</strong>などで使用します。</p>
+<p><img alt="画像" src="../studygif/multicastz14b.png"></p>
+<p>Sparseモードのマルチキャストルーティングプロトコルでは、最初に空のディストリビューションツリーを
+作り、そのツリーに対して明示的に Join Request（参加要求）があった場合にのみ、そのルータをツリーに
+追加します。ツリーの中心にはRP（ランデブーポイント）と呼ばれるルータが存在して、マルチキャストの
+トラフィックを受信したいホストが接続されているルータはRPにその情報が登録されます。そしてSenderは
+RPにマルチキャストを送信して、RPを経由してRecevierへ流れ始めると、パス情報を最適化していきます。</p>
+<p>DenseモードのFlood &amp; Pruneモデルに対して、Sparseモードは<strong class="memory-answer">Explicit Join</strong>（明示的な参加）モデルです。
+Sparseモードのマルチキャストルーティングプロトコルには<strong class="memory-answer">PIM-SM</strong>、<strong class="memory-answer">CBT</strong>があります。一般的にはPIM-SM
+が企業ネットワークで使用されています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

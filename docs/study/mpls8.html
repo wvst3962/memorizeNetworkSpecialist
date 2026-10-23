@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>MPLS-TE | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#mpls-te_1">MPLS-TEとは</a></li>
+<li><a href="#mpls-te2">MPLS-TEを実装するための2つの技術</a></li>
+<li><a href="#2">2種類のラベル配布方式</a></li>
+<li><a href="#rsvp-te-lsp">RSVP-TE ： LSPのセットアップ</a></li>
+<li><a href="#ospf-te">OSPF-TE ： 帯域幅の情報通知</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="mpls-te">MPLS-TE</h1>
+<hr>
+<h2 id="mpls-te_1">MPLS-TEとは</h2>
+<p>MPLS-TE（ Traffic Engineering ）では、LSPの経路を明示的に指定することで、LSPの経路を自由に
+制御できます。このMPLS-TEにより、トラフィックの分散やLSP単位での各種QoS制御を実現できます。
+各種QoS制御とは帯域確保、帯域制限、優先制御のこと。例えば、ルータに確保したい帯域を定義して
+ルーティングテーブルに関係なく、到達ネットワークまで必要帯域を確保した最適経路を自動的に生成。</p>
+<h2 id="mpls-te2">MPLS-TEを実装するための2つの技術</h2>
+<p>MPLS-TEを実装するためには、MPLSの技術に加えて、大きく以下の2つの機能が必要となってきます。</p>
+<table>
+<thead>
+<tr>
+<th>必要機能</th>
+<th>実装プロトコル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帯域の管理機能</td>
+<td>OSPF-TE / IS-IS-TE</td>
+<td>例えば、OSPF-TEの<strong class="memory-answer">LSA Type10</strong>で以下を周期的に伝達<br>・　帯域情報（どのくらいの帯域が使用できるかの情報）<br>・　リンク属性（どのようなパスで使用されるのかの情報）<br>・　TEメトリック（リンクのメトリック値）</td>
+</tr>
+<tr>
+<td>経路の生成機能</td>
+<td>RSVP-TE / CR-LDP</td>
+<td>例えば、RSVP-TEなどで以下の役割を担い情報伝達<br>・　LSPの帯域幅を予約<br>・　LSP経路の明示的な指定<br>・　その経路用の<strong class="memory-answer">Labelの割り当て</strong>を行いTE-Tunnelを生成</td>
+</tr>
+</tbody>
+</table>
+<p>Cisco機器で実装されるOSPF-TEとRSVP-TEについてもう少し詳しく以下で解説します。IS-IS拡張版の
+IS-IS-TEも、Ciscoルータでも実装可能ですが、一般的にはOSFP-TEがCiscoルータで使用されています。</p>
+<table>
+<thead>
+<tr>
+<th>実装プロトコル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OSPF-TE</td>
+<td>リンクステートプロトコルの特性を生かして、LSA Type 10（Opaque LSA）で情報が伝達される。<br>※　同一エリア内しかリンク情報は伝達されない。</td>
+</tr>
+<tr>
+<td>RSVP-TE</td>
+<td>IPネットワークにおける帯域予約のためのRSVPにラベル配布機能を追加したのがRSVP-TE。<br>※　RSVP-TEはDoDモードです。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2">2種類のラベル配布方式</h2>
+<p>ラベル配布方式には以下の2種類の方式があります。MPLS-TEで使用する方式はDoDモードとなります。</p>
+<table>
+<thead>
+<tr>
+<th>ラベル配布方式のモード</th>
+<th>プロトコル例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong class="memory-answer">DU</strong> （Downstream Unsolicited）</td>
+<td>LDP</td>
+<td>LSRからラベル値を決めて一方的に配布するモード<br>⇒　LSPの経路はIGPの最短経路に従う</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">DoD</strong> （Downstream-on-Demand）</td>
+<td>RSVP-TE</td>
+<td>FECに対応するラベルを問い合わせた時にラベル値を配布するモード<br>⇒　LSPの経路はルーティングに関係なく明示的な指定、帯域幅の確保</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/mpls8a.png"></p>
+<p>RSVP-TEのために実装されたRSVPオブジェクトは以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>RSVPオブジェクト</th>
+<th>メッセージタイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Label Request Objetct</td>
+<td>RSVP PATHメッセージ</td>
+<td>ラベル割り当て要求</td>
+</tr>
+<tr>
+<td>Label Object</td>
+<td>RSVP RESVメッセージ</td>
+<td>ラベル割り当て通知</td>
+</tr>
+<tr>
+<td>Explicit Route Object（ERO）</td>
+<td>RSVP PATHメッセージ</td>
+<td>Head EndからTail EndまでのTEパスを明示的に連ねる</td>
+</tr>
+<tr>
+<td>Record Route Object（RRO）</td>
+<td>RSVP PATH/RESVメッセージ</td>
+<td>RSVPメッセージが通過したリンクを記録</td>
+</tr>
+<tr>
+<td>Session Attribute Object</td>
+<td>RSVP PATHメッセージ</td>
+<td>パスのプライオリティ、名前、予約スタイルを通知</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rsvp-te-lsp">RSVP-TE ： LSPのセットアップ</h2>
+<p>RSVP-TEでは、RSVP PATHメッセージとRSVP RESVメッセージを使用してLSPをセットアップします。
+先ず、RSVP SenderがEROを計算して、そのEROに基づいてPATHメッセージがRSVP Receiverに伝播。</p>
+<p><img alt="画像" src="../studygif/mpls8b.png"></p>
+<p>次に、RSVP PATHメッセージに対する応答として、RSVP RESVメッセージを送りホップバイホップで
+ラベル値をアサインします。</p>
+<p><img alt="画像" src="../studygif/mpls8c.png"></p>
+<p>最後に、アサインしたラベル値をLFIBに登録することでSender ⇔ Receiver間でLSPトンネルが確立します。</p>
+<p><img alt="画像" src="../studygif/mpls8d.png"></p>
+<p>R1からR3へのLSPを確立させたのと同様に、逆方向のR3からR1へのLSPを確立させる必要があります。</p>
+<h2 id="ospf-te">OSPF-TE ： 帯域幅の情報通知</h2>
+<p>MPLS-TEにおけるLSPでは、最適なパスを計算する上でIGPのリンクステートプロトコルよりも詳細な
+情報が必要となってきます。具体的には以下の5つの情報が必要となります。これらの情報は拡張された
+リンクステートプロトコルであるOSFP-TEなどによって、エリア内にフラッディングされるTEDBに格納
+されて、LSPの最適パスの計算に使用されます。OSPF LSA Type10：RFC5250、OSPF-TE：RFC3630。</p>
+<p>OSPF <strong class="memory-answer">LSA Type10</strong>（Opaque area local）
+のLSAが使用されて以下の情報をFlooding</p>
+<p>?@　Traffic Engineering metric
+?A　Maximum bandwidth
+?B　Maximum reservable bandwidth
+?C　Unreserved bandwidth
+?D　Administrative group
+/ Resource Class Color</p>
+<p>設計や設定手法についてはCCIE SP用の
+コンテンツで別途作成し公開していきます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study29.html">MPLSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>NTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ntp_1">NTPとは</a></li>
+<li><a href="#ntp_2">NTPのパケット</a></li>
+<li><a href="#ntp-">NTP - 階層構造</a></li>
+<li><a href="#ntp-_1">NTPサービス - 時刻同期サーバ &amp; 時刻同期クライアント</a></li>
+<li><a href="#ntp-_2">NTP - 同期モード</a></li>
+<li><a href="#ntp-_3">NTP - 仕組み</a></li>
+<li><a href="#ntp-2036">NTP - 2036年問題</a></li>
+<li><a href="#ntp_3">お勧めの公開NTPサーバ</a></li>
+<li><a href="#sntp">参考：SNTPとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ntp">NTP</h1>
+<hr>
+<h2 id="ntp_1">NTPとは</h2>
+<p>NTP（Network Time Protocol）は、コンピュータに内蔵されているシステムクロックをネットワークを
+介して正しく同期させるためのプロトコル。NTPにより時刻同期を行うことで指定時間に正しくサービス
+を動作させたり、出力ログを正しく管理できたり、証明書を利用した認証なども正しく行うことができます。</p>
+<p><img alt="画像" src="../studygif/tcpip25a.png"></p>
+<h2 id="ntp_2">NTPのパケット</h2>
+<p>NTPクライアントがNTPサーバにアクセスする際、宛先ポート番号としてUDPポート番号<strong class="memory-answer">123</strong>を使用。
+NTPクライアントがNTPサーバにアクセスする際の送信元ポート番号も、ポート番号123を使用します。</p>
+<p><img alt="画像" src="../studygif/tcpip25b.png"></p>
+<h2 id="ntp-">NTP - 階層構造</h2>
+<p>NTPは<strong class="memory-answer">stratum</strong>と呼ばれる階層構造を持っており、最上位のNTPサーバが原子時計やGPSの正確な
+時刻源から正しい時刻情報を得て、下位のNTPサーバはそれを参照して時刻同期を行っていきます。
+最上位のNTPサーバは「stratum 1」であり、階層を降りるごとにstratumの値が増えていきます。
+最大で<strong class="memory-answer">stratum 15</strong>までNTPサーバを構築できます。なお、stratum 16には同期できません。</p>
+<p><img alt="画像" src="../studygif/tcpip25c.png"></p>
+<p>※　直結している「 Stratum 0 」と「 Stratum 1 」間では、IP通信ではないので当然ながらNTPで時刻同期はしていません。</p>
+<h2 id="ntp-_1">NTPサービス - 時刻同期サーバ &amp; 時刻同期クライアント</h2>
+<p>例えば上図のStratum 2のNTPサーバは上位のNTPサーバ（Stratum 1）から正しい時刻を得ている一方、
+下位のNTPサーバ（Stratum 3）には正しい時刻情報を通知しています。つまり、時刻を提供するサーバ
+機能と、時刻を取得するクライアント機能の2つの機能を保持しています。</p>
+<p><img alt="画像" src="../studygif/tcpip25d.png"></p>
+<h2 id="ntp-_2">NTP - 同期モード</h2>
+<p>NTPでよく使用される同期モードには以下の2つがあります。下図では2つの同期モードを示していますが
+必ずしもこれら2つのモードを使用する必要はなく、Server / Clientモードだけで構成している設計が多い。</p>
+<table>
+<thead>
+<tr>
+<th>同期モード</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server/Clientモード</td>
+<td>NTPクライアントがNTPサーバに対して一方的に同期を行うモード。よく使用されるモード</td>
+</tr>
+<tr>
+<td>Symmetric<br>Active／Passiveモード</td>
+<td>同じ階層に属するNTPサーバ同士の場合に使われる。グループ化された同期メンバーの<br>中から、基準となるNTPサーバを動的に決定する。このモードで動作させる場合は、予め<br>このモードで同期するように構成されたNTPサーバでないと正常に動作しない場合がある。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/tcpip25e.png"></p>
+<h2 id="ntp-_3">NTP - 仕組み</h2>
+<p>NTPクライアントは、NTPサーバから伝えられる時刻情報をそのまま自身のシステムクロックに同期させる
+訳ではありません。NTP情報はネットワークで伝送されるので遅延が発生しています。このネットワークの
+遅延を反映した上でNTPクライアントは時刻同期を行います。以下の4つの時刻情報のやりとりを行います。</p>
+<table>
+<thead>
+<tr>
+<th>時間軸</th>
+<th>NTPパケットでやりとりされる４つの時刻情報</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>NTPクライアントのクエリの発信時刻</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>NTPサーバのクエリの受信時刻</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>NTPサーバの応答の発信時刻</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>NTPクライアントの応答の受信時刻</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/tcpip25f.png"></p>
+<p>上図前提はクライアントとサーバは、まだNTP同期を取っておらず時間にズレ（遅延）があるとします。
+また、ネットワーク内の遅延時間が送信と受信とで等しいとします。往復遅延時間は「パケットの往復時間」
+から「サーバの処理時間」を引いたものであることから、(T4-T1) - (T3-T2) の公式により<strong class="memory-answer">2秒</strong>となります。
+クライアントの時計の遅延時間は上図の時間軸のズレを確認しなくても、公式によっても<strong class="memory-answer">3秒</strong>だと導けます。</p>
+<p>※　当然これらの2秒や3秒の値を導くのは上図の時間軸を見た方が簡単ですが、公式を知っておきましょう。</p>
+<h2 id="ntp-2036">NTP - 2036年問題</h2>
+<p>NTPでは、時刻に<strong class="memory-answer">1900年1月1日0時0分0秒</strong>（UTC）を起点とする<strong class="memory-answer">32ビット</strong>の積算秒数で表しています。
+32ビットであるため、起点から42億9496万7295秒までしか表現できません。つまり42億9496万7295秒
+経過した2036年2月6日 6時28分15秒 (UTC) の次の秒については、起点と認識してしまうということです。
+これによりNTPが誤作動してしまう可能性があるとされています。これがNTPにおける <strong class="memory-answer">2036年問題</strong> です。</p>
+<h2 id="ntp_3">お勧めの公開NTPサーバ</h2>
+<p>NTPによる時刻同期がシビアに求められるネットワークシステムでは、そのLANネットワークにstratum 1
+のNTPサーバを導入することをお勧めします。一方、インターネット上で公開しているNTPサーバを参照
+して時刻同期を行う場合、<a href="https://www.infraexpert.com/study/tcpip29.html">お勧めの公開NTPサーバ（stratum1）</a>の記事もご参考下さい。</p>
+<h2 id="sntp">参考：SNTPとは</h2>
+<p>SNTP（ Simple Network Time Protocol ）とは、NTPの簡易版にあたるプロトコルのことであり、NTPの
+<strong class="memory-answer">クライアント専用で使用するプロトコル</strong>です。つまり、SNTPを使用するSNTPクライアントは、NTPサーバ
+から時刻情報を受信するだけの機能しかなく、その他の<strong class="memory-answer">システムに対し時刻情報は提供できない</strong>プロトコル。</p>
+<hr>
+<p>← <a href="tcpip15.html">DNSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

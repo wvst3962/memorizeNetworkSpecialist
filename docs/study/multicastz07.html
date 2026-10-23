@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Multicast Distribution Tree | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">マルチキャスト - ディストリビューションツリーの特徴</a></li>
+<li><a href="#-_1">マルチキャスト - ディストリビューションツリー作成の流れ</a></li>
+<li><a href="#step-1-receiver">Step 1 - Receiverのマルチキャストグループへの参加</a></li>
+<li><a href="#step-2-">Step 2 - マルチキャストルーティングプロトコルによるルータ間の通知</a></li>
+<li><a href="#step-3-sender">Step 3 - Senderからのマルチキャストパケットの送信</a></li>
+<li><a href="#step-4-">Step 4 - マルチキャストルーティングによりマルチキャストパケットを転送</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="multicast-distribution-tree">Multicast Distribution Tree</h1>
+<hr>
+<h2 id="-">マルチキャスト - ディストリビューションツリーの特徴</h2>
+<p>ユニキャスト伝送では「<strong class="memory-answer">1対1の通信</strong>」であることから、1つの送信元から1つの宛先への伝送が行われます。
+例えば下図では「10.1.1.1/24」から「172.16.1.5/24」へのパケット転送は、1つのフローで形成されます。</p>
+<p><img alt="画像" src="../studygif/multicastz07a.png"></p>
+<p>マルチキャスト伝送では「<strong class="memory-answer">1対Nの通信</strong>」であることから、1つの送信元から複数の宛先へ伝送が行われます。
+下図の 10.1.1.1/24 から 239.1.1.5 へのパケット転送において、239.1.1.5 という宛先が複数あることから、
+<strong class="memory-answer">1つのパケットがルータでコピーされていき</strong>、枝分かれしてツリー状に形成されていきます。以上のことから
+このツリーはマルチキャスト ディストリビューション（配送ツリー）と呼ばれます。ディストリビューション
+ツリーは、マルチキャストグループのメンバーが動的に参加、離脱することから、常に動的に形成されます。</p>
+<p><img alt="画像" src="../studygif/multicastz07b.png"></p>
+<h2 id="-_1">マルチキャスト - ディストリビューションツリー作成の流れ</h2>
+<p>ディストリビューションツリー作成と維持は、主にマルチキャストルーティングプロトコルで行われますが
+厳密には次のフローでディストリビューションツリーが作成され、マルチキャストパケットが転送されます。</p>
+<h2 id="step-1-receiver">Step 1 - Receiverのマルチキャストグループへの参加</h2>
+<p>Receiverがマルチキャストパケットを受信するために、ラストホップルータに<strong class="memory-answer">IGMP</strong>というプロトコルで
+Receiverの存在を通知して、マルチキャストグループへの参加を通知します。</p>
+<h2 id="step-2-">Step 2 - マルチキャストルーティングプロトコルによるルータ間の通知</h2>
+<p>マルチキャストルーティングプロトコルの例えば <strong class="memory-answer">PIM</strong> を有効にしているルータでは、ルータ間において
+PIMネイバーが確立されており、IGMPによってReceiverの存在が分かれば、PIMネイバーに通知します。</p>
+<h2 id="step-3-sender">Step 3 - Senderからのマルチキャストパケットの送信</h2>
+<p>ルータは、IGMPでReceiverの存在と参加するマルチキャストグループを知り、PIMによってその情報が
+マルチキャストルータに伝わっていき、そして、<strong class="memory-answer">SenderがマルチキャストパケットをReceiverへと送信</strong>。</p>
+<h2 id="step-4-">Step 4 - マルチキャストルーティングによりマルチキャストパケットを転送</h2>
+<p>Senderから受信したマルチキャストパケットは、<strong class="memory-answer">マルチキャストルーティングによりパケット転送</strong>されて
+いきます。マルチキャストパケットを転送すべきインターフェースが複数ある場合、1つのマルチキャスト
+パケットを<strong class="memory-answer">必要な数だけコピーして転送</strong>してきます。</p>
+<p><img alt="画像" src="../studygif/multicastz07c.png"></p>
+<p>以上の通り、ディストリビューションツリーではルータが<strong class="memory-answer">マルチキャストを受信すべきインターフェース</strong>と
+<strong class="memory-answer">マルチキャストを転送すべきインタフェース</strong>の情報が形成されます。ユニキャストのルーティングテーブル
+のように事前に作成した情報に基づき転送されるのではなく、Receiverのマルチキャストグループの参加や、
+Senderからのマルチキャストパケットの送信により、ディストリビューションツリーは<strong class="memory-answer">動的に作成</strong>されます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

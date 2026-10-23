@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP Telephony - erlang | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">呼量による回線数の算出</a></li>
+<li><a href="#_2">呼、呼量、呼損率</a></li>
+<li><a href="#_3">呼量（アーラン）</a></li>
+<li><a href="#_4">呼損率</a></li>
+<li><a href="#_5">音声品質の評価</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-telephony-erlang">IP Telephony - erlang</h1>
+<hr>
+<h2 id="_1">呼量による回線数の算出</h2>
+<p>自宅では１つの電話に１つの電話回線を使用するため、必ず電話の発着信ができます。しかし企業では
+電話回線を複数の電話機で共有することから、混雑している場合は発着信できない電話機が出てきます。</p>
+<p>例えば、3回線を契約していて電話機が4台ある場合は、3台の電話機が同時に使用している場合、残りの
+1台は発着信できません。契約回線を4回線にすれば、常に同時に全ての電話が発着信できますが、その
+場合は、月額の回線費用が高くなります。そもそもオフィス電話の全台が、同時に常に発着信することは
+あまりありません。そこでコストを意識して<strong class="memory-answer">呼量</strong>、<strong class="memory-answer">呼損率</strong>、<strong class="memory-answer">呼損率表</strong>をもとに適正に回線数を算出します。</p>
+<p><img alt="画像" src="../studygif/telephony5a.png"></p>
+<h2 id="_2">呼、呼量、呼損率</h2>
+<p>先ずテレフォニーにおける「呼」「呼量」「呼損率」という用語を理解しましょう。</p>
+<table>
+<thead>
+<tr>
+<th>テレフォニー用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>呼</td>
+<td>1回の通話の利用時間のこと。（電話を発信し、相手側で着信して電話が切られるまで）</td>
+</tr>
+<tr>
+<td>呼量</td>
+<td>呼の利用時間の合計を単位時間で割った値のこと。<strong class="memory-answer">アーラン</strong>と呼ばれる。</td>
+</tr>
+<tr>
+<td>呼損率</td>
+<td>電話をかけた時に、回線数が足らずに電話が発着信できない確立のこと。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">呼量（アーラン）</h2>
+<p>呼量は、以下の数式により算出できます。例えば、1時間（3600秒）あたり、30回の通話があり、この時の
+平均利用時間（保留時間も含む）が4分間（240秒）である場合には、呼量は「<strong class="memory-answer">2</strong>」であることが分かります。</p>
+<p><img alt="画像" src="../studygif/telephony5b.png"></p>
+<p>それでは、電話機が180台あるケースを考えてみましょう。例えば、180台の電話機のトラフィックを調べた
+ところ、電話機１台当たりの呼の発生頻度（発着呼の合計）は3分に1回、平均回線保留時間は80秒であった
+とします。この時の呼量は何アーランでしょうか。先ず条件を整理してみると以下の3点であると分かります。</p>
+<p>条件1　電話機の台数：180台
+条件2　呼の発生頻度：3分に1回（つまり、1時間あたり20回）
+条件3　平均回線保留時間：80秒</p>
+<p>上図の呼量の計算式では1台の呼量が求められます。今回は180台なので総呼量としては180倍となります。
+下図の呼量の計算式に従うと、総呼量は<strong class="memory-answer">80アーラン</strong>であることが分かります。</p>
+<p><img alt="画像" src="../studygif/telephony5e.png"></p>
+<h2 id="_4">呼損率</h2>
+<p>呼損率は、以下の計算式で算出できます。例えば、10回電話をかけて1回電話をつながらなかった時の
+呼損率は0.1。例えば、100回電話をかけて1回電話をつながらなかった場合の呼損率は 0.01 となります。</p>
+<p><img alt="画像" src="../studygif/telephony5c.png"></p>
+<p>契約回線数が多いほど、電話がつながりやすくなるので、呼損率が低くなりますがコストは高くなります。
+一方、契約回線数が少ないほど電話がつながりにくくなり呼損率が高くなりますがコストは抑えられます。</p>
+<p>そこで<strong class="memory-answer">アーランB式</strong>の理論式を使用して呼量、呼損率、回線数の関係を推測することができます。この
+アーランB式が呼損率表のことです。アーランB式の理論式は複雑で計算するのは困難を極めることから
+呼損率表の早見表に従って必要な回線数を考えていきます。ピンク枠内の数字は呼量（アーラン）です。</p>
+<table>
+<thead>
+<tr>
+<th>必要回線数</th>
+<th>呼損率</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>必要回線数</td>
+<td>0.001</td>
+<td>0.002</td>
+<td>0.003</td>
+<td>0.005</td>
+<td>0.01</td>
+<td>0.02</td>
+<td>0.03</td>
+<td>0.05</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>回線数 1</td>
+<td>0.0010</td>
+<td>0.0020</td>
+<td>0.0030</td>
+<td>0.0050</td>
+<td>0.0101</td>
+<td>0.0204</td>
+<td>0.3090</td>
+<td>0.0526</td>
+<td>0.111</td>
+</tr>
+<tr>
+<td>回線数 2</td>
+<td>0.0458</td>
+<td>0.0653</td>
+<td>0.0806</td>
+<td>0.1050</td>
+<td>0.1530</td>
+<td>0.2330</td>
+<td>0.2820</td>
+<td>0.381</td>
+<td>0.595</td>
+</tr>
+<tr>
+<td>回線数 3</td>
+<td>0.194</td>
+<td>0.249</td>
+<td>0.289</td>
+<td>0.349</td>
+<td>0.455</td>
+<td>0.6020</td>
+<td>0.7150</td>
+<td>0.699</td>
+<td>1.27</td>
+</tr>
+<tr>
+<td>回線数 4</td>
+<td>0.439</td>
+<td>0.535</td>
+<td>0.602</td>
+<td>0.701</td>
+<td>0.869</td>
+<td>1.09</td>
+<td>1.26</td>
+<td>1.52</td>
+<td>2.05</td>
+</tr>
+<tr>
+<td>回線数 5</td>
+<td>0.762</td>
+<td>0.900</td>
+<td>0.994</td>
+<td>1.130</td>
+<td>1.36</td>
+<td>1.66</td>
+<td>1.88</td>
+<td>2.22</td>
+<td>2.88</td>
+</tr>
+<tr>
+<td>回線数 6</td>
+<td>1.15</td>
+<td>1.33</td>
+<td>1.45</td>
+<td>1.62</td>
+<td>1.91</td>
+<td>2.88</td>
+<td>2.54</td>
+<td>2.96</td>
+<td>3.76</td>
+</tr>
+<tr>
+<td>回線数 7</td>
+<td>1.58</td>
+<td>1.60</td>
+<td>1.95</td>
+<td>2.16</td>
+<td>2.50</td>
+<td>2.94</td>
+<td>3.25</td>
+<td>3.74</td>
+<td>4.67</td>
+</tr>
+</tbody>
+</table>
+<p>例えば電話の統計レポートから呼量が2アーランであることが分かり、呼損率を0.05以下にしたい場合には
+必要となる回線数は<strong class="memory-answer">5</strong>にすることが適切であることが分かります。呼損率表の見方の順番は以下の通りです。</p>
+<p><img alt="画像" src="../studygif/telephony5d.png"></p>
+<p>呼損率表の見方が分かれば、次のようなケースからも必要な回線数も分かると思います。例えば1時間あたり
+平均通話回数が「60回」であり、平均保留時間が「120秒」であり、呼損率を0.1にしたい時の必要回線数は
+どうなるか。120秒の通話が60回（120×60=7200）を1時間（3600秒）で割ると呼量（アーラン）は <strong class="memory-answer">2</strong> で
+あると分かります。呼損率表に従い、呼損率0.1で呼量が2以上なら、必要回線数の最低は <strong class="memory-answer">4</strong> だと分かります。</p>
+<h2 id="_5">音声品質の評価</h2>
+<p>音声品質を評価する方法には、<strong class="memory-answer">主観評価</strong>と<strong class="memory-answer">客観評価</strong>の2種類の方式があります。主観評価の方法には
+<strong class="memory-answer">MOS</strong>（Mean Option Score）と呼ばれる方法があります。MOSでは実際に人間が聞いて品質を1～5の
+5段階評価する方法。1が最も悪く5が最も良い評価として点数をつけます。人手とコストのかかる手法。</p>
+<p>客観評価には<strong class="memory-answer">PSQM</strong>、<strong class="memory-answer">PESQ</strong>、<strong class="memory-answer">R値</strong>の方法があり、PSQM（Perceptual Speech Quality Measure）は
+従来の電話機での評価方式であり0～6.5の範囲で数値化されます。数値が低いほど高品質を示します。</p>
+<p>PESQ（Perceptual Evaluation of Speech Quality）はPSQMの改良版。IP電話特有のパケットの損失
+パケットの揺らぎなどを評価値として反映できる方法。-0.5～4.5範囲で数値化。数値が高いほど高評価。</p>
+<p><strong class="memory-answer">R値は、E-modelというアルゴリズムにより回線の雑音(ノイズ)、音量、エコー、遅延などから算出</strong>される
+音声品質評価の手法です。R値は、発信する電話から受信する電話までのエンドツーエンドの音声品質を
+0～100の値で評価します。値が高いほど高い評価を示します。総務省では、IP電話の音声品質を、R値と
+遅延の2つの要素に基づいてクラスA、B、Cの3つに分類しています。クラスAが音声品質が最も高いです。
+なお、通信事業者が050のIP電話サービスを提供するためにはクラスCの基準をクリアする必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>クラスA</th>
+<th>クラスB</th>
+<th>クラスC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R値</td>
+<td>80超</td>
+<td>70超</td>
+<td>50超</td>
+</tr>
+<tr>
+<td>遅延</td>
+<td>100ミリ秒未満</td>
+<td>150ミリ秒未満</td>
+<td>400ミリ秒未満</td>
+</tr>
+<tr>
+<td>品質レベル</td>
+<td>固定電話レベル音声品質</td>
+<td>携帯電話レベルの音声品質</td>
+<td>それ以下の音声品質</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study36.html">IP電話とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

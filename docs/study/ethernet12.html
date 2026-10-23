@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>PLC - Power Line Communication | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#plcpower-line-communication">PLC（Power Line Communication）とは</a></li>
+<li><a href="#plc">PLCの構成</a></li>
+<li><a href="#plc-">PLC - 通信規格</a></li>
+<li><a href="#hd-plc3plc">HD-PLCに準拠した世界初の第3世代PLCアダプター</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="plc-power-line-communication">PLC - Power Line Communication</h1>
+<hr>
+<h2 id="plcpower-line-communication">PLC（Power Line Communication）とは</h2>
+<p>PLCは、電力線を通信回線として使用する技術です。電力線通信、高速電力線通信とも呼ばれています。</p>
+<table>
+<thead>
+<tr>
+<th>PLC</th>
+<th>周波数</th>
+<th>特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>低速PLC</td>
+<td>10kHz ～ 450kHz</td>
+<td>9600bpsの低速であり、この周波数での製品は現在ほぼない</td>
+</tr>
+<tr>
+<td>高速PLC</td>
+<td>2MHz ～ 50MHz</td>
+<td>2006年10月に省令改正して使用できるようになった周波数であり現在の主流</td>
+</tr>
+</tbody>
+</table>
+<p>現在の企業ネットワークや家庭ネットワークは、有線LANではイーサネットLANで構築されており、PLCで
+構築することは先ずありませんが、UTPケーブルが敷設できない環境や、無線LANの電波が届かない特殊な
+環境（小規模ネットワーク）で、このPLCを使用することが稀にあります。ただし、PLCによる漏洩電波が
+無線通信や医療機器に影響を与える可能性があると指摘されていることもあり、基本的に普及していません。</p>
+<h2 id="plc">PLCの構成</h2>
+<p>PLCを利用するためには最低でも2台のPLCモデムが必要です。1つをマスターアダプターとして使用して
+もう1つをターミナルアダプターとして使用します。また、PLCが電力線を使用するとはいえPLCモデムへは
+UTPのLANケーブルで接続します。家庭内ネットワークでは電子レンジなどの影響を受けて無線LAN環境で
+快適に通信できない人は、以下のような構成でPLCモデムを使用している人が少なからずいらっしゃいます。</p>
+<p><img alt="画像" src="../studygif/ethernet12a.png"></p>
+<h2 id="plc-">PLC - 通信規格</h2>
+<p>日本国内で利用可能なPLCの通信規格には以下の3つがあります。現在、国内で主流な規格はHD-PLCです。</p>
+<table>
+<thead>
+<tr>
+<th>PLCの通信規格</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HD-PLC</td>
+<td>CEPCA(CE-Powerline Communication Alliance)で作られた規格で、同団体のパナソニックの登録商標。</td>
+</tr>
+<tr>
+<td>HomePlug AV</td>
+<td>HomePlug Powerline Alliance（HomePlug）で作られた規格。この団体はアメリカ合衆国の業界団体。</td>
+</tr>
+<tr>
+<td>UPA</td>
+<td>UPA (Universal Powerline Association) という団体で作られた規格。この団体はスペインの業界団体。</td>
+</tr>
+</tbody>
+</table>
+<p>HD-PLCの特徴は以下の通りです。210Mbpsは理論上の最大通信速度でありノイズにより速度が低下します。</p>
+<table>
+<thead>
+<tr>
+<th>変調方式</th>
+<th>メディアアクセス制御方式</th>
+<th>暗号技術</th>
+<th>使用周波数帯</th>
+<th>最大物理速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wavelet OFDM/PAM</td>
+<td>TDMA・CSMA/CA</td>
+<td>AES 128bit</td>
+<td>4 - 28MHz</td>
+<td>210Mbps</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hd-plc3plc">HD-PLCに準拠した世界初の第3世代PLCアダプター</h2>
+<p>現在販売されている<a href="https://www.amazon.co.jp/gp/search?ie=UTF8&amp;camp=247&amp;creative=1211&amp;index=computers&amp;keywords=PLC&amp;linkCode=ur2&amp;tag=internetworke-22">PLC製品</a>は、HD-PLCに準拠した第3世代PLCアダプターです。最大240Mbps（規格値）の
+高速通信を実現しています。PLCネットワーク接続ができなかった場合のペイバックシステムなどもあります。</p>
+<p><img alt="画像" src="../studygif/ethernet12b.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

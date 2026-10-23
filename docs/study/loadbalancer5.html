@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancer - Persistence | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#3">ロードバランサの重要な3つの機能</a></li>
+<li><a href="#-">ロードバランサ - パーシステンス</a></li>
+<li><a href="#source-address-affinity-persistence">Source address affinity persistence</a></li>
+<li><a href="#cookie-persistence">Cookie persistence</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancer-persistence">Load Balancer - Persistence</h1>
+<hr>
+<h2 id="3">ロードバランサの重要な3つの機能</h2>
+<p>ロードバランサには色々な機能があります。また、ロードバランサがシングルの場合と冗長化の場合とでは
+使用する機能も大きく異なってきます。ここではシングル構成や冗長化構成に関係なく、ロードバランサ導入
+に際して必須知識の<strong class="memory-answer">ロードバラシング</strong>（負荷分散）、<strong class="memory-answer">パーシステンス</strong>（セッション維持）、<strong class="memory-answer">モニター</strong>（監視）
+の3つの重要な基本機能を紹介していきます。今回は<strong class="memory-answer">パーシステンス</strong>（セッション維持）を紹介していきます。</p>
+<h2 id="-">ロードバランサ - パーシステンス</h2>
+<p>パーシステンスは、同一のクライアントからのリクエストを常に同じサーバに転送するセッション維持機能。
+ECサイトのオンラインショッピングでは、クライアントからの連続して発生するリクエストを同一のサーバ
+に転送する必要のあるWebシステムがあり、そのようなシステムではこのパーシステンスは必須の実装機能。</p>
+<p>ECサイトに限らず、イントラで使用するサーバの負荷分散においてもパーシステンスを実装させる必要性の
+あるWebアプリも多いです。要件がない場合でも、送信元IPアドレスによるパーシステンスの設定が望ましい。</p>
+<p><img alt="画像" src="../studygif/loadbalancer5a.png"></p>
+<p>例えばロードバランシングでRound Robinを設定していて、パーシステンスを設定しない場合、上図のように
+サーバへの負荷分散は実現しますが、負荷分散しながら、同一のクライアントからのリクエストを同じサーバ
+への転送はできません。しかし、負荷分散を設定だけではなくパーシステンスを設定していれば、負荷分散し
+ながらも、クライアントの送信元IPを見て、同一クライアントからのリクエストを同じサーバへ転送できます。</p>
+<p>以下のパーシステンスの種類は、F5社の負荷分散装置（BIG-IP）で実装されている機能紹介となっていますが
+他メーカの製品も基本的には同じような機能をサポートしています。色々な種類があるとはいえ、よく使用され
+ているパーシステンスはクライアントの送信元IPアドレスによりロードバランサが割り振るサーバを固定する
+<strong class="memory-answer">Source address affinity persistence</strong>、Cookie情報により割り振るサーバを固定する<strong class="memory-answer">Cookie persistence</strong>です。</p>
+<h2 id="source-address-affinity-persistence">Source address affinity persistence</h2>
+<h2 id="cookie-persistence">Cookie persistence</h2>
+<p>◇　SSL persistence
+◇　Destination address affinity persistence
+◇　Hash persistence
+◇　SIP persistence
+◇　Universal persistence
+◇　Microsoft Remote Desktop Protocol persistence</p>
+<p>これらのパーシステンス方式はクライアント⇔サーバ間の通信要件により決定しますが、特に要件がない場合
+または要件が不明瞭な場合、Source address affinity persistenceをロードバランサに設定しておく事が無難。
+以下では、よく使用される Source address affinity persistence と Cookie persistence の2つについて説明。</p>
+<table>
+<thead>
+<tr>
+<th>パーシステンスの種類</th>
+<th>説明</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address affinity persistence</td>
+<td>クライアントの送信元IPアドレスを見て、転送するサーバを固定する。</td>
+<td></td>
+</tr>
+<tr>
+<td>Cookie persistence</td>
+<td>Insert Mode</td>
+<td><strong class="memory-answer">BIG-IPが</strong>特別なCookieをHTTPレスポンスに挿入。※ <strong class="memory-answer">最も使用</strong>されているモード。</td>
+</tr>
+<tr>
+<td>Cookie persistence</td>
+<td>Rewrite Mode</td>
+<td>WebサーバがCookie(名前：<strong class="memory-answer">BIGipCookie</strong>)を作成し、BIG-IPがCookie情報を更新。<br>Cookieの値の仕様　⇒　The cookie must contain a total of 120 zeros</td>
+</tr>
+<tr>
+<td>Cookie persistence</td>
+<td>Passive Mode</td>
+<td>WebサーバがCookieを作成し、BIG-IPはその読み取りを行う。</td>
+</tr>
+<tr>
+<td>Cookie persistence</td>
+<td>Hash Mode</td>
+<td>WebサーバがCookieを作成し、BIG-IPはCookie情報を更新する。<br>BIG-IPは、Webサーバが発行するCookie名を指定する必要がある。</td>
+</tr>
+</tbody>
+</table>
+<p>※ Cookie persistenceの4つのモードのうち<strong class="memory-answer">Insert Modeのみ</strong>サーバ側でCookieを発行する必要がないのでInsert Modeの人気が高い。</p>
+<p>Source address affinity persistenceでは、クライアントの送信元IPアドレスを見て転送するサーバを固定。
+下図ではロードバランサでネットマスクを「/24」とソースアドレスを指定しているので、以下の分散になる。
+ロードバランサで「/32」と指定すれば、セグメントに関係なくホストごとに転送するサーバが固定されます。</p>
+<p><img alt="画像" src="../studygif/loadbalancer5b.png"></p>
+<p>Cookie persistenceでは、どのようにどのタイミングでCookieが組み込まれるのかに焦点を当て見ていきます。</p>
+<p>下図では、Cookie Insert Modeの通信フローを解説しています。クライアントからの最初のコネクションでは
+Cookieを保持していないので、ロードバランサはロードバランシングの設定に従いクライアントの通信先となる
+サーバを選択（Pick Server)して転送します。次にサーバからのHTTP Responseを受信したロードバランサは、
+Cookieを挿入してクライアントへHTTP Responseを転送。次に、クライアントからの次のHTTP Requestには
+先ほどのCookieが挿入されているので、サーバはその Cookie を見て常に同じサーバに転送できるようになる。</p>
+<p><img alt="画像" src="../studygif/loadbalancer5c.png"></p>
+<p>実際にCookie InsertによりBIG-IPから
+セットされたCookie情報は以下の通り。</p>
+<p><img alt="画像" src="../studygif/loadbalancer5e.png"></p>
+<p>Google ChromeブラウザのCookie情報
+から確認できました。このBIG-IPに設定
+されているプール名は「 POOL-HTTP 」
+であることも分かります。</p>
+<p>下図はCookie Rewrite Modeの通信フローを詳細に解説します。クライアントからの最初のコネクションでは
+Cookieを保持していないので、ロードバランサはロードバランシングの設定に従い、クライアントの通信先と
+なるサーバを選択（Pick Server）して転送。次に、サーバ側で発行したCookieを挿入します。そのCookieが
+挿入されたパケットを受信したロードバランサは、そのCookieをRewriteしクライアントへ転送します。次に
+クライアントからの次のHTTP Requestには先のCookieが挿入されているので、その Cookie を見て常に同じ
+サーバに転送します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer5d.png"></p>
+<p>※　Cookie Rewriteでは「BIGipCookie」という名のCookieをインターセプトして「<strong class="memory-answer">BIGipServer+Pool名</strong>」に書き換え。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

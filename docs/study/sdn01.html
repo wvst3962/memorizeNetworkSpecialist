@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SDN ( Software Defined Network ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#sdn">SDNとは</a></li>
+<li><a href="#sdn-">SDN - データプレーン、コントロールプレーン</a></li>
+<li><a href="#sdn_1">SDNのアーキテクチャ</a></li>
+<li><a href="#_1">インフラストラクチャ層</a></li>
+<li><a href="#_2">コントロール層</a></li>
+<li><a href="#_3">アプリケーション層</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="sdn-software-defined-network">SDN ( Software Defined Network )</h1>
+<hr>
+<h2 id="sdn">SDNとは</h2>
+<p>SDN（Software Defined Network）とは<strong class="memory-answer">単一のソフトウェアによりネットワーク機器を集中的に制御</strong>
+して、ネットワーク構成や設定などを柔軟に動的に変更することができる「技術の総称」のことです。
+SDNでは管理ツールでの事前に設定するだけで、ネットワーク構成、性能、機能を動的に変更できます。</p>
+<p>従来の物理的なネットワークは、サーバやネットワーク機器の追加やネットワーク構成を変更する際に、
+ケーブルの抜き差しの物理作業やルータ、スイッチ、Firewallなどを1つ1つ変更する必要がありました。</p>
+<p>SDNでは、機器の「<strong class="memory-answer">データ転送機能</strong>と<strong class="memory-answer">制御機能</strong>」を分離して、制御機能を<strong class="memory-answer">SDNコントローラ</strong>と呼ばれる
+ソフトウェアにより一か所の集中管理することで物理的な変更をすることなく、どの機器にどのような
+動作をさせるのか柔軟に設定することができます。</p>
+<p><img alt="画像" src="../studygif/sdn01a.png"></p>
+<p>SDNコントローラによって、目的に応じて複数の仮想的なネットワークを構築することができることから、
+「SDN=ネットワーク仮想化技術」と定義している文献もありますが、ネットワーク仮想化はSDNによらず
+別の技術で実現する手法があるため、ネットワーク仮想化技術はSDNそのものとは区別する必要があります。
+その観点からもSDNはNW仮想化技術というより、文字通り「<strong class="memory-answer">ソフトウェア定義ネットワーク</strong>」と言えます。</p>
+<h2 id="sdn-">SDN - データプレーン、コントロールプレーン</h2>
+<p>SDNでは「データ転送機能と制御機能」を分離すると解説しましたが、この「データ転送機能」のことは
+<strong class="memory-answer">データプレーン</strong>と言い、「制御機能」のことは<strong class="memory-answer">コントロールプレーン</strong>と言います。役割を簡単に言うと、
+データプレーンでは<strong class="memory-answer">受信したデータの転送処理</strong>を行い、コントロールプレーンでは、データプレーンにて
+データの転送処理をするために<strong class="memory-answer">必要な経路情報の作成</strong>など複雑な制御を行います。</p>
+<p><img alt="画像" src="../studygif/sdn01b.png"></p>
+<p>従来のネットワークでは、各ネットワーク機器にデータプレーンとコントロールプレーンが存在すること
+から、各ネットワーク機器に設定する必要がありましたが、SDNでは各ネットワーク機器に存在していた
+コントロールプレーンを、<strong class="memory-answer">SDNコントローラ</strong>にて集中管理することになり、各ネットワーク機器を個別に
+設定する必要がなくなります。なお、上図では分かりやすくルータだけの絵としていますが、実際のSDN
+ネットワークではルータ以外にもFirewall、ロードバランサ、L2スイッチなど色々なネットワーク機器の
+コントロールプレーンをSDNコントローラで集中管理することができます。</p>
+<h2 id="sdn_1">SDNのアーキテクチャ</h2>
+<p>SDNのアーキテクチャは下図の通りです。SDNは、3つのコンポーネントから構成されています。</p>
+<p><img alt="画像" src="../studygif/sdn01c.png"></p>
+<h2 id="_1"><strong class="memory-answer">インフラストラクチャ層</strong></h2>
+<p>データ転送を実際に行うネットワーク機器のレイヤです。これらの機器の制御には、<strong class="memory-answer">OpenFlow</strong>や<strong class="memory-answer">NETCONF</strong>
+などの標準プロトコルや、機器ごとに設定された<strong class="memory-answer">API</strong>（Application Programming Interface）を利用します。
+この部分のAPIは<strong class="memory-answer">Southbound API</strong>（サウスバウンドAPI）と呼びます。</p>
+<h2 id="_2"><strong class="memory-answer">コントロール層</strong></h2>
+<p>SouthboundのプロトコルやAPIを使用した機器の制御をするレイヤです。同時にインフラストラクチャ層の
+ネットワーク機器のネットワーク機能を抽象化したAPIをアプリケーション層に提供します。この部分のAPIは
+<strong class="memory-answer">Northbound API</strong>（ノースバウンドAPI）を呼びます。</p>
+<h2 id="_3"><strong class="memory-answer">アプリケーション層</strong></h2>
+<p>SDNコントローラに設定するアプリケーションが該当するレイヤです。SDNを操作するアプリケーションは
+SDNコントローラとセットで提供されます。アプリケーション層では、APIを通じてネットワークの様々な
+処理をSDNコントローラへ指示する層です。</p>
+<p>・　Southbound API（サウスバウンドAPI）は、サウスバウンドインターフェース（<strong class="memory-answer">SBI</strong>）とも呼ばれます。
+・　Northbound API（ノースバウンドAPI）は、ノースバウンドインターフェース（<strong class="memory-answer">NBI</strong>）とも呼ばれます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

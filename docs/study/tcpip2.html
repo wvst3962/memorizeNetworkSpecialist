@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>ARP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#arp_1">ARPとは</a></li>
+<li><a href="#arp_2">ARPの仕組み</a></li>
+<li><a href="#rarp">RARPとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="arp">ARP</h1>
+<hr>
+<h2 id="arp_1">ARPとは</h2>
+<p>ARP（Address Resolution Protocol）は、IPアドレスからEthernetのMACアドレスの情報を得られる
+プロトコルです。<a href="https://www.infraexpert.com/study/study13.html">LAN</a>に接続されたコンピュータ間で通信するためには、IPパケットは下位のレイヤで
+L2ヘッダが付加された上で伝送されることからMACアドレスの情報が必要となります。しかしこれらの
+IPアドレスとMACアドレスは自動的な関連づけがないので、ARPでMACアドレスを得る必要があります。
+※　TCP/IPを利用したコンピュータのLAN通信では、<strong class="memory-answer">IPアドレスとMACアドレスの2つ</strong>のアドレスが分かることで通信できます。</p>
+<h2 id="arp_2">ARPの仕組み</h2>
+<p>ARPには「<strong class="memory-answer">ARPリクエスト</strong>と<strong class="memory-answer">ARPリプライ</strong>」という2種類のパケットがあります。ARPは、これら2種類の
+パケットを利用し、宛先となるIPアドレスを持つノードのMACアドレスの情報を得ます。例を見てみます。
+下図において、コンピュータAがコンピュータBと通信したいとします。その場合は先ずコンピュータAから
+ARPリクエストを同じセグメントの全ての端末に送信するためにARPリクエストをブロードキャストします。</p>
+<p><img alt="画像" src="../studygif/tcpip2a.png"></p>
+<p>このARPリクエストのパケットの中には、MACアドレスを知りたいノードのIPアドレス情報が入っています。
+ARPリクエストはブロードキャストされるので、全ノードがこのパケットを受信しますが、ARPパケットの
+中身を見て探索しているIPアドレスが自分（192.168.0.2）と分かったコンピュータBは、コンピュータBの
+MACアドレス情報をコンピュータAに伝えるためにARPリプライのパケットをコンピュータAだけに送ります。
+これでコンピュータAはBのMACアドレスを知ることができるので、LAN上での通信ができるようになります。</p>
+<p><img alt="画像" src="../studygif/tcpip2b.png"></p>
+<p>※　当然ながら、ARP Replyを返答する際にL2スイッチを経由しても、送信元MACアドレスが変更されるような事はありません。</p>
+<p>これらがARPの基本的な動きとなりますが、たとえば、コンピュータAが通信したい相手のコンピュータの
+IPアドレスが172.16.0.1だとします。その場合、172.16.0.1と通信したいので172.16.0.1のMACアドレス
+を得るためのARPリクエストではなく、デフォルトゲートウェイのIPである192.168.0.254のMACアドレス
+を得るためのARPリクエストを送信します。一般的に「デフォルトゲートウェイのIP ＝ ルータのIP」です。</p>
+<p><img alt="画像" src="../studygif/tcpip2c.png"></p>
+<h2 id="rarp">RARPとは</h2>
+<p>RARP (Reverse Address Resolution Protocol) とは、EthernetのMACアドレスからIPアドレスの情報を
+得ることのできるプロトコルです。ARPとは逆の動きのこのプロトコルは、現在ほぼ使用されていません。
+どのような場合に使用されるかというと、IPアドレスを持たないと通信できない機器であるにも関わらず
+IPアドレスの設定ができない（またはIPアドレスの設定が保存できない）機器がある場合に使用されます。</p>
+<p><img alt="画像" src="../studygif/tcpip2d.png"></p>
+<p>このような機器は起動時には自分のIPアドレスが分かりませんが、インターフェースのハードウェア部分に
+MACアドレス情報としては保持していることから、「自分のMACアドレスはこれですが、私のIPアドレスは
+何でしょうか？」という要求（RARPリクエスト）をすることでRARPサーバからIPアドレスを取得できます。</p>
+<hr>
+<p>← <a href="tcpip1.html">IPとは</a>　<a href="tcpip3.html">ARPテーブル、ARPキャッシュ</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

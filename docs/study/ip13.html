@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP Unnumbered | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip-unnumberedip">IP Unnumbered（IPアンナンバード）とは</a></li>
+<li><a href="#unnumbered">Unnumbered（アンナンバード）のイメージ図</a></li>
+<li><a href="#unnumbered-pppoe-lan">Unnumbered を使用する PPPoE LAN型接続</a></li>
+<li><a href="#1">参考情報 1</a></li>
+<li><a href="#2">参考情報 2</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-unnumbered">IP Unnumbered</h1>
+<hr>
+<h2 id="ip-unnumberedip">IP Unnumbered（IPアンナンバード）とは</h2>
+<p>IPアンナンバードとは、<strong class="memory-answer">WAN側にIPアドレスを割り当てずにLAN側のIPアドレスを借りる設定</strong>のことです。
+IPアンナンバードにより、ルータのWAN側ポートにIPアドレスを割り当てることなくLAN側ポートだけに
+IPアドレスを割り当てることで、2台のルータをまるで1台のルータのように扱うことも可能です。</p>
+<p>このIPアンナンバードの技術を使用することにより、割り当てるIPアドレスを節約することができます。
+下図で具体的に見ていきましょう。WAN側に「 192.168.254.0/30 」のセグメントを割り振っています。</p>
+<p><img alt="画像" src="../studygif/ip13a.png"></p>
+<p>これを<strong class="memory-answer">Unnumbered</strong>（アンナンバード）によるアドレッシングをすると192.168.254.0/30のセグメントを
+割り当てることなく、R1とR2のLAN間で通信することが可能です。例えば、Ciscoルータでは以下のように
+設定します。ip unnumbered の後はそのルータの送信元となるIPアドレスのインターフェースを指定します。</p>
+<p><img alt="画像" src="../studygif/ip13b.png"></p>
+<h2 id="unnumbered">Unnumbered（アンナンバード）のイメージ図</h2>
+<p>Unnumberedがなぜ2台のルータを1台のように見せる技術かというと、Unnumberedを設定することで
+論理的には下図と同じ状態になるからです。ただし、シリアル接続時のWANセグメントのIPセグメントが
+もったいないからUnnumberedを使用するのではなく、一般的にはPPPoE接続で使用することが多いです。</p>
+<p><img alt="画像" src="../studygif/ip13c.png"></p>
+<h2 id="unnumbered-pppoe-lan">Unnumbered を使用する PPPoE LAN型接続</h2>
+<p>Unnumberedは、PPPoEによるインターネット接続する際にとても役立ちます。先に紹介した構成では
+プライベートIPアドレスを利用してネットワークを構成できますが、PPPoEによるインターネット接続では
+グローバルIPアドレスが付与されるので、WAN側（インターネット接続側）に割り振られるIPアドレスを
+なし（unnumbered）にして、グローバルIPアドレスを節約した構成を組むことが非常に重要になります。</p>
+<p>PPPoE接続のLAN型接続の場合は、1つのグローバルIP<strong class="memory-answer">セグメント</strong>が割り振られるので unnumbered を
+実装できないルータではWAN側（インターネット接続側）だけにこのグローバルIPセグメントが割り当て
+られるだけで、複数のグローバルIPアドレスを割り当てられても利用できない状態になってしまいます。</p>
+<p>また、機種や構成によりそもそも動作しない場合もあり、ISPのいわゆる「グローバル8IP」の契約では、
+<strong class="memory-answer">Unnumbered対応のルータが必要</strong>と注釈としてあります。CiscoルータはもちろんUnnnumbered対応です。</p>
+<p><img alt="画像" src="../studygif/ip13d.png"></p>
+<h2 id="1">参考情報 1</h2>
+<p>PPPoE接続には、端末型接続（端末払い出し）とLAN型接続（LAN型払い出し）の大きく2方式があります。
+端末型接続の場合、1つのPPPoEセッションに対して、1つのグローバルIPアドレスを動的に払いだす方式。
+LAN型接続では、1つのPPPoEセッションに対して、1つのグローバル<strong class="memory-answer">IPセグメント</strong>を動的に払いだす方式。
+<a href="https://www.infraexpert.com/study/wan11.html">Unnumbered を使用したPPPoE LAN接続のCiscoルータの設定例</a>もご参考頂ければ理解しやすくなります。</p>
+<h2 id="2">参考情報 2</h2>
+<p>このUnnumberedにより、「グローバルIPアドレスを払いだす方式」は、一般的にはPPPoEのみとなります。
+PPPoE以外の方式によって、キャリアから例えば「 /28 」のグローバルIPを払いだす場合、Internet接続用
+リンク（WANリンク）に/30のグローバルIPアドレスを使用し、キャリアルータ、顧客ルータがそのポイント
+ツーポイントでそのグローバルIPアドレスを使用します。キャリアルータは顧客ルータに払いだす「/28」の
+ネットワークを宛先としたスタティックルートを定義しており、顧客ルータはデフォルトルートを設定します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

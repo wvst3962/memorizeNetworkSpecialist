@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Network Security / malware / DoS / Cyber Attack | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ネットワークセキュリティ：基本用語</a></li>
+<li><a href="#_2">ネットワークセキュリティ：マルウェアの種類</a></li>
+<li><a href="#_3">ネットワークセキュリティ：マルウェアの検出方法</a></li>
+<li><a href="#_4">ネットワークセキュリティ：証券口座乗っ取りによる不正売買（フィッシング詐欺とマルウェア感染）</a></li>
+<li><a href="#dos">ネットワークセキュリティ：DoS攻撃の種類</a></li>
+<li><a href="#_5">ネットワークセキュリティ：その他のサイバー攻撃手法</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="network-security-malware-dos-cyber-attack">Network Security / malware / DoS / Cyber Attack</h1>
+<hr>
+<h2 id="_1">ネットワークセキュリティ：基本用語</h2>
+<p>ネットワークセキュリティを理解する上で重要な「セキュリティの基本用語」を以下に紹介します。</p>
+<table>
+<thead>
+<tr>
+<th>セキュリティ用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>アカウント<br>（ acconut ）</td>
+<td>コンピュータやネットワークシステムにアクセスするために<strong class="memory-answer">ログインするための権利</strong>のこと。<br>アカウントは「ユーザ名」と「パスワード」から構成される。</td>
+</tr>
+<tr>
+<td>インシデント<br>（ incident ）</td>
+<td>インシデントは<strong class="memory-answer">情報セキュリティリスクが発生した事故、または脅威となる事象</strong>のこと。<br>ウィルス感染やデータ紛失などから、外部からの攻撃による機密情報の流出などが該当する。</td>
+</tr>
+<tr>
+<td>ウィルス<br>（ virus ）</td>
+<td>ウィルスは<strong class="memory-answer">自己伝染機能、潜伏機能、発病機能のいずれかを有する加害プログラム</strong>のこと。<br>広義では、ネットワークを伝わり伝染する「ワーム」などもウィルスに含まれる。</td>
+</tr>
+<tr>
+<td>エクスプロイト<br>（ exploit ）</td>
+<td>エクスプロイトは<strong class="memory-answer">ソフトウェアなどの脆弱性を悪用した攻撃を行うプログラム</strong>のこと。<br>または、脆弱性を悪用して実際に行われる攻撃のことを意味する。</td>
+</tr>
+<tr>
+<td>可用性<br>（ availability ）</td>
+<td>可用性とは、<strong class="memory-answer">必要な時にデータへ安全にアクセスでき、利用可能であることを確保する</strong>こと。<br>情報セキュリティの3要件（機密性、完全性、可用性）のひとつ。</td>
+</tr>
+<tr>
+<td>完全性<br>（ integrity ）</td>
+<td>完全性とは、<strong class="memory-answer">データを最新で正確な状態で、欠損や不整合がないことを保証する</strong>こと。<br>情報セキュリティの3要件（機密性、完全性、可用性）のひとつ。</td>
+</tr>
+<tr>
+<td>機密性<br>（ confidentiality ）</td>
+<td>機密性とは、<strong class="memory-answer">権限を持つ限られた人だけが対象データにアクセスできるよう制限する</strong>こと。<br>情報セキュリティの3要件（機密性、完全性、可用性）のひとつ。</td>
+</tr>
+<tr>
+<td>脅威<br>（ threat ）</td>
+<td>脅威は、<strong class="memory-answer">情報セキュリティを脅かして、システムに対して危害を加える要因</strong>のこと。<br>情報セキュリティにおける脅威は「技術的脅威」「物理的脅威」「人的脅威」の3つがある。</td>
+</tr>
+<tr>
+<td>技術的脅威</td>
+<td>技術的脅威は、<strong class="memory-answer">情報セキュリティに技術的な手段により損害や損失を与える脅威</strong>のこと。<br>不正アクセス、盗聴、改ざん、なりますし、DoS/DDoS攻撃、マルウェア、ウィルスなど。</td>
+</tr>
+<tr>
+<td>物理的脅威</td>
+<td>物理的脅威は、<strong class="memory-answer">情報セキュリティに物理的な手段により損害や損失を与える脅威</strong>のこと。<br>火災・停電などの事故、地震・水害などの災害、ハードウェアなどの故障、盗難、破壊など。</td>
+</tr>
+<tr>
+<td>人的脅威</td>
+<td>人的脅威は、<strong class="memory-answer">情報セキュリティに人の行為により損害や損失を与える脅威</strong>のこと。<br>操作ミス、機密データ損失、社内システムの不正利用、ソーシャルエンジニアリングなど。</td>
+</tr>
+<tr>
+<td>クラッカー<br>（ cracker ）</td>
+<td>クラッカーは<strong class="memory-answer">ネットワークシステムに不正に侵入して改ざんなどの行為をする人</strong>のこと。<br>最近では、クラッカーのことは「セキュリティ ハッカー」と呼ばれることが多い。</td>
+</tr>
+<tr>
+<td>シグネチャ<br>（ signature ）</td>
+<td>シグネチャは<strong class="memory-answer">ウィルスに含まれる特徴的なデータ断片や攻撃パターンのデータベース</strong>のこと。<br>IDS/IPSやWAFなどの製品が、通信を検査して、通信の許可/拒否を判断する際に使用する。</td>
+</tr>
+<tr>
+<td>脆弱性<br>（ vulnerability ）</td>
+<td>脆弱性（ぜいじゃくせい）は<strong class="memory-answer">ソフトウェアの設計ミス、不具合などで発生する欠陥</strong>のこと。<br>脆弱性により、本来動作しないはずの動作が行えたり、外部からの攻撃リスクが発生する。</td>
+</tr>
+<tr>
+<td>デジタル証明書<br>（ digital certificate ）</td>
+<td><strong class="memory-answer">インターネット上で本人確認を行うために、第三者が発行した電子的な証明書</strong>のこと。<br>デジタル証明書により、なりすまし、通信経路上の盗聴、改ざんなどが防止できる。</td>
+</tr>
+<tr>
+<td>バックドア<br>（ backdoor ）</td>
+<td>バックドアは、<strong class="memory-answer">サイバー攻撃で侵入した後に、次回侵入時のために設ける裏口</strong>のこと。<br>稼働中のデバイスに存在するセキュリティホールを利用しソフトウェアにより作られる。</td>
+</tr>
+<tr>
+<td>パッチ<br>（ Patch ）</td>
+<td>パッチは<strong class="memory-answer">セキュリティ上の脆弱性などの不具合を解消するプログラム</strong>のこと。セキュリティ<br>デバイスの脆弱性が発見された場合、修正プログラム（パッチ）を適用し脆弱性を除去する。</td>
+</tr>
+<tr>
+<td>ペネトレーション テスト<br>（ penetration test ）</td>
+<td><strong class="memory-answer">ネットワークに接続されているシステムに対して、脆弱性がないか侵入テストする</strong>こと。<br>システムに対して、実際に様々な技術を駆使して侵入を試みて、脆弱性の有無を確認する。</td>
+</tr>
+<tr>
+<td>ロギング<br>（ logging ）</td>
+<td>ロギングは、<strong class="memory-answer">発生した出来事に関する情報を一定の形式で、時系列に記録・蓄積する</strong>こと。<br>ロギングにより記録されたデータのことを「ログ」と呼ぶ。</td>
+</tr>
+<tr>
+<td>IPスプーフィング<br>（ IP spoofing ）</td>
+<td>IPスプーフィングは、<strong class="memory-answer">攻撃元を隠すために、送信元IPアドレスを偽装して通信を行う</strong>こと。<br>SYNフラッド攻撃やSmurf攻撃などのDoS攻撃の際、IPスプーフィングは利用されている。</td>
+</tr>
+<tr>
+<td>DMZ</td>
+<td>DMZは<strong class="memory-answer">内部ネットワーク、外部ネットワークの両方から隔離されたネットワーク</strong>のこと。<br>具体的には、イントラネットとインターネットの中間部に設置するサブネットの総称。</td>
+</tr>
+<tr>
+<td>Proxy server</td>
+<td><strong class="memory-answer">内部ネットワークのPCからインターネット接続する際に出入り口で中継するサーバ</strong>のこと。<br>内部ネットワークのPCの匿名性確保、ユーザの一元管理、フィルタリング等が可能になる。</td>
+</tr>
+<tr>
+<td>Firewall</td>
+<td>Firewallは、<strong class="memory-answer">外部から内部ネットワークへの不正アクセスを防止するシステム</strong>のこと。<br>インターネットなどの外部から、イントラネットなどの内部ネットワークを防護する。</td>
+</tr>
+<tr>
+<td>IDS</td>
+<td>IDSは、<strong class="memory-answer">不正アクセスなど悪意あるトラフィックを検出して通知するシステム</strong>のこと。<br>不正アクセスのパケットなのかの判断は「シグネチャ」のデータベースを使用する。</td>
+</tr>
+<tr>
+<td>IPS</td>
+<td>IPSは、<strong class="memory-answer">不正アクセスなど悪意あるトラフィックを検出し通知・破棄するシステム</strong>のこと。<br>不正アクセスのパケットなのかの判断は「シグネチャ」のデータベースを使用する。</td>
+</tr>
+<tr>
+<td>WAF<br>（Web Application Firewall）</td>
+<td>WAFは、<strong class="memory-answer">Webアプリケーションの脆弱性を悪用した攻撃から保護するシステム</strong>のこと。<br>従来のFirewall、IDS、IPSで防げなかった攻撃をWAFによりWebサイトを保護できる。</td>
+</tr>
+<tr>
+<td>認証の三要素</td>
+<td>認証の三要素とは、<strong class="memory-answer">知識情報、所持情報、生体情報</strong>の3つの要素のこと。以下はその例。<br>知識情報：パスワード、認証番号、秘密の質問<br>所持情報：スマートフォン、ICカード、USBトークン<br>生体情報：指紋、静脈、顔</td>
+</tr>
+<tr>
+<td>二要素認証（2FA）</td>
+<td>二要素認証（Two-Factor Authentication）は、<strong class="memory-answer">認証の三要素のうち種類の異なる2つの</strong><br><strong class="memory-answer">要素を使用してユーザを認証する仕組み</strong>のこと。例えば、ログインIDとパスワード認証に<br>加えて、スマートフォンで受信したワンタイムパスワード入力も必要となる二要素認証に<br>することで、IDやパスワード情報が漏えいした場合でも不正アクセスを防ぐことができる。</td>
+</tr>
+<tr>
+<td>多要素認証（MFA）</td>
+<td>多要素認証（Multi-Factor Authentication）は、<strong class="memory-answer">認証の三要素のうち種類の異なる2つ</strong><br><strong class="memory-answer">以上の要素を使用してユーザを認証</strong>する仕組みのこと。二要素認証との違いは使用する<br>認証要素の数だけであり、二要素認証では"2つの要素に限定"されるが、多要素認証では<br>2つ以上の要素を使用する認証方式で、例えば3つ以上の要素を使用した認証方式の場合、<br>それは多要素認証であると言える。なお、二要素認証は多要素認証の方法の一部とも<br>説明できることから、二要素認証のことを多要素認証として説明されている場合もある。<br>・　多要素認証の実装例<br>ログインIDとパスワード ＋ スマホで受信したワンタイムパスワード + Face ID 認証。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">ネットワークセキュリティ：マルウェアの種類</h2>
+<p>マルウェアとは、不正で有害な動作を行う目的で作成された悪意あるソフトウェアの総称のことです。
+マルウェアは大きく分類して「<strong class="memory-answer">ウィルス</strong>」「<strong class="memory-answer">ワーム</strong>」「<strong class="memory-answer">トロイの木馬</strong>」「<strong class="memory-answer">ランサムウェア</strong>」の4種類が
+あります。正確には、その他にも「<strong class="memory-answer">スパイウェア</strong>」などもあり、それらも含めてマルウェアと言います。
+※ 悪意あるメールの添付ファイルを開いたり、不正なWebサイトに訪れることで、これらのマルウェアに感染してしまいます。</p>
+<table>
+<thead>
+<tr>
+<th>マルウェアの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ウィルス<br>（ virus ）</td>
+<td>ウィルスは、<strong class="memory-answer">自己伝染機能、潜伏機能、発病機能のいずれかを有する加害プログラム</strong>のこと。<br>ウィルスは動的に活動せず、プログラムファイルからプログラムファイルへ静的に感染する。</td>
+</tr>
+<tr>
+<td>ワーム<br>（ worm ）</td>
+<td>ワームは、<strong class="memory-answer">自身を複製して他のシステムに拡散する性質を持った独立したプログラム</strong>こと。<br>宿主となるファイルを必要とせず、ネットワーク経由でコンピュータに感染していく。</td>
+</tr>
+<tr>
+<td>トロイの木馬<br>（ Trojan horse ）</td>
+<td>トロイの木馬は<strong class="memory-answer">表向き無害だが攻撃対象デバイスに侵入後、攻撃開始するプログラム</strong>のこと。<br>ギリシア神話のトロイア戦争の「トロイの木馬」になぞらえて名前がつけられている。</td>
+</tr>
+<tr>
+<td>ランサムウェア<br>（ Ransomware ）</td>
+<td>ランサムウェアは、<strong class="memory-answer">感染したPCをロックまたはファイルの暗号化で使用不能にして、元に</strong><br><strong class="memory-answer">戻すために、被害者に対して身代金を支払うように要求する悪質な加害プログラム</strong>のこと。</td>
+</tr>
+<tr>
+<td>スパイウェア<br>（ spyware ）</td>
+<td>スパイウェアは、<strong class="memory-answer">ユーザに関する情報を密かに収集し、それを悪意ある外部の情報収集者に</strong><br><strong class="memory-answer">送信するプログラム</strong>のこと。情報搾取型マルウェアであるインフォスティーラーも広義では<br>スパイウェアの一種に含まれる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">ネットワークセキュリティ：マルウェアの検出方法</h2>
+<p>マルウェアへの感染による生じるデータの読み込みの動作、書き込みの動作、通信等を監視することにより
+アンチウィルスソフトなどがウィルスを検出する手法を<strong class="memory-answer">ビヘイビア法</strong>と言います。ビヘイビア法は実行中の
+プログラムの振る舞いを監視して不審な処理が行われていないか調べる方式であることから、<strong class="memory-answer">振る舞い検知</strong>
+とも呼ばれています。また、ビヘイビア法は<strong class="memory-answer">ダイナミックヒューリスティック法</strong>とも呼ばれています。</p>
+<h2 id="_4">ネットワークセキュリティ：証券口座乗っ取りによる不正売買（フィッシング詐欺とマルウェア感染）</h2>
+<p>オンライン証券の口座に不正アクセスされて、中国株などを不正売買する被害がニュースで報道されました。
+不正アクセスされるということは、悪意あるユーザに不正にログインIDとパスワード情報を窃取されたこと
+を意味します。不正にログインIDとパスワードを奪う主流な方法は <strong class="memory-answer">フィッシング</strong> です。フィッシングとは、
+メール等で偽のURLを送り付けて、偽のWebサーバに誘導してログインIDとパスワードを入力させることで
+情報を奪う行為のことです。しかし、フィッシング詐欺に心当たりがないという被害者の証言があります。</p>
+<p>その証言通りならPCが<strong class="memory-answer">マルウェアに感染</strong>している可能性があります。具体的にはスパイウェアの一種である
+<strong class="memory-answer">インフォスティーラー</strong>（ Infostealer ）に感染している可能性が高いと言えます。インフォスティーラーは
+Webブラウザなどに保存したログインIDやパスワードなどの認証情報を盗み出す情報窃取型マルウェアです。
+情報窃取型マルウェアに感染しないための対策として、最新のウィルス対策ソフトを導入するだけではなく
+迷惑メールのリンクや添付ファイルを開かないことや、海外の性的Webサイトを閲覧しないことも重要です。</p>
+<p>また、証券会社では<strong class="memory-answer">多要素認証</strong>（MFA）を実装しているので、それを設定することでIDやパスワード情報を
+漏洩した場合でも被害を防げます。ただし、インフォスティーラーがセッショントークを窃取した場合には
+多要素認証を回避される可能性があります。なお、SBI証券では<strong class="memory-answer">デバイス認証</strong>と<strong class="memory-answer">FIDO認証</strong>を実装しています。</p>
+<table>
+<thead>
+<tr>
+<th>認証方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>デバイス認証</td>
+<td>デバイス認証は<strong class="memory-answer">PCやスマホなど特定のデバイスが正当なものであることを確認する認証方式</strong><br>のこと。ネットワークやサービスへのアクセスを許可する前に、デバイスの身元を検証する。<br>認証方法には、デバイス固有の識別子であるMACアドレスやシリアル番号、デジタル証明書、<br>トークンや生体認証などを使用する。<br>SBI証券で実装されているデバイス認証は、ログインできる端末（PCやスマホ）をあらかじめ<br>登録しておいて、アクセスしてきた端末が事前に登録しておいた端末なのかを確認する仕組み。<br>正当なユーザが使用する端末にサーバから識別情報を発行し、ログイン時にその情報を確認<br>している。なお、初回ログイン時にメールで送られる認証コードを入力して端末を登録する。</td>
+</tr>
+<tr>
+<td>FIDO認証</td>
+<td>FIDO（Fast IDentity Online）認証は<strong class="memory-answer">従来のIDとパスワード認証に代わる、オンラインでの</strong><br><strong class="memory-answer">安全かつ利便性の高い認証方式</strong>のこと。FIDO Allianceが定めたパスワードレス認証の一種で<br>公開鍵認証方式を用いて本人確認を行う。つまり、サーバ側に公開鍵、ユーザのデバイス側に<br>秘密鍵が保管されるためセキュアであり、ユーザのデバイス（例えばスマホ）で顔認証などを<br>行うだけであり利便性が高い。<br>SBI証券で実装されているFIDO認証は、多要素認証で使用されることが前提であることから、<br>ユーザはログインIDとパスワード入力して認証成功後にスマホで生体認証（顔認証など）を<br>行う流れとなる。また、FIDO認証利用前に専用アプリをスマホにインストールして認証登録<br>を行う必要があり、その専用アプリを使用してQRコードを読み取り、認証を行う手順となる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dos">ネットワークセキュリティ：DoS攻撃の種類</h2>
+<p>DoS（Denial-of-service attack）攻撃はサイバー攻撃の一種であり、攻撃目標のサーバに対して大量の
+不正なデータを一方的に送信することで、<strong class="memory-answer">情報セキュリティにおける「可用性」を侵害</strong>する攻撃手法です。
+DoS攻撃には「<strong class="memory-answer">SYNフラッド攻撃</strong>」「<strong class="memory-answer">ICMPフラッド攻撃</strong>」「<strong class="memory-answer">Smurf攻撃</strong>」などの攻撃手法があります。</p>
+<table>
+<thead>
+<tr>
+<th>DoS攻撃の手法</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SYNフラッド攻撃</td>
+<td><strong class="memory-answer">攻撃対象のサーバに対し、TCP接続要求のSYNパケットのみを大量に送りつける攻撃</strong>のこと。<br>攻撃側は大量のSYNパケットを送り付ける際、自身のIPアドレスを偽装し送信することから<br>攻撃されているサーバからのSYN/ACKパケットは、攻撃者のクライアントに届くことがなく<br>サーバはACKを受け取れず、時間切れになるまでリソースが使われリソースが不足していく。</td>
+</tr>
+<tr>
+<td>ICMPフラッド攻撃</td>
+<td><strong class="memory-answer">攻撃対象のサーバに対し、ICMP Echo Request を短時間で大量に送りつける攻撃</strong>のこと。<br>攻撃側はPingコマンドを用いて大量の要求パケットを発信することによって、攻撃対象の<br>サーバに至るまでの回線を過負荷にしたり、システムの処理能力を飽和状態にすることで<br>アクセスを妨害する。ICMPフラッド攻撃は「Pingフラッド攻撃」とも呼ばれる。</td>
+</tr>
+<tr>
+<td>Smurf攻撃</td>
+<td><strong class="memory-answer">攻撃対象のサーバに対し、踏み台のホストからICMP echo Replyを大量に送る</strong>攻撃のこと。<br>攻撃対象のサーバのIPアドレスを送信元アドレスとして偽装して、宛先にブロードキャスト<br>アドレスを設定して送信することで、このパケットを受信した多数のホスト（踏み台）が<br>サーバにICMP Echo Replyを送りつけて、ネットワーク帯域や処理能力に悪影響を与える。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/security1a.png"></p>
+<p>DoS攻撃には<strong class="memory-answer">DDoS攻撃</strong>という類型があります。DDoS（Distributed Denial of Service attack）攻撃は
+DoS攻撃を発展させたものであり、複数のシステムを利用して大量のホストから1つのサービスに対して
+一斉にDoS攻撃を行います。DDoS（ <strong class="memory-answer">分散型サービス妨害</strong> ）攻撃という名称通りの攻撃手法となります。</p>
+<p>このようにDDoSでは、標的となるサーバに対し多数のホストからネットワークを通じて攻撃することで
+攻撃対象のサーバに大きな処理負荷を与えて、サーバのサービスを機能停止に追い込むことができます。
+簡単に言えば、DDoSはDoSの攻撃手法を「 <strong class="memory-answer">分散攻撃に発展させた攻撃手法</strong> 」と言えることができます。</p>
+<p>DDoSの一種に<strong class="memory-answer">DRDoS攻撃</strong>があります。DRDoS（ Distributed Reflective Denial of Service ）攻撃は、
+<strong class="memory-answer">分散型かつ反射型</strong>のDoS攻撃です。DDoS攻撃とDRDoS攻撃ともに多数のデバイスを使用して攻撃を行う
+点では同じですが、狭義では<strong class="memory-answer">DDoS攻撃は直接攻撃</strong>、<strong class="memory-answer">DRDoS攻撃は間接攻撃</strong>と説明することができます。
+DRDoS攻撃は<strong class="memory-answer">第三者のサーバを悪用しターゲットに大量のトラフィックを送りサービスを利用不能にする</strong>
+攻撃です。DRDoS攻撃は、例えば、多数のDNSサーバに対して送信元のIPアドレスを標的のIPアドレスに
+偽装したリクエストを送信し、それらのサーバの応答パケットにより標的のサーバのリソースを枯渇させ、
+利用を妨害します。DNS増幅攻撃、NTP増幅攻撃、SSDP増幅攻撃、CLDAP増幅攻撃等がDRDoS攻撃です。</p>
+<h2 id="_5">ネットワークセキュリティ：その他のサイバー攻撃手法</h2>
+<p>サイバー攻撃にはDoS/DDoS/DRDoS攻撃以外にも、以下のような攻撃手法があります。</p>
+<table>
+<thead>
+<tr>
+<th>サイバー攻撃の手法</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>辞書攻撃<br>（ dictionary attack ）</td>
+<td><strong class="memory-answer">クラッカーが不正にコンピュータのパスワードの割り出しや暗号解読に使う攻撃方法</strong>のこと。<br>パスワード破りのために、不正ソフトなどで辞書にある単語を片端から入力して試していく。</td>
+</tr>
+<tr>
+<td>ブルートフォース攻撃<br>（ brute force attack ）</td>
+<td><strong class="memory-answer">総当たり攻撃と言われる手法であり、可能なパスワードの手当り次第に試す攻撃</strong>のこと。<br>パスワードの文字列を1文字ずつ変えていき、可能な組み合わせを力任せに確認していく。</td>
+</tr>
+<tr>
+<td>ソーシャルエンジニアリング<br>（ social engineering ）</td>
+<td><strong class="memory-answer">情報通信技術を使用することなく、人の心理的な隙や行動ミスから秘密情報を入手する</strong>こと。<br>パスワードをのぞき見したり、身分を偽り管理者のふりをし機密データを盗みだしたりする。</td>
+</tr>
+<tr>
+<td>バッファオーバーフロー攻撃<br>（ buffer overflow attack ）</td>
+<td><strong class="memory-answer">処理能力を超えた不正なデータを送り付けることで誤作動を引き起こす攻撃方法</strong>のこと。<br>システムの一時的な記憶領域を狙い、大量のデータを送り付け悪意あるコードを実行させる。</td>
+</tr>
+<tr>
+<td>クロスサイトスクリプティング<br>( cross-site scripting )</td>
+<td><strong class="memory-answer">Webサイトで利用されるアプリケーションの脆弱性を悪用した攻撃</strong>のこと。XSSと呼ばれる。<br>TwitterなどのSNSや掲示板に対して、作成した不正なスクリプトを挿入して引き起こす攻撃。</td>
+</tr>
+<tr>
+<td>フィッシング<br>（ phishing ）</td>
+<td><strong class="memory-answer">偽のWebサーバに誘導しユーザ名、パスワード、クレジットカード情報を奪う行為</strong>のこと。<br>アカウント有効期限が近づいているなどの文言で、偽のURLを送り付けて情報を不正に奪う。</td>
+</tr>
+<tr>
+<td>スピアフィッシング<br>（ spear phishing ）</td>
+<td><strong class="memory-answer">特定の個人、団体を標的にしたフィッシング</strong>のこと。フィッシングの一種。<br>大量配信型のフィッシングに対して、スピアフィッシングは対象を絞っている。</td>
+</tr>
+<tr>
+<td>スミッシング<br>（ smishing ）</td>
+<td><strong class="memory-answer">SMSメッセージを利用したフィッシング</strong>のこと。フィッシングの一種。<br>スミッシングは「SMS phising」とも呼ばれる。携帯・スマホ利用者を攻撃対象としている。</td>
+</tr>
+<tr>
+<td>ビッシング<br>（ vishing ）</td>
+<td><strong class="memory-answer">電話による音声案内などを利用したフィッシング</strong>のこと。フィッシングの一種。<br>ビッシングは「Voice phising」とも呼ばれる。音声応答システムを通じて情報を不正入手。</td>
+</tr>
+<tr>
+<td>中間者攻撃<br>（ man-in-the-middle attack ）</td>
+<td><strong class="memory-answer">攻撃対象となる二者間の通信を、特別なソフトウェアを使用して不正に傍受、盗聴する</strong>こと。<br>暗号化通信されていない場合（平文通信）に攻撃を受けやすい。検知するのが難しい攻撃。</td>
+</tr>
+<tr>
+<td>標的型攻撃<br>（ Targeted attack ）</td>
+<td><strong class="memory-answer">無差別攻撃ではなく、攻撃対象を特定の組織内の情報を狙って行われるサイバー攻撃</strong>のこと。<br>日本では情報セキュリティ対策推進会議が定義した「高度サイバー攻撃」に含まれる攻撃。</td>
+</tr>
+<tr>
+<td>SQLインジェクション<br>（ SQL Injection ）</td>
+<td><strong class="memory-answer">Webアプリケーションのセキュリティ上の欠陥や脆弱性を悪性して実行される攻撃</strong>のこと。<br>Webアプリが想定しないSQL文を実行させることでデータベースシステムを不正に操作する。</td>
+</tr>
+<tr>
+<td>サイドチャネル攻撃<br>（Side Channel Attack）</td>
+<td><strong class="memory-answer">電子機器が発する電磁波や、暗号化処理時の消費電力を測定するなどして、当該装置内部の</strong><br><strong class="memory-answer">秘密情報を読み取る攻撃</strong>のこと。</td>
+</tr>
+<tr>
+<td>RLO 拡張子偽装攻撃</td>
+<td><strong class="memory-answer">文字の表示順を変える制御文字を利用して、ファイル名の拡張子を偽装する攻撃</strong>のこと。<br>RLO（Right-to-Left Override）とは、Unicodeの制御記号の1つであり、横書きの文字の<br>流れを右から左に変更するもの。</td>
+</tr>
+<tr>
+<td>キーロガー攻撃</td>
+<td><strong class="memory-answer">キーロガーのツールで、被害者のデバイスでキーストロークを記録し攻撃者に送信する攻撃。</strong><br>キーロガーは、キーボードで入力した内容を記録するソフトウェアやハードウェアの総称。<br>キーロガーのソフトウェアは正当に利用されることもあるが悪用されてしまうケースがある。</td>
+</tr>
+<tr>
+<td>テンペスト攻撃</td>
+<td><strong class="memory-answer">テンペスト攻撃（TEMPEST attack）とは、ディスプレイやキーボードなどの周辺機器から</strong><br><strong class="memory-answer">発する電磁波を傍受・解析して元の情報を復元する攻撃</strong>のこと。この攻撃への対策としては、<br>電磁波を遮蔽することであり、シールドルーム設置や電磁波シールドケーブルを使用すること。</td>
+</tr>
+<tr>
+<td>DNSキャッシュポイズニング</td>
+<td><strong class="memory-answer">DNSキャッシュポイズニングは、偽のDNS応答をキャッシュDNSサーバにキャッシュさせる</strong><br><strong class="memory-answer">ことで、悪意あるサーバに誘導しフィッシングなどを図る攻撃手法</strong>のこと。この攻撃へ対策は<br><strong class="memory-answer">DNSSEC</strong>（Domain Name System Security Extensions）の導入が挙げられる。DNSSECで<br>DNSサーバから受け取るリソースレコードに対するデジタル署名を利用し、リソースレコード<br>の送信者とデータの完全性を検証することができる。</td>
+</tr>
+<tr>
+<td>Webスキミング</td>
+<td><strong class="memory-answer">Webスキミングとは、ECサイトで使用されているWebアプリケーションを改ざんすることで</strong><br><strong class="memory-answer">ユーザがWebページのフォームに入力したデータを盗み取る攻撃</strong>のこと。クレジットカードの<br>情報など入力したデータはその後に攻撃者のサーバに送信される。ECサイト（Webサイト）に<br>不正なスクリプトが勝手に埋め込まれて、ユーザの個人情報が盗み取られるため、事業者側は<br>WAFの導入だけでなく、サードパーティの外部サービスの利用は必要最低限とすることも大切。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

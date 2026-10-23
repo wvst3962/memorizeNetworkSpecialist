@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN - HDLC / PPP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan-hdlc">WANカプセル化プロトコル - HDLC</a></li>
+<li><a href="#wan-ppp">WANカプセル化プロトコル - PPP</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan-hdlc-ppp">WAN - HDLC / PPP</h1>
+<hr>
+<h2 id="wan-hdlc">WANカプセル化プロトコル - HDLC</h2>
+<p>WANカプセル化プロトコルは <strong class="memory-answer">HDLC</strong>、<strong class="memory-answer">PPP</strong> であるという解説がよくありますが、これは専用線、ISDN、
+PSTNなどの回線に当てはまる話です。広域イーサネットの場合<strong class="memory-answer">Ethernet</strong>です。先ずHDLCを解説します。</p>
+<p>HDLC（ High-level Data Link Control ）は、シリアルインターフェースで専用線などのポイントツー
+ポイント接続で使用するデータリンク層プロトコル。HDLCは、ISO（ 国際標準化機構 ）で標準化されて
+いますが、ネットワーク層を識別するフィールドがないため複数のプロトコルを扱えないことからメーカ
+の多くが独自方式をHDLCに実装し、ネットワーク層で複数のプロトコルを使用できるようにしています。</p>
+<p><img alt="画像" src="../studygif/wan6a.png"></p>
+<p>Ciscoルータでは、ISOのHDLCはサポートしておらず、Cisco独自方式のHDLCのみをサポートしています。
+そのため、Ciscoルータと他メーカーのルータとでシリアル回線上で、ポイントツーポイント接続する場合、
+WANプロトコルにHDLCは使用できないので例えば PPP をWANプロトコルとして使用する必要があります。
+現在のシリアルインターフェースのカプセル化を確認するためには show interfaces s0/0 で確認できます。
+なお、Ciscoルータのシリアルインターフェースでカプセル化タイプをHDLCに設定するコマンドは以下です。</p>
+<p>Router(config)# interface s0/0
+Router(config-if)# encapsulation hdlc</p>
+<h2 id="wan-ppp">WANカプセル化プロトコル - PPP</h2>
+<p>PPP（ Point-to-Point Protocol ）は、専用線、PSTN、ISDNなどのポイントツーポイント接続で最も
+よく使用されるデータリンク層のプロトコル。PPPはHDLCをベースに開発されていますが、PPPの場合
+プロトコルフィールドが設けられているのでIP、IPXなど複数のプロトコルを使用した環境をサポート
+します。また、PPPはオプションとして<strong class="memory-answer">認証</strong>、<strong class="memory-answer">圧縮</strong>、<strong class="memory-answer">マルチリンク</strong>、<strong class="memory-answer">エラー制御</strong>をサポートしています。</p>
+<p><img alt="画像" src="../studygif/wan6b.png"></p>
+<p>PPPは<strong class="memory-answer">LCP</strong> (Link Control Protocol) と <strong class="memory-answer">NCP</strong>（Network Control Protocol）の2つから構成されています。
+LCP（リンク制御プロトコル）はリンク確立、維持、切断処理をします。その他4つオプションがあります。</p>
+<p>NCP（ネットワーク制御プロトコル）は、ネットワーク層プロトコルを識別するためのタイプフィールドを
+持っており、ネットワーク層がIPなら<strong class="memory-answer">IPCP</strong>、IPXなら<strong class="memory-answer">IPXCP</strong>をNCPとして使用し通信の開始、終了をします。
+PPPの接続は、?@LCPにおけるリンクの確立 ?A認証（認証がある場合）?BNCPにおける接続の確立の順です。</p>
+<p><img alt="画像" src="../studygif/wan6c.png"></p>
+<table>
+<thead>
+<tr>
+<th>LCP<br>オプション</th>
+<th>使用するプロトコル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>認証</td>
+<td>PAP、CHAP</td>
+<td>PPPで接続要求を行ってきたデバイスのユーザ名とパスワードを確認して事前に登録<br>した正しい情報であれば認証を成功しPPPリンクを確立させる。ユーザ名とパスワード<br>情報はPAPではクリアテキスト(暗号化されない)、CHAPでは暗号化して送信される。</td>
+</tr>
+<tr>
+<td>圧縮</td>
+<td>Predictor、Stac、MPPC</td>
+<td>データ圧縮でデータ量を少なくすることができるので低速なWANリンクでも効率的<br>に通信することができるが、圧縮による問題点も多くある。一般的には使用しない。</td>
+</tr>
+<tr>
+<td>マルチリンク</td>
+<td>multi-link protocol</td>
+<td>デバイス間での複数の並行するPPPリンクを1つの論理的なリンクとして使用できる。</td>
+</tr>
+<tr>
+<td>エラー検出</td>
+<td>Quality、MagicNumber</td>
+<td>QualityとMagicNumberで、PPPリンクのエラーを検出しデータリンク品質を高める。</td>
+</tr>
+</tbody>
+</table>
+<p>最後に、PPPのリンク確立フェーズ後に実行できる認証プロトコルである<strong class="memory-answer">PAP</strong>/<strong class="memory-answer">CHAP</strong>を詳しく見てみます。</p>
+<p>PAPでは、認証される側のクライアントからユーザ名とパスワードを、認証する側のアクセスサーバに送り
+その情報をもとにアクセスサーバ側に登録されたデータベース（ユーザ名とパスワードの情報）と照合して
+認証を行う2ウェイハンドシェイクの方式を採用しています。認証の流れをルータ間の接続で見てみましょう。</p>
+<p><img alt="画像" src="../studygif/wan6d.png"></p>
+<p>CHAPでは、下図のようにチャレンジ(乱数文字列)とパスワードとでハッシュ値を求めて送信することから
+PAPのようにクリアテキストのままパスワードを送信したりしません。CHAPは3ウェイハンドシェイクです。</p>
+<p><img alt="画像" src="../studygif/wan6e.png"></p>
+<p>以下は、CiscoルータでPPPリンク確立時のCHAPによる<strong class="memory-answer">相互認証</strong>のためのコンフィグレーション設定です。
+CHAP認証を設定の上で必須の設定事項は、?@ホスト名 ?Aカプセル化タイプ（ppp）?B認証タイプ（chap）
+?C 認証情報のユーザ名(接続先ルータのホスト名)、パスワード（両方のルータとで同じパスワード）です。</p>
+<p><img alt="画像" src="../studygif/wan6f.png"></p>
+<p>ステータスはshow interfaces serial0/0で確認できて、動作検証はdebug ppp authenticationで確認可能。</p>
+<hr>
+<p>← <a href="wan5.html">WAN - IP-VPN、広域イーサネット</a>　<a href="wan7.html">WAN - ADSLインターネット、CATVインターネット</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

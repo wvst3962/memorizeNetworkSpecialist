@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - multicast address | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6-">IPv6 - マルチキャストアドレス</a></li>
+<li><a href="#_1">スコープフィードについて</a></li>
+<li><a href="#ipv6-mac">IPv6 - マルチキャストアドレスのMACアドレス</a></li>
+<li><a href="#ipv6-_1">IPv6 - 要請ノードマルチキャストアドレス</a></li>
+<li><a href="#ipv6">参考：主な予約済みIPv6マルチキャストアドレス</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-multicast-address">IPv6 - multicast address</h1>
+<hr>
+<h2 id="ipv6-">IPv6 - マルチキャストアドレス</h2>
+<p>IPv6のマルチキャストアドレスは先頭の8ビットが「1111 1111」から始まります。16進数の表記については
+「FF00：：/8」となります。次の4ビットは<strong class="memory-answer">フラグ</strong>、次の4ビットは<strong class="memory-answer">スコープ</strong>、最後の112ビットは<strong class="memory-answer">グループID</strong>
+です。フラグは、IANAによって<strong class="memory-answer">永続的に割り当て</strong>られるものは <strong class="memory-answer">0</strong> 、<strong class="memory-answer">一時的に割り当て</strong>られるものは <strong class="memory-answer">1</strong> と指定。</p>
+<p><img alt="画像" src="../studygif/ipv6z10a.png"></p>
+<table>
+<thead>
+<tr>
+<th>フラグ ( 16進数 )</th>
+<th>スコープ ( 16進数 )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>0 = 予約</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>1 = インターフェースローカル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>3 = 予約</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>4 = 管理ローカル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>5 = サイトローカル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>6 = 未指定</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>7 = 未指定</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>8 = 組織ローカル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>9 ～ D = 未指定</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>E = グローバル</td>
+</tr>
+<tr>
+<td>0 = 永続的<br>or<br>1 = 一時的</td>
+<td>F = 予約</td>
+</tr>
+</tbody>
+</table>
+<p>なお、CiscoルータでIPv6を設定した場合、自動的に以下の3つのマルチキャストグループに参加します。</p>
+<table>
+<thead>
+<tr>
+<th>IPv6マルチキャストアドレス</th>
+<th>対象</th>
+<th>フラグ</th>
+<th>スコープ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FF02::1</td>
+<td>同じリンク上の全てのノード</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF02::2</td>
+<td>同じリンク上の全てのルータ</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF02::1:FFxx:xxxx</td>
+<td>要請ノードマルチキャストアドレス</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+</tbody>
+</table>
+<p>・ IPv6が有効なホストのインターフェースは 「FF02::1」 と 「FF02::1：FFxx:xxxx」 に自動的に参加します。
+・ 要請ノード（solicited-node）アドレスの FF02::1:FFxx：xxxx は FF02::1：FF00:0000 ～ FF02::1:FFFF:FFFF の範囲。
+・ 上記3つは<strong class="memory-answer">予約済みIPv6マルチキャストアドレス</strong>となりますが、上記3つ以外にも以下のような予約済みアドレスがあります。</p>
+<table>
+<thead>
+<tr>
+<th>IPv6マルチキャストアドレス</th>
+<th>対象</th>
+<th>フラグ</th>
+<th>スコープ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FF02::5</td>
+<td>同じリンク上の全てのOSPFルータ</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF02::6</td>
+<td>同じリンク上の全てのOSPF指定ルータ</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF02::9</td>
+<td>同じリンク上の全てのRIPルータ</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF02::101</td>
+<td>同じリンク上の全てのNTPサーバ</td>
+<td>0 = 永続的</td>
+<td>2 = リンクローカル</td>
+</tr>
+<tr>
+<td>FF05::101</td>
+<td>サイトローカル上の全てのNTPサーバ</td>
+<td>0 = 永続的</td>
+<td>5 = サイトローカル</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_1">スコープフィードについて</h2>
+<p>最後に、スコープフィールドについて理解を深めます。スコープフィールドの4bitの値によりパケットの到達
+範囲を容易に制御することができます。例えば全てのノードにパケットを送信するといっても、このスコープ
+フィールドを変更すると、グループIDが同じであっても、宛先に以下のような違いが出てきます。</p>
+<table>
+<thead>
+<tr>
+<th>宛先アドレス</th>
+<th>スコープ</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FF02::1</td>
+<td>リンクローカル</td>
+<td>同じリンク上の全てのノードに送信</td>
+</tr>
+<tr>
+<td>FF05::1</td>
+<td>サイトローカル</td>
+<td>同じサイト内の全てのノードに送信</td>
+</tr>
+<tr>
+<td>FF08::1</td>
+<td>組織ローカル</td>
+<td>同じ拠点内の全てのノードに送信</td>
+</tr>
+<tr>
+<td>FF0E::1</td>
+<td>グローバル</td>
+<td>インターネット上の全てのノードに送信</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipv6-mac">IPv6 - マルチキャストアドレスのMACアドレス</h2>
+<p>IPv6マルチキャストアドレスのMACアドレスは、先頭16ビットが予約されており <strong class="memory-answer">33:33</strong> という値になります。
+下位32ビットについては、IPv6マルチキャストアドレスの下位32ビットをそのまま使用します。つまり例えば
+マルチキャストアドレスが FF02：：1：FF22：2222 の場合、そのIPv6マルチキャストのMACアドレスの値は
+33：33：FF：22：22：22となります。例えば FF02：：1 ならMACアドレスは 33：33：00：00：00：01。</p>
+<p><img alt="画像" src="../studygif/ipv6z10b.png"></p>
+<h2 id="ipv6-_1">IPv6 - 要請ノードマルチキャストアドレス</h2>
+<p>IPv6の<strong class="memory-answer">要請ノードマルチキャストアドレス</strong>は、データリンク層のアドレス解決で使用されて、IPv4アドレスの
+ARPに相当します。IPv6の要請ノードマルチキャストアドレス [ FF02：：1：FFxx：xxxx ] の [ x ] は、自身
+のIPv6が有効なI/FのIPv6ユニキャストアドレス、またはエニーキャストアドレスの下位24ビットから自動的に
+構成されます。例えばインターフェースに「2037：：01：800：200D：8C6C」アドレスが割り振られていた
+場合、そのインターフェースの要請ノードマルチキャストアドレスは FF02：：1：FF0D：8C6C となります。</p>
+<p><img alt="画像" src="../studygif/ipv6z10c.png"></p>
+<p>IPv4ではMACアドレスの解決にARPを使用しますが、<strong class="memory-answer">IPv6ではMACアドレスの解決にICMPv6を使用</strong>します。
+IPv6ノードが宛先のノードのIPv6アドレスが分かるが、MACアドレスが分からない場合は、ICMP Type 135
+（<strong class="memory-answer">Neighbor Solicitation Message</strong>）の要請ノードマルチキャストアドレスを宛先として送信します。</p>
+<p>例えば宛先IPアドレスが FE80：：1a3b：5c7e である場合、IPv6ノードはそのIPv6アドレスから作成した
+FF02：：1：FF3b：5c7e の要請ノードマルチキャストアドレス宛にICMPを送信し、MACアドレスの解決を
+図ろうとします。このように要請ノードマルチキャストアドレスは <strong class="memory-answer">Neighbor Discovery</strong> の際に使用します。</p>
+<h2 id="ipv6">参考：主な予約済みIPv6マルチキャストアドレス</h2>
+<table>
+<thead>
+<tr>
+<th>マルチキャストアドレス</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FF02::1</td>
+<td>全てのノードアドレス（ リンクローカル ）</td>
+</tr>
+<tr>
+<td>FF02::2</td>
+<td>全てのルータ（ リンクローカル ）</td>
+</tr>
+<tr>
+<td>FF02::5</td>
+<td>OSPFv3 ルータ</td>
+</tr>
+<tr>
+<td>FF02::6</td>
+<td>OSPFv3 DR/BDR</td>
+</tr>
+<tr>
+<td>FF02::9</td>
+<td>RIPng ルータ</td>
+</tr>
+<tr>
+<td>FF02::A</td>
+<td>EIGRP ルータ</td>
+</tr>
+<tr>
+<td>FF02::D</td>
+<td>全てのPIMルータ</td>
+</tr>
+<tr>
+<td>FF02::1:2</td>
+<td>全てのDHCPエージェント</td>
+</tr>
+<tr>
+<td>FF05::1:3</td>
+<td>全てのDHCPサーバ（ サイトローカル ）</td>
+</tr>
+<tr>
+<td>FF02::1:FF00:0/104</td>
+<td>要請ノードマルチキャスト</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

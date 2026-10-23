@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN - Repeater / HUB / Bridge / Switch / Router | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ethernet-lan">Ethernet LAN上でのネットワークデバイス</a></li>
+<li><a href="#layer1">リピータ ( Layer1のデバイス）</a></li>
+<li><a href="#layer1_1">リピータハブ ( Layer1のデバイス）</a></li>
+<li><a href="#layer2">ブリッジ ( Layer2のデバイス）</a></li>
+<li><a href="#layer2_1">スイッチ ( Layer2のデバイス）</a></li>
+<li><a href="#layer3">ルータ ( Layer3のデバイス）</a></li>
+<li><a href="#_1">コリジョンドメインとブロードキャストドメイン</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan-repeater-hub-bridge-switch-router">Ethernet LAN - Repeater / HUB / Bridge / Switch / Router</h1>
+<hr>
+<h2 id="ethernet-lan">Ethernet LAN上でのネットワークデバイス</h2>
+<p>Ethernet LANでは多くのネットワークデバイスが存在します。リピータ、リピータハブ、ブリッジと
+いった現在では見られなくなった機器から、現在主流の位置づけのL2スイッチ、L3スイッチ、ルータ
+などの機器がEthernet LANにあります。今回は、これらのネットワークデバイスを紹介していきます。</p>
+<h2 id="layer1">リピータ ( Layer1のデバイス）</h2>
+<p>リピータはOSI参照モデルの物理層で動作する機器です。リピータはケーブルで流れる<strong class="memory-answer">電気信号を増幅</strong>し
+波形を整えてもう一方のインターフェースから電気信号を流します。10Base2や10Base5イーサネットで
+LANケーブルを延長したい場合に使用されていました。イーサネットLANにおいて電気信号は伝送距離が
+長ければ長いほど信号がだんだん弱くなり減衰していきます。それにより電気信号にゆがみが生じる事で
+正しくデータを受信処理できなくなる場合もあるので、ケーブル延長時には必ず使用していた機器でした。</p>
+<p><img alt="画像" src="../studygif/ethernet6a.png"></p>
+<h2 id="layer1_1">リピータハブ ( Layer1のデバイス）</h2>
+<p>リピータハブはOSI参照モデルの物理層で動作する機器です。リピータと同様に<strong class="memory-answer">電気信号の波形の増幅</strong>や
+整形を行います。異なる点は、<strong class="memory-answer">複数のポートを持ってる</strong>点とリピータハブに接続する場合は10Base-Tの
+ケーブルを使用する点です。リピータハブでは、端末がフレームを送信することで1つのポートで電気信号
+を受信すると、電気信号の波形の増幅と整形後に他の全てのポートに電気信号を送信します。このハブは
+他のハブと接続（＝カスケード接続）を行えますが、CSMA/CDの制約によって、10BaseTの場合4段まで
+（リピータハブ同士を4つ接続できる）、100Base-TXは2段まで（リピータ同士を2つ接続できる）です。</p>
+<p><img alt="画像" src="../studygif/ethernet6b.png"></p>
+<h2 id="layer2">ブリッジ ( Layer2のデバイス）</h2>
+<p>ブリッジはOSI参照モデルのデータリンク層で動作する機器です。リピータ同様に電気信号の波形の増幅、
+整形を行えるだけでなく、<strong class="memory-answer">イーサネットフレームのヘッダを理解</strong>できます。イーサネットフレームヘッダ
+の宛先MACアドレスを見て、適切なポートにフレームを転送することができます。動作は以下となります。</p>
+<p><img alt="画像" src="../studygif/ethernet6c.png"></p>
+<p>このブリッジの動作ではブリッジのメリットが見えませんが、次の<strong class="memory-answer">フィルタリング</strong>で利点が分かります。</p>
+<p><img alt="画像" src="../studygif/ethernet6d.png"></p>
+<p>上図のとおり、ブリッジはホストのMACアドレスを学習するとMACアドレステーブルに従いフレームを
+転送するため無駄なトラフィックの発生を防いだり、コリジョンが起こりにくいので通信効率も上がる。
+このように、ブリッジは<strong class="memory-answer">コリジョンの発生範囲（コリジョンドメイン）を分割</strong>できるデバイスなのです。
+※　当然ながら、この機器は10Base2や10Base5の時代の機器なのでリピータ同様に過去の遺物なので現在ではあまり見ません。</p>
+<h2 id="layer2_1">スイッチ ( Layer2のデバイス）</h2>
+<p>スイッチはOSI参照モデルのデータリンク層で動作する機器です。スイッチングハブまたはL2スイッチ
+とも呼ばれています。リピータハブは多くのポートがあるリピータであるのと同様、スイッチは多くの
+ポートのあるブリッジと考えてOK。ただしブリッジがフレームをソフトウェアにより処理するのに対し、
+スイッチは<strong class="memory-answer">ハードウェア（ASIC)により処理</strong>するところが大きな違い。また、最近のスイッチの発展は
+目覚しいものがあるのでメーカーにより非常に多くの機能を持っています。詳細は別途解説していきます。
+※　スイッチはフレームのヘッダ(MACアドレス）をみるため、ホストAとB間の送受信フレームはホストCやDに送信されません。</p>
+<p><img alt="画像" src="../studygif/ethernet6e.png"></p>
+<p>スイッチにはOSI参照モデルのネットワーク層で動作するL3スイッチがあります。L3スイッチはL2スイッチ
+の機能に加え、各ポートがルーティングできる機能を有しています。また、ルータよりもパケット処理能力が
+高く、企業内のLANネットワークのコア機器として位置づけられるのが一般的です。ただし、ルータのように
+WAN接続（シリアルやISDN)などの機能や暗号化処理など高度なソフトウェア処理を行うことは出来ません。
+※ スイッチは多くのポートのあるブリッジであることから、<strong class="memory-answer">スイッチもコリジョンドメインを分割できます</strong>。</p>
+<h2 id="layer3">ルータ ( Layer3のデバイス）</h2>
+<p>ルータはOSI参照モデルの<strong class="memory-answer">ネットワーク層で動作</strong>する機器です。ネットワーク層で動作する機器とはいえ
+ルータは物理層では電気信号の送受信を行い、データリンク層では、フレームヘッダのタイプをみること
+により上位層のプロトコルを識別をして、IPパケットの場合、ネットワーク層でパケットヘッダの「宛先
+アドレス」をみてルーティングテーブル（パケットの配送先の経路情報）に従ってパケットを転送します。
+※　イーサネットLANではデータの単位を<strong class="memory-answer">フレーム</strong>と呼んでいますが、TCP/IPではデータの単位を<strong class="memory-answer">パケット</strong>と呼んでいます。</p>
+<p><img alt="画像" src="../studygif/ethernet6f.png"></p>
+<p>ルータは、イーサネットだけではなくトークンリング、FDDI、ISDN、ATMといった色々なインターフェース
+を持つことが出来て、これによりイーサネットLANと様々な規格のデータリンク層との接続を実現しています。
+※　ここでいうインターフェースとは機器とケーブルが接続する部分のことです。「ポート」と呼ばれてたり「I/F」と略したりします。</p>
+<h2 id="_1">コリジョンドメインとブロードキャストドメイン</h2>
+<p>ブリッジやスイッチは、データリンクを分割するので、コリジョンドメインを分割できる機器なのですが
+ルータもデータリンクを分割するので、ルータもコリジョンドメインを分割できる機器です。ルータの場合
+ルータのインターフェースは別々のネットワークセグメントを割り当てることから、ブロードキャストも
+分割することができるので、ルータはブロードキャストドメインを分割する機器でもあります。詳細は以下。</p>
+<table>
+<thead>
+<tr>
+<th>デバイス</th>
+<th>OSI参照モデル</th>
+<th>デバイスの特徴</th>
+<th>コリジョンドメイン<br>の分割</th>
+<th>ブロードキャスト<br>ドメインの分割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ルータ</td>
+<td>ネットワーク層</td>
+<td>宛先IPを見てパケット転送<br>（様々なメディア間の接続可能）</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>L3スイッチ</td>
+<td>ネットワーク層</td>
+<td>宛先IPを見てパケット転送<br>（イーサネットLANでのみ使用可能）</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>L2スイッチ</td>
+<td>データリンク層</td>
+<td>宛先MACを見てフレーム転送<br>（ハードウェアで転送処理）</td>
+<td>○</td>
+<td>×（※1）</td>
+</tr>
+<tr>
+<td>ブリッジ</td>
+<td>データリンク層</td>
+<td>宛先MACを見てフレーム転送<br>（ソフトウェアで転送処理）</td>
+<td>○</td>
+<td>×</td>
+</tr>
+<tr>
+<td>リピータハブ</td>
+<td>物理層</td>
+<td>電気信号を増幅し信号転送<br>（集線装置）</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>リピータ</td>
+<td>物理層</td>
+<td>電気信号を増幅し信号転送<br>（中継装置）</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody>
+</table>
+<p>※1　L2スイッチの各ポートに対してVLAN (Virtual LAN) を割り当てることによりブロードキャストドメインを分割できます。</p>
+<p><img alt="画像" src="../studygif/ethernet6g.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

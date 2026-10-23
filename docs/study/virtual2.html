@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Server Virtualization 2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">仮想サーバのネットワーク接続</a></li>
+<li><a href="#nic">物理サーバのNICの使い分け</a></li>
+<li><a href="#nic_1">物理サーバのNICの冗長化</a></li>
+<li><a href="#_2">仮想環境におけるチーミング</a></li>
+<li><a href="#_3">参考情報 ： 仮想スイッチ内のフレーム転送</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="server-virtualization-2">Server Virtualization 2</h1>
+<hr>
+<h2 id="_1">仮想サーバのネットワーク接続</h2>
+<p>それぞれの仮想サーバには仮想NIC（vNIC）が割り当てられます。その仮想NICは仮想スイッチに
+接続されて、その仮想スイッチが物理NICと接続します。そして、物理NICが外部の物理スイッチと
+接続することで、ネットワーク通信を行っています。</p>
+<p><img alt="画像" src="../studygif/virtual2a.png"></p>
+<p>仮想化ソフトのインストールされた物理サーバのNICは、複数の仮想サーバの仮想NICを集約するので
+物理NICは<strong class="memory-answer">最低でも1Gbps</strong>にし、仮想サーバの数やアプリケーションにより<strong class="memory-answer">10Gbps</strong>のNICを搭載します。</p>
+<h2 id="nic">物理サーバのNICの使い分け</h2>
+<p>仮想サーバを集約する物理サーバには、多くの物理NICを搭載させ、用途ごとに物理NICを使い分ける
+ことが推奨されています。例えば仮想化ソフトのVMwareの場合、以下の4種類の分離を推奨しています。</p>
+<table>
+<thead>
+<tr>
+<th>物理NICの用途</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VM用ポート</td>
+<td>仮想サーバとクライアントなどの通信トラフィックに利用。最も重要度の高いサービスポート。</td>
+</tr>
+<tr>
+<td>VMotion用ポート</td>
+<td>仮想サーバを、他の物理サーバ上に移動する際に利用。移動時は多くの帯域を消費。</td>
+</tr>
+<tr>
+<td>ストレージ用ポート</td>
+<td>ストレージと通信するために利用。重要度が高く、最も帯域を消費するポート。</td>
+</tr>
+<tr>
+<td>管理用ポート</td>
+<td>vCenterなどの管理サーバとの通信に利用。帯域の消費は少なく、重要度は高くないポート。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/virtual2b.png"></p>
+<p>使用用途が異なるトラフィックを分離することにより、特定のトラフィックによる帯域の圧迫を回避します。
+使用用途ごとにNICを使い分けるために、仮想スイッチでVLANを設定します。仮想NICと物理NICとが接続
+するVLANを指定します。</p>
+<h2 id="nic_1">物理サーバのNICの冗長化</h2>
+<p>物理サーバの物理NICに障害が発生した場合、すべての仮想サーバと通信ができなくなってしまいます。
+従って、物理サーバの物理NICは冗長化させることが推奨です。物理NICの冗長化はチーミングという
+技術で実現します。チーミングとは、複数の物理NIC（ネットワークアダプタ）を束ねて1つの物理NIC
+（ネットワークアダプタ）を形成する技術です。以降を読む前に先ず <a href="etherchannel1.html">チーミングとは</a> をご参考下さい。</p>
+<p><img alt="画像" src="../studygif/virtual2c.png"></p>
+<h2 id="_2">仮想環境におけるチーミング</h2>
+<p>サーバ仮想化をしている物理サーバのチーミングには、「ハイパーバイザーの機能を利用する方法」と
+物理NICのチーミング機能の1つである「リンクアグリゲーション」の大きく2種類の方法があります。
+これらのどのチーミングを利用するのかは物理サーバにインストールした仮想化ソフトにより異なります。</p>
+<table>
+<thead>
+<tr>
+<th>仮想化ソフト</th>
+<th>仮想化ソフトが利用できるチーミング機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VMware ESX</td>
+<td>ハイパーバイザーの機能を利用</td>
+</tr>
+<tr>
+<td>VMware ESX / Microsoft Hyper-V / Citrix XenServer</td>
+<td>物理NICのチーミング機能を利用</td>
+</tr>
+</tbody>
+</table>
+<p>※　物理NICのチーミング機能であるリンクアグリゲーションを使用する場合、L2スイッチ側はスタック構成とすることが推奨。
+※　ハイパーバイザーの機能を利用したチーミングにおいても、<strong class="memory-answer">IPアドレスベース</strong>の場合は、スイッチ側でスタック構成が推奨。</p>
+<p>ハイパーバイザーの機能を利用したVMware ESXにおける負荷分散方式には以下の3つの種類があります。
+Port ID BasedとSource MAC Basedでは、負荷分散の効果はほぼ同じなので、基本的には、負荷の軽い
+Port ID Basedの負荷分散の方が最適です。不特定多数のクライアントが利用するストリーミングサーバや
+トラフィック量の多いサーバが仮想サーバにいる場合は、最も負荷分散の効果の高いIP Hashが有効です。</p>
+<table>
+<thead>
+<tr>
+<th>VMwareの負荷分散方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>送信元ポートベース<br>（Port ID Based）</td>
+<td>送信元仮想ポートID方式。デフォルト利用されるアルゴリズム。仮想NICが接続している仮想<br>ポートごとに、利用する物理NICを決定する。標準の仮想スイッチのポート番号は、内部的に<br>管理されているため、仮想NICがどの仮想ポートに割り当てられているのかは確認できない。</td>
+</tr>
+<tr>
+<td>送信元MACアドレスベース<br>（Source MAC Based）</td>
+<td>送信元MACハッシュ方式。仮想NICのMACアドレスに基づいて、利用する物理NICを決定する<br>アルゴリズム。Port ID Basedと同様、単一の仮想NICが単一の物理NICに対応することになる。<br>※ Port ID Basedの方式で使用する物理NICの偏りが発生する場合、この方式が有効である。</td>
+</tr>
+<tr>
+<td>IPアドレスベース<br>（ IP Hash )</td>
+<td>送信元、宛先IPアドレスハッシュ方式。トラフィックの送信元アドレスと宛先アドレスのペアの<br>情報をもとに利用する物理NICを決定する仕組みである。複数の通信先がある場合、単一の<br>仮想NICが複数の物理NICを利用することになる。負荷分散としては最適な仕組みと言える。<br>スイッチでIEEE <strong class="memory-answer">802.3adLink Aggregation</strong>を有効にする必要があり、スタック構成が推奨。</td>
+</tr>
+</tbody>
+</table>
+<p>下図で仮想サーバAにフォーカスして、仮想サーバの負荷分散方式の違いを図で確認してみましょう。</p>
+<p><img alt="画像" src="../studygif/virtual2d.png"></p>
+<p>IPアドレスベースの負荷分散方式である場合、トラフィックフローは以下となります。</p>
+<p><img alt="画像" src="../studygif/virtual2e.png"></p>
+<h2 id="_3">参考情報 ： 仮想スイッチ内のフレーム転送</h2>
+<p>クライアントPCからのブロードキャストが仮想サーバ宛に転送される場合、物理NICが接続する仮想スイッチ
+のポートから物理NICが接続する仮想スイッチのポートへは転送されないのでループを意識しなくてOKです。</p>
+<p><img alt="画像" src="../studygif/virtual2f.png"></p>
+<hr>
+<p>← <a href="virtual.html">サーバ仮想化とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

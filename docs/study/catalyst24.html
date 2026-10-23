@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>PoE / PoE+ / PoE++ | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#poe">PoEとは</a></li>
+<li><a href="#poe_1">PoE技術の標準化</a></li>
+<li><a href="#poe_2">PoE規格</a></li>
+<li><a href="#poe_3">PoE給電仕様</a></li>
+<li><a href="#poe-poeieee-8023af-power-classification-override-features">PoEの動作 - PoEポリシング：IEEE 802.3af power classification override features</a></li>
+<li><a href="#poe-catalyst">PoEの設定 - Catalystスイッチ</a></li>
+<li><a href="#poe_4">PoEの設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="poe-poe-poe">PoE / PoE+ / PoE++</h1>
+<hr>
+<h2 id="poe">PoEとは</h2>
+<p>PoE（Power over Ethernet）とは、カテゴリ5以上の<strong class="memory-answer">UTPケーブル上で電力を供給</strong>する技術のことです。
+電力供給が困難な場所に設置された無線LANアクセスポイント、IP電話、Webカメラなどへの電源供給で
+よく使用される技術です。例えば、IP電話へのPoEの給電によって、下図の3つのメリットが生まれます。</p>
+<p><img alt="画像" src="../studygif/catalyst24a.png"></p>
+<table>
+<thead>
+<tr>
+<th>PoEコンポーネント</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PSE（ Power Sourcing Equipment ）</td>
+<td>給電デバイス。PoEスイッチ、パワーインジェクタ</td>
+</tr>
+<tr>
+<td>PD（ Power Device ）</td>
+<td>受電デバイス。IP電話、無線アクセスポイント</td>
+</tr>
+<tr>
+<td>イーサネットLANケーブル</td>
+<td>クラス1～3（カテゴリ5以上）、クラス4以上（カテゴリ5e以上）のLANケーブル</td>
+</tr>
+</tbody>
+</table>
+<h2 id="poe_1">PoE技術の標準化</h2>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>通称</th>
+<th>策定時期</th>
+<th>最大供給電力</th>
+<th>クラス</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE802.3af</td>
+<td>PoE</td>
+<td>2003年</td>
+<td>15.4W</td>
+<td>1～3</td>
+</tr>
+<tr>
+<td>IEEE802.3at</td>
+<td>PoE+</td>
+<td>2009年</td>
+<td>30W</td>
+<td>4</td>
+</tr>
+<tr>
+<td>IEEE802.3bt</td>
+<td>PoE++</td>
+<td>2018年</td>
+<td>90W</td>
+<td>5～8</td>
+</tr>
+</tbody>
+</table>
+<h2 id="poe_2">PoE規格</h2>
+<p>PoEの給電仕様は以下であり、例えばクラス3のIP電話機に電源供給したい場合には、1ポートで15.4Wの
+電力供給が可能なPoEスイッチを選定する必要があります。また、IEEE802.11ac対応の無線APの場合には、
+1ポートで30.0Wの電力供給が可能なPoEスイッチを選定する必要があります。このように、PoEスイッチ
+を選定する場合には、受電デバイスがどのくらいの電力が必要となるのかを事前に確認する必要があります。</p>
+<h2 id="poe_3">PoE給電仕様</h2>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>給電機器（PSE）の電力</th>
+<th>規格</th>
+<th>通称</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>15.4W</td>
+<td>IEEE802.3af</td>
+<td>デフォルト</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4.0W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7.0W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>3</td>
+<td>15.4W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>4</td>
+<td>30.0W</td>
+<td>IEEE802.3at</td>
+<td>タイプ2</td>
+<td>PoE+</td>
+</tr>
+<tr>
+<td>5</td>
+<td>45.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ3</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>6</td>
+<td>60.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ3</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>7</td>
+<td>75.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ4</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>8</td>
+<td>90W-99W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ4</td>
+<td>PoE++</td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.3af、802.3at、802.3btの規格では、PoEスイッチは受電デバイスかどうかをUTPケーブル上で
+電圧の供給や抵抗の測定によって判断します。受電デバイスは電力クラスの情報をPoEスイッチに提供して
+この情報に基づいてPoEスイッチは、受電デバイスに対して適切な電力を割り当てられるようになります。</p>
+<h2 id="poe-poeieee-8023af-power-classification-override-features">PoEの動作 - PoEポリシング：IEEE 802.3af power classification override features</h2>
+<p>PoEポリシングでは、<strong class="memory-answer">障害が発生しているインライン受電デバイスからCatalystスイッチを保護</strong>します。
+障害が発生している受電デバイスは設計上より多くの電流を引き込む時があります。</p>
+<p>受電デバイスがスイッチポートに接続されると、ラインカードは接続された受電デバイスのタイプを検出し
+適切な電力量を割り当てます。そして、PoEポリシングのしきい値を割り当てられた電力より5%多い値に
+設定します。受電デバイスが、Catalystのポリシングしきい値で指定されているもより多くの電力を1秒を
+越えて消費すると、<strong class="memory-answer">ポートはシャットダウンしてエラーディセーブル（Errdisable）</strong>になります。または、
+設定したPoEポリシング アクションに応じ、メッセージがコンソールに保存されてポートが再起動します。</p>
+<h2 id="poe-catalyst">PoEの設定 - Catalystスイッチ</h2>
+<p>PoE対応のCatalystでは、デフォルトで電力供給が出来る状態になっていることから、PoEスイッチのための
+<strong class="memory-answer">設定は特に必要ありません</strong>。また、PoEスイッチではポートごとに電力供給の有効化と無効化を設定できます。
+PoEスイッチは、ポートに接続したデバイスが電力を必要としているかどうかを判断して、電力供給が必要な
+場合だけ電力供給を行うことから、電力供給が必要ないPCなどがPoEスイッチに問題なく接続することが可能。</p>
+<h2 id="poe_4">PoEの設定</h2>
+<p>(config)# interface interface-id
+(config-if)# <strong class="memory-answer">power inline auto</strong> [ <strong class="memory-answer">max</strong> milli-watts ] | <strong class="memory-answer">never</strong> | <strong class="memory-answer">static</strong> [ <strong class="memory-answer">max</strong> milli-watts ]</p>
+<table>
+<thead>
+<tr>
+<th>コマンド引数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto</td>
+<td>ポートが受電装置を自動検出して電力供給するようにするための設定。デフォルト値。<br>(config-if)# <strong class="memory-answer">power inline auto</strong>　← デフォルトの設定であるためコンフィグ上は非表示。</td>
+</tr>
+<tr>
+<td>max</td>
+<td>オプション値。最大ワット数を指定。</td>
+</tr>
+<tr>
+<td>never</td>
+<td>受電デバイスの検出や電力供給を無効化する設定。この設定をするとただのポートとなる。<br>(config-if)# <strong class="memory-answer">power inline never</strong></td>
+</tr>
+<tr>
+<td>static</td>
+<td>インターフェースを auto より高いプライオリティに設定。</td>
+</tr>
+</tbody>
+</table>
+<p>提供可能な電力量、現在の使用率、ポートごとの電力消費状況などは <strong class="memory-answer">show power inline</strong> で確認できます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study47.html">Catalystスイッチ - 技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

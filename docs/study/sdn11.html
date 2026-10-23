@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SD-WAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#sd-wan_1">SD-WANとは</a></li>
+<li><a href="#sd-wanztp">SD-WANの機能：ZTP（ゼロタッチプロビジョニング）とは</a></li>
+<li><a href="#sd-wanlbo">SD-WANの機能：LBO（ローカルブレイクアウト）とは</a></li>
+<li><a href="#sd-wanwan">SD-WANの機能：ハイブリッドWANとは</a></li>
+<li><a href="#sd-wan_2">SD-WANの機能：セグメンテーションとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="sd-wan">SD-WAN</h1>
+<hr>
+<h2 id="sd-wan_1">SD-WANとは</h2>
+<p>SD-WAN（Software-Defined Wide Area Network）とは、<strong class="memory-answer">ソフトウェアにより定義するWAN</strong>のことです。
+SD-WANでは、物理的なネットワーク機器で構築したWAN上に、ソフトウェアを使用して仮想的なWANの
+構築と管理を実現します。簡単に言えばSD-WANは、SDNをWANに適用した技術と言えます。</p>
+<p>SD-WANでは管理ソフトウェアである<strong class="memory-answer">オーケストレータ</strong>で各拠点に配置されているネットワーク機器を集中
+管理することができます。SD-WANはオーケストレータの<strong class="memory-answer">SD-WANコントローラ</strong>と<strong class="memory-answer">SD-WANルータ</strong>の大きく
+2つのコンポーネントで構成されます。</p>
+<p>SD-WANコントローラは、<strong class="memory-answer">インターネット経由でクラウドサービスとして提供</strong>を受けるかたちで導入するか、
+ユーザの<strong class="memory-answer">オンプレミス環境でハードウェアを設置</strong>する形態として導入するかを選べます。SD-WANルータは、
+物理的または仮想的にネットワーク内の任意の場所に導入することができます。SD-WANルータの呼称には、
+SD-WANエッジ、SD-WANエッジルータ、SD-WANデバイス、SD-WAN装置などがあります。</p>
+<p><img alt="画像" src="../studygif/sdn11a.png"></p>
+<p>SD-WANでは、<strong class="memory-answer">通信トラフィックを最適な経路に分散させる</strong>ことができます。機密性が高くセキュアな通信が
+必要なトラフィックは閉域網のWAN回線に振り分け、音声トラフィックは回線品質の高いWAN回線に振り分け、
+信頼できる特定のクラウドサービスへのトラフィックはSD-WANルータが直接収容するインターネット回線に
+振り分けることが可能です。</p>
+<p>SD-WANでは、<strong class="memory-answer">アンダーレイネットワーク</strong>（下位層のネットワーク）に、MPLS-VPNなどのWANだけでなく
+ブロードバンドなどのインターネット回線などが利用可能であり、キャリアの制約はないことが一般的です。
+<strong class="memory-answer">オーバーレイネットワーク</strong>（物理ネットワーク上に構築された仮想ネットワーク）ではSD-WANルータ間の
+IPsecトンネルが構築されます。オーバーレイネットワークでは<strong class="memory-answer">アプリケーションのトラフィックを識別した</strong>
+<strong class="memory-answer">ポリシーベースルーティング</strong>が行われます。ルーティングにおけるPBRと同じ考え方です。</p>
+<h2 id="sd-wanztp">SD-WANの機能：ZTP（ゼロタッチプロビジョニング）とは</h2>
+<p><strong class="memory-answer">ゼロタッチプロビジョニング</strong>とは、ネットワーク構築作業を自動化する仕組みのことです。ベンダーにも
+よりますが、SD-WANルータにはデフォルトで物理インターフェースにDHCPの設定とコントローラへの
+リダイレクト設定があることから、DHCP/DNS環境があれば、電源ケーブルとLANケーブルを挿すだけで
+現地作業が完了します。設定情報はSD-WANコントローラから自動的に流し込まれます。</p>
+<p>SD-WANコントローラからは、IPsecトンネルを構築するために大きく以下の2つの情報が伝えられます。
+・　<strong class="memory-answer">IPsecトンネルを構築するためのSD-WANルータのIPアドレス情報</strong>
+・　<strong class="memory-answer">事前共有鍵とデジタル証明書などの認証情報</strong></p>
+<p>IPsecトンネルを確立後、SD-WANコントローラとSD-WANルータの間は<strong class="memory-answer">TLS</strong>により通信が保護されます。
+<strong class="memory-answer">BFD</strong>（Bidirectional Forwarding Detection）プロトコルはデフォルトで有効となっており、各トンネルで
+実行されて損失、遅延、ジッター、パスの障害を検出します。障害を検出した場合、BFDは障害が発生した
+IPsecトンネルを別の経路に切り替えます。</p>
+<h2 id="sd-wanlbo">SD-WANの機能：LBO（ローカルブレイクアウト）とは</h2>
+<p><strong class="memory-answer">ローカルブレイクアウト</strong>とは、Microsoft 365などの信頼できる特定のクラウドサービスのみを識別して
+企業内のデータセンターに設置されたセキュリティ製品を経由させることなく、各拠点に設置されている
+SD-WANルータから直接インターネット通信する機能のことです。ローカルブレイクアウトの機能により
+各拠点のユーザは快適なクラウドサービスの利用と、社内ネットワークの混雑を軽減することができます。
+※　ローカルブレイクアウトは、<strong class="memory-answer">インターネットブレイクアウト</strong>とも呼ばれています。</p>
+<h2 id="sd-wanwan">SD-WANの機能：ハイブリッドWANとは</h2>
+<p><strong class="memory-answer">ハイブリッドWAN</strong>とは、Active/Active構成で複数の回線で冗長化されたWANのことです。SD-WANでは
+複数の回線を全てアクティブで利用できるだけでなく、回線品質やアプリケーションに応じて利用回線を
+柔軟に制御することができます。<strong class="memory-answer">SD-WANでは回線品質（遅延、損失、ジッタ）をモニタリングしており</strong>
+この回線品質に閾値を設定することで、品質を下回る回線を利用しないなどの最適な回線選択が可能です。</p>
+<p>※　Cisco SD-WANソリューションガイド　P.4の資料抜粋
+<img alt="画像" src="../studygif/sdn11b.png"></p>
+<h2 id="sd-wan_2">SD-WANの機能：セグメンテーションとは</h2>
+<p>SD-WANのセグメンテーションはVRFのような技術であり、1つのWAN回線内に複数のVPNとして分離
+された別ネットワークを構築することができます。完全に分離されていることから、VRFで分離した時の
+ように、異なるVPNセグメントであればIPアドレスやサブネットの重複も可能です。</p>
+<p>※　Cisco SD-WANソリューションガイド　P.4の資料抜粋
+<img alt="画像" src="../studygif/sdn11c.png"></p>
+<hr>
+<p>← <a href="virtual.html">仮想化とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

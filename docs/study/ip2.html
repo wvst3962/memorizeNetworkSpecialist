@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>2進数 &amp; 10進数 &amp; 16進数 - Part 2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#16">16進数について</a></li>
+<li><a href="#216">2進数から16進数への変換方法</a></li>
+<li><a href="#162">16進数から2進数への変換方法</a></li>
+<li><a href="#1016">10進数から16進数への変換方法</a></li>
+<li><a href="#1610">16進数から10進数への変換方法</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="2-10-16-part-2">2進数 &amp; 10進数 &amp; 16進数 - Part 2</h1>
+<hr>
+<h2 id="16">16進数について</h2>
+<p>10進数の基数は「10」、2進数の基数は「2」、そして16進数の基数は「16｣であることから、16進数では
+16種類の数字が必要であることが分かります。記号としての数字は 「 0 ～ 9 」 の10種類しかないので、
+16進数ではアルファベットの 「 A～F 」を数字として使用します。10進数は 「 9 」 の次に位が上がるか
+16進数では 「 F 」 の次に位があがります。なお、10進数の数値と区別するために、16進数では数値の
+先頭に「 0x 」をつけます。以下の対応表通り、例えば10進数の「 8 」は16進数では「 0x8 」となります。</p>
+<table>
+<thead>
+<tr>
+<th>10進数と16進数の対応表</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10進数</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>16進数</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<h2 id="216">2進数から16進数への変換方法</h2>
+<p>2進数の数値を16進数の数値に変換するためには、3つのステップを踏む必要があります。16進数の1桁を
+2進数では4桁で表すため、先ず、2進数の数値を4桁の数値に分離します。次に、分離した数から10進数の
+値を求めます。最後にその10進数の値を16進数に変換します。その結果は以下の通りです。</p>
+<p><img alt="画像" src="../studygif/ip2a.png"></p>
+<p>以上のことから、2進数の数値「 10110110 」は16進数の数値に変換すると「 0xB6 」であると分かります。</p>
+<h2 id="162">16進数から2進数への変換方法</h2>
+<p>16進数の数値を2進数の数値に変換には上図と逆のことをします。16進数の1桁を2進数の4桁に変換します。
+そして、その4桁の数値を並べるだけです。上図と同様で、16進数の数値からいきなり2進数の数値を求め
+られない場合、16進数の数値を一度10進数の数値に変換し、10進数の数値から2進数を求めるようにします。</p>
+<p><img alt="画像" src="../studygif/ip2b.png"></p>
+<p>以上のことから、16進数の数値「 0xB6 」は2進数の数値に変換すると「 10110110 」であると分かります。</p>
+<h2 id="1016">10進数から16進数への変換方法</h2>
+<p>10進数の数値を16進数の数値に変換するためには、先ず、10進数の数値を2進数の数値に変換します。
+次に、2進数の数値を16進数の数値に変換します。つまり、10進数から直接16進数に変換するのではなく
+「 2進数への変換 」を経由します。ただし数値が小さい場合は直接変換した方が早いでしょう。ここでは
+10進数の「160」の数値は、16進数では「0xA0」であると導きだしています。考え方は今までと同じです。</p>
+<p><img alt="画像" src="../studygif/ip2c.png"></p>
+<h2 id="1610">16進数から10進数への変換方法</h2>
+<p>16進数から10進数に変換する場合も、｢2進数への変換」を経由することで数値を算出します。ここでは、
+16進数の「0xB6」の数値は、10進数では「182」であると導き出しています。考え方は今までと同じです。</p>
+<p><img alt="画像" src="../studygif/ip2d.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

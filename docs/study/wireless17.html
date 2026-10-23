@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN Switch | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan">無線LANスイッチ</a></li>
+<li><a href="#lan_1">無線LANスイッチ導入時のトラフィックフロー</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-switch">Wireless LAN Switch</h1>
+<hr>
+<h2 id="lan">無線LANスイッチ</h2>
+<p>無線LANスイッチとは複数のアクセスポイントを<strong class="memory-answer">集中管理、集中制御する機器</strong>のこと。無線LANスイッチは
+APが行っている「認証、暗号化、電波出力調整、ローミング」などのほとんどの機能を担うことになるので
+無線LANスイッチを導入した場合、アクセスポイントは<strong class="memory-answer">ただのアンテナ</strong>のような存在になります。実際にAP
+に行っていたすべての設定を無線LANスイッチに設定することから、AP側で設定する内容は自身のホスト名、
+IPアドレス関連、自身が管理されることになる無線LANスイッチのIPアドレスの指定の設定だけになります。</p>
+<p><img alt="画像" src="../studygif/wireless17a.png"></p>
+<p>従来のネットワークインフラでは、無線LANのセキュリティ問題や速度問題などが解決されていなかったため
+大規模に無線LANシステムが導入されることがあまりなく、10台以下のAPを導入するケースが多かったので
+無線LANスイッチの需要はそれほどありませんでしたが、IEEE802.11i や IEEE802.11n が規格化された現在
+大規模に無線LANを導入するケースが多くなり、無線LANスイッチを導入するケースが多くなってきています。</p>
+<p>いわゆる無線LANスイッチには厳密には「<strong class="memory-answer">無線LANスイッチ</strong>」と「<strong class="memory-answer">無線LANコントローラ</strong>」という2つの用語があり意味が異なります。
+しかし多くのエンジニアは正確には無線LANスイッチとしての位置づけとなる機器のことを「無線LANコントローラ」と呼んでいます。
+これはCisco製品の無線LANスイッチがCisco WLC（Wireless LAN Controller）という名称である事が大きく影響していると思います。</p>
+<h2 id="lan_1">無線LANスイッチ導入時のトラフィックフロー</h2>
+<p>無線LANスイッチを導入している場合、無線LANクライアント同士のトラフィックフローは無線LANスイッチを
+介して通信が行われるようになります。※ Cisco機器で FlexConnect の実装をした場合、フローが異なります。
+メーカの機器仕様によりますが、無線LANスイッチに障害が発生した場合はアクセスポイントは制御を失うこと
+になるので無線LAN通信ができなくなります。従って、無線LANスイッチは冗長化して導入するのが一般的です。</p>
+<p><img alt="画像" src="../studygif/wireless17b.png"></p>
+<hr>
+<p>← <a href="wireless16.html">無線LAN - IEEE802.11e</a>　<a href="https://www.infraexpert.com/study/wireless17.5.html">無線LAN - 無線LANスイッチ導入のメリット</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

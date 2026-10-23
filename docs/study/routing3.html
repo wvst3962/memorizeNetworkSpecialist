@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Static Routing | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">スタティックルーティングとは</a></li>
+<li><a href="#_2">スタティックルートの設定</a></li>
+<li><a href="#_3">スタティックルートの設定</a></li>
+<li><a href="#_4">デフォルトルートの設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="static-routing">Static Routing</h1>
+<hr>
+<h2 id="_1">スタティックルーティングとは</h2>
+<p>スタティックルートとは、管理者が宛先ネットワークへの最適なルートを手動で設定したルートのことです。
+スタティックルートの情報は他のルータへ通知されることはありません。また、ネットワークの状態に変化
+があった場合でも、他に有効な宛先ルートがあっても、自動的にそのルートに切り替わることはありません。
+ルータでこのスタティックルートを使用したルーティングのことを、<strong class="memory-answer">スタティックルーティング</strong>と言います。</p>
+<h2 id="_2">スタティックルートの設定</h2>
+<p>下図は、それぞれのルータのI/FにIPアドレスの設定と有効化（no shutdown）をしている状態となります。
+この時点でルータは直接接続ルートを追加することになるので、ルーティングテーブルは下図のとおりです。
+この状態ではルーティングテーブルどおり端末AからBにパケットを送信しても届きません。なぜなら、R1の
+ルーティングテーブルには、宛先IPアドレス「192.168.2.10」に該当する宛先ルートが存在しないからです。</p>
+<p><img alt="画像" src="../studygif/routing3a.png"></p>
+<p>そこでR1にスタティックルートの設定をしてみます。Cisco機器ではスタティックルートを設定するためには
+グローバルコンフィグレーションモードで<strong class="memory-answer">ip route</strong>コマンドを使用します。引数は以下となります。現時点で
+初心者のネットワークエンジニアは、引数の <strong class="memory-answer">distance</strong> と <strong class="memory-answer">permanent</strong> については理解していなくてもOKです。</p>
+<h2 id="_3">スタティックルートの設定</h2>
+<p>(config) # <strong class="memory-answer">ip route</strong> network mask ip-address | interface [ distance ] [ permanent ]</p>
+<table>
+<thead>
+<tr>
+<th>ip route コマンドの引数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>network</td>
+<td>宛先ネットワークのアドレスを指定する。</td>
+</tr>
+<tr>
+<td>mask</td>
+<td>宛先ネットワークに対するサブネットマスクを指定する。</td>
+</tr>
+<tr>
+<td>ip-address or interface</td>
+<td>ネクストホップアドレス、または出力インターフェースを指定する。出力インターフェースを<br>指定する場合は、Serial などのポイントツーポイントのインターフェースであることが条件。</td>
+</tr>
+<tr>
+<td>distance</td>
+<td>アドミニストレーティブディスタンス値（AD）を変更したい場合に数値を指定する。(オプション)</td>
+</tr>
+<tr>
+<td>permanent</td>
+<td>宛先ルートへの出力インターフェースがダウンした場合でも、設定したスタティックルートが<br>ルーティングテーブルから削除されないようにしたい時にpermanentと指定する。(オプション)</td>
+</tr>
+</tbody>
+</table>
+<p>R1は「192.168.2.0/24」の宛先ルートを学習する必要があるので、以下のスタティックルートを設定します。</p>
+<p><img alt="画像" src="../studygif/routing3e.png"></p>
+<p>上での設定により下図の通り端末AからBへパケットが届くようになります。しかし端末Aからのパケットが
+Bへ送信できたとしても、端末BからAへ送信できないことがR2のルーティングテーブルを見れば分かります。
+R2のルーティングテーブルには端末Aのアドレスに該当する 192.168.0.0/24 の宛先ルートが存在しません。</p>
+<p><img alt="画像" src="../studygif/routing3b.png"></p>
+<p>従って、端末A ⇔ B間で相互に通信できるようにするためには、R2に以下のスタティックルートが必要です。</p>
+<p><img alt="画像" src="../studygif/routing3f.png"></p>
+<p>R2でもスタティックルートを設定することで、端末A⇔B間で双方向に通信できるようになります。</p>
+<p><img alt="画像" src="../studygif/routing3c.png"></p>
+<p>このようにスタティックルートは双方向に設定する必要あります。パケットを送信できたとしても返りの
+スタティックルートがなければ、受信したパケットを送り返すことができません。これとても重要です。</p>
+<p>コンピュータ間の通信は双方向に通信してはじめて成立するので、片側だけのパケットが送信できても
+意味がないのです。このようにスタティックルートを設定する場合、双方向に通信できるか確認します。</p>
+<h2 id="_4">デフォルトルートの設定</h2>
+<p>スタティックルートでは、通信したい宛先ネットワークごとにスタティックルートを1行ずつ設定していく
+必要があります。しかし、通信したい宛先ネットワークが膨大な場合、設定していくのが非常に手間です。
+そのような場合は<strong class="memory-answer">デフォルトルート</strong>という特別なルートを設定します。デフォルトルートは「0.0.0.0/0」
+で全てのネットワークを示して、受信したパケットの宛先ネットワークアドレスがルーティングテーブルに
+登録されていない場合でも指定したネクストホップアドレスにパケット転送するる便利で特別なルートです。</p>
+<p>デフォルトルートはインターネットに接続する企業ネットワークのルータで役立ちます。例えば下図では
+https://www.infraexpert.com/をブラウザで開いた時のパケットですが、このグローバルIPアドレスで
+あっても、デフォルトルートを設定すれば「0.0.0.0/0」に合致しネクストホップアドレス 192.168.1.253
+に転送されます。インターネット上の通信したいグローバルIPアドレスを1行ずつ設定する必要はないです。</p>
+<p><img alt="画像" src="../studygif/routing3d.png"></p>
+<p>デフォルトのルートの設定はスタティックルート同様に ip route コマンドを使用します。設定コマンド
+引数なども全て同じ内容ですが、宛先アドレスには必ず「0.0.0.0 0.0.0.0」と指定する必要があります。</p>
+<p><img alt="画像" src="../studygif/routing3g.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study19.html">ルーティング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

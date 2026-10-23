@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN - DIX / IEEE | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">イーサネットフレーム</a></li>
+<li><a href="#mac">MACアドレスとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan-dix-ieee">Ethernet LAN - DIX / IEEE</h1>
+<hr>
+<h2 id="_1">イーサネットフレーム</h2>
+<p>イーサネットフレームとは、イーサネットLAN通信の際に使用するデータのフォーマットのことです。
+TCP/IPでいう<strong class="memory-answer">パケット</strong>という用語の代わりに、イーサネットでは<strong class="memory-answer">フレーム</strong>という用語を使用します。
+そのイーサネットフレームのフォーマットを紹介します。イーサネットフレームは複数のフレームが
+存在しますが、<strong class="memory-answer">Ethernet?Uフレーム</strong>と<strong class="memory-answer">IEEE802.3フレーム</strong>を紹介します。現在、最も使用されている
+イーサネットフレームはDIX仕様です。つまりイーサネットフレームといえば<strong class="memory-answer">Ethernet?U</strong>を指します。</p>
+<p><img alt="画像" src="../studygif/ethernet4a.png"></p>
+<p>現在、TCP/IPが完全に主流ですが、NetwareやNetBIOSを使用しているならIEEE802.3フレームを使用している場合もあります。</p>
+<table>
+<thead>
+<tr>
+<th>イーサネットフレーム</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>フィールド</td>
+<td>フィールドの説明</td>
+</tr>
+<tr>
+<td>プリアンブル</td>
+<td>イーサネット通信で送受信の同期を取り、フレームの始まりを合図するために用いる特別なビット列のこと。<br>IEEE802.3フレームではこの特別なビット列の最初の7バイトをプリアンブル、最後の1バイトをSFDと呼ぶ。<br>プリアンブルは、ハードウェアにより生成され受信後に破棄されるためイーサネットフレームのサイズには<br>含まれない。それゆえに、イーサネットフレームのサイズは、最小<strong class="memory-answer">64byte</strong>、最大<strong class="memory-answer">1518byte</strong>とされている。</td>
+</tr>
+<tr>
+<td>宛先<br>MACアドレス</td>
+<td>イーサネットでは通信するためにMACアドレスを使用する。ここでは通信相手となる宛先のコンピュータの<br>MACアドレスの情報が入る。またはマルチキャストアドレス、ブロードキャストアドレスが入ることになる。</td>
+</tr>
+<tr>
+<td>送信元<br>MACアドレス</td>
+<td>イーサネットフレームを送信するコンピュータのNICのMACアドレスの情報が入る。</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>次に続く「データ」フィールドに格納する上位層プロトコルを識別するフィールドが入る。※1</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>次に続く「データ｣フィールドのサイズを示すフィールドが入る。上位層プロトコルの識別のために<br>IEEE802.2フィールドを使用する。後に、「長さ」フィールドを、「長さ/タイプ」フィールドに改訂。</td>
+</tr>
+<tr>
+<td>データ</td>
+<td>最小で46byte、最大で1500byteのデータが入る。データが46byte未満である場合、ダミーのデータ<br>「0」を追加して46byteにする。これをパディングと言う。 セグメント内での衝突検出を行うためには、<br>フレームの全体長がFCSも含めて64byte以上である必要があるため、パディング処理が行われる。</td>
+</tr>
+<tr>
+<td>FCS</td>
+<td>受信したフレームに誤りがないかどうかを調べるために付加されるデータ。CRCという値が含まれる。</td>
+</tr>
+</tbody>
+</table>
+<p>※1　イーサネットフレームの<strong class="memory-answer">タイプ</strong>の主な値は次の通りです。タイプコードは16進数で表すため「0x」から始まります。</p>
+<table>
+<thead>
+<tr>
+<th>タイプコード</th>
+<th>プロトコル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0800</td>
+<td>IPv4</td>
+</tr>
+<tr>
+<td>0x0806</td>
+<td>ARP</td>
+</tr>
+<tr>
+<td>0x809b</td>
+<td>AppleTalk</td>
+</tr>
+<tr>
+<td>0x8100</td>
+<td>IEEE802.1q</td>
+</tr>
+<tr>
+<td>0x8137</td>
+<td>IPX</td>
+</tr>
+<tr>
+<td>0x86dd</td>
+<td>IPv6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mac">MACアドレスとは</h2>
+<p>MACアドレスはイーサネットLAN通信において使用されるアドレスです。物理アドレスとも呼ばれています。
+PCのNICやルータのLANポートなど各イーサネットカード（ポート）に固有のID番号です。世界中のイーサ
+ネットカード（ポート）に一意の固有のID（MACアドレス）が割り当てられており、IEEEで管理しています。</p>
+<p>MACアドレスは48ビット（6バイト）で構成されます。上位の24ビットが<strong class="memory-answer">ベンダーコード</strong>と呼ばれていて
+各ベンダーに固有に割り当てられている値。下位24ビットは各ベンダーが一意となるように割り当てます。
+48ビットは8ビットごとに区切り、8ビットごとに16進数で表記します。この値は通常2桁ずつまたは4桁ずつ
+区切り表記されます。PCのNICのMACアドレスはコマンドプロンプトを開いて <strong class="memory-answer">ipconfig/all</strong> で確認できます。</p>
+<p><img alt="画像" src="../studygif/ethernet4b.png"></p>
+<p>このMACアドレスはシスコルータのEthernetポートの情報です。ベンダーコードは上位24ビットなので
+16進数の「00-17-94」の部分であることが分かります。「00-17-94」をIEEEのWebサイトでSearchで
+検索すると「Cisco Systems」と表示されます。ベンダーコードは<strong class="memory-answer">OUI</strong>とも呼ばれます。ちなみにシスコ
+のような大企業は、1つではなく非常に数多くのベンダーコードをIEEEから取得しています。</p>
+<p>ベンダーコードは、実は3byte全てをベンダー識別のために使用している訳ではなくて、ベンダーコードの
+はじめの1byteのうち、先頭から7ビット目を <strong class="memory-answer">U/Lビット</strong>、8ビット目を <strong class="memory-answer">I/Gビット</strong> として予約しています。</p>
+<p><img alt="画像" src="../studygif/ethernet4c.png"></p>
+<p>U/Lビットが「0」である場合はグローバルアドレスを指して、「1」の場合はローカルアドレスを指します。
+通常は「0」となっています。宛先MACアドレスのI/Gビットは「0」の場合はユニキャスト通信を指します。
+宛先MACアドレスのI/Gビットは「１」である場合は、マルチキャストまたはブロードキャストを指します。
+48ビットの全てが「1」である場合、つまりMACアドレスが「FFFF.FFFF.FFFF」の場合はブロードキャスト
+アドレスを指します。なお、MACアドレスが 0100.5E から始まる場合はマルチキャストアドレスを指します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

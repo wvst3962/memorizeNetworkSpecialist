@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>BGPの技術解説、CiscoのBGP設定方法 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="bgpciscobgp">BGPの技術解説、CiscoのBGP設定方法</h1>
+<p><img alt="画像" src="../studygif/index2a.png"></p>
+<hr>
+<p><img alt="画像" src="../studygif/study60a.png"></p>
+<p>◆　<a href="bgpz01.html">BGP（ Border Gateway Protocol ）とは</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz02.html">BGP - 4つのメッセージ、6つのステータスと状態遷移</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz03.html">BGP - IBGPとEBGPの違い</a></p>
+<p>◆　<a href="bgpz04.html">BGP - スタブAS、トランジットAS、非トランジットAS</a></p>
+<p>◆　<a href="bgpz05.html">BGP - パスアトリビュート（ パス属性 ）＆ ベストパス選択</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz06.html">BGP - コンフィグ設定 - 基本設定</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz07.html">BGP - コンフィグ設定 - timers bgp</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz08.html">BGP - コンフィグ設定 - loopback I/Fを使用するBGPピア接続</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz29.html">BGP - clear ip bgp コマンドによるBGPセッションのクリア</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz38.html">BGP - BGPネイバー確立のための条件、４つの確認ポイント</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz09.html">BGP - パスアトリビュート - ORIGIN</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz10.html">BGP - パスアトリビュート - AS_PATH</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz11.html">BGP - パスアトリビュート - NEXT_HOP</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz12.html">BGP - show ip bgp（BGPテーブル）の見方</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz13.html">BGP - コンフィグ設定 - AS_PATH</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz14.html">BGP - コンフィグ設定 - NEXT_HOP</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz15.html">BGP - BGPスプリットホライズンとIBGPフルメッシュ</a>
+◆　<a href="https://www.infraexpert.com/study/bgpz16.html">BGP - コンフィグ設定 - ルートリフレクタ</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz17.html">BGP - コンフィグ設定 - BGPコンフェデレーション</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz18.html">BGP - コンフィグ設定 - ピアグループの設定</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz19.html">BGP同期原則 - synchronization / no synchronization</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz20.html">BGP - パスアトリビュート - MED</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz21.html">BGP - パスアトリビュート - LOCAL_PREF</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz22.html">BGP - コンフィグ設定 - MED</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz23.html">BGP - コンフィグ設定 - LOCAL_PREF</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz24.html">BGP - コンフィグ設定 - aggregate-address</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz25.html">BGP - コンフィグ設定 - WEIGHT</a></p>
+<p>◇　DDoS攻撃対策</p>
+<p>◆　<a href="bgpz39.html">BGP Flowspec</a></p>
+<p>◇　CCIE試験では以降の技術解説の理解も必要</p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz26.html">BGP - パスアトリビュート - COMMUNITY</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz27.html">BGP - コンフィグ設定 1 - COMMUNITY</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz28.html">BGP - コンフィグ設定 2 - COMMUNITY</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz33.html">BGP - コンフィグ設定 - backdoor</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz34.html">BGP - コンフィグ設定 - remove Private AS</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz35.html">BGP - コンフィグ設定 - ルートフラップ対策</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz36.html">BGP - コンフィグ設定 - maximum-prefix</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz37.html">BGP - コンフィグ設定 - no auto-summary</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz30.html">BGP - BGPルートフィルタリング</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz31.html">BGP - ip as-path access-listコマンドと正規表現</a></p>
+<p>◆　<a href="https://www.infraexpert.com/study/bgpz32.html">BGP - コンフィグ設定 - BGPルートフィルタリング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

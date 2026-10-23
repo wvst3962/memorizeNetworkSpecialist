@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Firewall / IDS / IPS | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">ネットワークセキュリティ - ファイアウォール</a></li>
+<li><a href="#-ids">ネットワークセキュリティ - IDS</a></li>
+<li><a href="#-ips">ネットワークセキュリティ - IPS</a></li>
+<li><a href="#-_1">ネットワークセキュリティ - ファイアウォール導入時のネットワーク構成</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="firewall-ids-ips">Firewall / IDS / IPS</h1>
+<hr>
+<h2 id="-">ネットワークセキュリティ - ファイアウォール</h2>
+<p>ファイアウォールはインターネットなどの外部ネットワークから、社内ネットワークなどの内部ネットワーク
+への不正なアクセスを防止するシステムです。ルータなどの機器にファイアウォールの機能を持たせる構成や、
+ファイアウォール専用のハードウェアとしての構成があります。ファイアウォールの基本実装として外部から
+発生するトラフィックは拒否し、内部から外部へ発生したトラフィックの<strong class="memory-answer">戻りのトラフィックは許可</strong>させます。
+これは、ファイアウォールの<strong class="memory-answer">ステートフルインスペクション</strong>と呼ばれる機能を利用することで実現しています。</p>
+<p><img alt="画像" src="../studygif/security3a.png"></p>
+<p>ファイアウォールで通信許可された設定がない限りは「 外部ネットワークからパケットが着信できない 」
+これらなら完璧だと思われるかもしれませんが、ファイアウォールではパケットが悪意あるトラフィックか
+どうかは確認できないので、DoS攻撃やワームなどのトラフィックを効果的に防ぐことはできないことから
+例えば、<strong class="memory-answer">不正なCGIのGET要求などは見破れません</strong>。そのためにIDSまたはIPS導入の必要性が出てきます。</p>
+<h2 id="-ids">ネットワークセキュリティ - IDS</h2>
+<p><strong class="memory-answer">IDS</strong>（Intrusion Detection System）は侵入検知システムです。IDSは、その名のとおり不正アクセスなどの
+悪意あるトラフィックを検出して通知します。例えば、Firewall前に置かれたIDSは、ネットワーク上を流れる
+トラフィックを監視していて、不正アクセスと思われるパケットを検知すると、システム管理者に通知します。
+不正アクセスのパケットなのかの判断は「<strong class="memory-answer">シグネチャ</strong>」と呼ばれる攻撃パターンのデータベースを使用します。
+この侵入検知の通知を受けて、管理者は例えばファイアウォールのフィルタリングを強化して攻撃に備えます。</p>
+<p><img alt="画像" src="../studygif/security3b.png"></p>
+<p>このようにファイアウォールとIDSの組み合わせによりセキュリティ強度が高まります。が、IDSはあくまで
+検知するシステムなので、ネットワーク管理者がその検知した内容に基づいてセキュリティ制御をしない限り
+攻撃を防止することはできませんしリアルタイムに攻撃を阻止することができません。そこでIPSの登場です。</p>
+<h2 id="-ips">ネットワークセキュリティ - IPS</h2>
+<p><strong class="memory-answer">IPS</strong>（Intrusion Prevention System）は侵入防止システムです。IPSは、その名の通り不正アクセスなどの
+悪意あるトラフィックを検出して通知するだけでなく、シグネチャを参照し不正アクセスに該当するパケット
+を破棄したりセッションを切断して即座に防御します。IPSは、まさにセキュリティ実装の要の位置づけです。</p>
+<p>侵入を検知したらリアルタイムに防御するIPSは「ワームやDoSなどのパケットが持つ特徴」をとらえた瞬間、
+その直後に自動的に防衛を開始することから、IDSのような手間のかかる管理者メンテナンスは発生しません。</p>
+<p><img alt="画像" src="../studygif/security3c.png"></p>
+<h2 id="-_1">ネットワークセキュリティ - ファイアウォール導入時のネットワーク構成</h2>
+<p>企業ネットワークにファイアウォールを導入する場合は、ネットワークを最低でも3つに分離するのが一般的。
+内部ネットワーク、外部ネットワーク、<strong class="memory-answer">DMZ</strong>の3つ。DMZ（ DeMilitarized Zone ）は非武装地帯という意味。</p>
+<table>
+<thead>
+<tr>
+<th>3 種類のネットワーク</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内部ネットワーク</td>
+<td>企業の社内ネットワークなどの内部のネットワーク。Trustネットワークともいわれる。</td>
+</tr>
+<tr>
+<td>外部ネットワーク</td>
+<td>インターネットなどの外部のネットワーク。Untrustネットワークともいわれる。</td>
+</tr>
+<tr>
+<td>DMZ</td>
+<td>内部、外部ネットワークの両方から隔離されたネットワーク。外部ネットワークのユーザに<br>公開するサーバを導入するネットワーク。公開サーバを、DMZに配置しておくことによって、<br>サーバを不正に乗っ取られた場合でも、内部ネットワークへの不正アクセスを防止できる。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/security3d.png"></p>
+<p>内部ネットワーク、外部ネットワーク、DMZ上で発生するトラフィックは一般的に以下の流れとなります。</p>
+<table>
+<thead>
+<tr>
+<th>トラフィックの流れ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内部から外部へ発生するトラフィック</td>
+<td>設計ポリシーに従ったトラフィックのみ許可</td>
+</tr>
+<tr>
+<td>外部から内部へ発生するトラフィック</td>
+<td>内部から発生した戻りのトラフィックのみ許可</td>
+</tr>
+<tr>
+<td>内部からDMZへ発生するトラフィック</td>
+<td>公開サーバへアクセスするための必要最低限のトラフィックを許可</td>
+</tr>
+<tr>
+<td>DMZから内部へ発生するトラフィック</td>
+<td>内部から発生した戻りのトラフィックのみ許可</td>
+</tr>
+<tr>
+<td>外部からDMZへ発生するトラフィック</td>
+<td>公開サーバへアクセスするための必要最低限のトラフィックを許可</td>
+</tr>
+<tr>
+<td>DMZから外部へ発生するトラフィック</td>
+<td>外部から発生した戻りのトラフィックのみ許可</td>
+</tr>
+</tbody>
+</table>
+<p>自社の商品やサービスなどをインターネット上で
+販売しているWebサーバのあるECサイトなどでは
+社内ネットワークとは完全に切り離して、つまり
+インターネット接続回線も切り離してデータセンタ
+などで独立してNWを構成するケースが多いです。</p>
+<p>ECサイトのようなネットワークでは単にFirewallや
+IPSなどを導入するだけでなく回線トラフィックを
+負荷分散させる機器を導入することも多いです。</p>
+<p>このようなネットワーク構成ではDMZという概念は
+はなく内部と外部という構成で考え、セキュリティ
+同様に、負荷分散装置の設計が重要になってきます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

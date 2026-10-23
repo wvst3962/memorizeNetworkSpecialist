@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VPN - Tunneling &amp; Encryption | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vpn">VPN におけるトンネリングと暗号化</a></li>
+<li><a href="#vpn_1">VPN における基本用語</a></li>
+<li><a href="#vpn_2">主なVPNプロトコルの比較表</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vpn-tunneling-encryption">VPN - Tunneling &amp; Encryption</h1>
+<hr>
+<h2 id="vpn">VPN におけるトンネリングと暗号化</h2>
+<p>VPN接続は、<strong class="memory-answer">トンネリング</strong>と<strong class="memory-answer">暗号化</strong>によって実現しています。トンネリングを行えるプロトコルには
+PPTP、L2F、L2TP、IPsec、GRE などがあります。一方、これらのうち暗号化を行えるプロトコルは
+<strong class="memory-answer">IPsec</strong>だけとなります。従って、VPN接続のためにIPsecを使用すればこのプロトコルだけで暗号化と
+トンネリングを行うことができます。つまり、他のプロトコルをトンネリングに使用した場合、暗号化
+のために別途IPsecなどのプロトコルを使用する必要があります。この章ではこのIPsecを中心に解説
+していきます。L2トンネリングの解説は <a href="https://www.infraexpert.com/info/5.4adsl.htm">PPTP L2F L2TP</a> 、L3トンネリングは <a href="https://www.infraexpert.com/study/rp8gre.htm">GRE</a> でご確認下さい。</p>
+<h2 id="vpn_1">VPN における基本用語</h2>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トンネル</td>
+<td>インターネットなどの公衆網を利用した仮想のポイントツーポイント接続</td>
+</tr>
+<tr>
+<td>暗号化</td>
+<td>平文(クリアテキスト)と呼ばれるもとの情報を解読不能な形式に変換するプロセス</td>
+</tr>
+<tr>
+<td>復号</td>
+<td>暗号化された暗号文を平文に戻して、ユーザが情報を解読できるようにするプロセス</td>
+</tr>
+<tr>
+<td>ハッシュ関数</td>
+<td>ある与えられたデータから、そのデータを代表する固定長の数値を生成する演算手法</td>
+</tr>
+<tr>
+<td>認証</td>
+<td>ネットワーク接続へのアクセスを試みる「ユーザ or プロセス」の身元証明のプロセス</td>
+</tr>
+<tr>
+<td>認可</td>
+<td>認証後のユーザ or プロセスに、ネットワーク接続リソースにアクセスする権限を与えるプロセス</td>
+</tr>
+<tr>
+<td>公開鍵暗号</td>
+<td>ペアとなる2つの鍵を使用してデータの暗号化と復号を行う暗号化方式</td>
+</tr>
+<tr>
+<td>公開鍵</td>
+<td>公開鍵暗号方式で使われるペアの鍵のうち、暗号用の公開される方の鍵</td>
+</tr>
+<tr>
+<td>秘密鍵</td>
+<td>公開鍵暗号方式で使われるペアの鍵のうち、復号用の公開されない方の鍵</td>
+</tr>
+<tr>
+<td>CA</td>
+<td>暗号化を目的とするデジタル証明書の作成、発行、管理する仕組み</td>
+</tr>
+<tr>
+<td>共通鍵暗号</td>
+<td>暗号化と復号に同じ鍵を用いる暗号化方式</td>
+</tr>
+<tr>
+<td>共通鍵</td>
+<td>共通鍵暗号方式で使われる暗号化と復号のための鍵</td>
+</tr>
+<tr>
+<td>Diffie-Hellman鍵交換</td>
+<td>安全でない通信チャネルを使用して、共通鍵を安全に送受信するための鍵交換方式</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsec2a.png"></p>
+<h2 id="vpn_2">主なVPNプロトコルの比較表</h2>
+<p>IPsecだけで暗号化とトンネリングの2つが行えるのなら、他のプロトコルを使用する必要がないのでは
+ないかという疑問が生まれるかもしれません。しかし下表を見て頂ければ分かると思いますが、例えば
+1対Ｎのサイト間VPN接続を行って、その拠点間で例えばOSPFを使用したい場合はIPsecではそれを実現
+できません。IPsecではマルチキャスト伝送が行えないのでこの場合はGREの力を借りる必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>VPN<br>プロトコル</th>
+<th>何のプロトコル上で<br>伝送できるか</th>
+<th>何のプロトコルを<br>伝送できるか</th>
+<th>マルチキャスト<br>伝送は可能か</th>
+<th>データ暗号化<br>完全性保障</th>
+<th>ポピュラーな<br>ソリューション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPsec</td>
+<td>IP</td>
+<td>L3（ IP ）</td>
+<td>×</td>
+<td>○<br>IPsecのみでOK</td>
+<td>ＩＰユニキャストの<br>トンネリング</td>
+</tr>
+<tr>
+<td>GRE</td>
+<td>IP</td>
+<td>L3（IP, IPX, etc）</td>
+<td>○</td>
+<td>×<br>代替案：GRE/IPsec</td>
+<td>ルーティングプロトコル<br>のトンネリング</td>
+</tr>
+<tr>
+<td>L2TP</td>
+<td>UDP/IP, IP, ATM</td>
+<td>L2（ PPP ）<br>L3（IP, IPX, etc）</td>
+<td>○</td>
+<td>×<br>代替案：L2TP/IPsec</td>
+<td>PPPの延長とした<br>認証ネットワーキング</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsec2b.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

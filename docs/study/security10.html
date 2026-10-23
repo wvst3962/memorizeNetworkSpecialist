@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Quarantine Network | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">検疫ネットワークとは</a></li>
+<li><a href="#_2">検疫ネットワークの仕組み</a></li>
+<li><a href="#-4">検疫ネットワーク - 4つの方式</a></li>
+<li><a href="#-">検疫ネットワーク - 認証スイッチ方式</a></li>
+<li><a href="#-dhcp">検疫ネットワーク - DHCP方式</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="quarantine-network">Quarantine Network</h1>
+<hr>
+<h2 id="_1">検疫ネットワークとは</h2>
+<p>検疫ネットワークでは、例えば企業ネットワークに接続するクライアント<strong class="memory-answer">PCにインストールされたウィルス</strong>
+<strong class="memory-answer">対策ソフトが最新の状態でない場合、ネットワークアクセスを拒否</strong>することができます。検疫ネットワーク
+の検疫は「 伝染病の蔓延防止のための必要な措置 」という意味ですが、コンピュータネットワークでその
+概念を適用して、内部のネットワーク（社内LAN）でセキュリティ強度の高いネットワークを実現できます。</p>
+<p><img alt="画像" src="../studygif/security10a.png"></p>
+<h2 id="_2">検疫ネットワークの仕組み</h2>
+<p>検疫ネットワークでは、以下の3つの機能により問題のあるPCを社内LAN接続させないようにしています。</p>
+<table>
+<thead>
+<tr>
+<th>検疫の3ステップ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>検査</td>
+<td>検疫ネットワークでは、社内LAN接続しようとするPCを、先ず検査専用のネットワークに誘導する。<br>検査専用ネットワークに接続したPCにウィルス感染はないか、ウィルス対策ソフトが最新であるか<br>OSのパッチは最新であるかの<strong class="memory-answer">検査</strong>を行う。検査結果に問題なければ正常に社内LAN接続が行われる。</td>
+</tr>
+<tr>
+<td>隔離</td>
+<td>検査用ネットワークでクライアントPCのセキュリティポリシーをチェックして、検査結果に問題がない<br>場合には正常に社内LAN接続ができるが、検査結果に問題がある場合はそのPCを<strong class="memory-answer">隔離</strong>する。隔離された<br>ネットワークは社内LANネットワークと通信できないセグメントであり、各種の治療サーバが配置される。</td>
+</tr>
+<tr>
+<td>治療</td>
+<td>検査の結果、ウィルス対策ソフトが最新状態でないなどポリシー違反があった場合、治療用サーバで<br>セキュリティ対策ソフトの定義ファイルやセキュリティパッチのアップデートが行われる（<strong class="memory-answer">治療</strong>される）<br>治療後に再び検査を行い、ポリシー違反がない状態ならば、正常に社内LAN接続が行われるようになる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-4">検疫ネットワーク - 4つの方式</h2>
+<p>検疫ネットワークではクライアントPCを分離するための方式が大きく4つあります。最もよく使用されている
+方式は、IEEE802.1X認証を組み合わせた<strong class="memory-answer">認証スイッチ方式</strong>であり、最もセキュリティレベルが高い方式です。</p>
+<table>
+<thead>
+<tr>
+<th>隔離のための4つの方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>認証スイッチ方式</td>
+<td><strong class="memory-answer">IEEE802.1X認証に対応したL2スイッチ</strong>やAPを使用する方式。ユーザ認証時にPCの<br>セキュリティ対策などのポリシーを確認して、スイッチのダイナミックVLAN機能<br>により、成功すれば社内LANのVLAN、失敗すれば隔離VLANをポートに割り当てる。</td>
+</tr>
+<tr>
+<td>認証ゲートウェイ方式</td>
+<td>ネットワークセグメントの境界に配置する<strong class="memory-answer">認証ゲートウェイ</strong>を使用する方式。認証<br>ゲートウェイを通過する通信が発生した時、ユーザ認証とPCのセキュリティ対策が<br>チェックされ、成功すれば社内LANへアクセスでき、失敗すれば治療サーバとのみ<br>通信するように隔離。セキュリティ強化したい部分を指定し導入できるソリューション。</td>
+</tr>
+<tr>
+<td>認証DHCP方式</td>
+<td><strong class="memory-answer">検疫サーバのDHCP機能</strong>を使用する方式。PCを接続すると、検査用IPアドレスが<br>割り当てられる。検査に成功した場合は、社内LANにアクセスできるIPアドレスが<br>再度割り当てられる。固定IPアドレスを設定した場合には効果のないソリューション。</td>
+</tr>
+<tr>
+<td>パーソナルFW方式</td>
+<td><strong class="memory-answer">集中管理型パーソナルFW</strong>を使用する方式。PCにインストールされたこのソフトと<br>検疫サーバが連携を行う。PC接続時には検疫ネットワーク以外にアクセスできない<br>ように、パーソナルファイアウォールでブロックを行い、検査が成功すればルールが<br>変更されて社内LANへアクセスできるようになる仕組み。この方式は接続するPCに<br>集中管理型パーソナルFWがインストールしていない場合、無効な場合は機能しない。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">検疫ネットワーク - 認証スイッチ方式</h2>
+<p>認証スイッチ方式では、クライアントPCが認証スイッチに接続すると先ずIEEE802.1X認証を認証サーバと
+行います。認証成功後、認証サーバ (Radiusサーバ) によって<strong class="memory-answer">検疫VLAN</strong>がダイナミックVLANにより動的に
+ポートに割り当てられます。検疫ポリシーサーバによる検疫が成功した場合は、社内LANにアクセスできる
+VLAN が割り当てられ、社内LANへアクセスできます。検疫に失敗した場合は、<strong class="memory-answer">隔離VLAN</strong>がダイナミック
+VLAN により動的に割り当てられ、治療（OSやウィルスソフトの定義ファイルのアップデート）を行います。
+治療後に再検査して、検疫に成功すれば<strong class="memory-answer">社内LANにアクセスできるVLAN</strong>が割り当てられることになります。</p>
+<p><img alt="画像" src="../studygif/security10b.png"></p>
+<p>※　EAP-TLS方式を採用すれば、認証サーバとサプリカントともに証明書を利用し認証が行われ、最もセキュリティが高くなります。</p>
+<h2 id="-dhcp">検疫ネットワーク - DHCP方式</h2>
+<p>DHCP方式では、IPアドレスが設定されていないPCがスイッチに接続すると、DHCPリクエストを送信されて
+DHCPサーバは先ず検疫ネットワークのみに通信できるIPアドレスを割り当てます。次に、検疫サーバにて
+PCのセキュリティポリシーに問題がないことを確認します。問題があれば治療を行い、問題がない場合には
+DHCPサーバから社内LANへアクセスできるIPアドレスの再割り当てが行われ社内LANへアクセスできます。
+※ クライアントPCに固定のIPアドレスが割り当てられている場合はこの検疫ソリューションは成立しません。</p>
+<p><img alt="画像" src="../studygif/security10c.png"></p>
+<p>※　検疫済PCと未検疫PCとが同一VLANのポートに接続した場合は相互通信できて、検疫済みPCに悪影響を及ぼす可能性もあります。</p>
+<table>
+<thead>
+<tr>
+<th>各方式</th>
+<th>メリット</th>
+<th>デメリット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>認証スイッチ方式</td>
+<td>・　IEEE802.1Xを使用したユーザ認証が可能<br>・　動的VLANの割当により確実な隔離が可能<br>・　最もセキュリティ強度の高いソリューション</td>
+<td>・　PCが接続するスイッチを全て認証スイッチ<br>にする必要があり、コストがかかる。<br>※　現在では認証対応のL2スイッチが標準的。</td>
+</tr>
+<tr>
+<td>認証ゲートウェイ方式</td>
+<td>・　認証ゲートウェイはセキュリティを強化したい<br>任意の場所に導入できるため柔軟性が高い。<br>・　認証スイッチは不要であり、既存のNW機器<br>を有効活用できて比較的コストが抑えられる。</td>
+<td>・　認証ゲートウェイまでのネットワークでは<br>セキュリティがなく認証せずとも通信でき<br>認証スイッチほどセキュリティが高くない。<br>・　未検疫と検疫済みPCと完全分離ではない。</td>
+</tr>
+<tr>
+<td>認証DHCP方式</td>
+<td>・　認証DHCPサーバを導入し、PCにIPアドレス<br>を割当るシンプルな方式であり導入が容易。<br>・　認証スイッチは不要であり、既存のNW機器<br>を有効活用できて比較的コストが抑えられる。</td>
+<td>・　固定IPアドレスで設定したPCには検疫を<br>行うことができず、セキュリティが弱い。<br>※　固定IPの接続を防止するシステムが必要。<br>・　未検疫と検疫済みPCと完全分離ではない。</td>
+</tr>
+<tr>
+<td>パーソナルFW方式</td>
+<td>・　パーソナルFWを導入して制御するシンプル<br>な実装であり、導入が容易である。<br>・　認証スイッチは不要であり、既存のNW機器<br>を有効活用できて比較的コストが抑えられる。</td>
+<td>・　ユーザ認証ができずセキュリティが弱い。<br>・　PCにパーソナルFWを無効化している場合<br>などは検疫を行えず、セキュリティが弱い。<br>・　未検疫と検疫済みPCと完全分離ではない。</td>
+</tr>
+</tbody>
+</table>
+<p>※　未検疫PCと検疫済PCとが混在している場合（<strong class="memory-answer">L2で分離されていない</strong>場合）、検疫済みPCが悪影響を受ける可能性があります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

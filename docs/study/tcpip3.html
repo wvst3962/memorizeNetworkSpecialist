@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>ARP table | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#arparp">ARPキャッシュとARPテーブル</a></li>
+<li><a href="#arp">ARPパケットのフォーマット</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="arp-table">ARP table</h1>
+<hr>
+<h2 id="arparp">ARPキャッシュとARPテーブル</h2>
+<p>一度、ARPリクエストとARPリプライによりARPの情報がやりとりされると<strong class="memory-answer">ARPキャッシュ</strong>として一定時間
+情報が残ります。その場合、ARPリクエストとARPリプライの通信をすることなくLANでの通信が可能です。
+ARPのキャッシュ情報は、<strong class="memory-answer">ARPテーブル</strong>というところに保存されていて、PCの場合はコマンドプロンプトで
+<strong class="memory-answer">arp -a</strong> と入力すればその情報を確認できます。以下の画面はパソコンで arp -a を実行した結果となります。
+※　動的に得られたARP情報は一定時間の後に消えますが、今すぐ削除したい場合は <strong class="memory-answer">arp -d</strong> で削除できます。</p>
+<p><img alt="画像" src="../studygif/tcpip3b.png"></p>
+<p>Windows VISTA以降のOSでは、コマンドプロンプトの結果が日本語で表示されるようになります。また、
+デフォルトで静的に定義されているARPキャッシュ（青枠部分）が存在します。192.168.0.255については
+このネットワークのブロードキャストアドレス。224.0.0.22と239.255.255.250アドレスはマルチキャスト
+アドレス、255.255.255.255はブロードキャストアドレスです。詳細は「<a href="ip4.html">ブロードキャストの種類</a>」の通り。</p>
+<table>
+<thead>
+<tr>
+<th>arp -a の表示結果</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>( インターフェース: 192.168.0.2 --- 0x8 )</td>
+<td>自分自身のIPアドレス情報</td>
+</tr>
+<tr>
+<td>( インターネット アドレス )</td>
+<td>通信の宛先となるIPアドレス情報</td>
+</tr>
+<tr>
+<td>( 物理アドレス )</td>
+<td>通信の宛先となるMACアドレス情報 ( ARPリクエストにより得られた情報 )</td>
+</tr>
+<tr>
+<td>( 種類 )</td>
+<td>ARPが動的に学習された場合は 「 dynamic 」 と表示。<br>ARPを手動で登録した情報は「 static 」と表示。（保存される情報）</td>
+</tr>
+</tbody>
+</table>
+<p>今度はルータ側のARPテーブルを見てみましょう。Cisco機器でARPテーブルを確認するためには以下のとおり
+"show ip arp" というコマンドを入力します。Ciscoルータでは自分自身のIPアドレスとMACアドレスの情報も
+ARPテーブルにのせます。CiscoルータのインターフェースのIPアドレスは192.168.0.254となりますが、自身
+の情報はARPのキャッシュ時間の項目（Age)のところに「 - 」が表示されます。このキャッシュは消えません。</p>
+<p><img alt="画像" src="../studygif/tcpip3c.png"></p>
+<p>なお、Cisco IOS SoftwareのARPエントリのタイムアウトはデフォルト値で<strong class="memory-answer">240分</strong>（4時間）となっています。</p>
+<h2 id="arp">ARPパケットのフォーマット</h2>
+<p>ARPパケットのフォーマットは以下の通りです。これを正確に理解して全ての項目を暗記する必要はなく
+ARPはIPと同様にOSI参照モデルのネットワーク層で動作するという点、そしてこれはIPパケットではなく
+ARPパケットである点、そしてこのARPパケットはイーサネットフレームにカプセル化（L2ヘッダの付加）
+されるという３点を理解して覚えておけば OK です。先に紹介したARPの仕組みは完全に理解しましょう。</p>
+<p><img alt="画像" src="../studygif/tcpip3a.png"></p>
+<table>
+<thead>
+<tr>
+<th>各フィールド</th>
+<th>英語表記</th>
+<th>ビット数</th>
+<th>各フィールドの説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ハードウェア<br>タイプ</td>
+<td>Hardware<br>Type</td>
+<td>16 bit</td>
+<td>ハードウェアの種別情報が入る。イーサネットの場合は「0x0001」。</td>
+</tr>
+<tr>
+<td>プロトコル<br>タイプ</td>
+<td>Protocol<br>Type</td>
+<td>16 bit</td>
+<td>プロトコルの種別情報が入る。IPの場合は「0x0800」の値。</td>
+</tr>
+<tr>
+<td>ハードウェア<br>アドレス長</td>
+<td>Hardware<br>Length</td>
+<td>8 bit</td>
+<td>ハードウェアアドレス（MACアドレス）の長さが入る。固定値で「6」になる。</td>
+</tr>
+<tr>
+<td>プロトコル<br>アドレス長</td>
+<td>Protocol<br>Length</td>
+<td>8 bit</td>
+<td>プロトコルアドレス（IPアドレス）の長さが入る。固定値で「4」になる。</td>
+</tr>
+<tr>
+<td>オペレーション</td>
+<td>Operation</td>
+<td>16 bit</td>
+<td>ARPリクエストまたはARPリプライなのかを識別するための情報が入る。<br>ARPリクエストの場合は「0x0001」、ARPリプライの場合は「0x0002」となる。</td>
+</tr>
+<tr>
+<td>送信元の<br>MACアドレス</td>
+<td>Sender MAC address</td>
+<td>48 bit</td>
+<td>送信元のMACアドレス情報が入る。これは当然ARPのデータとして扱われる。<br>つまり、通信に必要な「送信元MACアドレス」の情報は「L2ヘッダ」にある。</td>
+</tr>
+<tr>
+<td>送信元の<br>IPアドレス</td>
+<td>Sender IP address</td>
+<td>32 bit</td>
+<td>送信元のIPアドレス情報が入る。これは当然ARPのデータとして扱われる。<br>つまり、通信に必要な「 送信元IPアドレス 」の情報は「 L3ヘッダ 」にある。</td>
+</tr>
+<tr>
+<td>探索する<br>MACアドレス</td>
+<td>Target<br>MAC address</td>
+<td>48 bit</td>
+<td>宛先のMACアドレス情報が入る。これは当然ARPのデータとして扱われる。<br>つまり、通信に必要な「 宛先MACアドレス 」の情報は「 L2ヘッダ 」にある。<br>ARPリクエストの場合は 「 00-00-00-00-00-00 」 の値が入る。</td>
+</tr>
+<tr>
+<td>探索する<br>IPアドレス</td>
+<td>Target<br>IP address</td>
+<td>32 bit</td>
+<td>宛先のIPアドレス情報が入る。これは当然ARPのデータとして扱われる。<br>つまり、通信に必要な「 送信元IPアドレス 」の情報は「 L3ヘッダ 」にある。<br>この情報が自分のものであった場合、受信したノードはARPリプライを返す。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="tcpip2.html">ARPとは、RARPとは</a>　<a href="tcpip4.html">ICMPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>LLDP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lldp_1">LLDPとは</a></li>
+<li><a href="#lldp-catalyst">LLDP - Catalystのデフォルト設定</a></li>
+<li><a href="#lldp-catalyst_1">LLDP - Catalystスイッチの設定</a></li>
+<li><a href="#lldp_2">スイッチ全体でLLDPの有効化</a></li>
+<li><a href="#lldpg05">LLDPパケットを送信しないようにインターフェース（G0/5）上で無効化</a></li>
+<li><a href="#lldpg05_1">LLDPパケットを受信しないようにインターフェース（G0/5）上で無効化</a></li>
+<li><a href="#lldp_3">LLDPステータス確認</a></li>
+<li><a href="#lldp_4">LLDPクリアコマンド</a></li>
+<li><a href="#lldp180lldp3lldp60">オプション：LLDPホールドタイムを180秒、LLDPの初期化遅延を3秒、LLDPパケットの更新頻度を60秒に変更する設定</a></li>
+<li><a href="#tlv-inventory-management">オプション：有効化するTLVを指定する設定（ここでは inventory-management を指定）</a></li>
+<li><a href="#lldpvlan-ip-phonepc">LLDPによるVLANの割り当て設定 - トランクポートの場合（ IP-PhoneにPCを接続する構成 ）</a></li>
+<li><a href="#ciscoavayaiplldpvlan-vlan10-ip-phonevlan20-pc">Cisco以外のAvayaなどのIP電話にLLDPでVLANを割り当てる設定例（ VLAN10 IP-Phone用、VLAN20 PC用 ）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="lldp">LLDP</h1>
+<hr>
+<h2 id="lldp_1">LLDPとは</h2>
+<p>LLDP（Link Layer Discovery Protocol）は、<strong class="memory-answer">隣接するマルチベンダー機器</strong>に対して、自分の機器情報を
+アドバタイズするために使用するL2プロトコルです。CDPはシスコ機器だけしか隣接機器の情報が得られ
+ませんでしたが、LLDPでは異なるメーカーの隣接機器である場合もその機器のサマリ情報が得られます。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>LLDP</th>
+<th>CDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標準規格</td>
+<td>IEEE802.1AB</td>
+<td>CISCO独自</td>
+</tr>
+<tr>
+<td>動作レイヤ</td>
+<td>データリンク層</td>
+<td>データリンク層</td>
+</tr>
+<tr>
+<td>アドバタイズ方法</td>
+<td>マルチキャスト</td>
+<td>マルチキャスト</td>
+</tr>
+<tr>
+<td>マルチキャストMACアドレス</td>
+<td>0180.C200.000E</td>
+<td>0100.0CCC.CCCC</td>
+</tr>
+<tr>
+<td>Catalystスイッチのデフォルト</td>
+<td>無効</td>
+<td>有効</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/catalyst25a.png"></p>
+<p>LLDPは、隣接機器の検出に際して<strong class="memory-answer">TLV</strong>と呼ばれるタイプ（Type）長さ（Length）値（Value）の属性を
+を使用してネイバーから情報を認識することができます。LLDPで送信する「必須のTLV」は次の3つです。</p>
+<p>・　Chassis ID
+・　Port ID
+・　Time To Live</p>
+<p>以下の5つのTLVについてはオプション（Optional）となります。</p>
+<p>・　Port Description
+・　System Name
+・　System Description
+・　System Capabilities
+・　Management Address</p>
+<table>
+<thead>
+<tr>
+<th>TLV type Value</th>
+<th>TLV name</th>
+<th>Usage in LLDPPDU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>End of LLDPDU</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Chassis ID</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Port ID</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Time To Live</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Port description</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>5</td>
+<td>System name</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>6</td>
+<td>System description</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>7</td>
+<td>System capabilities</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Management address</td>
+<td>Optional</td>
+</tr>
+</tbody>
+</table>
+<p>以下のIEEE固有のLLDP TLVも隣接機器への
+通知に使用されて<strong class="memory-answer">LLDP-MED</strong>をサポートします。</p>
+<p>・　ポートVLAN ID TLV
+⇒　IEEE802.1（VLAN）関連項目
+・　MAC/PHYコンフィギュレーション/ステータス TLV
+⇒　IEEE802.3（ LAN ）関連項目</p>
+<p>LLDP-MED（LLDP for Media Endpoint Devices）はLLDPの拡張版であり、IP電話などのエンドポイント
+デバイスとネットワークデバイスの間で動作します。特にVoIPアプリケーションをサポートし、検出機能、
+ネットワークポリシー、PoE、コンポーネント管理、ロケーション情報のTLVを提供します。デフォルトで、
+すべての LLDP-MED TLV がイネーブルです。
+※　ちなみに、CDP TLVでは「Native VLAN TLV」をサポートされていますが、LLDP-MED TLVではサポートされていません。</p>
+<h2 id="lldp-catalyst">LLDP - Catalystのデフォルト設定</h2>
+<table>
+<thead>
+<tr>
+<th>機能</th>
+<th>デフォルト値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLDP グローバルステート</td>
+<td>ディセーブル</td>
+</tr>
+<tr>
+<td>LLDP ホールドタイム（廃棄までの時間）</td>
+<td>120秒</td>
+</tr>
+<tr>
+<td>LLDP タイマー（パケット更新頻度）</td>
+<td>30秒</td>
+</tr>
+<tr>
+<td>LLDP 再初期化遅延</td>
+<td>2秒</td>
+</tr>
+<tr>
+<td>LLDP tlv-select</td>
+<td>ディセーブル（すべての TLV との送受信）</td>
+</tr>
+<tr>
+<td>LLDP インターフェイス ステート</td>
+<td>ディセーブル</td>
+</tr>
+<tr>
+<td>LLDP 受信</td>
+<td>ディセーブル</td>
+</tr>
+<tr>
+<td>LLDP 送信</td>
+<td>ディセーブル</td>
+</tr>
+<tr>
+<td>LLDP med-tlv-select</td>
+<td>ディセーブル（すべての LLDP-MED TLV への送信）<br>LLDP がグローバルにイネーブルにされると LLDP-MED-TLV もイネーブル</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lldp-catalyst_1">LLDP - Catalystスイッチの設定</h2>
+<p>CDPはデフォルトで有効化されていますが、LLDPはデフォルトで無効なので有効化する必要があります。</p>
+<h2 id="lldp_2">スイッチ全体でLLDPの有効化</h2>
+<p>Catalyst(config) # lldp run</p>
+<p>上記の lldp run コマンドによって全てのインターフェースでLLDPの送受信が有効化されますが、特定の
+インターフェースに対してLLDPの送受信を無効化するためには以下のコマンドで設定変更します。</p>
+<h2 id="lldpg05">LLDPパケットを送信しないようにインターフェース（G0/5）上で無効化</h2>
+<p>Catalyst(config) # interface gigabitethernet0/5
+Catalyst(config-if) # no lldp transmit</p>
+<h2 id="lldpg05_1">LLDPパケットを受信しないようにインターフェース（G0/5）上で無効化</h2>
+<p>Catalyst(config) # interface gigabitethernet0/5
+Catalyst(config-if) # no lldp receive</p>
+<h2 id="lldp_3">LLDPステータス確認</h2>
+<table>
+<thead>
+<tr>
+<th>LLDPコマンド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>show lldp</td>
+<td>LLDPがグローバルで有効化しているかの確認、各種タイマー値の確認</td>
+</tr>
+<tr>
+<td>show lldp interface</td>
+<td>LLDPが有効化されているインターフェースに関する情報の確認</td>
+</tr>
+<tr>
+<td>show lldp neighbors</td>
+<td>LLDPのネイバー情報の確認</td>
+</tr>
+<tr>
+<td>show lldp neighbors detail</td>
+<td>LLDPのネイバー情報の詳細な確認</td>
+</tr>
+<tr>
+<td>show lldp traffic</td>
+<td>LLDPトラフィックのカウンターの確認</td>
+</tr>
+<tr>
+<td>show lldp errors</td>
+<td>LLDPトラフィックのカウンターエラーの確認</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lldp_4">LLDPクリアコマンド</h2>
+<table>
+<thead>
+<tr>
+<th>LLDPコマンド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clear lldp counters</td>
+<td>LLDPのカウンターのクリア</td>
+</tr>
+<tr>
+<td>clear lldp table</td>
+<td>LLDPネイバーテーブルの情報削除</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lldp180lldp3lldp60">オプション：LLDPホールドタイムを180秒、LLDPの初期化遅延を3秒、LLDPパケットの更新頻度を60秒に変更する設定</h2>
+<p>Catalyst(config) # lldp holdtime 180
+Catalyst(config) # lldp reinit 3
+Catalyst(config) # lldp timer 60</p>
+<h2 id="tlv-inventory-management">オプション：有効化するTLVを指定する設定（ここでは inventory-management を指定）</h2>
+<p>Catalyst(config) # interface gigabitethernet0/1
+Catalyst(config-if) # lldp med-tlv-select inventory-management</p>
+<h2 id="lldpvlan-ip-phonepc">LLDPによるVLANの割り当て設定 - トランクポートの場合（ IP-PhoneにPCを接続する構成 ）</h2>
+<p>Cisco IP Phoneの場合は、CDPによってVLAN IDやQoS値をアドバタイズできますが、他メーカーの
+IP Phoneの場合は、それを実現するためにはLLDPを使用する必要があります。前提として、Catalyst
+スイッチだけでなくIP Phone側もLLDPに対応している必要があります。また、理論上可能であっても
+事前検証でしっかりと動作確認したうえで、実現の可否についてユーザーに報告するようにしましょう。
+※ VLANの割り当ては「LLDP」ではなく「手動」の割り当てをお勧めします。その場合の設定は<a href="https://www.infraexpert.com/study/vlanz11.html">音声VLAN</a>をご参照下さい。</p>
+<h2 id="ciscoavayaiplldpvlan-vlan10-ip-phonevlan20-pc">Cisco以外のAvayaなどのIP電話に<strong class="memory-answer">LLDPでVLANを割り当てる</strong>設定例（ VLAN10 IP-Phone用、VLAN20 PC用 ）</h2>
+<p>Catalyst(config) # lldp run</p>
+<p>Catalyst(config) # network-policy profile 1
+Catalyst(config-network-policy) # voice vlan 10</p>
+<p>Catalyst(config) # interface gigabitethernet0/1
+Catalyst(config-if) # network-policy 1
+Catalyst(config-if) # lldp med-tlv-select network-policy</p>
+<p>Catalyst# show run interface gigabitethernet0/1</p>
+<p>interface gigabitethernet0/1
+switchport access vlan 20
+switchport mode access
+network-policy 1
+priority-queue out
+mls qos trust cos
+spanning-tree portfast</p>
+<p>IP電話機の型番により、正常に動作するものと動作しないものがありました。LLDPでVLAN IDを割り当てる場合は事前検証が必須。
+lldp med-tlv-select network-policy の設定は I/F でデフォルトで有効化されているため、コンフィグ上は表示されません。なお、
+IP Phone マニュアルに Cisco IP Phone でないにも関わらず switchport voice vlan を使用する例もありました。The switchport
+voice vlan 10 command will cause the LLDP-MED to advertise VLAN 10 in its Network Policy TLV to the Avaya IP phone.</p>
+<p>MED Information:</p>
+<p>Capabilities: NP, PD, IN　Device type: Endpoint Class III
+Network Policy(Voice): <strong class="memory-answer">VLAN 10,</strong>　<strong class="memory-answer">tagged, Layer-2 priority: 5, DSCP: 46</strong>
+Power requirements - not advertised　Location - not advertised</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study47.html">Catalystスイッチ - 技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

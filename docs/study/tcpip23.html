@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DNS zone / DNS records | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dns-">DNS - ゾーンファイルとリソースレコード</a></li>
+<li><a href="#dns-_1">DNS - リソースレコードの省略表記</a></li>
+<li><a href="#dns-_2">DNS - リソースレコードの種類</a></li>
+<li><a href="#dns-mx">DNS - MXレコードのプリファレンス</a></li>
+<li><a href="#dnssecdomain-name-system-security-extensions">DNSSEC（Domain Name System Security Extensions）とは</a></li>
+<li><a href="#cname">CNAMEとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dns-zone-dns-records">DNS zone / DNS records</h1>
+<hr>
+<p>※　DNSについてはじめから学習したい方は「<a href="tcpip15.html">TCP/IPをはじめから - DNSとは その1</a>」をご参照下さい。</p>
+<h2 id="dns-">DNS - ゾーンファイルとリソースレコード</h2>
+<p>DNSサーバは<strong class="memory-answer">リソースレコード</strong>と呼ばれるドメイン名とIPアドレスの対応するデータを多数持っています。
+そして、リソースレコードの集合体であるデータベースは、一般的に<strong class="memory-answer">ゾーンファイル</strong>と呼ばれています。
+DNSサーバのソフトウェアとして最も使用されている<strong class="memory-answer">BIND</strong>によるゾーンファイルの書き方を解説します。</p>
+<p><img alt="画像" src="../studygif/tcpip23a.png"></p>
+<p>※　ゾーンファイルは省略ルールに従って省略表記可能ですが、省略しすぎると理解しにくいので上記の書き方が一般的です。</p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>$TTL</td>
+<td>DNSサーバがゾーンファイルのデータをキャッシュする時間を指定（デフォルト：86400秒）</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>$ORIGIN</td>
+<td>対象ドメイン名を補う。「 IN NS ns1.infraexpert.com. 」を IN NS ns1 のように省略可。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>@</td>
+<td>ドメイン名を表す。このゾーンファイルでは @ は「 infraexpert.com 」と同じ意味を表す。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>ns1.infraexpert.com.</td>
+<td>このゾーンファイルのデータを持つプライマリーDNSサーバ</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>postmaster.infraexpert.com.</td>
+<td>このドメインの管理者のメールアドレス。管理者との連絡用に使用。<br>「 postmaster.infraexpert.com. 」 = 「 postmaster@infraexpert.com 」</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>Serial ( 2012062501 )</td>
+<td>ゾーンファイルのバージョンを表す数字。管理者が自由に記載する。ゾーンファイル<br>更新日＋管理番号を表す ( YYYYMMDDNN ) の10桁使用が多い。DNS情報を更新<br>する場合、このシリアル番号を現在よりも大きな値として更新される必要がある。<br>DNS情報を更新した場合、自動で更新される場合はこの更新値を意識する必要はない。</td>
+</tr>
+<tr>
+<td>?F</td>
+<td>Refresh ( 10800秒 )</td>
+<td>セカンダリDNSサーバが、プライマリDNSサーバにゾーン情報の更新を確認する間隔の時間。</td>
+</tr>
+<tr>
+<td>?G</td>
+<td>Retry ( 3600秒 )</td>
+<td>セカンダリDNSサーバが、Refreshでゾーン情報の更新が失敗した場合に<br>再度Refreshを試みるまでの時間。</td>
+</tr>
+<tr>
+<td>?H</td>
+<td>EXPIRE ( 604800秒 )</td>
+<td>セカンダリDNSサーバが、ゾーン情報のリフレッシュができない状態が続いた場合、<br>セカンダリDNSサーバが持っているゾーン情報をどれだけの時間利用するかの時間。</td>
+</tr>
+<tr>
+<td>?I</td>
+<td>Minumum TTL (86400秒)</td>
+<td>存在しないドメイン名のキャッシュを維持する時間。存在しないドメイン名を問い合わせると<br>キャッシュサーバは他の正規な情報と同様、この存在しないドメイン情報も指定時間保持する。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dns-_1">DNS - リソースレコードの省略表記</h2>
+<p>リソースレコードは省略した表記が可能です。そのリソースレコードの省略ルールは以下の通りです。</p>
+<p>?@　デフォルトのTTLと同じTTLの場合、TTLの値を省略可能。デフォルトのTTLは「 $TTL 」で指定。
+?A　前行と同じラベルで始まる行は、ラベルを省略可能。
+?B　ORIGINと同じドメインは省略可能。ORIGINの値は「 $ORIGIN 」で指定。</p>
+<p>※　 明示的にORIGINを指定しない場合、そのゾーンファイルのドメイン名が暗黙に指定される。
+※　 ORIGINと同じドメイン名は @ で記載される。 例 - infraexpert.com. ⇒ @
+※　 ORIGINの前にホスト名を付加する場合はそのホスト名を記載して最後に「. 」をつけない。例 - www.infraexpert.com. ⇒ www
+⇒　 ドメイン名の最後に「. 」をつけるとFQDNと解釈される。「 . 」をつけないと ORIGIN の内容が末尾に付加されることになる。</p>
+<p><img alt="画像" src="../studygif/tcpip23b.png"></p>
+<h2 id="dns-_2">DNS - リソースレコードの種類</h2>
+<p>リソースレコードは、以下のフォーマットであり1行に１つずつ書く必要があります。以下のリソース
+レコードは「Aレコード」と呼ばれるリソースレコードで「ホスト名に対応するIPアドレスの情報」を
+示しています。例えば「www.infraexpert.com. のIPアドレスは 192.168.0.1です」という情報です。
+「クラス」の項目にはいくつかの種類がありますが IN (= Internet) 以外は基本的に使用されません。</p>
+<table>
+<thead>
+<tr>
+<th>ラベル</th>
+<th>TTL</th>
+<th>クラス</th>
+<th>タイプ</th>
+<th>リソースデータ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>www.infraexpert.com.</td>
+<td>86400</td>
+<td>IN</td>
+<td>A</td>
+<td>192.168.0.1</td>
+</tr>
+</tbody>
+</table>
+<p>主なリソースレコードは以下の通りです。 なお、その他のリソースレコード一覧は<a href="https://www.iana.org/assignments/dns-parameters">こちら</a>で確認できます。</p>
+<p><img alt="画像" src="../studygif/tcpip23c.png"></p>
+<table>
+<thead>
+<tr>
+<th>レコード種別</th>
+<th>レコード種別<br>（詳細）</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOA</td>
+<td>Start of Authority</td>
+<td>ゾーンファイルの最初のリソースレコード。以下のDNSサーバの各種管理情報の指定。<br>・ ドメインのDNSサーバ名　・ ドメイン管理者のメールアドレス　・ シリアル番号<br>・ 更新間隔　・ 転送再試行時間　・ レコード有効時間　・ 否定的キャッシュ有効時間</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>Name Server</td>
+<td>ドメイン名と、そのドメイン名を管理するDNSサーバを対応付けたレコード。<br>例：<strong class="memory-answer">infraexpert.com. IN NS ns1.infraexpert.com.</strong><br>→　infraexpert.com のドメインのDNSサーバは、ns1.infraexpert.com であるという意味。</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Address</td>
+<td>ホストのIPアドレスを指定。<br>例：<strong class="memory-answer">intra1.infraexpert.com. IN A 192.168.0.1</strong><br>→　intra1.infraexpert.com のIPアドレスは 192.168.0.1 であるという意味。</td>
+</tr>
+<tr>
+<td>PTR</td>
+<td>Pointer</td>
+<td>IPアドレスに対応するホスト名を指定。（逆引きで使用）<br>例：<strong class="memory-answer">192.168.0.1 IN PTR intra1.infraexpert.com.</strong><br>→　192.168.0.1 のホスト名は intra1.infraexpert.com であるという意味。</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>Canonical NAME</td>
+<td>ホストの別名を指定。構文は、「 エイリアス名 IN CNAME 本当のホスト名 」 となる。<br>例：<strong class="memory-answer">www.infraexpert.com. IN CNAME intra1.infraexpert.com.</strong><br>→　intra1.infraexpert.com の別名（エイリアス名）はwww.infraexpert.com という意味。</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>Mail exchange</td>
+<td>ドメインのメールサーバを指定。<br>例：<strong class="memory-answer">infraexpert.com. IN MX 10 mail1.infraexpert.com.</strong><br>→　xxx@infraexpert.com宛のメールはmail1.infraexpert.comに転送すれば届くという意味。</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td>text strings</td>
+<td>ホストへのテキスト情報を指定。<br>例：<strong class="memory-answer">www.infraexpert.com. IN TXT "cool"</strong><br>→　www.infraexpert.com ってサイトはクールなサイトという意味。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dns-mx">DNS - MXレコードのプリファレンス</h2>
+<p>MXレコードには配送における優先度を指定する<strong class="memory-answer">プリファレンス</strong>値があります。プリファレンスによる優先度は
+数字により示され、配送先が複数ある場合は<strong class="memory-answer">より小さなプリファレンスを持つホストが優先</strong>されます。例えば、
+以下の場合、メールの配送先に2つのホストがありますが、優先されるホストはプリファレンスが「10」である
+mail1.infraexpert.com.となり、mail1.infraexpert.com.への配送が失敗した場合は mail2.infraexpert.com.
+への配送が行われるようになります。</p>
+<p><img alt="画像" src="../studygif/tcpip23d.png"></p>
+<h2 id="dnssecdomain-name-system-security-extensions">DNSSEC（Domain Name System Security Extensions）とは</h2>
+<p>DNSSECは、<strong class="memory-answer">DNSサーバからの応答が正しいDNSサーバから応答されたものであるかを検証する仕組み</strong>です。
+DNSSECは、DNSに対しデータ作成元の認証やデータの完全性を確認できるように仕様を拡張するものです。
+DNSSECではDNSサーバから受け取るリソースレコードに対するデジタル署名を利用し、リソースレコード
+の送信者の正当性とデータの完全性を検証します。DNSSECによりデータの偽装を検知できるようになるので
+<strong class="memory-answer">DNSキャッシュポイズニングの攻撃を防げる</strong>ようになります。</p>
+<h2 id="cname">CNAMEとは</h2>
+<p>最後にCNAMEについて詳細に解説します。例えばホスト名「 intra1 」ドメイン名「 infraexpert.com 」という
+Webサーバがあるとします。イントラネットまたはインターネット接続時にユーザから intra1.infraexpert.com
+ではなく www.infraexpert.com を指定してそのWebサーバにアクセスしてもらいたい場合、CNAMEレコードで
+別名（エイリアス）を指定することで実現可能 ⇒ www.infraexpert.com. IN CNAME intra1.infraexpert.com.</p>
+<hr>
+<p>← <a href="tcpip15.html">DNSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

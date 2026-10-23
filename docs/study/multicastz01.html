@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Multicast | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">マルチキャストとは</a></li>
+<li><a href="#_2">ユニキャスト伝送の動作</a></li>
+<li><a href="#_3">ブロードキャスト伝送の動作</a></li>
+<li><a href="#_4">マルチキャスト伝送の動作</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="multicast">Multicast</h1>
+<hr>
+<h2 id="_1">マルチキャストとは</h2>
+<p>マルチキャストとは、ネットワークで<strong class="memory-answer">特定の複数のノード</strong>に対して、<strong class="memory-answer">1つのデータを同時に送信</strong>することです。
+例えば、ビデオサーバからストリーミング配信される１つのデータを特定の複数のクライアントへ同時に送信
+できます。テレビ会議システムの映像や音声データ、<strong class="memory-answer">動画配信</strong>などにおいてトラフィックを効率よく伝送する
+ためにマルチキャストは一般的に使用されます。Ciscoの音声システムでは保留音の伝送等でも利用されます。</p>
+<p><img alt="画像" src="../studygif/multicastz01a.png"></p>
+<p>マルチキャストでは、マルチキャスト用のIPアドレス（224.0.0.0 ～ 239.255.255.255）が用意されており
+マルチキャスト用のIPアドレスを<strong class="memory-answer">アプリケーションで指定</strong>します。また、マルチキャスト用のMACアドレス
+もあり、マルチキャストを受信するマルチキャストグループに対してはこのマルチキャストMACアドレス宛
+のパケットが受信できるように設定されます。スイッチはマルチキャストトラフィックをフラッディングする
+ため、Receiver以外のクライアントPCにもマルチキャストは届きますが、受信処理は行われずに破棄します。</p>
+<p>マルチキャストを理解するために、ユニキャスト伝送とブロードキャスト伝送について以下で解説します。
+これらの違いを理解することで、動画配信において大容量のデータ伝送を行うことに、なぜユニキャスト
+伝送では拡張性がなく、なぜブロードキャスト伝送では非効率で無駄な帯域消費が発生するのか分かります。</p>
+<table>
+<thead>
+<tr>
+<th>通信方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユニキャスト</td>
+<td>ユニキャストは、単一のアドレスを指定して、<strong class="memory-answer">1対1</strong>で行われるデータ通信のことです。</td>
+</tr>
+<tr>
+<td>マルチキャスト</td>
+<td>マルチキャストは、特定のアドレスを指定して、<strong class="memory-answer">1対複数</strong>で行われるデータ通信のことです。</td>
+</tr>
+<tr>
+<td>ブロードキャスト</td>
+<td>ブロードキャストは、同じデータリンク内の全宛先を指定し、<strong class="memory-answer">1対不特定多数</strong>で行われるデータ通信。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">ユニキャスト伝送の動作</h2>
+<p>ユニキャストでは、<strong class="memory-answer">1対1の通信</strong>であることから、全ての受信者ごとに別々の伝送を行う必要があります。
+メールチェック、ネットサーフィン、ファイルのダウンロードのトラフィック伝送では問題ないのですが
+ストリーミング配信などでは宛先の数だけ大容量のデータを送信する必要があり、<strong class="memory-answer">送信元サーバ側の負荷</strong>
+と使用する<strong class="memory-answer">帯域幅が非常に大きく</strong>なります。</p>
+<p>下図の通り、配信サーバから3Mbpsのストリーミングデータを受けるとします。ユニキャスト通信の場合
+受信クライアントの数だけ同じデータを送信する必要があります。つまり、クライアントが1000台の場合
+3Gbps帯域幅を送信側で消費することになり、それを送出し続けるサーバ側にも、大きな負荷になります。</p>
+<p><img alt="画像" src="../studygif/multicastz01b.png"></p>
+<h2 id="_3">ブロードキャスト伝送の動作</h2>
+<p>ブロードキャストは<strong class="memory-answer">１対ネットワーク上の全ホスト</strong>の通信であることから、送信するパケットは1つでよく
+ユニキャスト伝送のように、送信側で激しく帯域消費したり、送信元側の負荷は大きくなりません。ただし
+同一セグメント上の全てのクライアントがトラフィックを受信することになり、<strong class="memory-answer">ネットワーク全体としては</strong>
+<strong class="memory-answer">負荷</strong>となります。また、ストリーミングデータを受信する必要のないクライアントにとっては、それを<strong class="memory-answer">受信</strong>
+<strong class="memory-answer">処理する無駄なCPU処理</strong>と<strong class="memory-answer">無駄な帯域消費</strong>が発生してしまいます。</p>
+<p><img alt="画像" src="../studygif/multicastz01c.png"></p>
+<h2 id="_4">マルチキャスト伝送の動作</h2>
+<p>マルチキャストでは、<strong class="memory-answer">1対特定グループのホストの通信</strong>であることから、送信するパケットが1つでよい上に
+データを受信したい特定のグループのホストだけが受信できるので、ユニキャストやブロードキャスト伝送
+による問題も発生しません。</p>
+<p>下図の配信サーバは、マルチキャストグループで囲んでいる2台の持つマルチキャストアドレスを宛先に指定
+してデータを送信して、受信したいクライアントだけがトラフィックを受信して処理していくことになります。
+非受信クライアントにもトラフィック自体は着信しますが、マルチキャストグループに参加していないので、
+マルチキャストトラフィックの受信処理は行われず、非受信クライアントでの無駄なCPU消費は発生しません。</p>
+<p><img alt="画像" src="../studygif/multicastz01d.png"></p>
+<p>スイッチでは、ブロードキャストやマルチキャストのトラフィックは、そのままフラッディングさせるので
+非受信クライアントにもマルチキャストのトラフィックは着信します。ただし、マルチキャストルーティング
+によって着信してくるマルチキャストパケットは、ホストとルータ間でやりとりするIGMPパケットを盗み見
+するスイッチの<strong class="memory-answer">IGMPスヌーピング</strong>機能で、非受信クライアントに対する無駄なトラフィック転送を防げます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

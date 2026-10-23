@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>TCP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#tcp_1">TCPとは</a></li>
+<li><a href="#_1">ポート番号とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="tcp">TCP</h1>
+<hr>
+<h2 id="tcp_1">TCPとは</h2>
+<p>TCP (Transmission Control Protocol) は、IPと同様にインターネットにおいて標準的に利用されている
+プロトコルです。TCPは、IPの上位プロトコルでトランスポート層で動作するプロトコル。ネットワーク
+層のIPとセッション層以上のプロトコル（例：HTTP、FTP、Telnet) の橋渡しをする形で動作しています。</p>
+<p>TCPは、<strong class="memory-answer">信頼性の高い通信を実現</strong>するために使用されるプロトコルであるのに対して、同じく、IPの上位
+プロトコルのUDPは信頼性が高くはないが、高速性やリアルタイム性を求める通信に使用されるプロトコル。
+このようにどちらかが優れているということではなく、通信特性によりTCPまたはUDPを使い分けされます。</p>
+<p>※　TCPは、<strong class="memory-answer">コネクション型通信</strong>（通信開始前に相手との間で仮想的な通信路を確保する）を行います。
+※　UDPは、<strong class="memory-answer">コネクションレス型通信</strong>（通信開始前に相手との間で、事前のやり取りなし）を行います。</p>
+<h2 id="_1">ポート番号とは</h2>
+<p>ポート番号とは、コンピュータが通信を行うために通信先の<strong class="memory-answer">アプリケーションを特定するための番号</strong>のこと。
+コンピュータ間の通信で通信する宛先のIPアドレスが分かれば、そのIPアドレスにデータを送信できますが
+そのデータを受信したコンピュータが、どのアプリケーションでそれを受信するのか判断するために必要です。</p>
+<p>例えば下図の通り、コンピュータ上でWebブラウザとメーラーを起動させていたとします。Webブラウザで
+インターネットの閲覧をするために、コンピュータ内でデータをWebブラウザに送り届ける必要があります。
+TCPヘッダにポート番号情報が付加することで、どのアプリケーションなのかを識別しこれを実現しています。</p>
+<p><img alt="画像" src="../studygif/tcpip7a.png"></p>
+<p>ポート番号は「0～65535」の範囲で割り当てられます。このポート番号は以下の3つに分類されています。</p>
+<table>
+<thead>
+<tr>
+<th>ポート番号のタイプ</th>
+<th>ポート番号の範囲</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ウェルノウンポート番号</td>
+<td>0～1023</td>
+<td>IANAで管理。サーバのアプリケーションに割り当てられるポート番号。</td>
+</tr>
+<tr>
+<td>登録済みポート番号</td>
+<td>1024～49151</td>
+<td>IANAで管理。独自に作成したアプリケーションに割り当てられるポート番号。</td>
+</tr>
+<tr>
+<td>ダイナミックポート番号</td>
+<td>49152～65535</td>
+<td>クライアント側のアプリケーションに自動的に割り当てられるポート番号。</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.infraexpert.com/study/tea5.htm">ウェルノウン(well-known)ポート番号</a>は“よく知られた”ポート番号であるので、サーバのアプリケーション
+に割り当てられます。登録済みポート番号は独自に作成されたアプリケーションに割り当てられます。これは
+IANAにより管理されています。ダイナミックポート番号はアプリケーションプロセスの要求に応じて動的に
+割り当てられるポート番号のことです。ダイナミックポート番号はクライアント側のアプリで使用される番号。
+※　登録済みポート番号は一般的にサーバに割り当てられますが、登録済みポート番号がクライアントに割り当てられる時もあります。</p>
+<p>下図でクライアントPCがWebページを開こうとすると、クライアントPCは宛先ポート番号を「80」と指定し
+アクセスを行います。WebブラウザとWebサーバのデータ送受信はHTTPプロトコル（ポート番号80）を使用。</p>
+<p>そして、サーバからのWebページの情報を得るためにはクライアントPC側にもポート番号が必要です。この
+ポート番号はアプリケーションがランダムに動的に割り当てます。今回の場合、Webブラウザが自身のポート
+番号を54321と割り当てたので、それを自身のポート番号（送信元ポート番号）としてパケットを送出します。</p>
+<p>WebサーバがクライアントPCからのパケットを受信すると、送信元のIPアドレスと宛先のポート番号の情報
+が分かるので、この送信元の情報を宛先の情報にしてデータを送り返すことにより双方向の通信が成立します。</p>
+<p><img alt="画像" src="../studygif/tcpip7b.png"></p>
+<p>なお、クライアントPCが複数のWebブラウザを開いている場合、そのWebブラウザごとに正しくWebページ
+を表示させるためにWebブラウザごとに異なるポート番号がランダムに割り当てられます。下図はイメージ図。</p>
+<p><img alt="画像" src="../studygif/tcpip7c.png"></p>
+<hr>
+<p>← <a href="https://www.infraexpert.com/study/tcpip6.html">ICMP - traceroute</a>　<a href="tcpip8.html">TCP - TCPヘッダ</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IGMPv2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#igmpv2_1">IGMPv2</a></li>
+<li><a href="#igmpv2-">IGMPv2 - マルチキャストグループへの参加</a></li>
+<li><a href="#igmpv1-">IGMPv1 - マルチキャストグループの維持</a></li>
+<li><a href="#igmpv2-_1">IGMPv2 - マルチキャストグループからの離脱</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="igmpv2">IGMPv2</h1>
+<hr>
+<h2 id="igmpv2_1">IGMPv2</h2>
+<p>IGMPはIPでカプセル化されており、IPプロトコル番号は「2」です。IGMPv2のフォーマットは以下です。</p>
+<p><img alt="画像" src="../studygif/multicastz10a.png"></p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>ビット</th>
+<th>内容（ 値 ）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>タイプ</td>
+<td>8ビット</td>
+<td>メンバーシップクエリー（ 0x11 ）※1</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>8ビット</td>
+<td>v1 メンバーシップレポート（ 0x12 ）</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>8ビット</td>
+<td>v2 メンバーシップレポート（ 0x16 ）</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>8ビット</td>
+<td>リーブグループ（ 0x17 ）</td>
+</tr>
+<tr>
+<td>最大応答時間</td>
+<td>8ビット</td>
+<td>クエリーを受信後にレポートを返すまでの最大応答時間（100 = 10秒）</td>
+</tr>
+<tr>
+<td>チェックサム</td>
+<td>16ビット</td>
+<td>パケットの完全性を確認するために使用（ 0 ）</td>
+</tr>
+<tr>
+<td>グループアドレス</td>
+<td>32ビット</td>
+<td>ジェネラルクエリーの場合は 0.0.0.0</td>
+</tr>
+<tr>
+<td>グループアドレス</td>
+<td>32ビット</td>
+<td>グループスペシフィッククエリーと v1/v2 レポートの場合（マルチキャストアドレス）</td>
+</tr>
+</tbody>
+</table>
+<p>※1　メンバーシップクエリーには「<strong class="memory-answer">ジェネラルクエリー</strong>」と「<strong class="memory-answer">グループスペシフィッククエリー</strong>」の2種類があります。</p>
+<p>IGMPv1と互換性のあるIGMPv2には、新たな機能として以下の4つが追加されることになりました。</p>
+<p>1.　クエリインターバルの最大応答時間
+2.　クエリア選択の概念
+3.　リーブグループメッセージの定義
+4.　グループスペシフィッククエリの定義</p>
+<p>IGMPv1とIGMPv2の違いが分かるように、マルチキャストグループの参加、維持、離脱の解説を行います。</p>
+<h2 id="igmpv2-">IGMPv2 - マルチキャストグループへの参加</h2>
+<p>IGMPv1とIGMPv2ともに、マルチキャストグループへの参加の動作は同じであり、以下の内容となります。</p>
+<p>マルチキャストを使用するアプリケーションをインストールしたホストが、Receiverとしてマルチキャスト
+グループに参加するとします。Receiverは、IGMP（type 0x2：<strong class="memory-answer">メンバーシップレポート</strong>）によりルータに
+マルチキャストグループの参加を通知します。この時のIGMPは「IGMP Joinメッセージ」とも言われます。</p>
+<p>Receiverからのメンバーシップレポートを受信したルータは、自身が管理するIGMPテーブルにその情報を
+登録し、そのマルチキャストグループの情報（マルチキャストアドレス）は、マルチキャストルーティング
+テーブルにも反映（ <strong class="memory-answer">show ip mroute</strong>で確認可能 ）されることになります。</p>
+<p><img alt="画像" src="../studygif/multicastz10b.png"></p>
+<p>Ciscoルータでは、IGMPテーブルは以下のようになっています。マルチキャストグループ（239.1.1.5）が
+15分03秒の間アクティブ状態であり、残り1分10秒以内にIGMPメンバーシップレポートを受信できないと
+このエントリが削除されます。239.1.1.5を最後にレポートしてくれたのが192.168.0.11のReceiverです。</p>
+<p>R1&gt; show ip igmp groups</p>
+<p>IGMP Connected Group Membership
+Group Address  　Interface   　　　　　Uptime 　　 Expires 　　Last Reporter
+239.1.1.5 　　 　GigabitEthernet0/1   00:15:03 　 00:01:10  　192.168.0.11</p>
+<h2 id="igmpv1-">IGMPv1 - マルチキャストグループの維持</h2>
+<p>IGMPv2では、ルータは定期的（60秒ごと）に<strong class="memory-answer">IGMPメンバーシップクエリー</strong>（ジェネラルクエリー）を
+全てのマルチキャストホストを示す <strong class="memory-answer">224.0.0.1</strong> 宛てに対して送信して、そのセグメント上でReceiverが
+存在するかを確認します。つまり、IGMPv1とほぼ同じ動作となります。</p>
+<p>IGMPメンバーシップクエリーを受信したReceiverは<strong class="memory-answer">IGMPメンバーシップレポート</strong>で応答します。この
+応答は、各マルチキャストグループにつきどれか1つのReceiverがすればOKであり、ルータにとっては
+Receiverが1つでも存在すれば、そのセグメント上でマルチキャストパケットをフラッディングします。</p>
+<p>IGMPv1と異なる点は、IGMPv2の場合はIGMPメンバーシップクエリーを受信してから、デフォルト値で
+10秒以内に応答する必要があり、<strong class="memory-answer">IGMPv2ではこのクエリの最大応答時間を設定変更することが可能</strong>です。</p>
+<p><img alt="画像" src="../studygif/multicastz10c.png"></p>
+<p>IGMPv1と異なる2点目には、IGMPv2ではクエリア（クエリーを送信するルータ）選択の概念があることです。
+1つのサブネット上に複数のルータが存在する場合、IGMPv2ではそのサブネット上で<strong class="memory-answer">最も小さいIPアドレスを</strong>
+<strong class="memory-answer">持つルータがIGMPクエリア</strong>となります。初期状態では、自分自身がIGMPクエリアと認識していることから
+クエリを送信しますが、自分より小さいIPのルータのクエリを受信した場合は、クエリアの動作を停止します。</p>
+<p><img alt="画像" src="../studygif/multicastz10d.png"></p>
+<h2 id="igmpv2-_1">IGMPv2 - マルチキャストグループからの離脱</h2>
+<p>IGMPv1と異なる3点目として、IGMPv2では離脱する際に<strong class="memory-answer">Receiverはルータに離脱することを通知</strong>します。
+IGMPv2は、マルチキャストグループから離脱時にルータに<strong class="memory-answer">IGMPリーブグループメッセージを送信</strong>します。
+離脱したいReceiverは、全てのマルチキャストルータ（<strong class="memory-answer">224.0.0.2</strong>）宛てにIGMPリーブグループメッセージ
+を送信。これによって離脱遅延が短くなり、意味のないマルチキャストパケットの転送時間も短くなります。</p>
+<p>IGMPv1と異なる4点目として、IGMPv2では<strong class="memory-answer">グループスペシフィッククエリー</strong>の定義が追加されたことです。
+これによりルータは、全てのマルチキャストグループではなく、特定のマルチキャストグループにメンバー
+シップクエリーを送信できるようになりました。IGMPリーブグループメッセージを受信した後、その他にも
+そのマルチキャストグループのReceiverが存在しないかどうかを確認するために、グループスペシフィック
+クエリーで確認します。グループスペシフィッククエリーの再送回数は最大で2回となります。</p>
+<p><img alt="画像" src="../studygif/multicastz10e.png"></p>
+<p>上図では、マルチキャストグループ（239.1.1.5）のReceiver（192.168.0.11）が、IGMPリーブグループ
+メッセージを送信して離脱の意思を通知しています。その離脱メッセージを受信したルータは、グループ
+スペシフィッククエリーを送信して、239.1.1.5のグループにて、その他のReceiverが存在しないかどうか
+を確認しています。最大応答時間内にReceiver（192.168.0.10）がv2メンバーシップレポートを送信した
+ことから、引き続き 239.1.1.5 宛てのマルチキャストパケットを送信します。なお、最大の応答時間内に
+応答がなければ、そのグループにReceiverが存在しないと判断してIGMPテーブルのエントリを削除します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

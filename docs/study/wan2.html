@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN - DTE / DCE / ONU | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan">WANの基本構成とデバイス</a></li>
+<li><a href="#dtedce">DTEとDCEのケーブル接続</a></li>
+<li><a href="#cisco">Ciscoルータでの検証接続（レガシー構成の検証）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan-dte-dce-onu">WAN - DTE / DCE / ONU</h1>
+<hr>
+<h2 id="wan">WANの基本構成とデバイス</h2>
+<p>WANで使用するデバイスと機器構成は以下の通りです。ただし、WANサービスの種類により異なります。</p>
+<p><img alt="画像" src="../studygif/wan2a.png"></p>
+<table>
+<thead>
+<tr>
+<th>WANデバイス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DTE</td>
+<td>DTE（Data Terminal Equipment）はデータを送受信するユーザ側の機器。DTEはDCEを介して<br>WANと接続を行い通信する。WANがシリアル回線の場合、DTEはDCEから供給されるクロック信号<br>を利用して通信する。DTEはルータ、パソコンなどが該当します。DTEの日本語訳は<strong class="memory-answer">データ端末装置</strong>。</td>
+</tr>
+<tr>
+<td>DCE</td>
+<td>DCE（Data Circuit-Terminating Equipment）は、DTEから送られる信号をDCEが接続している<br>網に適した信号に変換して送信。WANの網から送られてくる信号をDTEに適した信号に変換し送信。<br>WANがシリアル回線の場合、DCEは<strong class="memory-answer">クロック信号を送信</strong>する。DCEはモデム、DSU、ONUが該当。<br>WAN回線サービスの種類に応じてDCEの機器が異なる。DCEの日本語訳は<strong class="memory-answer">データ回線終端装置</strong>。</td>
+</tr>
+<tr>
+<td>CPE</td>
+<td>CPE（Customer Premises Equipment）は、契約した加入者宅に設置される通信機器の総称。<br>CPEは、DSUなどのDCEだけでなくルータなどのDTEなども含まれる。CPEの訳は<strong class="memory-answer">顧客宅内機器</strong>。</td>
+</tr>
+<tr>
+<td>分解点</td>
+<td>キャリアと加入者の<strong class="memory-answer">責任分解点</strong>を示す。日本では、DSU、ONUもキャリアのレンタル機器となる<br>ことから責任分解点はDCE以降はキャリア側、DCEまでの配線部分までが加入者（企業）側となる。</td>
+</tr>
+<tr>
+<td>ローカルループ</td>
+<td>ローカルループは、加入者の敷地にある責任分解点からキャリア網のWAN機器までの回線のこと。<br>WANがPSTNやISDNの場合は<strong class="memory-answer">ローカルループ</strong>、WANがPSTNやISDN以外なら<strong class="memory-answer">アクセス回線</strong>という。</td>
+</tr>
+</tbody>
+</table>
+<p>以下の項目ではDCEの代表例である<strong class="memory-answer">モデム</strong>、
+<strong class="memory-answer">DSU</strong>、<strong class="memory-answer">ONU</strong>について詳しく解説しています。</p>
+<p>なお、現在ではアナログモデムはWAN回線の
+DCEとして使用される事は、ほぼありません。</p>
+<p>モデムの使われ方は、モデム内蔵のPCから
+アナログ回線にダイヤルアップ接続を行って
+企業ネットワークにアクセスして通信機器の
+メンテナンスを行うといった管理アクセスの
+手段として使用することが多いです。</p>
+<table>
+<thead>
+<tr>
+<th>DCE</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モデム</td>
+<td>PSTN (Public Switched Telephone Network) との接続時に使用されるDCE。PSTNは公衆電話網。<br>モデムを利用する場合はアナログ接続となるので、モデムはアナログのローカルループを終端する。</td>
+</tr>
+<tr>
+<td>DSU</td>
+<td>ISDN (Integrated Service Digital Network) との接続か、デジタル専用線との接続時に使用される<br>DCE。DSUを利用する場合はデジタル接続となるのでDSUはデジタルのローカルループを終端する。</td>
+</tr>
+<tr>
+<td>ONU</td>
+<td>IP-VPNや広域イーサネットとの接続か、高速なデジタル専用線との接続時に使用されるDCE。<br>ONU (Optical Network Unit) ：光回線終端装置という名前どおり、アクセス回線は光ファイバー。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dtedce">DTEとDCEのケーブル接続</h2>
+<p>現在企業ネットワークで使用されている主なWANサービスは、IP-VPNや広域イーサネットであることから
+DCEの機器は ONU になることが多く、DTEとDCEとの接続ケーブルはRJ45のLANケーブルを使用します。</p>
+<p><img alt="画像" src="../studygif/wan2b.png"></p>
+<p>一方、従来のWANにおけるDTEとDCEとの接続ケーブルには、シリアルケーブルを主に使用していました。
+その場合はルータにはシリアルインターフェースを用意して、DTEとDCEとの接続はその規格に適合した
+シリアルケーブルで接続します。Ciscoルータでは下図の規格のシリアルインターフェース規格をサポート。</p>
+<p><img alt="画像" src="../studygif/wan2c.png"></p>
+<p>Ciscoルータで実際に現在接続されているシリアルケーブルの規格を確認するためには show controllers
+コマンドを使用します。上図のルータではSerial 0/0にシリアルケーブルが接続しているので、以下の通り
+show controllers s0/0 と入力することで、このシリアルケーブルの規格が V.35 であることが分かります。</p>
+<p>Router# show controllers s0/0
+Interface Serial 0/0
+Hardware is ・・・
+<strong class="memory-answer">DTE V.35</strong>　←　シリアルケーブルがV.35規格であることを確認</p>
+<h2 id="cisco">Ciscoルータでの検証接続（レガシー構成の検証）</h2>
+<p>Ciscoルータでは、検証目的で2台のルータ間をDCEなしで、シリアルケーブルにより接続する事ができます。
+2台のCiscoルータを直結できるシリアルケーブルをバックツーバックケーブルと言います。この構成の場合、
+１台のルータがDTE、もう１台のルータがDCEとして動作する必要があります。バックツーバックケーブルの
+のコネクタにDCEと書いている方がDCEとなるのですが、本来のDCEの役割同様にクロック信号をDTEに対し
+供給する必要があります。ルータでDCEとしてクロック信号を供給するにはclock rateコマンドを使用します。</p>
+<p><img alt="画像" src="../studygif/wan2d.png"></p>
+<p>clock rateコマンドの単位は <strong class="memory-answer">bps</strong> なので、64Kbpsの場合「64000」となります。以下の通りに入力します。
+上図のR1が正しくDCEとして動作をし、クロック供給しているかはshow controllersコマンドで確認します。</p>
+<p>R1(config)#interface s0/0
+R1(config-if)#clock rate 64000</p>
+<p>R1# show controllers s0/0
+Interface Serial 0/0
+Hardware is ・・・
+<strong class="memory-answer">DCE V.35, clock rate 64000</strong>　←　R1がDCEとして動作して、64Kbpsのクロックを供給していることを確認</p>
+<p>clock rateコマンドで64Kbpsと定義しても、sh interfacesで確認できる帯域幅のBWという部分は、変更
+されません。EIGRPやOSPFなどのルーティングプロトコルではこのBWという値を見てメトリック値を算出
+しているので、正確なメトリック値の計算を行うためには、bandwidthコマンドで変更する必要があります。
+clock rateコマンドの単位はbpsですが、bandwidthコマンドの単位は kbps なので 64kbps なら 64 と入力。</p>
+<p>show interfacesで「BW」の値が変更されたことを確認できます。なお、bandwidthコマンドで帯域幅
+の値を変更しても実際の通信速度が64Kbpsになるのではなく、メトリック計算上の値として使用されます。</p>
+<p>R1(config)#interface s0/0
+R1(config-if)#bandwidth 64</p>
+<p>R1# show interfaces s0/0
+Serial 0/0 is up, line protocol is up
+Hardware is ・・・
+Internet address is ・・・
+MTU 1500 bytes, <strong class="memory-answer">BW 64 Kbit</strong>, DLY ・・・ ←　show interfaces上の帯域幅が64Kbpsであることを確認</p>
+<hr>
+<p>← <a href="wan.html">WAN（Wide Area Network）とは</a>　<a href="wan3.html">WAN - 専用線、PSTN、ISDN</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

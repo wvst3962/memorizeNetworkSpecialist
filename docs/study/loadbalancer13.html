@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>CDN （ Contents Delivery Network ） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#cdncontents-delivery-network">CDN（Contents Delivery Network）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="cdn-contents-delivery-network">CDN （ Contents Delivery Network ）</h1>
+<hr>
+<h2 id="cdncontents-delivery-network">CDN（Contents Delivery Network）とは</h2>
+<p>CDNとは、<strong class="memory-answer">Webコンテンツを効率よく迅速にユーザに配信するための仕組み</strong>のことです。CDNでは各地に
+配置された数多くのキャッシュサーバにWebコンテンツを一時的にキャッシュさせて、GSLBの機能により
+リクエストしたユーザから近い場所にあるキャッシュサーバからコンテンツを配信することにより、迅速で
+効率の良いWebコンテンツの配信を実現しています。</p>
+<p><img alt="画像" src="../studygif/loadbalancer13a.png"></p>
+<p>CDNは、オリジンサーバ、キャッシュサーバ、GSLBの大きく3つのコンポーネントにより構成されます。</p>
+<table>
+<thead>
+<tr>
+<th>CDNの構成要素</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>オリジンサーバ</td>
+<td>オリジナルのWebコンテンツを提供するWebサーバ。元のデータを保有しているWebサーバ。</td>
+</tr>
+<tr>
+<td>キャッシュサーバ</td>
+<td>オリジンサーバから配信されるデータをキャッシュするサーバ。CDN事業者が提供する地理的に<br>分散配置されたエッジサーバ。ユーザからのリクエストに代理応答して、応答速度の向上を担う。</td>
+</tr>
+<tr>
+<td>GSLB</td>
+<td>分散配置されたキャッシュサーバにユーザからのリクエストを適切に振り分ける機能のこと。<br>GSLB機能を有する広域負荷分散装置により、CDNの効率やパフォーマンスを最大化にする。</td>
+</tr>
+</tbody>
+</table>
+<p>CDN導入によりキャッシュサーバがオリジンサーバの代理応答してくれることから、オリジンサーバへの
+アクセスが低減することで<strong class="memory-answer">負荷を大幅軽減</strong>できるだけでなく、コンテンツの<strong class="memory-answer">表示・配信速度が向上</strong>します。
+また、Webサーバに大量な不正なリクエストを送信されても、分散配置されたキャッシュサーバがそれを
+受け取れることになることから、<strong class="memory-answer">DoS/DDoS攻撃に対して高い耐性を持つ</strong>ことにもなります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

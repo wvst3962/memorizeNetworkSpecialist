@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WPA2 ( Wi-Fi Protected Access 2 ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wpa2">WPA2とは</a></li>
+<li><a href="#wpa2-ccmp-counter-mode">WPA2の暗号化方式 - CCMPの暗号化処理 ( Counter-mode ）</a></li>
+<li><a href="#wpa2-ccmp-cbc-mac">WPA2の暗号化方式 - CCMPの整合性確認 ( CBC-MAC ）</a></li>
+<li><a href="#wpa2-ccmp">WPA2による暗号化方式 - CCMPのパケットフォーマット</a></li>
+<li><a href="#wpa2-windows-pmk">WPA2 - Windowsクライアントの設定 ( PMKの共有 )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wpa2-wi-fi-protected-access-2">WPA2 ( Wi-Fi Protected Access 2 )</h1>
+<hr>
+<h2 id="wpa2">WPA2とは</h2>
+<p>WPAは IEEE802.11i が標準化されるまでの暫定的な規格であったことから、2004年6月にIEEE802.11iの
+標準化作業が完了すると、2004年9月にその内容を反映してWPA2が策定されました。WPA2自体は、IEEE
+802.11i の相互接続性をWiFiアライアンスが認定したものであるので、WPA2で認定されている無線機器は
+IEEE802.11i に準拠したものです。従って以下のWPA2の技術解説は IEEE802.11i の技術解説を意味します。</p>
+<p>WPA2の動作はWPAと共通部分が多いです。無線LANクライアントとアクセスポイントとでやりとりされる
+前回に解説したWPAの動作（ ?@アソシエーション処理、?APMKの共有、?BPTKの生成、?CGTKの生成 ）は
+ほとんど同じです。異なる点は、WPA2では暗号化方式に<strong class="memory-answer">CCMP</strong>（Counter-mode CBC-MAC Protocol）を
+採用していることです。CCMPは<strong class="memory-answer">AESに基づいてデータの暗号化</strong>を行いますが、<strong class="memory-answer">最長 256 ビットの暗号鍵</strong>を
+利用できることから、WPAに比べて格段にセキュリティ強度が高くなります。</p>
+<table>
+<thead>
+<tr>
+<th>暗号化方式</th>
+<th>WEP（規格：WEP）</th>
+<th>TKIP（規格：WPA）</th>
+<th>CCMP（規格：WPA2）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>WEPによるRC4<br>(暗号の解読が容易）</td>
+<td>TKIPのRC4</td>
+<td>CCMPのAES</td>
+</tr>
+<tr>
+<td>整合性の検証</td>
+<td>WEPによるCRC32<br>(実質的にデータの改ざんを検出不可）</td>
+<td>TKIPのMIC</td>
+<td>CCMPのCCM</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>WEPそのものにはないが<br>IEEE802.1X認証を採用できる</td>
+<td>PSK認証 or IEEE802.1X認証</td>
+<td>PSK認証 or IEEE802.1X認証</td>
+</tr>
+</tbody>
+</table>
+<p>WPAは「TKIPの実装を義務化、CCMPの実装を任意」ですが、WPA2は「TKIPの実装は任意、CCMPの実装は義務化」としています。
+従って、無線LANの製品により、WPAの暗号化にCCMPがあったりなかったり、WPA2の暗号化にTKIPがあったりなかったりします。
+また、暗号化方式がCCMPであることから暗号化項目はCCMPとすべきなのですが、製品によってCCMPではなく<strong class="memory-answer">AES</strong>になっています。</p>
+<h2 id="wpa2-ccmp-counter-mode">WPA2の暗号化方式　- CCMPの暗号化処理 ( Counter-mode ）</h2>
+<p>CCMPは暗号化アルゴリズムに最強の暗号化アルゴリズムのAESを採用しています。AESはブロック型暗号で
+ある事から、暗号化するメッセージを一定サイズのブロック単位に分割して処理する必要があります。しかし
+一定サイズに収まらない場合もあり、この問題を回避するためCCMPでは<strong class="memory-answer">カウンターモード</strong>を採用しています。</p>
+<p>カウンターモードでは、暗号化したいメッセージをダイレクトに暗号化するのではなくカウンターと呼ばれる
+一定の値を暗号化して、この結果とメッセージのXOR（排他的論理和）をとることで暗号文を生成するのです。
+これにより暗号化したいメッセージが一定の値である必要がなくなり、また、暗号化のために直接メッセージ
+を使用するわけではないので、メッセージ到着前に暗号化の計算を事前に行えることから高速に処理できます。</p>
+<p><img alt="画像" src="../studygif/wireless13a.png"></p>
+<h2 id="wpa2-ccmp-cbc-mac">WPA2の暗号化方式　- CCMPの整合性確認 ( CBC-MAC ）</h2>
+<p>CCMPは改ざん検知に、CCM (Counter with CBC-MAC) の仕組みを採用しています。先ず最初にパケットを
+特定の長さに区切った上で、その値と<strong class="memory-answer">IV</strong>をXORしてAESの暗号化を行います。次に、この暗号化処理の結果と
+メッセージをXORしてAESでの暗号化を行います。この処理を繰り返し最後に得られた結果の上位8バイトを
+ハッシュ値として使用します。CCMPでは暗号化とハッシュ値算出用の鍵が同じであるため暗号化処理が速い。</p>
+<p><img alt="画像" src="../studygif/wireless13b.png"></p>
+<p>以上の通りCCMPは<strong class="memory-answer">暗号化処理</strong>と<strong class="memory-answer">整合性確認</strong>を行いますが、これらは同時に実現する仕組みとなっています。</p>
+<h2 id="wpa2-ccmp">WPA2による暗号化方式 - CCMPのパケットフォーマット</h2>
+<p><img alt="画像" src="../studygif/wireless13c.png"></p>
+<h2 id="wpa2-windows-pmk">WPA2 - Windowsクライアントの設定 ( PMKの共有 )</h2>
+<p>WPA2の接続シーケンスは、WPAとほぼ同じなので詳細は「<a href="wireless12.html">WPA</a>」でご確認下さい。?AのPMKの共有方法も
+WPA、WPA2ともに同じ認証方式（PSK認証またはIEEE802.1X認証）をサポートとしているので、ほぼ同じ。
+異なる点として、PSK認証の設定項目においてWPAではなくWPA2を選択するということ、暗号化にはTKIPで
+はなくAESを選択するという点です。オプションとしてTKIPが設定項目にありますがAESを選択するのが推奨。
+※　WPA2でのPSK認証は「<strong class="memory-answer">WPA2パーソナルモード</strong>」、WPA2での802.1X認証は「<strong class="memory-answer">WPA2エンタープライズモード</strong>」といいます。</p>
+<p>◇　WPA2-PSK認証
+WPAと同様にPSK認証ではAPと無線LANクライアントにあらかじめパスフレーズを設定します。この値は
+WPAと同様に8文字以上63文字以内で指定する必要があります。総務省では21文字以上のパスフレーズの
+設定を推奨としています。WPA同様に、WPA2ではこのパスフレーズから自動的にPSKを生成するのです。</p>
+<table>
+<thead>
+<tr>
+<th>Windows Vista / 7 の設定画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="画像" src="../studygif/wireless13d.png"></td>
+</tr>
+</tbody>
+</table>
+<p>◇　WPA-IEEE802.1X認証
+IEEE802.1X認証では無線LANクライアントやアクセスポイントに手動で「認証鍵」の情報を設定しません。
+IEEE802.1X認証では認証成功後に認証サーバ（Radiusサーバ）が自動的に生成しクライアントに配布します。
+IEEE802.1X認証方式に応じて「EAPの種類やネットワーク認証方法の選択」設定を変更する必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>Windows Vista / 7 - 設定画面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="画像" src="../studygif/wireless13e.png"></td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.1X認証方式では、上の暗号化方式の設定以外に、以下の認証方式と認証情報の設定が必要です。
+ここではWindows XPでの設定画面を紹介します。※ ワイヤレスアダプタの種類で設定画面は異なります。
+※ IEEE802.1X認証方式と認証情報の設定項目は、実装する802.1X認証の種類に応じて選択する項目やチェック項目が異なります。
+※ EAPの種類で「スマートカードまたはその他の証明書」項目を選択した場合、認証方式にEAP-TLS方式を選択したことになります。</p>
+<table>
+<thead>
+<tr>
+<th>各種パラメータ</th>
+<th>Windows XP</th>
+<th>Windows Vista</th>
+<th>Windows 7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>認証方式の呼び方</td>
+<td>ネットワーク認証</td>
+<td>セキュリティの種類</td>
+<td></td>
+</tr>
+<tr>
+<td>暗号化方式の呼び方</td>
+<td>データの暗号化</td>
+<td>暗号化の種類</td>
+<td></td>
+</tr>
+<tr>
+<td>PSKの呼び方</td>
+<td>ネットワークキー</td>
+<td>ネットワーク セキュリティキー</td>
+<td></td>
+</tr>
+<tr>
+<td>PSK認証の呼び方</td>
+<td>WPA2-PSK</td>
+<td>WPA2 - パーソナル</td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.1X認証の呼び方</td>
+<td>WPA2</td>
+<td>WPA2 - エンタープライズ</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Windowsの無線LANクライアントPCでは、WPAを選択していても暗号化の種類に<strong class="memory-answer">TKIP</strong>だけでなく<strong class="memory-answer">AES</strong>を選択することができます。
+しかし、<strong class="memory-answer">WPAのAESとWPA2のAESに互換性があるわけではありません</strong>。ちなみに、AESは暗号化アルゴリズムなので正確にはAES
+ではなくてCCMPが選択項目にあるべきなのですが、Windows PCの無線LANの設定項目は非常に曖昧な用語の定義となっています。</p>
+<hr>
+<p>← <a href="wireless12.html">無線LAN - WPA</a>　<a href="wireless14.html">無線LAN - IEEE802.1X認証</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

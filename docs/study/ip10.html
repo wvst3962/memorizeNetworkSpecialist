@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>NAT （ Network Address Translation ） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#nat">NATとは</a></li>
+<li><a href="#nat_1">NATの特徴</a></li>
+<li><a href="#cisconat">CiscoにおけるNAT用語</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="nat-network-address-translation">NAT （ Network Address Translation ）</h1>
+<hr>
+<h2 id="nat">NATとは</h2>
+<p>NAT（Network Address Translation）は<strong class="memory-answer">IPアドレスを変換する技術</strong>です。一般的には、プライベート
+IPアドレスをグローバルIPアドレスに変換する技術とされています。インターネットでは、グローバル
+IPアドレスを使用して構築したネットワークですが、企業ネットワークでは、プライベートIPアドレス
+を使用して構築されたネットワークなので、企業LANネットワークのクライアントPCがインターネット
+接続する場合、プライベートIPアドレスをグローバルIPアドレスに変換（NAT）をする必要があります。</p>
+<h2 id="nat_1">NATの特徴</h2>
+<p>NATでは一般的にIPパケットのヘッダ内にある<strong class="memory-answer">送信元IPアドレス</strong>を変換します。企業ネットワークでは
+送信元IPアドレスがプライベートIPアドレスなので、NATによってグローバルIPアドレスに変換します。</p>
+<p>NATでは、企業内LANのクライアントPCに割り当てられたIPアドレスを変換してインターネット通信が
+行われることから、セキュリティが向上する利点がある一方、アプリケーションによりNAT変換による
+通信では正常に動作しない問題点もあります。※　L3ではなくL7のデータ部にもIP情報がある場合です。</p>
+<p><img alt="画像" src="../studygif/ip10a.png"></p>
+<p>NATでは内部（企業内LAN）ネットワークから外部（インターネット）ネットワークへ、パケットが送信
+される時は、IPパケットのヘッダ内にある<strong class="memory-answer">送信元IPアドレス</strong>が変換されるが、下図のように外部から内部
+へパケット（サーバからの返信パケット）が送信される時は<strong class="memory-answer">宛先IPアドレス</strong>が変換されることになります。</p>
+<p><img alt="画像" src="../studygif/ip10b.png"></p>
+<h2 id="cisconat">CiscoにおけるNAT用語</h2>
+<p>シスコではNATの用語を以下のように定義しています。以下の用語がCiscoルータなどのNAT変換を
+行う機器において実際のステータス情報として出力されるので、正しく理解しておく必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>NAT用語</th>
+<th>Ciscoでの出力表示</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内部ローカルアドレス</td>
+<td>Inside local</td>
+<td>内部ネットワークのホストに割り当てられるIPアドレス<br>（一般的には、企業LANで割り当てられるプライベートIPアドレス）</td>
+</tr>
+<tr>
+<td>内部グローバルアドレス</td>
+<td>Inside global</td>
+<td>外部ネットワークから見た、内部ネットワークのホストのIPアドレス。<br>（一般的には、ISPから割り当てられるグローバルIPアドレス）</td>
+</tr>
+<tr>
+<td>外部ローカルアドレス</td>
+<td>Outside local</td>
+<td>内部ネットワークから見た、外部ネットワークのホストのIPアドレス。<br>（一般的には、グローバルIPアドレス）</td>
+</tr>
+<tr>
+<td>外部グローバルアドレス</td>
+<td>Outside global</td>
+<td>外部ネットワークのホストに割り当てられるIPアドレス。<br>（一般的には、グローバルIPアドレス）</td>
+</tr>
+</tbody>
+</table>
+<p>一般的には、<strong class="memory-answer">内部ネットワーク</strong>とは企業LANネットワーク側で、<strong class="memory-answer">外部ネットワーク</strong>とはインターネット側と
+なりますが、実際にはCiscoルータで <strong class="memory-answer">ip nat inside</strong> と設定したネットワークが内部ネットワークとなり、
+<strong class="memory-answer">ip nat outside</strong>と設定したネットワークが外部ネットワークとなります。この説明内容に例外はありません。
+※　<strong class="memory-answer">ローカルアドレス</strong>とはネットワーク内部で表現されるアドレス、<strong class="memory-answer">グローバルアドレス</strong>とはネットワーク外部で表現されるアドレス。</p>
+<p><img alt="画像" src="../studygif/ip10c.png"></p>
+<p>NATには色々なアドレス変換方法がありますが、NATやNAPTでは送信元アドレスの変換をさせるケースが
+多いです。その場合は、下図のとおり意識すべきは「内部ローカルアドレス」、「内部グローバルアドレス」
+「外部グローバルアドレス」の3つ。送信元アドレス変換では「外部ローカルアドレス」と「外部グローバル
+アドレス」の変換が行われないので、Cisco機器のステータスでもこれらには同じIPアドレスが表示されます。</p>
+<p><img alt="画像" src="../studygif/ip10d.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

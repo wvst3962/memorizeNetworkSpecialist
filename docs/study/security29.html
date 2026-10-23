@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Web Proxy Auto-Discovery Protocol | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wpadweb-proxy-auto-discovery-protocol">WPAD（Web Proxy Auto-Discovery Protocol）とは</a></li>
+<li><a href="#wpad">WPADの有効化</a></li>
+<li><a href="#pac-">PACファイルの指定 - 設定例</a></li>
+<li><a href="#web-pacwpad">Webブラウザのプロキシ設定 - PACファイルの指定とWPADプロトコルの使用の違い</a></li>
+<li><a href="#wpaddnsdns">WPADに関するDNSクエリがインターネット上のDNSサーバに送られる問題について</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="web-proxy-auto-discovery-protocol">Web Proxy Auto-Discovery Protocol</h1>
+<hr>
+<h2 id="wpadweb-proxy-auto-discovery-protocol">WPAD（Web Proxy Auto-Discovery Protocol）とは</h2>
+<p>WPADとは<strong class="memory-answer">Webブラウザのプロキシ設定を自動化するためのプロトコル</strong>のことです。以下の画面の通り
+自動構成で「設定を自動的に検出する」をチェックすることでWPADが有効化されます。有効になると
+<strong class="memory-answer">DHCPサーバやDNSサーバ</strong>と通信を行い、HTTPを利用しHTTPサーバから<strong class="memory-answer">PACファイル</strong>のダウンロード
+を試みます。PACファイル（ プロキシ自動設定ファイル ）は、JavaScriptで記述されたファイルです。
+※ PACファイルはWebブラウザの動作を指定する設定ファイルであり、Webブラウザが利用するプロキシサーバを指定します。</p>
+<h2 id="wpad">WPADの有効化</h2>
+<p><img alt="画像" src="../studygif/security29a.png"></p>
+<p>一台一台のクライアントPCのWebブラウザにプロキシ設定をする手間をなくす方法には、WPAD以外には
+<strong class="memory-answer">PACファイルのURLを直接指定</strong>する方法があります。ただし、この設定方法でも以下の設定画面のように
+Webブラウザに直接URLを指定する必要があるため、WPADの有効化がよりシンプルな方法だと言えます。</p>
+<h2 id="pac-">PACファイルの指定 - 設定例</h2>
+<p><img alt="画像" src="../studygif/security29b.png"></p>
+<p>WPADを有効化した場合、とてもシンプルにWebクライアント側のプロキシサーバの設定が行えますが、
+悪意あるDHCPサーバやDNSサーバが存在した場合、不正なPACファイルをダウンロードしてしまう脅威
+があることから、WPADを使用するネットワークはセキュアである必要があります。</p>
+<h2 id="web-pacwpad">Webブラウザのプロキシ設定 - PACファイルの指定とWPADプロトコルの使用の違い</h2>
+<table>
+<thead>
+<tr>
+<th>プロキシ設定</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PACファイルのURL指定</td>
+<td>PACファイルはJavaScriptで記述されたファイルです。PACファイルをWebサーバ上に置いて<br>このサーバのURLを全てのクライアントがWebブラウザに設定しておくことにより、自動的に<br>プロキシ設定を行う手法です。PACファイルの拡張子は「.pac」となります。<br>PACファイルの中身は、Webブラウザがアクセスする先のURLやIPアドレスの条件を基にして<br>大きく分類すると以下のどちらかの結果を返すJavaScriptで記述されたファイルとなっています。<br>・　アクセス先の情報に基づいて、指定したプロキシサーバを経由して通信する。<br>・　アクセス先の情報に基づいて、プロキシサーバを経由せずに直接通信する。</td>
+</tr>
+<tr>
+<td>WPADプロトコルの使用</td>
+<td>WPADでは、Webブラウザ自身がプロキシ設定用の<strong class="memory-answer">PACファイルのURLを自動的に検出</strong>して、<br>ダウンロードして設定をすることができます。この自動設定を実現するためには、DHCPサーバ<br>およびDNSサーバを利用します。WPADを使用する場合には<strong class="memory-answer">DHCPとDNSルックアップを通じて</strong><br><strong class="memory-answer">WebブラウザにPACファイルの場所を探させます</strong>。<br>・　DHCPサーバを利用：DHCPサーバのDHCP INFORMメッセージを使用して設定<br>・　DNSサーバを利用：「wpad」という名前のホストエントリをDNSサーバで用意<br>DHCP INFORMメッセージによるJavaScriptのURLの取得が失敗した場合、「wpad」という<br>名前のホストからhttpプロトコルを使用して「/wpad.dat」という名前の設定ファイルを取得<br>しようとすることから、例えば infraexpert.com ドメイン内のクライアントのWebブラウザは<br>http://wpad.infraexpert.com/wpad.dat を探索するようになります。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wpaddnsdns">WPADに関するDNSクエリがインターネット上のDNSサーバに送られる問題について</h2>
+<p>IPAとJPCERT/CCは、WPADに関するDNSクエリが社内ネットワークで解決されず、インターネット上の
+DNSサーバに送られる状況が観測されているとJVN（Japan Vulnerability Notes）で発表しました。
+一定の条件のもとで、WPADに関するDNSクエリがインターネット上のDNS サーバに送られてしまう場合
+悪意ある第三者によって中間者攻撃 (Man-In-The-Middle attack) を行う可能性があることから、以下の
+対策方法を紹介しています。</p>
+<p><img alt="画像" src="../studygif/security29c.png">
+Source：http://jvn.jp/ta/JVNTA91048063/</p>
+<p>ただし、会社で使用している社内PCを自宅に持ち帰り、インターネット接続するようなことをしなければ、
+このようなDNSクエリの漏れは発生しないことからも、上述のような問題が発生することは先ずありません。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

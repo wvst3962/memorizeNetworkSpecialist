@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Network Security | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ネットワークセキュリティとは</a></li>
+<li><a href="#_2">ネットワーク形態ごとのネットワークセキュリティ</a></li>
+<li><a href="#_3">オープンネットワークにおけるセキュリティ対策</a></li>
+<li><a href="#multi-factor-authentication">多要素認証（Multi-Factor Authentication）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="network-security">Network Security</h1>
+<hr>
+<h2 id="_1">ネットワークセキュリティとは</h2>
+<p><strong class="memory-answer">ネットワークセキュリティ</strong>とは、デジタルの情報資産を保護するための防衛策、コンピュータネットワーク
+における安全運用を維持するための防衛策のことです。ネットワークセキュリティを確保するためには外部
+からのクラッキングなどを防止したり、内部においては<strong class="memory-answer">データの不正な持ち出しを防止</strong>する必要があります。</p>
+<h2 id="_2">ネットワーク形態ごとのネットワークセキュリティ</h2>
+<p>ネットワークセキュリティの観点からネットワークの形態は大きく2つに分類することができます。1つは
+直接的または間接的にインターネットや外部と接続している<strong class="memory-answer">オープンネットワーク</strong>という形態。もう1つは
+物理的にも、論理的にも、完全に外部と接続をしていない<strong class="memory-answer">クローズドネットワーク</strong>という形態です。形態に
+よってセキュリティ対策の方法は大きくことなります。それではそれぞれの形態ごとの対策を紹介します。</p>
+<p>クローズドネットワークの場合は、そもそも不正利用者や産業スパイが入り込まなければ、無敵の安全性を
+実現したネットワークなのですが「 <strong class="memory-answer">内部のネットワークには必ず不正利用者がいる</strong> 」という前提で考える
+ことが大切です。不正利用者は、USBなどの持ち出し媒体などによる「データの不正な持ち出し」だけでは
+なく、例えばシステム管理者から話術や盗み聞きなどの社会的な手段によって、IDやパスワード情報を入手
+すること（<strong class="memory-answer">ソーシャルエンジニアリング</strong>）もあります。クローズドネットワークでは以下対策が効果的です。</p>
+<p>・　出入口の監視カメラの設置
+・　適切なアクセス権限の付与、定期的なIDとパスワードの変更
+・　USBなどの利用禁止、レジストリ制御
+・　厳格なシステム運用ルールの策定、講習によるソーシャルエンジニアリング対策</p>
+<p><img alt="画像" src="../studygif/securitya.png"></p>
+<p>ネットワークシステムでは<strong class="memory-answer">、IEEE802.1X認証（EAP-TLS）</strong>などを実装して不正端末の接続を行えないようにするのが一般的です。</p>
+<h2 id="_3">オープンネットワークにおけるセキュリティ対策</h2>
+<p>オープンネットワークでは、インターネットなどの外部接続を行っていることから、外部から不正アクセスを
+防止することが最も重要なセキュリティ対策となります。また、不正アクセスに対する情報漏洩だけでなくて
+例えば、Webサイトのデータ改ざんを防止したり、外部からのウィルス感染などを防止することも重要な対策。
+当然、クローズドネットワークのようなセキュリティ対策をオープンネットワークでも講じる必要があります。</p>
+<p><img alt="画像" src="../studygif/securityb.png"></p>
+<p>VPNによる外部からのアクセスをセキュアにするためには、<strong class="memory-answer">二要素認証</strong>の使用を検討する必要があります。</p>
+<h2 id="multi-factor-authentication">多要素認証（Multi-Factor Authentication）とは</h2>
+<p><strong class="memory-answer">多要素認証</strong>は、アクセス権限を得るために必要な本人確認のために、<strong class="memory-answer">2つ以上の要素で認証する方式</strong>です。
+多要素認証で使用される要素には大きく「 <strong class="memory-answer">知識情報</strong> 」「 <strong class="memory-answer">所持情報</strong> 」「 <strong class="memory-answer">生体情報</strong> 」の3種類があります。
+認証に必要な要素が2つだけの場合は<strong class="memory-answer">二要素認証</strong>とも呼ばれます。※ 二要素認証は多要素認証の一部です。</p>
+<table>
+<thead>
+<tr>
+<th>3要素</th>
+<th>説明</th>
+<th>認証方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知識情報</td>
+<td>認証のために知っている情報</td>
+<td>ID/パスワード、PIN番号、秘密の質問</td>
+</tr>
+<tr>
+<td>所持情報</td>
+<td>認証のために持っている情報</td>
+<td>スマートフォン、ICカード、USBトークン<br>ワンタイムパスワード、SMS認証、E-mail認証</td>
+</tr>
+<tr>
+<td>生体情報</td>
+<td>認証のための自身の身体的な情報</td>
+<td>指紋認証、顔認証、網膜認証、静脈認証</td>
+</tr>
+</tbody>
+</table>
+<p>二要素認証と二段階認証は意味が違います。<strong class="memory-answer">二段階認証</strong>は、1種類の要素の2つの方法を使用している場合の
+認証方式です。例えば、ID/パスワードを入力して認証した後、次に「秘密の質問」に応えて認証できた場合
+それは「知識情報」の2つの認証方法を使用しただけであるので、二要素認証ではなく二段階認証と言います。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

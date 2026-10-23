@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SSL Server Certificate | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ssl">SSLサーバ証明書とは</a></li>
+<li><a href="#ssl_1">SSL通信が行われているかの確認方法</a></li>
+<li><a href="#https">参考：HTTPSの通信</a></li>
+<li><a href="#ssl_2">SSLサーバ証明書の内容確認方法</a></li>
+<li><a href="#_1">ルート証明書を信頼できるかどうかの確認方法</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ssl-server-certificate">SSL Server Certificate</h1>
+<hr>
+<h2 id="ssl">SSLサーバ証明書とは</h2>
+<p>SSLサーバ証明書とは「<strong class="memory-answer">SSLによる暗号化通信</strong>」と「<strong class="memory-answer">Webサイトの運営者の身元証明</strong>」の2つの機能を
+あわせ持つ電子証明書のことです。発行された電子証明書はWebサーバにインストールして利用します。
+上記内容は、例えば、VeriSignの発行するSSLサーバ証明書の「企業認証型」における説明となります。</p>
+<p><img alt="画像" src="../studygif/sslserver1a.png"></p>
+<p>SSLサーバ証明書の機能は何かと問われ「 ?@SSLによる暗号化通信 」と即答できる人は多いかと
+思いますが、「?AWebサイトの運営者の身元を確認できる」と即答できる人は少ないかもしれない。</p>
+<p>例えば、自民党のWebサイトにアクセスすると、トップページの時点でSSL通信となりますが、これは
+?@だけでなく?Aも意識していることがよく分かります。一般的にはオンラインショッピングをする際や
+重要な個人情報を入力する際に、?@を意識してSSL通信（ https ）となるWebサイトは多いのですが、
+?Aを意識しているWebサイトはこのようにトップページの時点でSSL通信が行われるようにしています。</p>
+<h2 id="ssl_1">SSL通信が行われているかの確認方法</h2>
+<p>WebサーバにSSLサーバ証明書がインストールされていて、SSL暗号通信が行われているかどうかは
+以下の3つの項目によって確認することができます。なお、アドレスバーの緑色はSSLサーバ証明書の
+上位規格の<strong class="memory-answer">EV SSLサーバ証明書</strong>（厳格な証明書）をインストールされている時にそのようになります。</p>
+<p><img alt="画像" src="../studygif/sslserver1b.png"></p>
+<h2 id="https">参考：HTTPSの通信</h2>
+<p>Webブラウザで?@の通り「https」と指定すればSSL通信となりますが、?Aのように443とポート番号を指定
+しても、httpと指定していれば「ポート番号443を使用したHTTP通信」となります。基本を忘れないように。</p>
+<p>?@　https://www.sbisec.co.jp/　　　←　暗号化されたHTTPS通信
+?A　http://www.sbisec.co.jp:443/　 ←　ポート番号443を使用する暗号化されないHTTP通信</p>
+<h2 id="ssl_2">SSLサーバ証明書の内容確認方法</h2>
+<p>?@　アドレスバーの鍵マークをクリックすると以下の画面が表示されるので、そこで"証明書の表示"を選択。</p>
+<p><img alt="画像" src="../studygif/sslserver1c.png"></p>
+<p>?A　以下の画面が表示されるので、「詳細」を選択。</p>
+<p><img alt="画像" src="../studygif/sslserver1d.png"></p>
+<p>?B　以下の画面が表示されるので「サブジェクト」を選択。上図と下図の情報により、www.jimin.jp は
+VeriSginにより本物であることが証明されており、自由民主党の本物のWebサイトである事が分かります。</p>
+<p><img alt="画像" src="../studygif/sslserver1e.png"></p>
+<h2 id="_1">ルート証明書を信頼できるかどうかの確認方法</h2>
+<p>WebサーバにSSLサーバ証明書がインストールされていても、そのルート証明書が信頼できるかどうかは
+次の手順により確認することができます。ブラウザがIEの場合「ツール」⇒ 「インターネットオプション」
+⇒ 「コンテンツ」 ⇒ 「証明書」を選択します。</p>
+<p><img alt="画像" src="../studygif/sslserver1f.png"></p>
+<p>次に、以下の画面で「信頼されたルート証明機関」のタブを選択してそこで確認できます。ここに登録される
+ルート証明機関は第三者による厳正な定期監査にパスした機関だけです。※あらかじめブラウザに登録される。</p>
+<p><img alt="画像" src="../studygif/sslserver1g.png"></p>
+<p>ただし、信頼されたルート証明機関に登録されている場合は「鍵マーク」が表示されて信頼されたルート
+証明機関に登録がない場合はブラウザに以下メッセージが表示されることから、わざわざ信頼されたルート
+証明機関を自身のWebブラウザで確認する必要はありません。</p>
+<p>Webブラウザに出力されるメッセージ ⇒「 このWebサイトのセキュリティ証明書には問題があります。 」</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study44.html">SSL/TLS、SSLサーバ証明書、SSL-VPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

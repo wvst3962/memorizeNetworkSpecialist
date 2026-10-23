@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WPA 3 ( Wi-Fi Protected Access 3 ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wpa3">WPA3とは</a></li>
+<li><a href="#wpa3-">WPA3 - 新しいセキュリティ機能</a></li>
+<li><a href="#wpawpa2wpa3-">WPA、WPA2、WPA3 - 比較表</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wpa-3-wi-fi-protected-access-3">WPA 3 ( Wi-Fi Protected Access 3 )</h1>
+<hr>
+<h2 id="wpa3">WPA3とは</h2>
+<p>WPA3とは、Wi-Fi Allianceが定義したセキュリティ規格です。WPAには、WPA、WPA2、WPA3があり
+WPA3は2018年6月に発表された最新のセキュリティ規格です。WPA3は、WPA2の後継であることから
+WPA2と基本的な仕様は同じですが、WPA3ではパスワード保護機能や高度な暗号化プロトコルを用いる
+だけでなく、<strong class="memory-answer">PMF</strong>（Protected Management Frames）の使用を必須とし、より安全性の高い規格です。
+※　WPA2では、PMF（管理フレーム暗号化機能）の実装はオプション項目でした。</p>
+<p>WPA3には、WPAやWPA2同様に小規模ネットワーク向けのパーソナルモードである<strong class="memory-answer">WPA3-Personal</strong>と
+企業など大規模ネットワーク向けのエンタープライズモードである<strong class="memory-answer">WPA3-Enterprise</strong>の2種類があります。
+WPA3-Enterpriseは、IEEE802.1Xによる利用者認証及び動的に共有される暗号鍵を用いた暗号化通信を
+実装するための規格であり、企業のWi-Fiネットワークで実装することが推奨されています。</p>
+<table>
+<thead>
+<tr>
+<th>WPA3のモード</th>
+<th>別名</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WPA3-Personal</td>
+<td>WPA3-SAE</td>
+<td>個人などの小規模NW向けであり、パスワード認証を行うモード<br>SAEを利用して、より安全なパスワード認証をユーザに提供する</td>
+</tr>
+<tr>
+<td>WPA3-Enterprise</td>
+<td>WPA3-EAP</td>
+<td>企業などの大規模NW向けであり、IEEE802.1X認証を行うモード<br>暗号化強度を192ビットに引き上げることで、セキュリティを強化</td>
+</tr>
+</tbody>
+</table>
+<p>前提として、WPA3を実装させるためにはWPA3対応の無線端末が必要となります。WPA2とWPA3の
+互換性は以下の関係となっています。</p>
+<p>・　WPA3-PersonalとWPA2-Personalは互換性がありません。
+・　WPA3-EnterpriseとWPA2-Enterpriseは互換性があります。
+※　WPA3-Enterprise 192ビットを使用する場合には、WPA2-Enterpriseとの互換性がありません。</p>
+<h2 id="wpa3-">WPA3 - 新しいセキュリティ機能</h2>
+<p>WPA3では以下のようなセキュリティ機能により、データ保護が強化されています。</p>
+<p>1.　<strong class="memory-answer">SAEの新しいハンドシェイクによる保護</strong>
+WPA/WPA2で発見された脆弱性である「KRACKs」への対策として、WPA3では新しいハンドシェイク
+として、<strong class="memory-answer">SAE</strong>（Simultaneous Authentication of Equals）を実装しました。</p>
+<p>2.　<strong class="memory-answer">総当たり攻撃、辞書攻撃による保護</strong>
+WPA3では、誤ったパスワードを入力し一定回数のログインを失敗した場合にブロックする機能があり
+これにより、総当たり攻撃（ブルートフォースアタック）や辞書攻撃を防ぐことができます。</p>
+<p>3.　<strong class="memory-answer">WPA3-Enterpriseで192ビット暗号化を採用</strong>
+WPA3-Enterpriseでは、暗号化強度を128ビットから192ビットに引き上げることで、セキュリティが
+強化されることになりました。</p>
+<h2 id="wpawpa2wpa3-">WPA、WPA2、WPA3 - 比較表</h2>
+<table>
+<thead>
+<tr>
+<th>セキュリティ規格</th>
+<th>WPA</th>
+<th>WPA2</th>
+<th>WPA3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>規格策定の時期</td>
+<td>2002年10月</td>
+<td>2004年6月</td>
+<td>2018年6月</td>
+</tr>
+<tr>
+<td>暗号化方式</td>
+<td>TKIP</td>
+<td>CCMP</td>
+<td>CCMP</td>
+</tr>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>RC4</td>
+<td>AES</td>
+<td>AES<br>CNSA</td>
+</tr>
+<tr>
+<td>鍵長</td>
+<td>128 bit</td>
+<td>128 bit</td>
+<td>128bit<br>192bit</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>PSK<br>IEEE802.1X</td>
+<td>PSK<br>IEEE802.1X</td>
+<td>SAE<br>IEEE802.1X</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="wireless12.html">無線LAN - WPA</a>　<a href="wireless13.html">無線LAN - WPA2</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

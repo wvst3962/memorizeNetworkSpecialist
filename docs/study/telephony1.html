@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP Telephony - IP Phone &amp; VoIP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip-2">IPテレフォニー ： 2種類の方式</a></li>
+<li><a href="#ip-">IP電話の構成 - シグナリングプロトコルと音声パケット</a></li>
+<li><a href="#ip">IP電話の構成の特徴</a></li>
+<li><a href="#poepower-over-ethernet">PoE（Power over Ethernet）</a></li>
+<li><a href="#poe">PoE給電仕様</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-telephony-ip-phone-voip">IP Telephony - IP Phone &amp; VoIP</h1>
+<hr>
+<h2 id="ip-2">IPテレフォニー ： 2種類の方式</h2>
+<p>IPネットワークで行う電話通信のことを<strong class="memory-answer">IPテレフォニー</strong>と言います。IPテレフォニーには2種類の方式が
+あり、従来の電話機を使用する方式、IP電話機を使用する方式です。それぞれの違いと仕組みは以下の通り。</p>
+<table>
+<thead>
+<tr>
+<th>IPテレフォニー2種類の方式</th>
+<th>使用する機器構成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>従来の電話機を使用する方式</td>
+<td>従来の電話機、従来のPBX、音声ゲートウェイで構成。音声ゲートウェイが音声をIP化する。</td>
+</tr>
+<tr>
+<td>IP電話を使用する方式</td>
+<td>IP電話、IP-PBX、音声ゲートウェイで構成。IP電話と音声ゲートウェイが音声をIP化する。</td>
+</tr>
+</tbody>
+</table>
+<p>PBX (Private Branch eXchange) ： 企業で導入される構内電話交換機。内線電話同士の接続、公衆回線への電話接続を行います。</p>
+<p><img alt="画像" src="../studygif/telephony1a.png"></p>
+<p>VoIPやIP電話を使用しない従来の電話システムでは、例えば、東京⇔大阪の社内の内線通話が発生すると
+通話料金が発生していました。しかし、音声をIP化することで、拠点間の通話はIPパケットとして拠点間の
+WANで流れるので通話料金は発生しません。拠点間の<strong class="memory-answer">内線通話の無料化</strong>は、音声のIP化の最大のメリット。
+現在のIPテレフォニーの主流はIP電話を使用した構成。システム統合によるコスト削減のメリットが大きい。</p>
+<h2 id="ip-">IP電話の構成 - シグナリングプロトコルと音声パケット</h2>
+<p>音声通話は受話器を上げた後、ダイヤルして発信して、着信して相手が受話器を上げた後に開始されます。
+音声通話前の一連のやりとりのことを<strong class="memory-answer">シグナリング</strong>（呼制御）と言います。シグナリングプロトコルには、
+<strong class="memory-answer">SIP</strong>、<strong class="memory-answer">H.323</strong>、<strong class="memory-answer">MGCP</strong>などがあり、IP電話とIP-PBX（呼制御サーバ）とでやり取りされます。シグナリング
+制御の後、IP電話同士で<strong class="memory-answer">RTP</strong>というプロトコルにより音声パケットがやりとりされて音声通話が実現します。</p>
+<p><img alt="画像" src="../studygif/telephony1b.png"></p>
+<table>
+<thead>
+<tr>
+<th>シグナリング<br>プロトコル</th>
+<th>H.323</th>
+<th>MGCP</th>
+<th>SIP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標準化団体</td>
+<td>ITU-T</td>
+<td>IETF</td>
+<td>IETF</td>
+</tr>
+<tr>
+<td>標準化時期<br>（最新版）</td>
+<td>1996年（2000年）</td>
+<td>1999年（2003年）</td>
+<td>1999年（2002年）</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>音声、画像のマルチメディア<br>通信を目的として策定</td>
+<td>キャリアがIP網で電話サービスを<br>提供する際に使うことを目的として策定</td>
+<td>Client⇔Server間で通信セッションを<br>開始するためのプロトコルとして策定</td>
+</tr>
+<tr>
+<td>データ形式</td>
+<td>バイナリ</td>
+<td>テキスト</td>
+<td>テキスト</td>
+</tr>
+<tr>
+<td>通信方式</td>
+<td>ピアツーピア</td>
+<td>マスター、スレーブ</td>
+<td>ピアーツーピア</td>
+</tr>
+<tr>
+<td>メリット</td>
+<td>標準化が早く、実装製品が多い</td>
+<td>異メーカー機器でも相互接続性が高い</td>
+<td>製品への実装が容易。将来性が高い</td>
+</tr>
+<tr>
+<td>デメリット</td>
+<td>呼制御手順が複雑、拡張性が低い</td>
+<td>拡張性が低い</td>
+<td>拡張使用の標準化が遅れている</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ip">IP電話の構成の特徴</h2>
+<p>従来の電話機では、社内LANネットワークは別に、電話機には例えば<strong class="memory-answer">RJ11のケーブル</strong>と<strong class="memory-answer">電源</strong>が必要でした。
+一方、IP電話機では社内LANネットワークがあれば、IP電話をLANケーブルに接続して電話通信を行うこと
+が可能であり、LANスイッチが「<strong class="memory-answer">PoEスイッチ</strong>」であればUTPケーブルから電源供給することが可能であり、
+IP電話機のための電源は必要ありません。IP電話機にはスイッチと接続するポートだけではなく、PCと接続
+するポートも有しており、IP電話機にPCを接続すれば1つのスイッチポートにIP電話とPCが接続可能です。</p>
+<p><img alt="画像" src="../studygif/telephony1c.png"></p>
+<p>上図の構成の場合、IP電話機とPoEスイッチ間を802.1Qトランク（タグVLAN）接続して、例えば
+PC用のVLANにVLAN10、IP電話機用のVLANにVLAN20として、VLANを分離させるのが一般的です。</p>
+<h2 id="poepower-over-ethernet">PoE（Power over Ethernet）</h2>
+<p>PoEとは、カテゴリ5以上のUTPケーブル上で電力供給する技術です。電力供給が困難な場所に設置された
+無線LANアクセスポイント、IP電話、Webカメラなどへの電源供給等でよく使用される技術。PoEの給電
+仕様は以下の通りです。例えばクラス3のIP電話機に電源供給したい場合、1ポートで15.4Wの電力供給が
+可能なPoEスイッチを選定する必要があります。PoEスイッチの選定前に受電デバイスの必要電力の確認を！</p>
+<h2 id="poe">PoE給電仕様</h2>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>給電機器（PSE）の電力</th>
+<th>規格</th>
+<th>通称</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>15.4W</td>
+<td>IEEE802.3af</td>
+<td>デフォルト</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4.0W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7.0W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>3</td>
+<td>15.4W</td>
+<td>IEEE802.3af</td>
+<td>タイプ1</td>
+<td>PoE</td>
+</tr>
+<tr>
+<td>4</td>
+<td>30.0W</td>
+<td>IEEE802.3at</td>
+<td>タイプ2</td>
+<td>PoE+</td>
+</tr>
+<tr>
+<td>5</td>
+<td>45.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ3</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>6</td>
+<td>60.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ3</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>7</td>
+<td>75.0W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ4</td>
+<td>PoE++</td>
+</tr>
+<tr>
+<td>8</td>
+<td>90W-99W</td>
+<td>IEEE802.3bt</td>
+<td>タイプ4</td>
+<td>PoE++</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study36.html">IP電話とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

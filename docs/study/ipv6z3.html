@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - unicast address | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6-3">IPv6アドレス - 3つのタイプ</a></li>
+<li><a href="#ipv6-3_1">IPv6 - 3つのスコープ</a></li>
+<li><a href="#ipv6-3_2">IPv6 - 3種類のユニキャストアドレス</a></li>
+<li><a href="#ipv6-">IPv6 - まとめ</a></li>
+<li><a href="#_1">参考</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-unicast-address">IPv6 - unicast address</h1>
+<hr>
+<h2 id="ipv6-3">IPv6アドレス - 3つのタイプ</h2>
+<p>IPv6アドレスは<strong class="memory-answer">ユニキャストアドレス</strong>、<strong class="memory-answer">マルチキャストアドレス</strong>、<strong class="memory-answer">エニーキャストアドレス</strong>の大きく3つ
+に分類されますが、今回はそのうちの「ユニキャストアドレス」にフォーカスを当てて解説していきます。</p>
+<table>
+<thead>
+<tr>
+<th>IPv6アドレスのタイプ</th>
+<th>通信対象</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユニキャストアドレス</td>
+<td>1対1</td>
+<td>IPv4のユニキャストと同じように、1対1の通信で利用されるアドレス。<br>このアドレスを使用し、１つのインターフェースを特定することができる。</td>
+</tr>
+<tr>
+<td>マルチキャストアドレス</td>
+<td>1対グループ</td>
+<td>IPv4のマルチキャストと同じく、1対グループの通信で利用されるアドレス。<br>マルチキャストは複数のインターフェースに割り当てることのできるアドレス。<br>IPv6ではブロードキャストアドレスが存在しないためマルチキャストアドレス<br>の一部を同様の用途に割り振ることで、ブロードキャストと同等機能を実現。</td>
+</tr>
+<tr>
+<td>エニーキャストアドレス</td>
+<td>1対グループ内の1つ</td>
+<td>IPv4にはないアドレス。マルチキャストと同じくグループ宛ての通信となるが<br>グループに属する1つのインターフェースにパケットが到達すると、それ以上は<br>配送されない。つまりグループで最も近いデバイスとだけ通信するようになる。<br>エニーキャストは複数のインターフェースに割り当てることのできるアドレス。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ipv6-3_1">IPv6 - 3つのスコープ</h2>
+<p>IPv6ではパケットの到達範囲（スコープ）がリンクローカル、ユニークローカル、グローバルの3つあります。</p>
+<table>
+<thead>
+<tr>
+<th>スコープの種類</th>
+<th>スコープ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>リンクローカル</td>
+<td>同一セグメント</td>
+<td>同一セグメント上の端末と通信する場合に使用するアドレス。リンクローカル<br>アドレス宛てのパケットはルーティングされない。つまりルータを超えられない。</td>
+</tr>
+<tr>
+<td>ユニークローカル</td>
+<td>組織内<br>ネットワーク</td>
+<td>IPv4のプライベートアドレスに相当する。異なるセグメント上の端末と通信<br>できるが組織内ネットワークでのみ有効なアドレス。</td>
+</tr>
+<tr>
+<td>グローバル</td>
+<td>グローバル<br>ネットワーク</td>
+<td>IPv4のグローバルアドレスに相当する。全てのIPv6ネットワークで一意となる。<br>ローカル、組織内、インターネット等スコープの制限はなくどこでも利用可能。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipv6z3a.png"></p>
+<p>つまり、ユニキャストアドレスと一口にいっても、スコープにより以下の3種類のアドレスが存在します。</p>
+<p>?@　グローバルユニキャストアドレス
+?A　ユニークローカルアドレス（ユニークローカルユニキャストアドレス）
+?B　リンクローカルアドレス（リンクローカルユニキャストアドレス）</p>
+<p>※　組織内ネットワークで使用される「サイトローカルアドレス」は廃止されました。RFC3879。</p>
+<h2 id="ipv6-3_2">IPv6 - 3種類のユニキャストアドレス</h2>
+<p>?@　グローバルユニキャストアドレス
+グローバルユニキャストアドレスは、IPv4のグローバルアドレスと同様にIANAが管理しているアドレスです。
+現在IANAが解放しているグローバルユニキャストアドレスは、先頭3ビットが「<strong class="memory-answer">001</strong>」から始まるアドレスで
+「 <strong class="memory-answer">2000：：/3</strong> 」と表記することができます。また、用途別に「/16」で以下の通り分類できます。</p>
+<p>・　「 2001：：/16 」 ⇒ IPv6インターネット用アドレス
+・　「 2002：：/16 」 ⇒ 6to4用アドレス
+・　「 2003：：/16 ～ 3FFD：：/16 」 ⇒ 現在、未割り当て</p>
+<p>グローバルユニキャストアドレスはISPから割り当てられるグローバルルーティングプレフィックス、組織で
+サブネットを識別するために割り当てる<strong class="memory-answer">サブネットID</strong>、ホストの<strong class="memory-answer">インタフェースID</strong>の3つのフィールドで構成。</p>
+<p><img alt="画像" src="../studygif/ipv6z3b.png"></p>
+<p>?A　ユニークローカルアドレス
+ユニークローカルアドレスはIPv4でいえばプライベートIPアドレスです。アドレスブロックは「FC00::/7」の
+IPv6アドレスですが、正確には以下の2つの「/8」のグループに分類することができます。</p>
+<p>・　FC00::/8　将来の定義用
+・　FD00::/8　アドレス中のグローバル識別子部分をランダムな値としていつでも誰でも利用可能なアドレス</p>
+<p><img alt="画像" src="../studygif/ipv6z3c.png"></p>
+<p>?B　リンクローカルアドレス
+リンクローカルアドレスは、同一セグメント上で使用するアドレスです。リンクローカルアドレスは、必ず
+各インターフェースで必要なアドレスですが、<strong class="memory-answer">IPv6が有効なインターフェースでは自動的に割り当てられます。</strong>
+先頭の10ビットが「1111 1110 10」から始まります。これを16進数で表記すると「FE80：：/10」ですが、
+続いてのフィールド 54bit が全て 0 なので、リンクローカルアドレスといえば「<strong class="memory-answer">FE80：：/64</strong>」となります。</p>
+<p><img alt="画像" src="../studygif/ipv6z3d.png"></p>
+<p>IPv6では、IPv4のサブネッティングのように<strong class="memory-answer">ホスト部のビットを使用することなく</strong>、<strong class="memory-answer">インターフェースIDは必ず64ビット</strong>あります。</p>
+<h2 id="ipv6-">IPv6 - まとめ</h2>
+<p><img alt="画像" src="../studygif/ipv6z3e.png"></p>
+<h2 id="_1">参考</h2>
+<p>IPv6アドレスの3種類のユニキャストアドレスとして、グローバル、ユニークローカル、リンクローカル
+アドレスを解説しましたが、以前に「サイトローカルアドレス」と呼ばれるユニキャストアドレスが定義
+されていました。サイトローカルアドレスではRFC1918で定義されているIPv4のプライベートアドレスと
+同じ問題を持つことが懸念されたことから、新しいローカルアドレスとしてユニークローカルアドレスが
+定義されることになりました。</p>
+<p><img alt="画像" src="../studygif/ipv6z3f.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

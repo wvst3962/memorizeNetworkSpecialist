@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>FTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ftp_1">FTPとは</a></li>
+<li><a href="#ftp2tcp">FTPの2つのTCPコネクション</a></li>
+<li><a href="#ftp-">FTPの仕組み - アクティブモードの場合</a></li>
+<li><a href="#ftp_2">FTPのアクティブモードとパッシブモード</a></li>
+<li><a href="#ftpportpasv">FTPのアクティブモードで使用するPORTコマンド、パッシブモードで使用するPASVコマンド</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ftp">FTP</h1>
+<hr>
+<h2 id="ftp_1">FTPとは</h2>
+<p>FTP (File Transfer Protocol) は、特定のコンピュータ間でファイル転送する時に使用するアプリケーション
+層のプロトコルです。Telnet/SSHと同様、相手先コンピュータにログインした上でファイル転送を行います。
+FTPを利用すればファイルをFTPサーバにアップロードしたり、FTPサーバからダウンロードしたりできます。
+FTPでは、ログインする際にやりとりするユーザ名とパスワード情報は、暗号化されずにそのまま送信される
+のでセキュアなFTP通信を行いたい場合、<strong class="memory-answer">FTPS</strong>（FTP over SSL/TLS）や、<strong class="memory-answer">SFTP</strong>（SSH FTP）を使用します。</p>
+<h2 id="ftp2tcp">FTPの2つのTCPコネクション</h2>
+<p>FTP通信では2つのTCPコネクションを利用しています。1つは<strong class="memory-answer">制御用</strong>、もう1つは<strong class="memory-answer">データの転送用</strong>となります。
+制御用コネクションは<strong class="memory-answer">コントロールコネクション</strong>、データ転送用コネクションは<strong class="memory-answer">データコネクション</strong>といい、
+コントロールコネクションは、ログインするためのユーザ名やパスワード情報やファイルの転送方法などの
+命令と応答などのために使用され、データコネクションは転送されるデータの送受信のために使用されます。</p>
+<p><img alt="画像" src="../studygif/tcpip20a.png"></p>
+<p>FTPクライアントがFTPサーバにアクセスする際、データコネクションの場合は宛先ポート番号<strong class="memory-answer">20</strong>を使用して
+FTPクライアントがFTPサーバにアクセスする際、コントロールコネクションでは、宛先ポート番号<strong class="memory-answer">21</strong>を使用。
+これはFTPのアクティブモードにおける内容であり、パッシブモードではデータコネクションのポート番号は
+20ではなくて、ランダムなポート番号が割り当てられその情報がFTPクライアントにその情報が伝えられます。</p>
+<h2 id="ftp-">FTPの仕組み - アクティブモードの場合</h2>
+<p>PCからのFTPは、コマンドプロンプト上から「 ftp 192.168.0.5 」というようにIPアドレスを入力するか
+「ftp www.example.com」というようにドメイン名を入力します。またはFTPクライアントソフトを利用。</p>
+<p>TCPコネクション確立後、ユーザ名とパスワードが求められるので入力します。認証成功後、ファイル転送
+時にどのようなモード（アスキーモード or バイナリモード）でファイル転送を行い、データコネクションの
+際にFTPクライアントでポート番号を何番を使用するかなどの情報をやりとりした後、ファイル転送を要求。</p>
+<p><img alt="画像" src="../studygif/tcpip20b.png"></p>
+<p>?DのFTPクライアントからのファイル転送の要求に対して、?EでFTPサーバからデータコネクションの接続を
+開始します。この時はポート番号21ではなくて20を使用してアクセスします。また、データコネクションで
+FTPサーバから接続要求を行うモードは<strong class="memory-answer">アクティブモード</strong>、FTPクライアントから接続要求を行うモードは
+<strong class="memory-answer">パッシブモード</strong>といいます。アクティブモードかパッシブモードを使用するかはFTPクライアントで設定する。
+データ転送が終了すると再びコントロールコネクションで処理の終了の制御を行って、FTP接続は終了します。</p>
+<h2 id="ftp_2">FTPのアクティブモードとパッシブモード</h2>
+<p>FTPのアクティブモードとパッシブモードの違いは、下図の通りデータコネクションにてどちらが接続要求を
+開始するかです。FTPサーバから開始する場合はアクティブモードです。FTPクライアントから開始する場合
+FTPパッシブモード。コントロールコネクションは、どちらのモードでもクライアントから接続要求をします。</p>
+<p><img alt="画像" src="../studygif/tcpip20c.png"></p>
+<p>アクティブモードの場合、コントロールコネクションのやりとりでFTPクライアントが自身が使用するポート
+番号をFTPサーバに通知するので、FTPサーバから接続要求を開始できます。同様に、パッシブモードの場合
+コントロールコネクションのやりとりで、FTPクライアントへFTPサーバで使用するランダムなポート番号の
+情報を通知する事から、データコネクションにおいてFTPクライアントから接続要求を開始する事ができます。</p>
+<p>FTPサーバがインターネットなどの外部にいる場合、外部からの接続要求の開始はFirewallのセキュリティ
+ポリシーで許可されない場合があるのでその時は内部から接続要求を開始する<strong class="memory-answer">パッシブモードを使用</strong>します。
+ステートフルインスペクション機能のFirewallではアプリ層まで確認することから、アクティブモードでの
+外部からの接続要求の開始も許可されますが、TCPのセッションを張る方向がコントロールコネクションと
+データコネクションで同じとなるパッシブモードの方が、Firewallやロードバランサーと相性がよいことから
+一般的には<strong class="memory-answer">パッシブモードの使用が推奨</strong>されます。</p>
+<h2 id="ftpportpasv">FTPのアクティブモードで使用するPORTコマンド、パッシブモードで使用するPASVコマンド</h2>
+<p>FTPのアクティブモードでは、<strong class="memory-answer">PORTコマンド</strong>によりFTPクライアント側で待ち受けているTCPポート番号が
+FTPサーバに伝えられ、FTPサーバがそのポート番号に対しデータコネクション用のセッションを開始します。</p>
+<p>パッシブモードでは、FTPクライアントからの<strong class="memory-answer">PASVコマンド</strong>の応答として、FTPサーバがクライアントに
+FTPサーバが使用するデータコネクション用の待ち受けポート番号を伝え、FTPクライアントがそのポート
+番号に対しデータコネクション用のセッションを開始します。</p>
+<p>つまり、FTPを使ったファイル転送でクライアントが使用するコマンドのうち、データ転送用のコネクション
+をクライアント側から接続するためにサーバ側のデータ転送ポートを要求するコマンドは PASV と分かります。</p>
+<hr>
+<p>← <a href="tcpip19.html">telnet / SSHとは</a>　<a href="tcpip21.html">SNMPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

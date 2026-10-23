@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>TCP three-way handshaking | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#tcp-">TCP - コネクションの確立と切断</a></li>
+<li><a href="#tcp-3mss">TCP - 3ウェイハンドシェイクの際に伝えられる「MSS」について</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="tcp-three-way-handshaking">TCP three-way handshaking</h1>
+<hr>
+<h2 id="tcp-">TCP - コネクションの確立と切断</h2>
+<p>TCPはコネクション型プロトコル（通信相手の応答があってはじめて通信を開始する）であることから、
+データ転送を行う前にコネクションの確立を行います。このTCPにおいて使用されるコネクションの確立
+のことを<strong class="memory-answer">3ウェイハンドシェイク</strong>といいます。以下の手順の通り “3回のやりとり" によって確立されます。</p>
+<p><img alt="画像" src="../studygif/tcpip9a.png"></p>
+<p>?@　ホストAからホストBにコネクション確立の要求をします。つまり、TCPヘッダの中にあるSYNビットは
+「1」でありACKビットが「0」であると分かります。シーケンス番号は最初だけはランダムな値が割り当て
+られます。今回は例として「0」とします。確認応答番号(いわゆるACK番号）は通信の開始にはありません。</p>
+<p>?A　ホストBはホストAのコネクション要求に応えます。そしてホストBからもコネクション確立を要求します。
+つまりSYNは「1」ACKは「1」であることが分かります。シーケンス番号は最初だけランダムな値が割り当て
+られます。例えば「0」として、確認応答番号は「相手から受信したシーケンス番号」＋「データサイズの値」
+ですが、3ウェイハンドシェイクでは「相手から受信したシーケンス番号」に「１」を加算した値となります。</p>
+<p>?B　ホストAもホストBからのコネクション要求に応えます。SYNは「0」、ACKは「1」であると分かります。
+シーケンス番号は「相手から受信した確認応答番号」なので「1」となり、確認応答番号は?Aと同じ考え方な
+ので「相手から受信したシーケンス番号」に「1」を加算した値となります。つまり、今回の場合は「1」です。</p>
+<p>次に、3ウェイハンドシェイクにより確立したコネクション上でデータをやりとりする時の流れを見てみます。</p>
+<p><img alt="画像" src="../studygif/tcpip9b.png"></p>
+<p>?C　ホストAからホストBに例えば100byteのデータを送ります。データ転送では、3ウェイハンドシェイク後
+のシーケンス番号と確認応答番号の値が引き続き使用します。従って、上図の?Cのとおり両方とも「1」です。</p>
+<p>?D　今度はホストBからホストAに例えば1300byteのデータを送ります。シーケンス番号は、「相手から受信
+した確認応答番号」を使用するので「1」となります。確認応答番号は「相手から受信したシーケンス番号」
+にデータサイズを加えた値なので「101」となります。?Eと?Fも同じ考え方なので上図で記した値となります。</p>
+<hr>
+<p>最後に、データのやりとりが完了してから通信を終了（コネクションの切断）する時のやりとりを見てみます。
+コネクションの接続は “3回"のやりとりでしたが、コネクションの切断は "4回" のやりとりが必要となります。</p>
+<p><img alt="画像" src="../studygif/tcpip9c.png"></p>
+<p>?G　ホストBからホストAへのデータ送信が完了したので、ホストBはコネクションの切断要求を送信します。
+従ってFINビットが「1」となります。今回は、?FでホストBからAへデータを送信した後、さらに連続して
+ホストBからAへパケットを送信しています。この場合のシーケンス番号は「直前の自分のシーケンス番号」+
+「自分が送信したデータサイズ」となります。シーケンス番号は「2601」。確認応答番号はそのまま「301」。</p>
+<p>?H　FINを受信したホストAはコネクションの切断要求への確認応答をします。「ACK」や「FIN」は上図通り。
+シーケンス番号は「相手から受信した確認応答番号」だから「301」となり、確認応答番号は、今回のように
+FINへの確認応答の場合「相手から受信したシーケンス番号」に「１」を加算します。つまり「2602」となる。</p>
+<p>?I　ホストAもコネクションの切断要求を送信します。この場合、シーケンス番号と確認応答番号はそのまま。</p>
+<p>?J　FINを受信したホストBはコネクションの切断要求への確認応答をします。シーケンス番号は「相手から
+受信した確認応答番号」だから「2602」となり、確認応答番号は、今回のように FIN への応答確認の場合は
+「相手から受信したシーケンス番号」に「1」を加算して「302」となります。TCPコネクションが正常に終了。</p>
+<h2 id="tcp-3mss">TCP - 3ウェイハンドシェイクの際に伝えられる「MSS」について</h2>
+<p>3ウェイハンドシェイク時に伝えられる情報の１つとして、TCPヘッダのオプションにある「MSS」があります。
+MSS（Maximum Segment Size）は、1つのTCPパケットで運ぶことができるデータ量のことを指しています。
+一般的なTCP/IP環境での最大サイズのEthernetフレーム(1518byte)では、MSSは「1460バイト」になります。
+従ってホストAからホストBに14600バイトのTCPデータを送信したい場合、10回のTCPパケットを送出します。</p>
+<p><img alt="画像" src="../studygif/tcpip9d.png"></p>
+<p>MSSは、3ウェイハンドシェイクの際のSYNパケットで双方向に伝えられて、両者の値のうち小さい値が採用
+されて双方向通信の際に使用されます。例えばホストAがMSSを「1460」と通知し、ホストBはMSSを「2000」
+と通知するとします。その場合、ホストAとBとの通信で使用するMSSは「1460」となり双方向通信をします。</p>
+<hr>
+<p>← <a href="tcpip8.html">TCP - TCPヘッダ</a>　<a href="tcpip10.html">TCP - 順序制御、再送制御</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>GARP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#garp_1">GARPとは</a></li>
+<li><a href="#garp-1">GARPの役割 - その1</a></li>
+<li><a href="#garp-2">GARPの役割 - その2</a></li>
+<li><a href="#arprarpgarp">ARP、RARP、GARPの違い</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="garp">GARP</h1>
+<hr>
+<h2 id="garp_1">GARPとは</h2>
+<p>GARP（Gratuitous ARP）はARPパケットの1つであり、以下の2つの役割を持っているプロトコルです。</p>
+<p>?@　自分自身に設定する<strong class="memory-answer">IPアドレスが重複していないかどうかを検出</strong>
+?A　同一セグメントのネットワーク機器上の<strong class="memory-answer">ARPキャッシュを更新</strong>させる</p>
+<p>GARPとは、自分自身に設定するIPアドレスに対するARPのことです。通常のARPでは宛先のIPアドレスに
+対して宛先のMACアドレスを得ようとしますが、GARPでは自身のIPアドレスに対して自身のMACアドレス
+を得ようとします。自身のMACアドレスは知っているはずなのに、なぜ、自身のIPアドレスに対してARPを
+行うのかは、上記の2つの役割を実現するためです。では、その2つの役割を以降で詳細に解説していきます。</p>
+<h2 id="garp-1">GARPの役割 - その1</h2>
+<p>GARPにより、自分自身にIPアドレスがアサインされる際に他のホストが同じIPアドレスを使用していないか
+どうかを確認することができます。以下の?@～?Bの流れとなります。Windows Server 2012 や Windows 8
+以降では、デフォルトの動作でアドレス重複確認のためのARPとGARPを送信します。</p>
+<p><img alt="画像" src="../studygif/tcpip3.5a.png"></p>
+<p>Windows Server 2008R2、Windows 7では修正プログラム（KB2811463）を適用することでアドレス
+重複確認のためのARPに加えて、SPAに自身のIPアドレスをセットしたGARPも送信するようになります。</p>
+<h2 id="garp-2">GARPの役割 - その2</h2>
+<p>GARPには、アドレス重複の検出の役割だけでなくもう1つの役割があります。GARPは、同じセグメントの
+ネットワーク機器上のARPキャッシュを更新することによって、VRRPやHSRPなどで切り替わりが発生した
+機器とすぐに通信できるようにするためにも使用されます。</p>
+<p><img alt="画像" src="../studygif/tcpip3.5b.png"></p>
+<h2 id="arprarpgarp">ARP、RARP、GARPの違い</h2>
+<table>
+<thead>
+<tr>
+<th>ARP / RARP/ GARP</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARP</td>
+<td>・　相手のIPアドレスからMACアドレスを得るためのプロトコル</td>
+</tr>
+<tr>
+<td>RARP</td>
+<td>・　MACアドレスから自身のIPアドレスを得るためのプロトコル</td>
+</tr>
+<tr>
+<td>GARP</td>
+<td>・　自身のIPアドレスが重複していないかどうかを検出するプロトコル<br>・　同一セグメントのネットワーク機器上のARPキャッシュを更新させるプロトコル</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="tcpip1.html">IPとは</a>　<a href="tcpip3.html">ARPテーブル、ARPキャッシュ</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

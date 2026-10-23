@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VLAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vlan_1">VLANとは</a></li>
+<li><a href="#vlan_2">VLANの特徴</a></li>
+<li><a href="#cisco-catalyst">Cisco Catalystスイッチの用語</a></li>
+<li><a href="#ip">スイッチのIPアドレス割り当て設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vlan">VLAN</h1>
+<hr>
+<h2 id="vlan_1">VLANとは</h2>
+<p>VLAN（ Virtual LAN ）とは、物理的な接続形態とは独立して、<strong class="memory-answer">仮想的なLANセグメントを作る技術</strong>です。
+VLANはスイッチ内部で論理的にLANセグメントを分割するために使用されます。VLANを使用することで
+ルータやL3スイッチと同じようにL2スイッチでも<strong class="memory-answer">ブロードキャストドメインの分割</strong>を行うことができます。</p>
+<p><img alt="画像" src="../studygif/vlanz1a.png"></p>
+<p>スイッチのポートにVLANの識別番号となる<strong class="memory-answer">VLAN ID</strong>を設定することで、その番号ごとにブロードキャストドメインを分割できます。</p>
+<h2 id="vlan_2">VLANの特徴</h2>
+<p>1.　ブロードキャストドメインの分割
+ホストAとBが通信するために、ホストAはARPリクエストをブロードキャストする必要があります。結果、
+左下図の通り、そのブロードキャストはホストBだけでなくC、Dも受け取ります。しかし、VLANにより
+ブロードキャストドメインを分割することで、右下図の通り、ホストAからのブロードキャストはBだけが
+受信するようになり、無駄な受信フレームが減ることで、各ホストの無駄なCPU処理などを軽減できます。</p>
+<p><img alt="画像" src="../studygif/vlanz1b.png"></p>
+<p>2.　物理配置にとらわれないセグメント化
+VLANは複数のスイッチにまたがり設定することが可能で、これにより異なるフロアーのスイッチ間の
+接続でもブロードキャストを分割できます。下図では、10F営業部からのトラフィックは、15F営業部
+だけに転送されて、10F技術部からのトラフィックは15F技術部だけに転送されます。また、部署変更や
+部署移動が発生してもスイッチポートに設定したVLAN IDを変更するだけで柔軟にセグメント化が可能。</p>
+<p><img alt="画像" src="../studygif/vlanz1c.png"></p>
+<p>3.　セキュリティの向上
+VLANを設定すると同じVLAN IDのポートにのみブロードキャストが転送され、異なるVLAN IDのポートに
+転送されません。下図ではVLAN10のスイッチポートに接続したホストとVLAN20に接続したホストに同じ
+セグメント192.168.1.0/24のIPアドレスを設定しています。しかし、営業部からのPCのブロードキャスト
+トラフィックは技術部には転送されないので、同じセグメントのIPアドレスでもVLAN IDが異なるので通信
+できません。このようにVLAN ID単位でトラフィックを分離することができるのでNWセキュリティが向上。</p>
+<p><img alt="画像" src="../studygif/vlanz1d.png"></p>
+<h2 id="cisco-catalyst">Cisco Catalystスイッチの用語</h2>
+<p>1.　デフォルトVLANとは</p>
+<p>Catalystスイッチは、工場出荷時のデフォルト状態では全てのスイッチポートで<strong class="memory-answer">VLAN 1</strong>が設定されています。
+CatalystスイッチのVLAN 1は<strong class="memory-answer">デフォルトVLAN</strong>と呼ばれています。各ポートにVLAN 1が設定されていますが
+全ポートで同じVLAN IDが割り当てられているため初期状態では1つのブロードキャストドメインとなります。</p>
+<p><img alt="画像" src="../studygif/vlanz1e.png"></p>
+<p>※　Catalystスイッチでは、VLAN 1 以外にデフォルトで（初期状態で）以下のVLAN IDが作成されています。
+・　VLAN 1002 ・・・ fddi-default
+・　VLAN 1003 ・・・ token-ring-default
+・　VLAN 1004 ・・・ fddinet-default
+・　VLAN 1005 ・・・ trnet-default</p>
+<p>2.　管理VLANとは</p>
+<p><strong class="memory-answer">管理VLAN</strong>とは、Catalystスイッチを管理するための管理用トラフィックを流すVLANのこと。デフォルトで
+<strong class="memory-answer">VLAN 1</strong>が管理VLANに設定されています。管理VLAN用に用意された<strong class="memory-answer">管理インターフェース</strong>にIPアドレスを
+割り当てることにより、Catalystスイッチに対しtelnetアクセスしたりSNMPにより監視することができます。</p>
+<p><img alt="画像" src="../studygif/vlanz1f.png"></p>
+<h2 id="ip">スイッチのIPアドレス割り当て設定</h2>
+<p>(config)# <strong class="memory-answer">interface vlan</strong> vlan-id
+(config-if)# <strong class="memory-answer">ip address</strong> ip-address subnet-mask
+(config-if)# <strong class="memory-answer">no shutdown</strong></p>
+<table>
+<thead>
+<tr>
+<th>コマンド引数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vlan-id</td>
+<td>管理VLANのIDを指定</td>
+</tr>
+<tr>
+<td>ip-address</td>
+<td>IPアドレスを指定</td>
+</tr>
+<tr>
+<td>subnet-mask</td>
+<td>サブネットマスクを指定</td>
+</tr>
+</tbody>
+</table>
+<p>※　管理VLANはスイッチで１つだけ存在するVLANですが、この管理VLANはVLAN 1から他のVLAN IDに変更することが可能。</p>
+<p><img alt="画像" src="../studygif/vlanz1g.png"></p>
+<hr>
+<p><a href="vlanz2.html">VLAN - アクセスポートとトランクポート（802.1Q、ISL）</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

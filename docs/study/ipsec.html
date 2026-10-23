@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VPN ( Virtual Private Network ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vpn">VPNとは</a></li>
+<li><a href="#vpn_1">VPN の特徴</a></li>
+<li><a href="#vpn_2">VPN の種類</a></li>
+<li><a href="#vpn_3">インターネットVPNのタイプ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vpn-virtual-private-network">VPN ( Virtual Private Network )</h1>
+<hr>
+<h2 id="vpn">VPNとは</h2>
+<p>VPN（Virtual Private Network）とは、<strong class="memory-answer">仮想的なプライベートネットワーク接続</strong>のことです。VPNにより
+インターネットなどの公衆網を利用する場合でも、IPsec等の<strong class="memory-answer">高度なセキュリティ</strong>を実装させられるので、
+安全に企業の拠点間通信を実現できます。また、安価なFTTHの広帯域な回線をWANとして利用できます。</p>
+<h2 id="vpn_1">VPN の特徴</h2>
+<p>VPN接続は、企業のWAN接続における新たな選択肢の1つとなっています。企業のWAN接続においては、
+広域イーサネット、IP-VPN、ATM、FR、ISDN接続、専用線がありますが、インターネット回線を利用し
+<strong class="memory-answer">インターネットVPN</strong>をWAN回線として使用することで、WAN接続におけるコストを大幅削減することが
+可能になります。ただし、IPsecの実装による<strong class="memory-answer">トンネリング</strong>と<strong class="memory-answer">暗号化</strong>により、もとのIPパケットに対して
+これらのヘッダーが付加されるので、LAN間接続よりMSSサイズを小さくして通信させる必要があります。</p>
+<p><img alt="画像" src="../studygif/ipseca.png"></p>
+<h2 id="vpn_2">VPN の種類</h2>
+<p>VPNは<strong class="memory-answer">インターネットVPN</strong>と<strong class="memory-answer">IP-VPN</strong>の大きく2つに分類できます。インターネットVPNはインターネット
+などの公衆網を利用したVPNのことです。IP-VPNとは、通信事業者が提供するクローズド（閉じられた）
+IPネットワークを利用したVPNのことです。インターネットVPNには2種類があります。セキュリティ
+プロトコルにIPsecを使用した<strong class="memory-answer">IPsec-VPN</strong>と、セキュリティプロトコルにSSLを使用した <strong class="memory-answer">SSL-VPN</strong> です。
+IP-VPNは、<strong class="memory-answer">MPLS-VPN</strong> のことであり、プライベートIP網内の経路情報の探索にMPLSを採用しています。</p>
+<table>
+<thead>
+<tr>
+<th>VPNの分類</th>
+<th>使用技術</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>インターネットVPN</td>
+<td>IPsec-VPN</td>
+<td>セキュリティプロトコルにIPsecを使用したインターネットを利用したVPNのこと</td>
+</tr>
+<tr>
+<td>インターネットVPN</td>
+<td>SSL-VPN</td>
+<td>セキュリティプロトコルにSSLを使用したインターネットを利用したVPNのこと</td>
+</tr>
+<tr>
+<td>IP-VPN</td>
+<td>MPLS-VPN</td>
+<td>通信事業者のプライベートIP網内で経路情報の探索にMPLSを採用したVPNのこと</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vpn_3">インターネットVPNのタイプ</h2>
+<p>VPN接続のタイプには<strong class="memory-answer">サイト間VPN</strong>と<strong class="memory-answer">リモートアクセスVPN</strong>の大きく2タイプがあります。サイト間VPNでは
+ルータでIPsecによる暗号化とカプセル化を行うので、クライアントPCは暗号化通信を意識することなく通信
+します。リモートアクセスVPNでは、PCにVPNクライアントソフトウェアをインストールして、そのPC上で
+暗号化とカプセル化を行い、リモート接続先のVPNゲートウェイと通信を行います。詳細は以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>インターネットVPNのタイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サイト間VPN</td>
+<td>VPNを実装したルータ同士を接続する構成。企業の拠点間を接続する時に使用する構成。<br>VPNの実装（パケットの暗号化、復号、カプセル化、非カプセル化）は、全てルータで行う<br>ことから、クライアントPCにVPNクライアントソフトウェアをインストールする必要はない。<br>※ IPsecを実装したルータやセキュリティ製品は<strong class="memory-answer">VPNゲートウェイ</strong>と呼ばれる。</td>
+</tr>
+<tr>
+<td>リモートアクセスVPN</td>
+<td>VPNを実装したルータとVPNクライアントソフトをインストールしたPCとを接続する構成。<br>リモートアクセスVPN接続をするクライアントPCやモバイル端末には、VPNクライアント<br>ソフト（Anyconnect等）をインストールしている必要がある。<strong class="memory-answer">VPNクライアントソフト</strong>と<br>VPNゲートウェイとの間で、パケットの暗号化、復号、カプセル化、非カプセル化を行う。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsecb.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

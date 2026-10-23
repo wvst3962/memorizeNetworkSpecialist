@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DMVPN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dmvpndynamic-multipoint-vpn">DMVPN（Dynamic Multipoint VPN）とは</a></li>
+<li><a href="#vpnvpn">サイトツーサイトVPN（サイト間VPN）の問題点</a></li>
+<li><a href="#dmvpn_1">DMVPNによる問題解決</a></li>
+<li><a href="#dmvpndynamic-multipoint-vpn-cisco">DMVPN（Dynamic Multipoint VPN）- Ciscoルータでの実装例</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dmvpn">DMVPN</h1>
+<hr>
+<h2 id="dmvpndynamic-multipoint-vpn">DMVPN（Dynamic Multipoint VPN）とは</h2>
+<p>DMVPNとは、サイト間VPNの問題点を解決するために実装するVPNのソリューションのことです。この
+DMVPNをCiscoで実装する場合、<strong class="memory-answer">NHRP</strong>（Next Hop Resolution Protocol）、<strong class="memory-answer">mGRE</strong>（Multipoint GRE）
+の2つの技術と<strong class="memory-answer">IPsec</strong>といくつかの拡張機能を併用します。まずは、サイト間VPNの問題点を解説します。</p>
+<h2 id="vpnvpn">サイトツーサイトVPN（サイト間VPN）の問題点</h2>
+<p>サイトツーサイトVPN（サイト間VPN）ではIPsec-VPNゲートウェイ同士でVPNトンネルを確立させます。
+複数の拠点をVPN接続させるためには、ハブアンドスポークまたはフルメッシュトポロジーを使用します。
+しかし、これらのトポロジーでVPNを構成した場合、それぞれの構成で以下のような問題点が発生します。</p>
+<table>
+<thead>
+<tr>
+<th>VPNのトポロジー</th>
+<th>問題点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>フルメッシュ</td>
+<td>・　フルメッシュ構成の場合、コンフィグ量が多くなり管理上の手間が発生</td>
+</tr>
+<tr>
+<td>ハブアンドスポーク</td>
+<td>・　スポーク拠点間の通信のためにハブ拠点経由するので遅延が発生<br>・　ハブ拠点経由することで、ハブ拠点のVPNゲートウェイに負荷がかかる</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsec1a.png"></p>
+<p>ハブアンドスポーク構成では、大阪支店と名古屋支店が通信するためには東京本社のVPNゲートウェイを
+経由する必要があり、遅延が発生してしまいます。フルメッシュ構成にすれば、この遅延問題や東京本社の
+VPNゲートウェイの負荷は少なくなりますが、拠点が増える度にコンフィグ量が増えていってしまいます。</p>
+<h2 id="dmvpn_1">DMVPNによる問題解決</h2>
+<p>サイトツーサイトVPNのこれらの問題を解決するために、<strong class="memory-answer">DMVPN</strong>という機能を実装することができます。
+DMVPNを実装することで、<strong class="memory-answer">オンデマンド</strong>で支社間にも IPsec-VPN トンネルをはれます。DMVPNでは
+<strong class="memory-answer">NHRP</strong>（next hop resolution protocol）プロトコルを使用して、IPsec-VPNゲートウェイのグローバル
+IPアドレスを解決します。スポーク間の通信を行う場合、スポーク側はハブ側に通信相手のスポーク側の
+グローバルIPアドレスを問い合わせて、そのIPアドレス解決後、スポーク同士で直接VPNトンネルを確立。</p>
+<p><img alt="画像" src="../studygif/ipsec1b.png"></p>
+<h2 id="dmvpndynamic-multipoint-vpn-cisco">DMVPN（Dynamic Multipoint VPN）- Ciscoルータでの実装例</h2>
+<p>CiscoでDMVPNを実装する場合は、複数のスポークとハブ間を接続するために<strong class="memory-answer">mGRE</strong>インターフェースが
+利用されます。DMVPNではトンネルインターフェースのコンフィグでtunnel destinationを指定する必要
+はなく、ハブ側では<strong class="memory-answer">NHRP</strong>を使用してスポークの宛先トンネルアドレスを取得します。そのためスポークで
+ダイナミックアドレスを取得する場合でも、NHRPで、IP-to-NBMAアドレスのマッピングが動的に行われ、
+スポーク ⇔ ハブ間のIPsec-VPNトンネルの構築が可能です。次に、スポーク ⇔ スポーク通信の発生時に、
+NHRPによりハブ側から対向のスポークのNBMAアドレスを取得して、VPNトンネルをオンデマンドに構築。</p>
+<p><img alt="画像" src="../studygif/ipsec1c.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

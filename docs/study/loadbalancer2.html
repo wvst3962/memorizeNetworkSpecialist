@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancing - DNS round robin | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">外部公開サーバへの効果的な負荷分散のために</a></li>
+<li><a href="#_2">ロードバランサの通信フロー</a></li>
+<li><a href="#dns">ロードバランサ＋DNSラウンドロビン機能を組み合わせた通信フロー</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancing-dns-round-robin">Load Balancing - DNS round robin</h1>
+<hr>
+<h2 id="_1">外部公開サーバへの効果的な負荷分散のために</h2>
+<p>社内ネットワークに配置されたサーバ負荷分散であれば、サーバの上位にロードバランサを配置すれば
+それだけで効果的な負荷分散を実現できます。外部公開されたECサイトなどのWebサーバの負荷分散は
+ロードバランサ導入とDNSラウンドロビン機能の両方を実装することで、効果的な負荷分散ができます。</p>
+<h2 id="_2">ロードバランサの通信フロー</h2>
+<p>先ず、ロードバランサ導入とDNSラウンドロビン機能を組み合わせた時の通信フローを理解しやすいように
+下図ではDNSラウンドロビン機能を使用せず、単にロードバランサを導入した時の通信フローを紹介します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer2a.png"></p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>クライアントPC1 が、ISPのDNSサーバに「www.example.com」のDNSリクエストを送信。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>DNSサーバが、www.example.comのIPアドレス「100.1.1.5」のDNSリプライを送信。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>クライアントPC1 は、100.1.1.5「ロードバランサ」にHTTP接続を行う。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>ロードバランサは、負荷分散のアルゴリズムに従って、100.1.1.1「Webサーバ1 」へ転送する。</td>
+</tr>
+</tbody>
+</table>
+<p>インターネット上の2台目のクライアントPCがアクセスしてきた場合、Webサーバの負荷分散を行うために
+ロードバランサの負荷分散アルゴリズムによって、異なるWebサーバへパケットを転送するようになります。</p>
+<p><img alt="画像" src="../studygif/loadbalancer2b.png"></p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?C</td>
+<td>クライアントPC2 が、ISPのDNSサーバに「www.example.com」のDNSリクエストを送信。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>DNSサーバが、www.example.comのIPアドレス「100.1.1.5」のDNSリプライを送信。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>クライアントPC2 は、100.1.1.5「ロードバランサ」にHTTP接続を行う。</td>
+</tr>
+<tr>
+<td>?F</td>
+<td>ロードバランサは、負荷分散のアルゴリズムに従って、100.1.1.2「Webサーバ2 」へ転送する。</td>
+</tr>
+</tbody>
+</table>
+<p>クライアントPC1が「www.example.com」と通信する場合、ロードバランサは自身に着信したパケットを
+Webサーバ1へ転送して、クライアントPC2のパケットはWebサーバ2へ転送して通信の継続性を維持します。
+この通信の継続性は、ロードバランサの <strong class="memory-answer">パーシステンス</strong>（ セッション維持 ）という機能で実現しています。</p>
+<p><img alt="画像" src="../studygif/loadbalancer2c.png"></p>
+<h2 id="dns">ロードバランサ＋DNSラウンドロビン機能を組み合わせた通信フロー</h2>
+<p>DNSラウンドロビン機能を組み合わせたロードバランサの通信フローを見てみましょう。今までの解説図より
+より実践的な解説図で説明します。今までの解説図の構成のままでは、サーバの負荷分散には成功しますが、
+ロードバランサに障害が発生すると通信ダウンが発生してしまいます。また、インターネット回線がシングル
+である場合、その回線に障害が発生すると通信できなくなります。そして一般的に各サーバはロードバランサ
+に直結するのではなくて、L2スイッチに接続させるのが一般的です。これらの問題点を解決した構成案が下図。</p>
+<p><img alt="画像" src="../studygif/loadbalancer2d.png"></p>
+<p>※　上図ではWAFなどの製品は省略。また、BGP等のダイナミックルーティングプロトコルを使用せずマルチホーミング環境を構築。</p>
+<p>上図でISPのDNSサーバでAレコードを2行を書いています。クライアントからのDNSリクエストを受け取ると
+www.example.comのIPアドレスは 100.1.1.5 または 200.1.1.5 と順番に応答します。これで100.1.1.5を
+DNSリプライとして受信したPCは、ISP1経由でパケットを着信させて「200.1.1.5」をDNSリプライとして
+受信したPCは上図のISP2経由でパケットを着信することになるので、インターネット回線の負荷分散を実現。</p>
+<p>また、上図構成では、Webサーバを複数台導入し、ロードバランサもActive/Standbyで冗長化しているので
+Webサーバまたはロードバランサーに障害が発生した場合でも、通信の継続性が保たれます。
+しかし、インターネット回線の障害時の確実な冗長化のためには<strong class="memory-answer">回線負荷分散装置</strong>が必要です。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

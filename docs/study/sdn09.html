@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>REST API ( RESTful API ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#rest-api">REST APIとは</a></li>
+<li><a href="#rest-4">REST - 4つの設計原則</a></li>
+<li><a href="#rest-api-1">REST API - 設計原則 その1</a></li>
+<li><a href="#rest-api-2">REST API - 設計原則 その2</a></li>
+<li><a href="#rest-api-3">REST API - 設計原則 その3</a></li>
+<li><a href="#rest-api-4">REST API - 設計原則 その4</a></li>
+<li><a href="#jsonjavascript-object-notation-json">JSON（JavaScript Object Notation）- 拡張子（.json）</a></li>
+<li><a href="#xmlextensible-markup-language-xml">XML（Extensible Markup Language）- 拡張子（.xml）</a></li>
+<li><a href="#yamlyaml-aint-a-markup-language-yaml-yml">YAML（YAML Ain't a Markup Language）- 拡張子（.yaml .yml）</a></li>
+<li><a href="#rest-api-4_1">REST API - 設計原則 その4 補足</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="rest-api-restful-api">REST API ( RESTful API )</h1>
+<hr>
+<h2 id="rest-api">REST APIとは</h2>
+<p>REST APIは、<strong class="memory-answer">REST</strong>（Representational State Transfer）の原則に基づいて設計されたAPIのことです。
+Webシステムを外部から利用するためのAPIであることから、REST APIは<strong class="memory-answer">Web API</strong>の1つだと言えます。
+REST APIでは、HTTPで定義するGET、POST、PUT、DELETEなどのリクエストでデータを操作します。</p>
+<p>※　API（Application Programming Interface）とは、ソフトウェア同士が互いに情報をやりとりする
+のに使用するインターフェースの仕様のことです。</p>
+<h2 id="rest-4">REST - 4つの設計原則</h2>
+<p>RESTの原則は、大きく以下の4つに集約できます。※ より詳細に分類する場合は6つの原則と言えます。</p>
+<p>原則1：<strong class="memory-answer">ステートレスなクライアント/サーバプロトコル</strong>
+HTTPメッセージの全てがリクエストを理解するための必要な情報を含んでいることから、HTTP通信を
+行うクライアントもサーバもメッセージ間におけるセッションの状態を記憶している必要がありません。
+※ ステートレスと表現していますが、実際には Cookie などを使用しセッション状態を管理しています。</p>
+<p>原則2：リソースを一意な<strong class="memory-answer">URIにより識別</strong>される
+RESTfulなシステムでは全てのリソース（情報）はURI（Uniform Resource Identifier）で表現される
+ユニークなアドレスを持ちます。</p>
+<p>原則3：<strong class="memory-answer">HTTPメソッドで操作方法を表現</strong>した統一されたインターフェース
+リソースを操作するメソッドは、HTTPで定義されている "GET"、"POST"、"PUT"、"DELETE" などを
+使用します。つまり、情報を操作する命令体系があらかじめ定義されています。</p>
+<p>原則4：アプリケーション情報と状態遷移の両方を扱える<strong class="memory-answer">ハイパーメディアの使用</strong>
+リソースを様々な形式（HTML、XML、JSON、バイナリ）で表現できるようにします。また、関連する
+データはハイパーメディア（リンク）としてデータに含めることができます。</p>
+<p>上述のRESTの4つの原則を以降で詳細に解説していきます。</p>
+<h2 id="rest-api-1">REST API - 設計原則 その1</h2>
+<p>REST APIではHTTP技術をベースとしており、HTTPメソッド（GET、POST、PUT、DELETE）などで
+送信側から操作方法をHTTPメソッドで表現して、受信側は処理結果をステータスコードで表現しており
+クライアント/サーバ形態の通信を行います。</p>
+<p><img alt="画像" src="../studygif/sdn09a.png"></p>
+<p>ユーザ（クライアント側）が必要とするリソースはURIで表現します。そのリソースに対してどのような
+操作を行うのかはHTTPメソッドで示します。受信側デバイス（サーバ側）では受信したHTTPリクエスト
+に対して、その処理結果をHTTPステータスコード（処理の成功/失敗）といっしょにJSONやXMLなどの
+レスポンスフォーマットで応答します。</p>
+<h2 id="rest-api-2">REST API - 設計原則 その2</h2>
+<p>REST APIでは、URI（Uniform Resource Locator）で、リソースが存在する位置を文字列で示します。</p>
+<p><img alt="画像" src="../studygif/sdn09b.png"></p>
+<h2 id="rest-api-3">REST API - 設計原則 その3</h2>
+<p>送信側デバイスから受信したHTTPメソッドに応じ、受信側デバイス（例えばネットワーク機器）は
+自身のリソースに対して作成、更新、削除などの動作を行います。このようにリソースに対して行う
+主要な動作は<strong class="memory-answer">CRUD</strong>と呼ばれます。</p>
+<table>
+<thead>
+<tr>
+<th>CRUD</th>
+<th>HTTPメソッド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create</td>
+<td>POST/PUT</td>
+<td>作成</td>
+</tr>
+<tr>
+<td>Read</td>
+<td>GET</td>
+<td>読み取り</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>PUT/PATCH</td>
+<td>更新</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>DELETE</td>
+<td>削除</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rest-api-4">REST API - 設計原則 その4</h2>
+<p>送信側デバイスと受信側デバイスとでは、REST API を通してデータのやり取りが行われますが、
+受信データを正常に処理するためには、汎用的なデータ形式に変換し通信を行う必要があります。
+リソースを表現するそのデータ形式には色々ありますが、HTMLやテキストだけでなくて、例えば
+JSON、XML、YAMLなどがあります。</p>
+<h2 id="jsonjavascript-object-notation-json"><strong class="memory-answer">JSON</strong>（JavaScript Object Notation）- 拡張子（.json）</h2>
+<p>JSONはデータ記述言語の1つです。標準的な<strong class="memory-answer">テキストベースのデータフォーマット</strong>であり
+プログラミング言語を問わずに利用できます。XMLに比べて記述が容易で人が理解しやすい
+データフォーマットと言えます。</p>
+<h2 id="xmlextensible-markup-language-xml"><strong class="memory-answer">XML</strong>（Extensible Markup Language）- 拡張子（.xml）</h2>
+<p>XMLはマークアップ言語の1つです。マークアップ言語ではタグと呼ばれる特定の文字列で
+記述文に情報の意味や構造などを埋め込んでいく言語のことです。HTMLもXMLと同じ様に
+マークアップ言語ですが、HTMLはWebページ作成に特化しているのに対して、XMLでは
+自由度が高く拡張性を備えており、<strong class="memory-answer">設定情報ファイルの記述</strong>など様々な形で利用されます。</p>
+<h2 id="yamlyaml-aint-a-markup-language-yaml-yml"><strong class="memory-answer">YAML</strong>（YAML Ain't a Markup Language）- 拡張子（.yaml .yml）</h2>
+<p>YAMLは構造化されたデータを表現するためのフォーマットです。YAMLではスペースによる
+インデントを使用して階層構造を表現します。例えばサーバの構成管理ツールのAnsibleでも
+設定ファイルのフォーマットとしてYAMLを利用します。</p>
+<h2 id="rest-api-4_1">REST API - 設計原則 その4 補足</h2>
+<p>多くのネットワーク機器では、受信したHTTPリクエストに対し、処理結果をHTTPステータスコード
+（処理の成功/失敗）と一緒に、「<strong class="memory-answer">JSON</strong>」または「<strong class="memory-answer">XML</strong>」のレスポンスフォーマットで応答します。
+※ Cisco社製品でもSDNコントローラーの設定ガイドにある通り「JSON」か「XML」を使用します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

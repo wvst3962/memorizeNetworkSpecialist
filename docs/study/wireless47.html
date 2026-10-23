@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>NFC | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#nfc_1">NFCとは</a></li>
+<li><a href="#nfc-">NFC - 誕生の経緯、過渡期の対策</a></li>
+<li><a href="#nfc_2">NFCの特徴</a></li>
+<li><a href="#nfc-p2p">NFC - 端末間通信機能（P2P）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="nfc">NFC</h1>
+<hr>
+<h2 id="nfc_1">NFCとは</h2>
+<p>NFC（Near Field Communication）は 10cm程度の至近距離でデータ通信する無線通信の標準規格の1つ。
+NFCは非接触型ICカードのための無線通信技術である「<strong class="memory-answer">Felica</strong>や<strong class="memory-answer">Mifare</strong>」の方式をもとに策定されています。
+NFC対応のICカードでは、アンテナが電波を受信する際の発生した電力により、通信とデータの書き換えが
+可能であり電池や電源が不要です。従って非接触ICカードの方では電源なしでもかざすだけで通信できます。</p>
+<p><img alt="画像" src="../studygif/wireless47a.png"></p>
+<p>※ その他、NFCのICラベルが貼られたポスターなどにNFC搭載のスマートフォンをかざせば、クーポンなどの情報取得なども可能。</p>
+<p><img alt="画像" src="../studygif/wireless47b.png"></p>
+<table>
+<thead>
+<tr>
+<th>NFCの周波数帯</th>
+<th>NFCの通信速度</th>
+<th>NFCの無線到達距離</th>
+<th>策定元の技術</th>
+<th>NFCの使用例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13.56MHz</td>
+<td>100～400Kbps</td>
+<td>10cm程度</td>
+<td>Felica、Mifare</td>
+<td>ICカード、携帯、スマートフォン</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nfc-">NFC - 誕生の経緯、過渡期の対策</h2>
+<p>NFCのイメージ図を見ると、Felicaで十分ではないかと思うかもしれませんが、ソニーが開発したFelicaでは
+日本とアジアに普及しており、欧米で普及しているのはNXPセミコンダクターズが開発したMifareとなるが
+FelicaとMifareは互換性がありません。そこで両者のインターフェースを統一するためにNFCが生まれました。</p>
+<p>NFCの場合は、カードはFeliCaよりも安く仕入れられる上、システム維持コストも安くなる可能性が高くて、
+コストの優位性もあり、今後はFelicaベースで作られてきた多くのシステムが段階的にNFCに移行する予定。
+NFCがFelicaとMifareの両方式に上位互換があるので誤解されがちですが、NFCチップだけ搭載したスマート
+フォンでは、Felicaベースのオサイフケータイの決済はできません。従って移行段階では2つのチップが必要。</p>
+<p><img alt="画像" src="../studygif/wireless47c.png"></p>
+<h2 id="nfc_2">NFCの特徴</h2>
+<p>NFCでは「<strong class="memory-answer">かざす</strong>」というアクションだけで簡単にデータを送受信できることが最大の特徴です。NFCを
+搭載したスマートフォンをNFCを搭載したプリンターにかざせば撮影した写真をプリントアウトできたり、
+NFCを搭載したTVにかざせば、動画をテレビに映し出したりすることができます。</p>
+<p><img alt="画像" src="../studygif/wireless47d.png"></p>
+<h2 id="nfc-p2p">NFC - 端末間通信機能（P2P）</h2>
+<p>紹介した非接触型のICカードを利用した「カードエミュレーション機能やリーダーライター機能」以外に
+端末間通信機能（P2P）があります。これはNFC搭載の機器同士をかざす事だけで、メール、電話帳、画像、
+スケジュール、XMLデータなどをスムーズに認証とファイル交換できます。ただし大容量のデータを送受信
+する際には、<strong class="memory-answer">ペアリングと認証</strong>だけをNFCで行い、実際のデータ転送は別の高速な通信規格で実行させます。</p>
+<p>通信だけを別の高速規格に引き継ぐ事を<strong class="memory-answer">ハンドオーバー</strong>と言います。ハンドオーバーには2種類があります。
+<strong class="memory-answer">・　Bluetoothハンドオーバー</strong>
+<strong class="memory-answer">・　Wi-Fiハンドオーバー</strong></p>
+<hr>
+<p><a href="wireless46.html">LTEとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancer - Monitor | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#3">ロードバランサの重要な3つの機能</a></li>
+<li><a href="#-">ロードバランサ - モニター</a></li>
+<li><a href="#windows-nlbnetwork-load-balancing">参考 ： Windowsサーバの NLB（Network Load Balancing）が推奨されない理由</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancer-monitor">Load Balancer - Monitor</h1>
+<hr>
+<h2 id="3">ロードバランサの重要な3つの機能</h2>
+<p>ロードバランサには色々な機能があります。また、ロードバランサがシングルの場合と冗長化の場合とでは
+使用する機能も大きく異なってきます。ここではシングル構成や冗長化構成に関係なく、ロードバランサ導入
+に際して必須知識の<strong class="memory-answer">ロードバラシング</strong>（負荷分散）、<strong class="memory-answer">パーシステンス</strong>（セッション維持）、<strong class="memory-answer">モニター</strong>（監視）
+の3つの重要な基本機能を紹介していきます。今回は、<strong class="memory-answer">モニター</strong>（監視）の種類やパスチェックを紹介します。</p>
+<h2 id="-">ロードバランサ - モニター</h2>
+<p>モニターとは、サーバが正常に稼働してサービス提供が可能かどうかを<strong class="memory-answer">ロードバランサ ⇔ サーバ間でチェック</strong>
+する機能です。モニターはヘルスチェックとも呼ばれています。例えばTCPによるモニターのポーリングによる
+チェックで失敗したサーバには、自動的にトラフィックが転送されないようになります。これにより複数台ある
+サーバのいずれかで障害が発生しても、クライアントからのトラフィックは正常に他の実サーバへ転送されます。</p>
+<p><img alt="画像" src="../studygif/loadbalancer6a.png"></p>
+<p>以下のモニターの種類はF5の負荷分散装置（BIG-IP）で実装されている機能を紹介していますが、他メーカの
+ロードバランサも基本的には同じような機能をサポートしています。また、色々な種類がありますがサーバへの
+モニターにアドレスチェック（ L3チェック：ICMP ）はあまり使用されません。高価なロードバランサを導入
+することからも最低でもサービスチェック（ L4チェック：TCP ）を使用するのが一般的。Internet回線冗長時
+に通信経路の正常性を確認するパスチェックとして、TransparentモードでICMP Monitorはよく使用されます。</p>
+<p>◇　Address Check ( アドレスチェック )
+◇　Service Check ( サービスチェック )
+◇　Content Check ( コンテンツチェック )
+◇　Interactive Check ( インタラクティブチェック )</p>
+<table>
+<thead>
+<tr>
+<th>モニター種類</th>
+<th>使用プロトコル例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Address Check</td>
+<td>ICMP</td>
+<td>サーバへIPパケットを送信してサーバの正常性を確認。</td>
+</tr>
+<tr>
+<td>Service Check</td>
+<td>TCP</td>
+<td>サーバにTCPコネクションのオープンとクローズを行うことで正常性を確認。</td>
+</tr>
+<tr>
+<td>Content Check</td>
+<td>HTTP</td>
+<td>サーバにTCPコネクションを開いて、Get等でデータ取得を行うことで正常性を確認。</td>
+</tr>
+<tr>
+<td>Interactive Check</td>
+<td>FTP</td>
+<td>サーバにTCPコネクションを開いて、実際のアプリケーションプロトコルのコマンドを<br>送信して受信の確認を行うことにより正常性を確認。SMTPの場合、Hello、PORTなど</td>
+</tr>
+</tbody>
+</table>
+<h2 id="windows-nlbnetwork-load-balancing">参考 ： Windowsサーバの NLB（Network Load Balancing）が推奨されない理由</h2>
+<p>NLBとは、Windowsサーバの持つ負荷分散機能のこと。NLBはWindows Server 2003から搭載されています。
+NLBではサーバの物理IPアドレスとは別に共通の仮想IPアドレスを設定して、クライアントからのアクセスを
+均等に分散させる機能（ラウンドロビン）。NLBには大きく以下の3つの問題点があります。Webアプリにより
+パーシステンス機能がないと上手く動作しないものもありシステムとしては致命的。また、ネットワーク障害
+を正確に検知できなく可用性が低いことからも、サーバの負荷分散にはロードバランサ導入が必須と言えます。</p>
+<p>NLBの問題点 1　：　負荷分散方式の問題
+⇒　ロードバラシングの種類がラウンドロビンしか対応していないため、柔軟な負荷分散はできない。</p>
+<p>NLBの問題点 2　：　パーシステンスの問題
+⇒　同一のクライアントの連続したリクエストを同じサーバに転送できない。システムにより正常な通信不可。</p>
+<p>NLBの問題点 3　：　死活監視（ヘルスチェック）の問題
+⇒　NLBではネットワークアダプタレベルの問題しか検知できない。アプリケーションが正常に動作していない
+場合においてもクライアントからのリクエストをそのサーバに転送してしまうため正常に通信できなくなる。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

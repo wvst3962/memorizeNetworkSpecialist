@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Multicast - words / conceptual model | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">マルチキャストの用語説明</a></li>
+<li><a href="#_2">マルチキャストの全体概念図</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="multicast-words-conceptual-model">Multicast - words / conceptual model</h1>
+<hr>
+<h2 id="_1">マルチキャストの用語説明</h2>
+<p>マルチキャストで使用される用語の意味は以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>マルチキャストの用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sender</td>
+<td>マルチキャストパケットを送信するサーバ</td>
+</tr>
+<tr>
+<td>Receiver</td>
+<td>マルチキャストパケットを受信するクライアント</td>
+</tr>
+<tr>
+<td>ファーストホップルータ</td>
+<td>Senderのセグメント上に接続されているルータ</td>
+</tr>
+<tr>
+<td>ラストホップルータ</td>
+<td>Receiverのセグメント上に接続されているルータ</td>
+</tr>
+<tr>
+<td>Upstream</td>
+<td>マルチキャストを送信するSenderへの方向（上流）</td>
+</tr>
+<tr>
+<td>Downstream</td>
+<td>マルチキャストを受信するReceiverへの方向（下流）</td>
+</tr>
+<tr>
+<td>マルチキャストルーティングプロトコル</td>
+<td>ディストリビューションツリーの生成と維持するためのプロトコル</td>
+</tr>
+<tr>
+<td>ディストリビューションツリー</td>
+<td>マルチキャストがルーティングされていくための経路（配布ツリー）</td>
+</tr>
+<tr>
+<td>IGMP</td>
+<td>ルータとホストとの間でマルチキャストパケットをやりとりするプロトコル<br>IGMPには、IGMPv1、IGMPv2、IGMPv3の3つのバージョンがある</td>
+</tr>
+<tr>
+<td>IGMPスヌーピング</td>
+<td>マルチキャストのフレームをスイッチの全ポートからフラッディングさせない<br>ように、マルチキャストのフレームをのぞき見して制御してくれるスイッチ技術</td>
+</tr>
+<tr>
+<td>PIM</td>
+<td>ルータやL3スイッチなどで有効化するマルチキャストルーティングプロトコル<br>PIMには、PIMv1とPIMv2がある（ 現在ではPIMv2を利用することが一般的 ）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">マルチキャストの全体概念図</h2>
+<p>下図の通り、マルチキャストパケットの通り道となるルータでは、マルチキャストルーティングを有効
+にして、マルチキャストルーティングプロトコルであるPIMを有効化させる必要があることが分かります。
+また、ルータと受信クライアント間ではIGMPでやり取りを行って、無駄なマルチキャストトラフィック
+をクライアントPCに転送しないようにスイッチで、IGMPスヌーピングを有効化させることが分かります。</p>
+<p><img alt="画像" src="../studygif/multicastz06a.png"></p>
+<p>その他、以下の基本用語の理解もしておきましょう。</p>
+<table>
+<thead>
+<tr>
+<th>マルチキャストの用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>マルチキャストルータ</td>
+<td>マルチキャスト対応のルータ（Ciscoでは <strong class="memory-answer">ip multicast-routing</strong> と設定）</td>
+</tr>
+<tr>
+<td>マルチキャストIPアドレス</td>
+<td>クラスDアドレス（ <strong class="memory-answer">224.0.0.0 ～ 239.255.255.255</strong> ）</td>
+</tr>
+<tr>
+<td>マルチキャストMACアドレス</td>
+<td><strong class="memory-answer">01-00-5E</strong> から始まるMACアドレス</td>
+</tr>
+<tr>
+<td>マルチキャストグループメンバー</td>
+<td>マルチキャストのトラフィックを受信するホスト（Receiver）</td>
+</tr>
+<tr>
+<td>マルチキャストグループ</td>
+<td>マルチキャストのトラフィックを受信するホストの集まり（Receiverの集まり）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

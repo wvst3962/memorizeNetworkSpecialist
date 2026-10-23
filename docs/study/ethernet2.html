@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN - part 3 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">イーサネットの伝送メディア</a></li>
+<li><a href="#_2">イーサネット ： 同軸ケーブル</a></li>
+<li><a href="#utp">イーサネット ： UTPケーブル</a></li>
+<li><a href="#rj-45">イーサネット ： RJ-45コネクタ</a></li>
+<li><a href="#_3">イーサネット ： 光ファイバーケーブル</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan-part-3">Ethernet LAN - part 3</h1>
+<hr>
+<h2 id="_1">イーサネットの伝送メディア</h2>
+<p>イーサネットでは、コンピュータ間で通信する際に使用する伝送メディアには、有線と無線の2種類が
+あります。有線の場合は同軸ケーブル、UTPケーブル、STPケーブル、光ファイバーの媒体があります。</p>
+<h2 id="_2">イーサネット ： 同軸ケーブル</h2>
+<p>同軸ケーブルは10Base5、10Base2で使用されていたケーブルであることから、現在のLANで見ることは
+ないですが、テレビ受信機とアンテナとを接続する給電線や電子機器内部の配線として使用されています。</p>
+<p><img alt="画像" src="../studygif/ethernet2a.png">
+参考画像 ： IPA（情報処理推進機構） 教育用画像素材集サイト　https://www2.edu.ipa.go.jp/gz/</p>
+<h2 id="utp">イーサネット ： UTPケーブル</h2>
+<p>UTPケーブルは、最も使用されているLANケーブルです。銅線を2本ずつより合わせて4ペアで構成されて
+います。ペアとなる2本の１本が電圧の「＋」、もう一本が電圧の「－」になり、電圧を変化させることで
+「0」と「1」のデジタル通信でのデータ送受信を可能にしています。UTPは、Unshielded Twisted Pair
+というその名のとおり、シールドがされていない分、STPケーブルよりも安価ですがノイズには弱いです。</p>
+<p><img alt="画像" src="../studygif/ethernet2b.png">
+参考画像 ： IPA（情報処理推進機構） 教育用画像素材集サイト　https://www2.edu.ipa.go.jp/gz/</p>
+<p>UTPケーブルは品質によりカテゴリ分けされています。イーサネットで使用されるカテゴリは3以上です。
+カテゴリ（CAT)は数字が上がるごとよってケーブル品質もあがりますが、コストも上がることになります。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>最大周波数</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAT1</td>
+<td>-</td>
+<td>電話線</td>
+</tr>
+<tr>
+<td>CAT2</td>
+<td>1MHz</td>
+<td>低速なデータ通信</td>
+</tr>
+<tr>
+<td>CAT3</td>
+<td>16MHz</td>
+<td>10Base-T、100BaseT4、トークンリング(4Mbps)</td>
+</tr>
+<tr>
+<td>CAT4</td>
+<td>20MHz</td>
+<td>CAT3までの用途、トークンリング(16Mbps)、ATM(25Mbps)</td>
+</tr>
+<tr>
+<td>CAT5</td>
+<td>100MHz</td>
+<td>CAT4までの用途、100Base-TX、ATM(156Mbps)</td>
+</tr>
+<tr>
+<td>CAT5e</td>
+<td>100MHz</td>
+<td>CAT5までの用途、1000Base-T</td>
+</tr>
+<tr>
+<td>CAT6</td>
+<td>250MHz</td>
+<td>CAT5eまでの用途、10GBase-T（最大伝送距離55m)、ATM(622Mbps)、ATM(1.2Gbps)</td>
+</tr>
+<tr>
+<td>CAT6a</td>
+<td>500MHz</td>
+<td>CAT6までの用途。10GBase-T（CAT6を改良したことにより最大伝送距離を伸ばす）</td>
+</tr>
+<tr>
+<td>CAT7</td>
+<td>600MHz</td>
+<td>CAT6aまでの用途。10GBase-T（現在のところSTPケーブルのみ）</td>
+</tr>
+</tbody>
+</table>
+<p>STP（Shielded Twisted Pair）ケーブルは、その名の通り8本の銅線に対して「シールド」されており
+対ノイズという点では優れていますが、その分コストは高くなります。工場などのノイズの多い場所や
+高い周波数が求められる10GBaseTの通信でよく使用されます。STPケーブルもUTPケーブルも、同じ
+RJ-45のコネクタを使用することから、一見そのケーブルがSTPなのかUTPケーブルかは分からないです。</p>
+<p><img alt="画像" src="../studygif/ethernet2c.png">
+LANケーブル （ UTPケーブル )</p>
+<p><img alt="画像" src="../studygif/ethernet2d.png"></p>
+<p>LANケーブル （ STPケーブル )</p>
+<h2 id="rj-45">イーサネット ： RJ-45コネクタ</h2>
+<p>RJ-45とはケーブルを接続するコネクタ形状の１つです。イーサネットケーブルだけではなく、ISDN回線
+などにも使用されます。電話回線で使用されるRJ-11に形状が似ていますがRJ-45の方が一回り大きいです。
+そのRJ-45コネクタの図は<a href="https://ja.wikipedia.org/wiki/TIA/EIA-568-B">こちら</a>（非常に分りやすい）の通りです。UTPケーブルの両端に、このRJ-45を
+取り付けることにより、ネットワーク機器やパソコンのLANカードにケーブル接続ができるようになります。</p>
+<p>UTPケーブルの中の8本の銅線は、EIA/TIA-568規格によって、どの色とペアとなりRJ-45コネクタのどの
+ピンに結線されるのかを定義しています。EIA/TIA-568規格には、EIA/TIA-568-A と EIA/TIA-568-B の
+2つの規格がありこの規格ごとにピン配列が異なります。なお、ストレートケーブルを作成したい場合には
+RJ-45の両端を「EIA/TIA-568-B」のピン配列にします。クロスケーブルを作成したい場合には、一方の
+RJ-45のコネクタを「EIA/TIA-568-A」にし、もう一方のRJ-45のコネクタを「EIA/TIA-568-B」にします。</p>
+<table>
+<thead>
+<tr>
+<th>EIA/TIA-568のピン配列</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>規格</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>EIA/TIA-568-A</td>
+<td>白緑</td>
+<td>緑</td>
+<td>白橙</td>
+<td>青</td>
+<td>白青</td>
+<td>橙</td>
+<td>白茶</td>
+<td>茶</td>
+</tr>
+<tr>
+<td>EIA/TIA-568-B</td>
+<td>白橙</td>
+<td>橙</td>
+<td>白緑</td>
+<td>青</td>
+<td>白青</td>
+<td>緑</td>
+<td>白茶</td>
+<td>茶</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">イーサネット ： 光ファイバーケーブル</h2>
+<p>光ファイバーは、コンピュータの電気信号をレーザーを使用して光信号に変換し、生成されたレーザー光を
+光ファイバーケーブルに通してデータの送受信をします。下図の先端のレーザー光に「データ」があります。
+光ファイバーは<strong class="memory-answer">コア</strong>と<strong class="memory-answer">クラッド</strong>の2層で構成されており、材質には石英ガラスやプラスチックを使用します。</p>
+<p>下図の通り、<strong class="memory-answer">コアはクラッドに包まれて</strong>「光」は光ファイバーケーブルの<strong class="memory-answer">コア</strong>を透過することが分かります。</p>
+<p><img alt="画像" src="../studygif/ethernet2e.png">
+参考画像 ： IPA（情報処理推進機構） 教育用画像素材集サイト　https://www2.edu.ipa.go.jp/gz/</p>
+<p>光ファイバーケーブルは用途に応じてシングルモードファイバーとマルチモードファイバーに分類されます。</p>
+<table>
+<thead>
+<tr>
+<th>光ファイバーケーブル</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMF (マルチモードファイバ）</td>
+<td>光ファイバーケーブルの材質として、プラスチックも利用できるため安価で折り曲げにも強い。<br>SMFに比べると長距離伝送には不向きのため、企業ネットワークなどで構内通信に使用される。</td>
+</tr>
+<tr>
+<td>SMF (シングルモードファイバ）</td>
+<td>光ファイバーケーブルの材質として、ガラス繊維を使用する必要があるため高価で配線が難。<br>長距離伝送が可能なため、都市間の接続や基幹通信網などで使用されるのが一般的である。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

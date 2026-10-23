@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ethernet">イーサネット (Ethernet) とは</a></li>
+<li><a href="#_1">イーサネットの歴史</a></li>
+<li><a href="#ieee">IEEEの全体像</a></li>
+<li><a href="#bandwidth">帯域幅（ bandwidth ）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan">Ethernet LAN</h1>
+<hr>
+<h2 id="ethernet">イーサネット (Ethernet) とは</h2>
+<p>イーサネットはコンピュータネットワークの規格のひとつであり、現在最も使用されている<strong class="memory-answer">LANの規格</strong>。
+現在のLANにおけるコンピュータ通信では、イーサネットとTCP/IPの組み合わせが一般的だと言えます。
+つまりイーサネットが主に物理規格を取り決めて、TCP/IPが通信内容を取り決めているということです。</p>
+<h2 id="_1">イーサネットの歴史</h2>
+<p>イーサネットの原点は、ハワイ諸島の島々を4800bpsの無線ネットワークで結ぶALOHAシステムと言われ
+ています。そして、ALOHAシステムに基づき1973年にゼロックスの研究員であるロバート メトカーフを
+中心にイーサネットの原型が開発されました。その後、ゼロックス（Xerox）はDECとIntelを開発に加えて
+3社の頭文字をとりDIX仕様を制定。1980年にDIX仕様をEthernet1.0規格として、IEEE802 委員会に提出。</p>
+<table>
+<thead>
+<tr>
+<th>年</th>
+<th>イーサネットの歴史</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1970</td>
+<td>ハワイ大学ノーマン ・ エブラムソンにより、ALOHAシステムにより無線ネットワークの開発</td>
+</tr>
+<tr>
+<td>1973</td>
+<td>ゼロックス研究員ロバート ・ メトカーフにより、ALOHAシステムに基づいてイーサネットの開発</td>
+</tr>
+<tr>
+<td>1980</td>
+<td>DEC, Intel, Xeroxの3社共同で開発したDIX仕様をEthernet?T規格としてIEEE802.3に提出・公開</td>
+</tr>
+<tr>
+<td>1982</td>
+<td>DIX仕様のEthernet ?U( version 2.0) を公開</td>
+</tr>
+<tr>
+<td>1983</td>
+<td>IEEE802.3 CSMA/CDを規格化 ( Ethernet ?Uをベース )</td>
+</tr>
+<tr>
+<td>1983</td>
+<td>IEEE802.3による10Base5の標準化</td>
+</tr>
+<tr>
+<td>1988</td>
+<td>IEEE802.3aによる10Base2の標準化</td>
+</tr>
+<tr>
+<td>1990</td>
+<td>IEEE802.3iによる10Base-Tの標準化</td>
+</tr>
+<tr>
+<td>1995</td>
+<td>IEEE802.3uによる100Base-TXの標準化</td>
+</tr>
+<tr>
+<td>1997</td>
+<td>IEEE802.3xによる全二重通信の標準化</td>
+</tr>
+<tr>
+<td>1998</td>
+<td>IEEE802.3zによる1000Base-Xの標準化</td>
+</tr>
+<tr>
+<td>1999</td>
+<td>IEEE802.3abによる1000Base-Tの標準化</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>IEEE802.3aeによる10GBase-LX4 / SR / LR / ER、及び10GBaseSW / LW / EW の標準化</td>
+</tr>
+<tr>
+<td>2006</td>
+<td>IEEE802.3anによる10GBase-Tの標準化</td>
+</tr>
+<tr>
+<td>2008</td>
+<td>IEEE802.3baにより40Gbpsイーサネットと100Gbpsイーサネットの標準化の検討開始</td>
+</tr>
+</tbody>
+</table>
+<p>1980年代からトークンリングやFDDI等のLAN規格などが生まれましたが、規格を公開して多くの賛同者を
+得られたイーサネットがLAN規格の代名詞となり、現在、イーサネットLANを一般的にLANと呼んでいます。
+※　現在普及している「イーサネットLAN」は Ethernet2.0 規格を元に、1983年にIEEE802.3 CSMA/CDとして策定された仕様です。</p>
+<h2 id="ieee">IEEEの全体像</h2>
+<p>IEEEとは電気、電子分野における世界最大の学会。そして、IEEE802とはLAN規格を定めている委員会。
+そして、<strong class="memory-answer">IEEE802.3</strong>はイーサネットLANに関する規格（またはワーキンググループ）。全体像は以下です。</p>
+<p><img alt="画像" src="../studygif/etherneta.png"></p>
+<h2 id="bandwidth">帯域幅（ bandwidth ）とは</h2>
+<p>帯域幅には、デジタルとアナログの2種類があります。アナログ通信の場合は、使用する最低の周波数と
+最高の周波数の差のことを意味します。デジタル通信の場合は、最大の伝送速度のことを指しています。
+コンピュータ通信の場合は「0」と「1」のビット（bit）のデジタル情報のやりとりを行います。1995年に
+規格化されたFastEthernetでは最大伝送速度である「100Mbps」がイーサネットの帯域幅を指しています。</p>
+<p>デジタル通信の場合、帯域幅の基本単位を bps（bit per second = ビット/秒）で表現しています。つまり、
+100Mbpsの帯域幅のFastEthernetでは1秒間に100Mビット（= 12.5Mバイト）の情報を転送できるのです。</p>
+<table>
+<thead>
+<tr>
+<th>デジタル通信での帯域幅の単位</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>単位</td>
+<td>一般的な省略表記</td>
+<td>その他の表記</td>
+</tr>
+<tr>
+<td>ビット/秒</td>
+<td>bps</td>
+<td>1秒に1ビット ( bit per second )</td>
+</tr>
+<tr>
+<td>キロビット/秒</td>
+<td>Kbps</td>
+<td>1000bps</td>
+</tr>
+<tr>
+<td>メガビット/秒</td>
+<td>Mbps</td>
+<td>1000Kbps</td>
+</tr>
+<tr>
+<td>ギガビット/秒</td>
+<td>Gbps</td>
+<td>1000Mbps</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>アナログ通信での帯域幅の単位</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>単位</td>
+<td>一般的な省略表記</td>
+<td>その他の表記</td>
+</tr>
+<tr>
+<td>ヘルツ</td>
+<td>Hz</td>
+<td>1秒に１回</td>
+</tr>
+<tr>
+<td>キロヘルツ</td>
+<td>KHz</td>
+<td>1000Hz</td>
+</tr>
+<tr>
+<td>メガヘルツ</td>
+<td>MHz</td>
+<td>1000KHz</td>
+</tr>
+<tr>
+<td>ギガヘルツ</td>
+<td>GHz</td>
+<td>1000MHz</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ethernetb.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

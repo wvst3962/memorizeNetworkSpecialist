@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN - Straight Cable / Cross Cable | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#utp-">UTPケーブルの種類 - ストレートケーブルとクロスケーブル</a></li>
+<li><a href="#_1">ストレートケーブルとクロスケーブルの接続例</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan-straight-cable-cross-cable">Ethernet LAN - Straight Cable / Cross Cable</h1>
+<hr>
+<h2 id="utp-">UTPケーブルの種類 - ストレートケーブルとクロスケーブル</h2>
+<p>UTPケーブルには、<strong class="memory-answer">ストレートケーブル</strong>と<strong class="memory-answer">クロスケーブル</strong>の2種類があります。外観は似ていますが
+ストレートケーブルはケーブル内の銅線が途中で交差せずケーブル両端で同じピン配列になっており、
+クロスケーブルはケーブル内の銅線が途中で交差しておりケーブル両端で異なるピン配列となります。
+従って、LANケーブルのRJ45コネクタの先端をみれば、ストレートかクロスケーブルか判別できます。</p>
+<p><img alt="画像" src="../studygif/ethernet3a.png"></p>
+<p>100Base-TXと1000Base-Tとでは、ストレートは同じですが、クロスケーブルのピン配列は異なります。</p>
+<p><img alt="画像" src="../studygif/ethernet3b.png"></p>
+<p>LAN接続で、ストレートケーブルまたはクロスケーブルのどちらを使用するかは、ケーブルを接続する
+機器の組み合わせで決まります。例えば、PCとスイッチとを接続する場合はストレートケーブルを使用し
+PCとPCを接続する場合はクロスケーブルを使用します。なぜ、ストレート(クロス) なのかを説明します。</p>
+<p>Ethernet機器のポート2つのタイプがあります。MDI (Medium Dependent Interface) とMDI-Xです。
+MDIは送信用にピン「 1, 2 」、受信用にピン「 3, 6 」を割り当てられたポート。PC、ルータ等が該当。
+MDI-Xは送信用にピン「 3, 6 」、受信用にピン「 1, 2 」を割り当てられたポート。スイッチ等が該当。
+ネットワーク通信を行うためには、送信用ピンで送信した信号が、接続先の受信用ピンで受信する必要が
+あり、MDIとMDI-Xの接続はストレート、MDI同士、MDI-X同士の接続はクロスケーブルを使用します。</p>
+<p><img alt="画像" src="../studygif/ethernet3c.png"></p>
+<p>最近は、接続先のポートタイプ (MDI or MDI-X) を自動判別し、ストレート、クロスケーブルに関係なく
+相互接続できるようにする <strong class="memory-answer">AutoMDI/MDI-X機能</strong> をサポートするスイッチなどが非常に増えてきています。</p>
+<h2 id="_1">ストレートケーブルとクロスケーブルの接続例</h2>
+<p>上述での解説どおり、ポートタイプが「 MDI 」であるデバイスは「 PC、ルータ 」などが該当します。
+また、ポートタイプが 「 MDI-X 」 であるデバイスは「スイッチ、リピータハブ、ONU」などが該当。
+そして、MDI と MDI-X のデバイス間の接続はストレートケーブルが使用され、MDI同士またはMDI-X
+同士のデバイス間の接続はクロスケーブルが使用されます。以下は、それぞれのケーブルの接続例です。</p>
+<p><img alt="画像" src="../studygif/ethernet3d.png"></p>
+<p>下図で、ストレートケーブル、クロスケーブル、Serialケーブルがどこで使用されるのかを考えてみます。</p>
+<p><img alt="画像" src="../studygif/ethernet3e.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

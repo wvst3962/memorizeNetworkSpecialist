@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP address | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip">IPアドレス</a></li>
+<li><a href="#2ip-ipv4ipv6">2種類のIPアドレス - IPv4アドレス、IPv6アドレス</a></li>
+<li><a href="#ip_1">自分が現在使用しているIPアドレス</a></li>
+<li><a href="#ip_2">IPアドレスの構成</a></li>
+<li><a href="#ip_3">IPアドレスのクラス</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-address">IP address</h1>
+<hr>
+<h2 id="ip">IPアドレス</h2>
+<p>IPアドレスとは、インターネットやLANなどのIPネットワークに接続されたコンピュータなどに割り
+振られる識別番号のことです。IPアドレスは、IPネットワーク上の住所または電話番号のようなもの。</p>
+<p>IPアドレスは、コンピュータ内部では2進数で処理されることから、<strong class="memory-answer">32ビットの整数値</strong>で表されます。
+しかし、人には2進数はわかりにくいため、分かりやすくするために32ビットの整数値を8ビットずつ
+4つに分割して10進数でIPアドレスを表します。では、どのように10進数で表記されるのかを見ます。</p>
+<p><img alt="画像" src="../studygif/ip3a.png"></p>
+<p>※　IPアドレスは32ビットの2進数なので、2の32乗ということで 4,294,967,296 (約43億) の数があることが分かります。</p>
+<p>今、この瞬間、あなたのPCとわたしのWebサーバとが通信していますが、それはIPアドレスによって
+お互いの場所を識別しているから通信が成立します。IPアドレスと電話番号を比較した図解は以下です。</p>
+<p><img alt="画像" src="../studygif/ip3b.png"></p>
+<h2 id="2ip-ipv4ipv6">2種類のIPアドレス - IPv4アドレス、IPv6アドレス</h2>
+<p>IPアドレスには、<strong class="memory-answer">IPv4</strong>（Internet Protocol v4）と <strong class="memory-answer">IPv6</strong>（Internet Protocol v6）の2種類があります。
+IPアドレスといえば一般的に<strong class="memory-answer">IPv4</strong>（Internet Protocol version 4）アドレスのことを指しており、IPv6
+をさす場合はIPv6アドレスと言います。IPv4アドレスは世界的に利用者が急増したことにより割り当てる
+IPアドレスがなくなってきており、それを解消するために開発されたのがIPv6です。現在、家庭や企業で
+最も使用されているIPアドレスはIPv4アドレスであり、IPv6アドレスの普及にはまだ時間がかかります。</p>
+<h2 id="ip_1">自分が現在使用しているIPアドレス</h2>
+<p>現在、自分が使用しているIPアドレスを確認するためには、Windowsの場合は以下手順を実行します。
+スタートボタン ⇒「プログラムとファイルの検索」でcmdと入力 ⇒ 開いた画面上で <strong class="memory-answer">ipconfig</strong> と入力。</p>
+<p><img alt="画像" src="../studygif/ip3g.png"></p>
+<p>例えば、現在当方が使用しているIPアドレスは「192.168.0.1」のIPアドレスであることが分かります。</p>
+<h2 id="ip_2">IPアドレスの構成</h2>
+<p>32ビットのIPアドレスは、<strong class="memory-answer">ネットワーク部</strong>と<strong class="memory-answer">ホスト部</strong>の2つによって構成されます。ネットワーク部は、
+各ホストが所属するネットワークを示します。ホスト部は、ネットワークに所属する各ホストを示します。
+例えば "192.168.2.1/24" のIPアドレスでは "/24" は24 ビットがネットワーク部という意味となるので
+"192.168.2" までがネットワーク部であることを示して、残りの"1"がホスト部であることを示しています。</p>
+<p><img alt="画像" src="../studygif/ip3c.png"></p>
+<h2 id="ip_3">IPアドレスのクラス</h2>
+<p>IPアドレスは、クラスA、クラスB、クラスC、クラスD、クラスEの5つのアドレスクラスに分類されます。
+これらのクラスでは、IPアドレスのネットワーク部とホスト部がどの部分に該当するのかを定義しており
+また、各クラスにおいて使用できるアドレス範囲、そして、各クラスにおける用途などを定義しています。</p>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>アドレス範囲</th>
+<th>定義</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラスA</td>
+<td>0.0.0.0 ～ 127.255.255.255</td>
+<td>ネットワーク部 (8bit)　ホスト部 (24bit )</td>
+<td>大規模ネットワークでの使用</td>
+</tr>
+<tr>
+<td>クラスB</td>
+<td>128.0.0.0 ～ 191.255.255.255</td>
+<td>ネットワーク部 (16bit)　ホスト部 (16bit)</td>
+<td>中規模ネットワークでの使用</td>
+</tr>
+<tr>
+<td>クラスC</td>
+<td>192.0.0.0 ～ 223.255.255.255</td>
+<td>ネットワーク部 (24bit)　ホスト部 (8bit)</td>
+<td>小規模ネットワークでの使用</td>
+</tr>
+<tr>
+<td>クラスD</td>
+<td>224.0.0.0 ～ 239.255.255.255</td>
+<td>下位28bitがマルチキャストグループID</td>
+<td>マルチキャスト用のアドレス</td>
+</tr>
+<tr>
+<td>クラスE</td>
+<td>240.0.0.0 ～ 255.255.255.255</td>
+<td>現在、割り当てが定義されていない</td>
+<td>実験用のアドレス</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ip3d.png"></p>
+<p>クラスAでは、第1オクテット (8bit) がネットワーク部であるので、残りの3つのオクテット (24bit) が
+ホスト部となります。つまりクラスAでは1つのネットワーク (セグメント) で割り当てられるホスト部の
+アドレスは16,777,214個 (2の24乗 -2) となります。この"-2"は、各ネットワーク部で予約されている
+<strong class="memory-answer">ネットワークアドレス</strong>と<strong class="memory-answer">ブロードキャストアドレス</strong>のことであり、これらはホストに割り当てられません。</p>
+<p><img alt="画像" src="../studygif/ip3e.png"></p>
+<p>クラスBでは、第2オクテット (16bit) までネットワーク部であるので、残りの2つのオクテット(16bit) が
+ホスト部となります。つまり、クラスBでは1つのネットワーク (セグメント) で割り当てられるホスト部の
+アドレスは 65534個（ 2の16乗 -2 ）となります。この "-2" は各ネットワーク部において予約されている
+<strong class="memory-answer">ネットワークアドレス</strong>と<strong class="memory-answer">ブロードキャストアドレス</strong>のことであり、これらはホストに割り当てられません。</p>
+<p><img alt="画像" src="../studygif/ip3f.png"></p>
+<p>クラスCでは、第3オクテット(24bit) までネットワーク部であるので、残りの1つのオクテット(8bit) が
+ホスト部となります。つまり、クラスCでは1つのネットワーク(セグメント)で割り当てられるホスト部の
+アドレスは 254個（ 2の8乗 -2 ）となります。この "-2" は、各ネットワーク部において予約されている
+ネットワークアドレスとブロードキャストアドレスのことであり、これらはホストに割り当てられません。</p>
+<p>各クラスのアドレス範囲を10進数で暗記するのは大変かもしれませんが、2進数で暗記すれば簡単です。
+また、その際に各アドレス範囲の"始まり"部分だけを暗記すればOKです。終わりは始まりの一つ前です。</p>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>アドレス範囲のはじまり ( 10進数 )</th>
+<th>アドレス範囲のはじまり ( 2進数 )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クラスA</td>
+<td>0.0.0.0 ～</td>
+<td>00000000 ～</td>
+</tr>
+<tr>
+<td>クラスB</td>
+<td>128.0.0.0 ～</td>
+<td>10000000 ～</td>
+</tr>
+<tr>
+<td>クラスC</td>
+<td>192.0.0.0 ～</td>
+<td>11000000 ～</td>
+</tr>
+<tr>
+<td>クラスD</td>
+<td>224.0.0.0 ～</td>
+<td>11100000 ～</td>
+</tr>
+<tr>
+<td>クラスE</td>
+<td>240.0.0.0 ～</td>
+<td>11110000 ～</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

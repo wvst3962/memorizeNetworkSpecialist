@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Routing - Metric | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">メトリックとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="routing-metric">Routing - Metric</h1>
+<hr>
+<h2 id="_1">メトリックとは</h2>
+<p>複数のルーティングプロトコルが動作していて、複数の情報源により得られた宛先ルートが複数ある場合は
+AD（<a href="routing7.html">administrative distance</a>）値に従い、1つの最適な宛先ルートがルーティングテーブルに登録されます。
+そして、ある1つのルーティングプロトコルで得られた宛先ルートが複数ある場合、メトリックの値が小さい
+経路が最適な宛先ルートとしてルーティングテーブルに登録されます。この<strong class="memory-answer">メトリック</strong>を以下で説明します。</p>
+<p>下図では「172.16.1.0/24」から「172.16.4.0/24」という宛先ネットワークへは、2つの通り道があります。
+1つは「R1 ⇒ R2 ⇒ R3」という経路、もう1つは「R1 ⇒ R4」という経路。下図の各ルータにてRIPが有効な
+場合、RIPではメトリック値にホップ数（ルータから宛先ルートまでに経由するルータの数）を使用すること
+になりますのでホップ数が少ない（メトリック値が小さい）R1 ⇒ R4の経路で通信を行います。R1⇒R2⇒R3
+の経路ではホップ数は「2」となります。一方、「R1⇒R4」の経路においては、ホップ数が「1」となります。
+以上の内容から、RIPでは、ホップ数の少ない経路である「R1 ⇒ R4」のパスにて通信を行うことになります。</p>
+<p><img alt="画像" src="../studygif/routing9a.png"></p>
+<p>ルーティングプロトコルによりこのメトリックの値は異なります。RIPではホップをメトリックの値にしますが
+OSPFの場合はコスト（インターフェースの帯域幅）をメトリックの値に使用します。従って、例えば下図では
+OSPFをルーティングプロトコルに使用している場合、「172.16.4.0/24」へR1⇒R2⇒R3の経路で通信します。</p>
+<p>OSPFでは10Mbpsのリンクはコスト値が 10 となります。そして100Mbpsのリンクはコスト値が<strong class="memory-answer">1</strong>となります。
+下図のR1⇒R2⇒R3では、100Mbpsのリンクを2回経由することになるので「1+1」でコスト値は<strong class="memory-answer">2</strong>となります。
+R1⇒R4では10Mbpsのリンクを経由するのでコスト値は<strong class="memory-answer">10</strong>。2 と 10 とでは <strong class="memory-answer">2</strong> の方がメトリック値が低いです。</p>
+<p><img alt="画像" src="../studygif/routing9b.png"></p>
+<p>メトリック値の定義と基準はルーティングプロトコルにより異なりますが、小さい値が優先されるのは絶対。</p>
+<table>
+<thead>
+<tr>
+<th>ルーティングプロトコル</th>
+<th>メトリック</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RIP</td>
+<td>ホップ数</td>
+<td>ルータから宛先ルートまでに経由するルータの数</td>
+</tr>
+<tr>
+<td>EIGRP</td>
+<td>複合メトリック</td>
+<td>インターフェースの帯域幅、遅延、信頼性、負荷、MTU</td>
+</tr>
+<tr>
+<td>OSPF</td>
+<td>コスト</td>
+<td>インターフェースの帯域幅</td>
+</tr>
+<tr>
+<td>IS-IS</td>
+<td>ナローメトリック<br>ワイドメトリック</td>
+<td>ナローメトリック ： I/F上のメトリック（1 ～ 63）<br>ワイドメトリック ： I/F上のメトリック（1 ～ 16777214）</td>
+</tr>
+</tbody>
+</table>
+<p>Ciscoルータのルーティングテーブルでのメトリック値の確認方法は<a href="routing2.html">ルーティングテーブルの見方</a>でご確認を。</p>
+<p>繰り返しになりますが、ルーティングテーブルでは
+先ず、ロンゲストマッチに従い宛先ルートへのパス
+が決定します。ルーティングにおける大原則です。</p>
+<p>次に、ルータ上で複数のルーティングプロトコルが
+動作していて、複数の情報源により宛先ルートを
+得る場合、AD値の最も低いルーティングプロトコル
+のルート情報をルーティングテーブルに登録します。</p>
+<p>最後に、ある1つのルーティングプロトコルにおいて
+得られた宛先ルートが複数ある場合、メトリック値の
+最も小さいパスのルート情報をルーティングテーブル
+に登録します。メトリック値が全く同じである場合は
+複数のルートがルーティングテーブルに存在して、
+パケットのロードバランスして送出されていきます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study19.html">ルーティング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

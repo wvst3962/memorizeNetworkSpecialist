@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Radius Authentication | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#radius">Radiusとは</a></li>
+<li><a href="#radius_1">不正なRadiusクライアント（サーバ）からの接続要求の排除</a></li>
+<li><a href="#radius_2">Radiusパケット</a></li>
+<li><a href="#cisco-ios">Cisco IOS サポート</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="radius-authentication">Radius Authentication</h1>
+<hr>
+<h2 id="radius">Radiusとは</h2>
+<p>Radius（Remote Authentication Dial In User Service）は、ネットワーク上のユーザ認証プロトコルの
+1つです。Radiusは、電話回線でダイヤルアップ接続の方式を利用するユーザに対してインターネット接続
+を実現するための認証プロトコルとして当初は使用されていました。ユーザ認証だけでなくネットワークの
+接続時間やデータ量の情報も収集できるため、ISPなどでは認証ユーザの課金などでも利用していました。
+現在では<strong class="memory-answer">無線LANや有線LANでのネットワーク接続時のユーザ認証のプロトコル</strong>としても利用されています。</p>
+<p>Radiusによる認証システムは<strong class="memory-answer">Radiusサーバ</strong>、<strong class="memory-answer">Radiusクライアント</strong>、<strong class="memory-answer">ユーザー</strong>の3つの要素で構成されます。
+Radiusクライアントは<strong class="memory-answer">NAS</strong>（Network Access Server）とも呼ばれます。アクセスしてくるユーザの認証
+要求を受け付けてRadiusサーバにその情報を転送するのがRadiusクライアントです。その認証要求に応じて
+認証を実行してアクセスを許可するかどうかを決定するのはRadiusサーバ。認証時に使用するユーザ情報は
+Radiusサーバがローカルデータベースとして保持するか、外部データベースとして保持することができます。</p>
+<p><img alt="画像" src="../studygif/security20a.png"></p>
+<p>PCからRadiusクライアントに送信されたユーザ名とパスワードは、RadiusクライアントからRadiusサーバへ
+<strong class="memory-answer">Access-Request</strong>メッセージとして送信されます。Radiusサーバは、送信されてきた情報と、Radiusサーバが
+保持している情報とを照らし合わせて、正規ユーザかどうかを識別します。正規ユーザだと判断できた場合は
+Radiusサーバは<strong class="memory-answer">Access-Accept</strong>メッセージでRadiusクライアントに伝えて、その情報がユーザに伝えられます。</p>
+<h2 id="radius_1">不正なRadiusクライアント（サーバ）からの接続要求の排除</h2>
+<p>RADIUSでは、不正なRadiusクライアント、または不正なRadiusサーバからの接続要求を排除するために、
+Radiusクライアント ⇔ Radiusサーバ間で共有暗号鍵（<strong class="memory-answer">Shared Secret</strong>）を事前に設定しておきます。また、
+RadiusサーバとRadiusクライアントともに連携する同士のIPアドレスを指定します。これらの設定によって、
+不正なRadiusクライアント、Radiusサーバとが通信を行うこと(不正な接続要求)を防止することができます。</p>
+<p><img alt="画像" src="../studygif/security20b.png"></p>
+<h2 id="radius_2">Radiusパケット</h2>
+<p>Radiusプロトコルはリモートアクセス環境で<strong class="memory-answer">認証情報やアカウンティング情報をやりとりするプロトコル</strong>で、
+Radiusパケットには下図の通り「種別コード、識別子、長さ、認証符号、属性値ペア」の情報が含まれます。
+RadiusパケットはUDP上で転送されます。Radiusの認証（Authenticatoin）にはポート番号 <strong class="memory-answer">1812</strong> を使用し、
+Radiusのアカウンティング（Accounting）にはポート番号 <strong class="memory-answer">1813</strong> を使用します。</p>
+<p><img alt="画像" src="../studygif/security20c.png"></p>
+<table>
+<thead>
+<tr>
+<th>Radiusパケット（ 種別コード ）</th>
+<th>説明</th>
+<th>コード</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access-Request</td>
+<td>認証要求</td>
+<td>コード 1</td>
+</tr>
+<tr>
+<td>Access-Accept</td>
+<td>認証（認可）による許可</td>
+<td>コード 2</td>
+</tr>
+<tr>
+<td>Access-Reject</td>
+<td>認証（認可）による拒絶</td>
+<td>コード 3</td>
+</tr>
+<tr>
+<td>Accounting-Request</td>
+<td>課金要求</td>
+<td>コード 4</td>
+</tr>
+<tr>
+<td>Accounting-Response</td>
+<td>課金要求に対する応答</td>
+<td>コード 5</td>
+</tr>
+</tbody>
+</table>
+<p>Radiusプロトコルでは、「<strong class="memory-answer">属性</strong>と<strong class="memory-answer">値</strong>」のペアで構成される<strong class="memory-answer">属性値ペア</strong>というフォーマットで、色々な情報を
+やりとりします。属性値ペアは<strong class="memory-answer">AVペア</strong>と呼ばれたり<strong class="memory-answer">アトリビュート</strong>とも呼ばれています。冒頭の図でも説明
+している通り、ユーザ名やパスワード情報もこの属性値ペアによって、Radiusサーバに引き渡されています。
+値は「数字」または「文字列」が渡されます。Cisco IOSがサポートしている（属性値ペア）の一部を紹介。</p>
+<h2 id="cisco-ios">Cisco IOS サポート</h2>
+<table>
+<thead>
+<tr>
+<th>属性番号</th>
+<th>IETF Attribute</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>User-Name</td>
+<td>Radiusサーバにより認証されるユーザ名</td>
+</tr>
+<tr>
+<td>2</td>
+<td>User-Password</td>
+<td>ユーザのパスワード、またはAccess-Challengeに続くユーザの入力</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CHAP-Password</td>
+<td>CHAPのパスワード。Access-Challengeに対する応答（ユーザが入力した応答値）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NAS-IP Address</td>
+<td>認証を要求しているNetwork Access Server(NAS）のIPアドレス。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>NAS-Port</td>
+<td>ユーザを認証しようとしているNASの物理ポート番号。16ビットの値で構成。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Service-Type</td>
+<td>要求されたサービスのタイプ。 特定の数値で示される。1：Login、 2：Framed<br>3：Callback-Login、4：Callback-Framed、 5：Outbound、 6：Administrative、<br>7：NAS-Prompt、8：Authenticate Only、 9：Callback-NAS-Prompt</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Framed-Protocol</td>
+<td>フレーム構成。フレーム構成は以下の数値で指定される。<br>1：PPP　2：SLIP　3：ARA<br>4：Gandalf独自プロトコル　5：Xylogics 独自のIPX/SLIP</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Framed-IP-Address</td>
+<td>ユーザに指定するIPアドレス。<br>Access-Request内でユーザのIPアドレスをRADIUSサーバに送信することで、<br>ユーザに対して設定するIPアドレスを示す。Cisco IOSでは次のコマンドで有効<br>になる。 (config)# radius-server attribute 8 include-in-access-req<br>※ 受け入れられる値は、0xFFFFFFFF ( ユーザーがアドレスを選択 ) と<br>0xFFFFFFFE ( リモート アクセス サーバーがアドレスを選択 ) のみとなる。</td>
+</tr>
+</tbody>
+</table>
+<p>RadiusはRASの認証手段として開発されましたが、その後にEAPを取り込むなどして発展を続けています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

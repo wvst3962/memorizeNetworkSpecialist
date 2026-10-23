@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 addressing - Stateless / Statefull / DHCPv6 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6-ra">IPv6アドレス - RAによるステートレス自動設定</a></li>
+<li><a href="#cisco-ios-ra">Cisco IOS - 定期的に送信されるRAを停止するコマンド</a></li>
+<li><a href="#cisco-ios-rarsra">Cisco IOS - 定期的に送信されるRAの停止、RSに応答するRAについても停止するコマンド</a></li>
+<li><a href="#ipv6-">IPv6アドレス - ステートフル自動設定</a></li>
+<li><a href="#cisco-ios-mmanagedon1">Cisco IOS - M（Managed）フラグのON（1）にするための設定</a></li>
+<li><a href="#cisco-ios-oother-configon1">Cisco IOS - O（Other Config）フラグのON（1）にするための設定</a></li>
+<li><a href="#dhcpv6-pdipv6">DHCPv6-PDによるIPv6アドレス配布</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-addressing-stateless-statefull-dhcpv6">IPv6 addressing - Stateless / Statefull / DHCPv6</h1>
+<hr>
+<h2 id="ipv6-ra">IPv6アドレス - RAによるステートレス自動設定</h2>
+<p>ステートレス自動設定では「プレフィックス」が自動的に設定され、「インターフェースID」はEUI-64で
+生成させます。このステートレス自動設定は<strong class="memory-answer">オートコンフィグレーション</strong>とも呼ばれています。この方法は
+IPv6対応のルータとIPv6対応の端末とが、<strong class="memory-answer">RS</strong>と<strong class="memory-answer">RA</strong>というメッセージをやり取りすることで実現しています。</p>
+<table>
+<thead>
+<tr>
+<th>2種類のメッセージ</th>
+<th>宛先アドレス</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RS（Router Solicitation）</td>
+<td>FF02：：2</td>
+<td>ルータ要請。IPv6対応ホストが、IPv6対応ルータに送信するメッセージ。<br>IPv6の<strong class="memory-answer">プレフィックス</strong>、<strong class="memory-answer">デフォルトゲートウェイ</strong>等を要求するメッセージ。</td>
+</tr>
+<tr>
+<td>RA（Router Advertisement）</td>
+<td>FF02：：1</td>
+<td>ルータアドバタイズメント。RSを受信したときに応答するメッセージ。<br>ホストに割り当てる<strong class="memory-answer">プレフィックス</strong>、<strong class="memory-answer">デフォルトゲートウェイ</strong>の情報を含む。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipv6z5a.png"></p>
+<p>?@?A　IPv6対応のホストはインターフェースでIPv6が有効であれば、リンクアップした時点でリンクローカル
+アドレスは自動的に設定されます。次にそのリンクローカルアドレスを送信元アドレスとして同一セグメントの
+ルータにRS（ルータ要請）メッセージを送信し、グローバルユニキャストのプレフィックスを得ようとします。</p>
+<p>?B　ホストからRSメッセージを受信したルータはRA (ルータアドバタイズメント) を送信します。この情報に
+IPv6ホストに割り当てる<strong class="memory-answer">プレフィックス</strong>、<strong class="memory-answer">デフォルトゲートウェイ</strong>、<strong class="memory-answer">有効期限</strong>などの情報が含まれています。</p>
+<p>?C　RAを受信したホストは受信した<strong class="memory-answer">プレフィックス</strong>と自身のMACアドレスを利用してEUI-64により生成した
+<strong class="memory-answer">インターフェースID</strong>を組み合わせることで、グローバルユニキャストアドレスを生成し自動設定が完了します。</p>
+<p>Ciscoルータでは <strong class="memory-answer">ipv6 unicast-routing</strong> とグローバルで定義することによって、イーサネットの I/F 上では
+<strong class="memory-answer">デフォルトでRAメッセージが送信</strong>されることになります。その他のインターフェースタイプの場合、I/F上で
+手動で no ipv6 nd ra suppress とコマンド設定することにより、RAメッセージを送信することができます。
+また、RAメッセージは ipv6 nd ra suppress によりインターフェースごとに個別でディセーブルにできます。</p>
+<h2 id="cisco-ios-ra">Cisco IOS - 定期的に送信されるRAを停止するコマンド</h2>
+<p>Cisco(config-if) # ipv6 nd ra suppress</p>
+<h2 id="cisco-ios-rarsra">Cisco IOS - 定期的に送信されるRAの停止、RSに応答するRAについても停止するコマンド</h2>
+<p>Cisco(config-if) # ipv6 nd ra suppress all</p>
+<h2 id="ipv6-">IPv6アドレス - ステートフル自動設定</h2>
+<p>ステートフル自動設定では「プレフィックス と インターフェースID」をDHCPv6サーバにより割り当てます。
+また、ステートフル自動設定は、DHCPv6サーバからIPv6アドレス情報だけでなく、DNSサーバなども付与
+することも可能です。DHCPv6サーバはIPv6アドレスという点は除いて、DHCPv4サーバと同じ動作をします。</p>
+<p><img alt="画像" src="../studygif/ipv6z5b.png"></p>
+<p>ただしDHCPv6サーバ単体だけでは完全に機能しないので、ルータが送信するRA（Router Advertisement）の
+<strong class="memory-answer">Mフラグ</strong>と<strong class="memory-answer">Oフラグ</strong>という2つのフィールドと連携する必要があります。DHCPv6クライアントのIPv6ホストは
+ルータが送信するRAに含まれる2つのフラグを見てから、IPv6アドレスをどこから取得するのかを決定します。</p>
+<table>
+<thead>
+<tr>
+<th>RAのフラグ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mフラグ</td>
+<td>IPv6アドレスをDHCPv6サーバで取得するか、RAで得たプレフィックスから自身で生成するかを決定。<br>ONの場合、DHCPv6サーバから取得する。OFFの場合、RAで得たプレフィックスから自身で生成する。</td>
+</tr>
+<tr>
+<td>Oフラグ</td>
+<td>IPv6アドレス以外のパラメータをDHCPv6サーバから取得するか、取得しないかを決定。<br>ONの場合、DHCPv6サーバから取得する。OFFの場合、DHCPv6サーバから取得しない（手動設定）</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>Mフラグ</th>
+<th>Oフラグ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong class="memory-answer">ON</strong><br>(　1　)</td>
+<td><strong class="memory-answer">ON</strong><br>(　1　)</td>
+<td>・　DHCPv6サーバを使用したステートフル自動設定<br>・　DHCPv6サーバからIPv6アドレス、GW、DNSなどを取得できる<br>・　DHCPv6サーバでクライアントに割り当てたIPv6アドレスを管理<br>※　現時点でDHCPv6でデフォルトゲートウェイ情報を配布できない</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong class="memory-answer">ON</strong><br>(　1　)</td>
+<td>OFF<br>(　0　)</td>
+<td>・　IPv6アドレスはDHCPv6サーバから取得して、他のパラメータは手動設定</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">3</strong></td>
+<td>OFF<br>(　0　)</td>
+<td><strong class="memory-answer">ON</strong><br>(　1　)</td>
+<td>・　DHCPv6サーバを使用したステートレス自動設定<br>・　IPv6アドレスやGWは、<strong class="memory-answer">RAから</strong>の情報に基づいて自身で生成する<br>・　IPv6アドレス以外のパラメータ（DNS等）は<strong class="memory-answer">DHCPv6サーバから</strong>取得する</td>
+</tr>
+<tr>
+<td>4</td>
+<td>OFF<br>(　0　)</td>
+<td>OFF<br>(　0　)</td>
+<td>・　RAのみを利用したステートレス自動設定<br>・　IPv6アドレスやGWは、RAからの情報に基づいて自身で生成する<br>・　IPv6アドレス以外のパラメータ（DNS等）は手動で設定する<br>※　RFC6106に対応していれば、DNSサーバのIPもRAで配布できる！</td>
+</tr>
+</tbody>
+</table>
+<p>Ciscoのインターフェースはデフォルトで、MフラグOフラグともにOFF（ 0 ）でありパターン4のRAを
+送出します。Mフラグ、Oフラグの設定方法は以下のコマンドにより変更できます。</p>
+<h2 id="cisco-ios-mmanagedon1">Cisco IOS - M（Managed）フラグのON（1）にするための設定</h2>
+<p>Cisco(config-if) # ipv6 nd managed-config-flag</p>
+<h2 id="cisco-ios-oother-configon1">Cisco IOS - O（Other Config）フラグのON（1）にするための設定</h2>
+<p>Cisco(config-if) # ipv6 nd other-config-flag</p>
+<p>パターン1
+現時点ではデフォルトゲートウェイの情報を
+規格上では、DHCPv6から配布できないため
+あまり使用されていません。</p>
+<p>パターン2
+とても管理者の手間のかかる方式であるため
+このパターンの実装は先ずありません。</p>
+<p>パターン3
+現在、最も使用されているアドレス配布方式。</p>
+<p>パターン4
+RFC6106により今後多くのIPv6ネットワークで
+採用されていく可能性が高いアドレス配布方式。</p>
+<h2 id="dhcpv6-pdipv6">DHCPv6-PDによるIPv6アドレス配布</h2>
+<p>DHCPv6によるアドレス配布には、<strong class="memory-answer">DHCPv6-PD</strong>（prefix delegation）と呼ばれる方式があり、この方式では
+ホストまたはルータにプレフィックスのみを払い出します。DHCPv6-PDによるIPv6払い出し例を見てみます。</p>
+<p><img alt="画像" src="../studygif/ipv6z5c.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

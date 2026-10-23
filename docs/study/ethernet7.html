@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Ethernet LAN - Layer 2 Switch | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#layer2">Layer2スイッチの機能</a></li>
+<li><a href="#layer2_1">Layer2スイッチのフレーム転送方式</a></li>
+<li><a href="#layer2_2">Layer2スイッチの管理設定</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ethernet-lan-layer-2-switch">Ethernet LAN - Layer 2 Switch</h1>
+<hr>
+<h2 id="layer2">Layer2スイッチの機能</h2>
+<p>Layer2スイッチはデータリンク層でMACアドレスを見ながらフレームの宛先を判断して転送を行う機器。
+ここではLayer2スイッチが行う<strong class="memory-answer">フラッディング</strong>、<strong class="memory-answer">フィルタリング</strong>、<strong class="memory-answer">エージング</strong>等の機能を見ていきます。
+スイッチに電源を入れた起動時では端末がデータの送受信をしていない場合、スイッチ上のMACアドレス
+テーブルにはどのホストのMACアドレスも学習していない状態です。MACアドレステーブルの見方は以下。</p>
+<p><img alt="画像" src="../studygif/ethernet7a.png"></p>
+<p>次に、ホストAがCにフレームを送信します。そのフレームの送信元MACアドレスが「0000.0000.0001」
+宛先MACアドレスが「0000.0000.0003」となります。スイッチは、そのフレームの送信元MACアドレス、
+受信したポート番号、そのポートが所属するVLAN番号の情報をキャッシュします。このMACアドレスの
+情報は、スイッチに手動（Static）ではなく自動（Dynamic）でキャッシュなのでタイプは<strong class="memory-answer">DYNAMIC</strong>です。</p>
+<p>宛先MACアドレス「0000.0000.0003」がキャッシュされていないスイッチは、F0/1を除く全ポートに
+つまり、<strong class="memory-answer">受信ポートを除く全てのポート</strong>にフレームを転送します。この動作を<strong class="memory-answer">フラッディング</strong>と言います。
+ホストCはこのフレームを受信し処理します。一方、ホストBは自分宛ではないのでフレームを破棄します。</p>
+<p><img alt="画像" src="../studygif/ethernet7b.png"></p>
+<p>続いて、ホストCがAにフレームを送信します。そのフレームの送信元MACアドレスが「0000.0000.0003」
+宛先MACアドレスが「0000.0000.0001」となります。スイッチは先ほど同様に各種情報をキャッシュします。
+次に、宛先MACアドレス「0000.0000.0001」がキャッシュされているスイッチは、宛先となるポート(F0/1）
+にのみフレームを転送します。この動作を <strong class="memory-answer">フィルタリング</strong> と言います。なお、MACエントリの最適化のため、
+MACアドレステーブルの情報は、一定時間（Catalystの場合には300秒）通信が発生しなければ削除されます。
+この動作を<strong class="memory-answer">エージング</strong>と言います。</p>
+<p><img alt="画像" src="../studygif/ethernet7c.png"></p>
+<h2 id="layer2_1">Layer2スイッチのフレーム転送方式</h2>
+<p>スイッチにおけるフレームの転送方式はストアアンドフォワード、カットスルー、フラグメントフリー
+の3つがあります。スイッチが高性能化している現在、一般的に、どのメーカーのスイッチも転送方式に
+<strong class="memory-answer">ストアアンドフォワード</strong>を採用しているといえます。Catalystスイッチでもこの方式を採用しています。</p>
+<table>
+<thead>
+<tr>
+<th>Layer2スイッチの3つのフレーム転送方式</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ストアアンドフォワード</td>
+<td>1つのフレーム全体を受信した後、メモリに蓄積（ストア）してから、FCSによるエラー<br>チェックを行い、問題なければ転送（フォワード）します。他の方式に比べ転送速度が<br>遅くなりやや高価な機器が必要となるが、通信品質の良いフレームの転送方式。</td>
+</tr>
+<tr>
+<td>カットスルー</td>
+<td>フレームの先頭6byteだけ(宛先MACアドレスだけ）を読み込み、転送する。他の方式<br>より転送速度が高速になるが、エラーチェックができないことから通信品質は低下する。</td>
+</tr>
+<tr>
+<td>フラグメントフリー</td>
+<td>フレームの先頭64byteだけを読み込み、フレームが正常か確認して、問題がある場合<br>破棄して、正常であれば転送します。カットスルーよりも信頼性が高く、ストアアンド<br>フォワードに比べると転送速度が高速となる。上記の転送方式の中間のような方式。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ethernet7d.png"></p>
+<h2 id="layer2_2">Layer2スイッチの管理設定</h2>
+<p>下図の通り、Layer2スイッチにIPアドレスやデフォルトゲートウェイを設定していなくても、スイッチに
+接続するホストやルータは問題なく通信できますが、スイッチのステータス確認や設定変更を行いたい場合
+に、スイッチにアクセスするためには、IPアドレスやデフォルトゲートウェイを設定する必要があります。</p>
+<p><img alt="画像" src="../studygif/ethernet7e.png"></p>
+<p>以下で、Catalystスイッチの管理設定の基本であるホスト名、IPアドレス、デフォルトゲートウェイの
+設定を紹介します。以下の設定により、ホスト名を 「TEST」、管理IPアドレスとしてinterface vlan 1
+に「192.168.1.250」、デフォルトゲートウェイとして「192.168.1.254」がコンフィグ設定されます。</p>
+<p><img alt="画像" src="../studygif/ethernet7f.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OSPF - ABR / ASBR | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ospf-">OSPF - エリアとは</a></li>
+<li><a href="#ospf-_1">OSPF - シングルエリアとマルチエリア</a></li>
+<li><a href="#ospf-ospf">OSPF - OSPFルータのタイプ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ospf-abr-asbr">OSPF - ABR / ASBR</h1>
+<hr>
+<h2 id="ospf-">OSPF - エリアとは</h2>
+<p>OSPFのエリアは「LSAを交換する範囲を示す論理グループ」のことです。つまり、「同じLSDBを持つOSPF
+ルータの論理グループ」とも言えます。各エリア内では詳細なリンクステート情報を保持しますが、エリアの
+分割により異なるエリアには集約した情報だけを通知すればよく、LSAのフラッディングを限定的にできます。
+その結果、OSPFルータの負荷が軽くなります。このエリアの範囲は管理者が手動で定義することができます。</p>
+<p><img alt="画像" src="../studygif/ospfz4a.png"></p>
+<table>
+<thead>
+<tr>
+<th>エリア分割によるメリット</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSDBサイズの縮小</td>
+<td>同一エリア内の全てのOSPFルータは、同じLSDBを保持するが、エリア分割によって<br>OSPFルータは異なるエリアのLSAを保持しなくなる。結果、各ルータで保持している<br>LSDBのサイズを小さくすることができるため、ルータのメモリ使用率を抑えられる。</td>
+</tr>
+<tr>
+<td>SPF計算頻度の減少</td>
+<td>エリア内では詳細なリンクステート情報を保持するが、エリア分割により異なるエリア<br>には、集約した情報だけを通知すれば良い。トポロジ変更時のLSAのフラッディングは<br>同一エリア内に抑えられることからSPF計算頻度も減少し、CPUの使用率を抑制できる。</td>
+</tr>
+<tr>
+<td>ルーティングテーブルのサイズ縮小</td>
+<td>エリアを分割することにより、異なるエリアへは複数のルート情報を経路集約して送る<br>ことができるため、ルーティングテーブルのサイズを縮小しメモリ使用率を抑えられる。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ospf-_1">OSPF - シングルエリアとマルチエリア</h2>
+<p>OSPFは自律システムとエリアで構成されます。OSPFでいう自律システムとは、共通のプロトコルを使用して
+経路情報をやりとりするルータのグループのことです。OSPFのエリアは、エリア 0 (<strong class="memory-answer">バックボーンエリア</strong>）に
+他のエリアが隣接する構成となります。エリア 0 を中心とした2階層の構成となります。なお、規模が小さい
+ネットワークではエリア 0 だけを使用する<strong class="memory-answer">シングルエリア</strong>として構成しても問題はありませんが、ルータの
+負荷軽減のために大規模ネットワークの場合、複数のエリアを使用する<strong class="memory-answer">マルチエリア</strong>の構成が推奨となります。</p>
+<p><img alt="画像" src="../studygif/ospfz4b.png"></p>
+<p>※　OSPFのエリアの境界はルータです。ルータの各インターフェースごとに参加するエリアを指定します。</p>
+<h2 id="ospf-ospf">OSPF - OSPFルータのタイプ</h2>
+<p>OSPFのマルチエリアの構成では以下の4種類のタイプがあります。OSPFを稼働しているルータはいずれかの
+タイプに当てはまりますが1台のルータが複数のタイプに該当することもあります。例えばエリア0に配置した
+ルータの全てのインタフェースをエリア 0 に接続している場合、<strong class="memory-answer">内部ルータ兼バックボーンルータ</strong>となります。</p>
+<p><img alt="画像" src="../studygif/ospfz4c.png"></p>
+<table>
+<thead>
+<tr>
+<th>OSPFルータのタイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内部ルータ</td>
+<td>内部ルータは、全てのインターフェースを同じエリアに接続しているルータ。</td>
+</tr>
+<tr>
+<td>バックボーンルータ</td>
+<td>バックボーンルータは、1つ以上のインターフェースをバックボーンエリアに接続しているルータ。</td>
+</tr>
+<tr>
+<td>ABR<br>( Area Border Router)</td>
+<td>エリア境界ルータ。ABRは、異なるエリアを接続しているルータ。ABRではエリアごとの LSDB を<br>保持しており、エリア間のルーティングを行う。ABRでは異なるエリアのリンクステート情報を集約<br>して内部ルータに通知するので内部ルータのLSDBのサイズは縮小できる。集約ルートはABRで設定。</td>
+</tr>
+<tr>
+<td>ASBR<br>( AS Boundary Router )</td>
+<td>AS境界ルータ。ASBRは、1つ以上のインターフェースが外部ASのルータと接続しているルータ。<br>外部ASのルータとは、例えばRIPを稼働しているルータなどの非OSPFネットワークにいるルータ。<br>ASBRにルート再配送をすることにより、OSPFネットワークと非OSPFネットワークとが通信できる。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ospfz4d.png"></p>
+<p>実際にOSPFを使用してネットワーク設計する場合
+一般的に<strong class="memory-answer">WANをエリア0</strong>（バックボーンエリア）に
+各拠点をエリア1、2、3 ・・というように割り当て
+していきます。そうすることで、全てのエリアは
+必ずエリア 0 （バックボーンエリア）と隣接します。</p>
+<p>また、そのネットワークセグメント設計においては
+各エリアのネットワークセグメントを/24として設計
+して、ABR（境界ルータ）上で /16 に経路集約して、
+異なるエリアにその拠点のネットワークを通知します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study30.html">OSPF 設定</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

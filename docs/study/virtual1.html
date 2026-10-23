@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Containerization | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">仮想化技術 - コンテナ型</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="containerization">Containerization</h1>
+<hr>
+<h2 id="-">仮想化技術 - コンテナ型</h2>
+<p>仮想化技術には、サーバ仮想化技術のハイパーバイザー型とホストOS型に加えて、<strong class="memory-answer">コンテナ型</strong>があります。
+<strong class="memory-answer">1つの物理マシン上に多数の独立した仮想環境を構築</strong>するという観点から上述の3つともサーバ仮想化技術
+とも言えますが、「ハイパーバイザー型・ホストOS型」と「コンテナ型」とで次の点で大きく異なります。
+※ 本記事では、代表的なサーバ仮想化技術の「ハイパーバイザー型」とコンテナ技術の「コンテナ型」を比較しながら解説します。</p>
+<table>
+<thead>
+<tr>
+<th>仮想化技術</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ハイパーバイザー型</td>
+<td>1つの物理マシン上にインストールした<strong class="memory-answer">仮想化ソフトウェア</strong>（例：VMware ESX）により<br>プロセッサやメモリなどのハードウェアリソースを論理的に分割し複数の独立したサーバのように<br>機能させられる技術。生成した独立したサーバは<strong class="memory-answer">仮想サーバ</strong>または仮想マシン（VM）と呼ばれる。</td>
+</tr>
+<tr>
+<td>コンテナ型</td>
+<td>1つの物理マシンの1つのOS上にインストールした<strong class="memory-answer">コンテナ管理ソフトウェア</strong>（例：Docker）で<br><strong class="memory-answer">コンテナ</strong>と呼ばれる他のユーザから独立したアプリケーションの実行環境を構築することにより<br>複数の独立したサーバのように機能させる技術。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/virtual1a.png"></p>
+<p>ハイパーバイザー型とコンテナ型のメリットとデメリットは以下の通りです。コンテナ型ではハードウェア
+リソースの消費が少なく、可搬性も高く、運用コストを抑制できるメリットがあるが、特定のOSに縛られる
+デメリットがあります。一方、ハイパーバイザー型では仮想サーバごとに異なるOSを使用できるなど自由度
+が高いメリットがあるが、ハードウェアリソースの負担が大きく、運用管理のコストも大きく、可搬性も低い
+というデメリットもあります。どちらを採用するかは、要件や用途に応じて適切に選定する必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>仮想化技術</th>
+<th>メリットとデメリット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ハイパーバイザー型</td>
+<td>◆　メリット<br>・　仮想サーバ（仮想マシン）ごとに異なるOSを稼働させられることから、仮想サーバごとに<br>柔軟に運用を分けることができるという自由度が高い点。<br>◆　デメリット<br>・　仮想サーバ（仮想マシン）ごとにゲストOSを起動させる必要があり、仮想サーバごとに<br>プロセッサ、メモリ、ストレージなどのハードウェアリソースが必要となる。<br>・　仮想サーバごとにOSを管理する必要があり、運用管理に多くの工数が必要となってくる。</td>
+</tr>
+<tr>
+<td>コンテナ型</td>
+<td>◆　メリット<br>・　1つのホストOSで稼働することから、プロセッサ、メモリ、ストレージなどのハードウェア<br>リソースの消費が少ないことからも、仮想サーバと比較して短時間で起動・停止ができる。<br>・　ハードウェアとホストOSの上位に位置するコンテナ管理ソフトウェアが、ハードウェアや<br>OSごとの違いを吸収してくれることから、既にアプリとミドルウェアの動作確認できている<br>コンテナであれば、他のサーバに移動させても確実に動作することを保証してくれる。<br>・　コンテナごとのアプリの実行環境を管理する際、コンテナ型ではOS環境を共有していること<br>からも、ハイパーバイザー型のようの個別のOS管理は不要となり運用コストが抑制できる。<br>◆　デメリット<br>・　コンテナごとに異なるOSを動作させられずOS依存が発生することから、柔軟な運用ができず<br>要件によりコンテナ化できないケースが発生する。<br>・　複数のコンテナが1つのホストOSで稼働するため、大本となるそのホストOSに不具合が発生<br>した場合、全てのコンテナが影響を受けることになる。</td>
+</tr>
+</tbody>
+</table></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

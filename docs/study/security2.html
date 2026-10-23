@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Hacker / Cracker | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">ネットワークセキュリティ - 攻撃者</a></li>
+<li><a href="#-_1">ネットワークセキュリティ - 攻撃手法</a></li>
+<li><a href="#_1">調査</a></li>
+<li><a href="#_2">アクセス</a></li>
+<li><a href="#_3">攻撃</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="hacker-cracker">Hacker / Cracker</h1>
+<hr>
+<h2 id="-">ネットワークセキュリティ - 攻撃者</h2>
+<p>ネットワークシステムにおける攻撃者は、一般的に<strong class="memory-answer">ハッカー</strong>と呼ばれていますが正確には「<strong class="memory-answer">クラッカー</strong>」と
+言います。以下に用語を整理します。クラッカーは、機密情報の収集、データの破壊、情報サービスの妨害
+などの目的でクラッキングを行います。これらの行為に対してネットワークシステムとしてはFirewall、IDS
+IPSのネットワーク製品により防衛を行い、各コンピュータはウィルス対策ソフトウェア等で防衛を行います。</p>
+<table>
+<thead>
+<tr>
+<th>セキュリティ用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ハッキング</td>
+<td>コンピュータや通信システムの動作の解析、プログラムの改良をしたりすること。<br>コンピュータシステムを熟知した技術者のエンジニアリングを広く意味する言葉。</td>
+</tr>
+<tr>
+<td>ハッカー</td>
+<td>ハッキングを行う技術者のこと。</td>
+</tr>
+<tr>
+<td>クラッキング</td>
+<td>他人のコンピュータのデータやプログラムの盗み見、改ざん、破壊などを行うこと。</td>
+</tr>
+<tr>
+<td>クラッカー</td>
+<td>クラッキングを行う技術者のこと。</td>
+</tr>
+<tr>
+<td>Firewall</td>
+<td>ファイアーウォール。インターネットなどの外部ネットワークから、企業内LANの内部<br>ネットワーク上のコンピュータに対して不正なアクセスを防止するシステムのこと。</td>
+</tr>
+<tr>
+<td>IDS</td>
+<td>侵入<strong class="memory-answer">検知</strong>システム。不正なアクセスや悪意のあるトラフィックを検知して通知するシステム。</td>
+</tr>
+<tr>
+<td>IPS</td>
+<td>侵入<strong class="memory-answer">防止</strong>システム。不正なアクセスや悪意のあるトラフィックを検知、通知、防御するシステム。</td>
+</tr>
+<tr>
+<td>WAF</td>
+<td>WAFは、<strong class="memory-answer">Webアプリケーションの脆弱性を悪用した攻撃から保護するシステム</strong>。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-_1">ネットワークセキュリティ - 攻撃手法</h2>
+<p>攻撃は次の3つのステップを踏みます。Step 1：<strong class="memory-answer">調査</strong>　⇒　Step 2：<strong class="memory-answer">アクセス</strong>　⇒　Step 3：<strong class="memory-answer">攻撃</strong>の3段階。
+アクセスは<strong class="memory-answer">アクセス攻撃</strong>、攻撃は<strong class="memory-answer">サービス不能攻撃</strong>ともいわれます。調査も一種の攻撃です。それではその
+内容を見ていきましょう。以下で紹介する汎用的な3つのステップを知ることで、ネットワーク管理者として
+どのようにネットワークセキュリティを実装（ セキュリティ製品を実装 ）すべきなのか、よく分かります。</p>
+<h2 id="_1">調査</h2>
+<p>攻撃者は、標的のネットワークにおいてどのIPアドレスが有効なのかを、<strong class="memory-answer">pingスイープ</strong>します。基本中の
+基本ですがここから始まります。pingスイープとはIPアドレスを自動的に増加させるpingツールのことです。</p>
+<p>次に、pingスイープによって判明したIPアドレスのホストへ、<strong class="memory-answer">ポートスキャン</strong>を行うことで現在有効である
+サービスポートを特定します。これにより標的のサーバで稼働しているOSのバージョン、アプリケーション
+の種別、アプリケーションのバージョンが分かります。これらの情報により脆弱性が存在しているかどうか
+不正利用可能かどうかを決定します。その他の高度な調査方法もありますが、上記の2点が基本的な手法です。</p>
+<p>※　攻撃者が調査をできないように、サーバ本体のIPを隠したり、サーバ上で不要なサービスポートを全て無効にする対策が必要。</p>
+<p><img alt="画像" src="../studygif/security2a.png"></p>
+<p>※　この「調査」も違法行為であることから行ってはいけません。攻撃行為と判断されると法的措置を取られる可能性があります。</p>
+<h2 id="_2">アクセス</h2>
+<p>攻撃者は、調査が完了すると次に「アクセス」へ移行します。アクセスとは、権限のない侵入者がIDと
+パスワードを不正に取得して、サーバへのアクセス権を獲得する能力のことです。また、不正アクセスを
+するための悪用ツールの実行もアクセスを指します。アクセスを実現するための、一般的な手法としては
+<strong class="memory-answer">辞書攻撃</strong>や<strong class="memory-answer">総当たり攻撃</strong>を行います。辞書攻撃とは、辞書にある単語をパスワードとして延々と入力して
+解読する手法（ツールの実行）です。したがって、パスワードは意味のない文字列の設定が推奨なのです。</p>
+<p>総当たり攻撃とは、考えられる可能な組み合わせ(値)をパスワードとして試していく手法です。非効率な
+手法ですがこれもツールを使用して実行されます。ゆえに、一般的にパスワードは入力制限を設けます。
+※ パスワードは平文パスワードは使用しない、定期的にパスワードを変更するなどの措置も取りましょう。</p>
+<p><img alt="画像" src="../studygif/security2b.png"></p>
+<p>これらの手法でIDとパスワード情報が得られたら、
+サーバに不正アクセスし、サーバに目立たないよう
+<strong class="memory-answer">バックドア</strong>を設けます。バックドアは一度侵入した
+システムに次回も容易にアクセスできるようにする
+ための侵入経路のこと。このバックドアの生成能力
+とログ消去の能力でクラッカーのレベルを判断可能。</p>
+<p>ここで紹介したアクセスの手法以外にも、たとえば
+IPスプーフィングやセッションリプレイなど色々な
+アクセスが存在します。相手の手法を知ることで
+どのようにセキュリティ実装すべきか考えましょう。</p>
+<h2 id="_3">攻撃</h2>
+<p>攻撃とは、サービス不能攻撃のことです。サービス不能とは、具体的にはサーバ上のディスクスペース、帯域、
+バッファ、CPU、メモリへ高い負荷をかけて、リソースを使い果して正規ユーザに対するサービスを妨害する
+行為のことです。このサービス不能攻撃には<strong class="memory-answer">DoS攻撃</strong>、<strong class="memory-answer">DDoS攻撃</strong>があります。これらはサーバ側に行われる
+攻撃ですが、サーバだけでなくクライアントに対しても行われる攻撃には<strong class="memory-answer">ウィルス、トロイの木馬</strong>があります。
+これらの攻撃を防ぐためには Firewall、IDS / IPS、WAF、ウィルス対策ソフト等を導入する必要があります。</p>
+<p><img alt="画像" src="../studygif/security2c.png"></p>
+<table>
+<thead>
+<tr>
+<th>サービス不能攻撃</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DoS攻撃</td>
+<td>ネットワーク機器、サーバへのシステム攻撃を行い、正規ユーザへのサービス提供を不能<br>にすること。具体的には「<strong class="memory-answer">SYNフラッド攻撃、ICMPフラッド攻撃、smurf攻撃</strong>」などがある。</td>
+</tr>
+<tr>
+<td>DDoS攻撃</td>
+<td>DDoSは、通常のDoS攻撃と似た攻撃手法を利用するが、より大規模で実行される攻撃。<br>複数のネットワークに分散する大量のコンピュータから一斉に攻撃をしかける攻撃手法。<br>DDoS攻撃の一種に<strong class="memory-answer">DRDoS攻撃</strong>があり、攻撃者は多数のコンピュータに対しパケットを<br>送信し、そのコンピュータによる反射を利用して、標的となるサーバなどを攻撃する手法。</td>
+</tr>
+<tr>
+<td>ウィルス</td>
+<td>他人のコンピュータに不正侵入してして障害を引き起こす不正プログラムのこと。インターネット<br>上でダウンロードした不正なファイルに添付されていることが多い。自身で複製していくタイプの<br>ウィルスは<strong class="memory-answer">ワーム</strong>とも呼ばれる。メールに添付されているファイルなどで複製していくウィルスとは<br>異なりセキュリティホールを抱えたコンピュータを外部ネットワークに接続しただけで感染していく。</td>
+</tr>
+<tr>
+<td>トロイの木馬</td>
+<td>ギリシア神話による登場する装置。正体を偽りコンピュータへ不正侵入してそのコンピュータ自身<br>のデータ破壊や、他のコンピュータなどの破壊活動を行う不正なプログラム。このトロイの木馬は<br>一見普通の実行形式（ .exe ）のプログラムのように見せているので、プログラムがトロイの木馬か<br>どうか分からない。例えばインターネット上である機能を持ったプログラムがあったとして、それを<br>ユーザがダウンロードして、そのファイル(.exe)ファイルを実行することで悪意ある動作を開始する。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

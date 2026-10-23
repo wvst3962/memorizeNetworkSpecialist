@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP Telephony - SIP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#sip">SIPとは</a></li>
+<li><a href="#sip-session-initiation-protocol">SIP（ Session Initiation Protocol ）</a></li>
+<li><a href="#sip_1">SIPメッセージの中身</a></li>
+<li><a href="#sip_2">SIPメソッドと応答コード</a></li>
+<li><a href="#sip_3">SIPシーケンス</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-telephony-sip">IP Telephony - SIP</h1>
+<hr>
+<h2 id="sip">SIPとは</h2>
+<p>IPパケット化された音声データはRTPでやりとりされますが、電話の発信、着信、応答、切断の呼制御は
+H.323、MGCP、SIPなどのシグナリングプロトコルで行います。今回は SIP に焦点をあてて解説します。</p>
+<table>
+<thead>
+<tr>
+<th>シグナリング<br>プロトコル</th>
+<th>H.323</th>
+<th>MGCP</th>
+<th>SIP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標準化団体</td>
+<td>ITU-T</td>
+<td>IETF</td>
+<td>IETF</td>
+</tr>
+<tr>
+<td>標準化時期<br>（最新版）</td>
+<td>1996年（2000年）</td>
+<td>1999年（2003年）</td>
+<td>1999年（2002年）</td>
+</tr>
+<tr>
+<td>目的</td>
+<td>音声、画像のマルチメディア<br>通信を目的として策定</td>
+<td>キャリアがIP網で電話サービスを<br>提供する際に使うことを目的として策定</td>
+<td>Client⇔Server間で通信セッションを<br>開始するためのプロトコルとして策定</td>
+</tr>
+<tr>
+<td>データ形式</td>
+<td>バイナリ</td>
+<td>テキスト</td>
+<td>テキスト</td>
+</tr>
+<tr>
+<td>通信方式</td>
+<td>ピアツーピア</td>
+<td>マスター、スレーブ</td>
+<td>ピアーツーピア</td>
+</tr>
+<tr>
+<td>メリット</td>
+<td>標準化が早く、実装製品が多い</td>
+<td>異メーカー機器でも相互接続性が高い</td>
+<td>製品への実装が容易。将来性が高い</td>
+</tr>
+<tr>
+<td>デメリット</td>
+<td>呼制御手順が複雑、拡張性が低い</td>
+<td>拡張性が低い</td>
+<td>拡張使用の標準化が遅れている</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sip-session-initiation-protocol">SIP（ Session Initiation Protocol ）</h2>
+<p>SIPは、HTTPをベースとしておりメッセージはテキスト形式ですが、SIPはトランスポート層にTCPとUDPに
+対応しています（UDPがデフォルトで使用される）。従って、プロトコルの位置づけとしては以下の通りです。
+※　SIPはメディア制御は行わず、マルチメディアデータの送受信はRTP、マルチメディアセッションの記述はSDPにより行います。</p>
+<p><img alt="画像" src="../studygif/telephony4a.png"></p>
+<p>SIPを使用した最低限の音声システムでは、SIPサーバとUA（User Agent）の大きく2つから構成されます。
+IP電話などがUAに該当しますが、リクエストメッセージを送信する側のUAC（User Agent Client）と、その
+レスポンスメッセージを返信する側のUAS（User Agent Server）の2つの機能モジュールで構成しています。
+※　リクエストの送信、受信がどちらになるかで、UACになるかUASになるのか決定されるため、同じUAソフトウェア内に混在する。</p>
+<p><img alt="画像" src="../studygif/telephony4b.png"></p>
+<p>SIPを使用した音声システムでは、基本的には以下の流れでSIP端末同士の音声通話を実現しています。</p>
+<p><img alt="画像" src="../studygif/telephony4c.png"></p>
+<table>
+<thead>
+<tr>
+<th>順番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>SIP端末起動後、自身の電話番号、IPアドレスを含む登録メッセージ（レジストリ）をSIPサーバへ送信。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>SIPサーバは、UAの登録情報をデータベース（ローケーションサービス）に登録。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>SIP端末BからAと通話するために、SIP端末Aの電話番号などを指定した発信メッセージをSIPサーバへ送信。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>SIPサーバはデータベース（ロケーションサービス）を検索し、電話番号に対応するIPアドレスへ発信メッセージを転送。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>着信を受けたSIP端末Aは、SIPサーバへ応答メッセージを送り、SIPサーバは発信元へそのメッセージを転送。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>?@～?Dの手順により、SIP端末同士はメッセージに含まれたお互いにIPアドレスを知り、RTPにより直接音声通話を行う。</td>
+</tr>
+</tbody>
+</table>
+<p>SIPサーバには、大きく以下の3つの機能があります。一般的には1つのサーバ内でこれらの機能を動かす。</p>
+<table>
+<thead>
+<tr>
+<th>SIPサーバの3機能</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プロキシサーバ</td>
+<td>UACからのリクエストを、次のSIPサーバまたはUASに転送する。SIPサーバの基本となる機能。<br>プロキシサーバがメッセージの転送先を決めるためにロケーションサービスを使用する。ロケー<br>ションサービス（UA情報の管理サービス）は、SIP URI に対するIPアドレス情報を格納している。</td>
+</tr>
+<tr>
+<td>レジストラサーバ</td>
+<td>UACからのロケーションサービスへの登録を受け付けて、ロケーション登録を行うサーバ。<br>プロキシサーバがそのロケーションサービスを使用して、メッセージの転送先を決定する。<br>※ 以上の通り、通常SIPサーバではプロキシサーバとレジストラサーバは1台で動作させる。</td>
+</tr>
+<tr>
+<td>リダイレクトサーバ</td>
+<td>中継することなく、他のSIPサーバやUASにSIPメッセージの転送先を教えるサーバ。大規模な<br>ネットワークではリダイレクトサーバを配置することでSIPサーバの負荷を軽減することが可能。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sip_1">SIPメッセージの中身</h2>
+<p><img alt="画像" src="../studygif/telephony4d.png"></p>
+<h2 id="sip_2">SIPメソッドと応答コード</h2>
+<p>SIPの通信は、HTTPをベースとした<strong class="memory-answer">リクエスト</strong>（SIPメソッド）と<strong class="memory-answer">レスポンス</strong>（応答コード）のやりとりによって行われます。</p>
+<table>
+<thead>
+<tr>
+<th>SIPメソッド</th>
+<th>説明</th>
+<th>SIPメソッド</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INVITE</td>
+<td>セッション開始要求</td>
+<td>INFO</td>
+<td>セッション内の情報通知</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>セッション確立の確認</td>
+<td>SUBSCRIBE</td>
+<td>イベントの通知要請</td>
+</tr>
+<tr>
+<td>BYE</td>
+<td>セッション終了</td>
+<td>NOTIFY</td>
+<td>要請されたイベントの通知</td>
+</tr>
+<tr>
+<td>CANCEL</td>
+<td>セッション確立のキャンセル</td>
+<td>MESSAGE</td>
+<td>テキストメッセージなどの送信</td>
+</tr>
+<tr>
+<td>REGISTER</td>
+<td>情報の登録</td>
+<td>UPDATE</td>
+<td>セッションの変更</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>サーバ機能問い合わせ</td>
+<td>PUBLISH</td>
+<td>ステータス情報の通知</td>
+</tr>
+<tr>
+<td>PRACK</td>
+<td>暫定応答に対する確認</td>
+<td>REFER</td>
+<td>転送指示</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>応答コード</th>
+<th>区分</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1XX</td>
+<td>暫定応答</td>
+<td>リクエストを受信して、その処理を実行中</td>
+</tr>
+<tr>
+<td>2XX</td>
+<td>成功応答</td>
+<td>リクエストの成功</td>
+</tr>
+<tr>
+<td>3XX</td>
+<td>リダイレクト応答</td>
+<td>リクエストを完了させるために、他リソースへの再実行を指示</td>
+</tr>
+<tr>
+<td>4XX</td>
+<td>クライアントエラー応答</td>
+<td>リクエストの誤りであるか、SIPサーバまたはUAでは処理できない</td>
+</tr>
+<tr>
+<td>5XX</td>
+<td>サーバエラー応答</td>
+<td>リクエストがSIPサーバで処理できない</td>
+</tr>
+<tr>
+<td>6XX</td>
+<td>グローバルエラー応答</td>
+<td>リクエストがSIPサーバまたはUAでは処理できない</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sip_3">SIPシーケンス</h2>
+<p><img alt="画像" src="../studygif/telephony4e.png"></p>
+<table>
+<thead>
+<tr>
+<th>順番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>自身の電話番号、IPアドレスを含む登録メッセージ（レジストリ）をSIPサーバへ送信。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>SIP端末AからBにダイヤルする（ SIP端末AがSIPサーバへINVITEメソッドを送信。)</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>SIPサーバはロケーションサービスで宛先の解決後、SIP端末BにINVITEメソッド送信、電話機Aには100Tryingを送信。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>SIP端末Bの着信音の発生後、180 RingingをSIPサーバへ送信。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>SIPサーバはSIP端末Aに180Ringingを送信。SIP端末Aで呼出音が聞こえる。</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>SIP端末Bで受話器を上げると、200 OKをSIPサーバへ送信し、SIPサーバはSIP端末Aに200 OKを送信。</td>
+</tr>
+<tr>
+<td>?F</td>
+<td>SIP端末AはBのIPアドレスが分かるため、直接ACKを送信する。</td>
+</tr>
+<tr>
+<td>?G</td>
+<td>SIP端末AとBは、RTPパケットによって音声通話を直接やり取りする。</td>
+</tr>
+<tr>
+<td>?H</td>
+<td>SIP端末Bが受話器を置いて（切断して）、BYEメソッドをSIP端末Aに送信。</td>
+</tr>
+<tr>
+<td>?I</td>
+<td>SIP端末Aではビジー音が聞こえる。最終応答の200 OKを送信して終了する。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study36.html">IP電話とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

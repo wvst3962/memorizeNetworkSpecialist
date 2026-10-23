@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IGMPv1 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#igmpv1_1">IGMPv1</a></li>
+<li><a href="#igmpv1-">IGMPv1 - マルチキャストグループへの参加</a></li>
+<li><a href="#igmpv1-_1">IGMPv1 - マルチキャストグループの維持</a></li>
+<li><a href="#igmpv1-_2">IGMPv1 - マルチキャストグループの離脱</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="igmpv1">IGMPv1</h1>
+<hr>
+<h2 id="igmpv1_1">IGMPv1</h2>
+<p>IGMPはIPでカプセル化されており、IPプロトコル番号は「2」です。IGMPv1のフォーマットは以下です。</p>
+<p><img alt="画像" src="../studygif/multicastz09a.png"></p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>ビット</th>
+<th>内容（ 値 ）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バージョン</td>
+<td>4ビット</td>
+<td>IGMPのバージョン（ 1 ）</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>4ビット</td>
+<td>メンバーシップクエリー（ 0x1 ）</td>
+</tr>
+<tr>
+<td>タイプ</td>
+<td>4ビット</td>
+<td>メンバーシップレポート（ 0x2 ）</td>
+</tr>
+<tr>
+<td>未使用</td>
+<td>8ビット</td>
+<td>送信時に0に設定、受信時に無視される（ 0 ）</td>
+</tr>
+<tr>
+<td>チェックサム</td>
+<td>16ビット</td>
+<td>パケットの完全性を確認するために使用（ 0 ）</td>
+</tr>
+<tr>
+<td>グループアドレス</td>
+<td>32ビット</td>
+<td>メンバーシップクエリーの場合は（ 0 ）</td>
+</tr>
+<tr>
+<td>グループアドレス</td>
+<td>32ビット</td>
+<td>メンバーシップレポートの場合は（ マルチキャストグループアドレス ）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="igmpv1-">IGMPv1 - マルチキャストグループへの参加</h2>
+<p>マルチキャストを使用するアプリケーションをインストールしたホストが、Receiverとしてマルチキャスト
+グループに参加するとします。Receiverは、IGMP（type 0x2：<strong class="memory-answer">メンバーシップレポート</strong>）によりルータに
+マルチキャストグループの参加を通知します。この時のIGMPは「IGMP Joinメッセージ」とも言われます。</p>
+<p>Receiverからのメンバーシップレポートを受信したルータは、自身が管理するIGMPテーブルにその情報を
+登録し、そのマルチキャストグループの情報（マルチキャストアドレス）は、マルチキャストルーティング
+テーブルにも反映されることになります。</p>
+<p><img alt="画像" src="../studygif/multicastz09b.png"></p>
+<p>Ciscoルータの場合、IGMPテーブルは以下のようになっています。</p>
+<p>R1&gt; show ip igmp groups</p>
+<p>IGMP Connected Group Membership
+Group Address  　Interface   　　　　　Uptime 　   Expires 　  Last Reporter
+239.1.1.5 　　 　GigabitEthernet0/1   00:15:03 　 00:01:10  　192.168.0.11</p>
+<h2 id="igmpv1-_1">IGMPv1 - マルチキャストグループの維持</h2>
+<p>マルチキャストルータは、メンバーシップレポートを受け取ると、Receiverの存在を確認するためにも
+全てのマルチキャストホストを示す<strong class="memory-answer">224.0.0.1</strong>宛てに対して<strong class="memory-answer">IGMPメンバーシップクエリー</strong>を送信します。
+Ciscoルータの場合、60秒ごとにIGMPメンバーシップクエリーを送信します。</p>
+<p>IGMPメンバーシップクエリーを受信したReceiverは<strong class="memory-answer">IGMPメンバーシップレポート</strong>で応答します。この
+応答は、各マルチキャストグループにつきどれか1つのReceiverがすればOKであり、ルータにとっては
+Receiverが1つでも存在すれば、そのセグメント上でマルチキャストパケットをフラッディングします。</p>
+<p><img alt="画像" src="../studygif/multicastz09c.png"></p>
+<h2 id="igmpv1-_2">IGMPv1 - マルチキャストグループの離脱</h2>
+<p>Receiverがマルチキャストのアプリケーションを終了するなどしても、IGMPv1では特に動作はしません。
+つまり、ルータ側に通知することなくマルチキャストグループから離脱することになります。ルータでは
+定期的（60秒毎）にIGMPメンバーシップクエリーを送信しReceiverの存在を確認しますが、<strong class="memory-answer">180秒</strong>以内に
+IGMPメンバーシップレポートを受信できない場合は、ルータではIGMPテーブルのエントリを削除します。</p>
+<p><img alt="画像" src="../studygif/multicastz09d.png"></p>
+<p>IGMPテーブルのエントリ削除後、Gi0/1からは239.1.1.5宛てのマルチキャストパケットは転送されません。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

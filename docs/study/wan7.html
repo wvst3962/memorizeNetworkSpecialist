@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Internet - ADSL / CATV | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-dsl">インターネット接続 - DSLとは</a></li>
+<li><a href="#-adsl">インターネット接続 - ADSL</a></li>
+<li><a href="#-adsl_1">インターネット接続 - ADSLの物理構成</a></li>
+<li><a href="#-catv">インターネット接続 - CATVインターネット</a></li>
+<li><a href="#-catv_1">インターネット接続 - CATVインターネットの物理構成</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="internet-adsl-catv">Internet - ADSL / CATV</h1>
+<hr>
+<h2 id="-dsl">インターネット接続 - DSLとは</h2>
+<p>DSL (Digital Subscriber Line) とは、デジタル加入者線のことでありツイストペアケーブルの通信経路で
+高速デジタルデータ通信を行う技術です。先進国では電話線としても利用している既存のメタルケーブル
+（銅線）の加入者線を利用できるというメリットがあり、DSLには以下の通りいくつかの種類があります。
+※　ADSLとVDSLが上りと下りの速度が異なる<strong class="memory-answer">非対称</strong>であり、HDSL、SDSL、IDSLは上りも下りも同じ通信速度の<strong class="memory-answer">対称</strong>となります。</p>
+<table>
+<thead>
+<tr>
+<th>DSLテクノロジー</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADSL ( Asymmetric DSL )</td>
+<td>下り(ダウンロード)の通信速度が1.5Mbps～50Mbps、上り(アップロード)の通信速度が<br>0.5Mbps～12Mbpsという通信方向により速度が異なる(Asymmetric)のDSL。実際の通信<br>速度は加入者と基地局の電話線の距離や品質に大きく影響される。基地局に近ければ<br>近いほど高速になる。ADSLを利用する場合、基地局との距離は約6kmくらいまでが限界。</td>
+</tr>
+<tr>
+<td>HDSL ( High-bit-rate DSL )</td>
+<td>2対の回線を使用し、下りと上りともに同じ周波数帯域を使用するDSL。周波数帯域が<br>同じなので下りと上りともに同じ通信速度となりHDSLでは通信速度が最大2Mbpsとなる。<br>HDSLとSDSLは、POTSと共存しないため、電話と同時に利用することができないDSL。</td>
+</tr>
+<tr>
+<td>SDSL ( Symmetric DSL )</td>
+<td>1対の回線を使用して下りと上りともに同じ周波数帯域を使用するDSL。周波数帯域が<br>同じなので下りと上りともに同じ通信速度となり、HDSLでは通信速度が最大2Mbpsとなる。<br>最大2Mbpsの速度の前提として基地局までの距離が2km以内。伝送距離の最大は7km。</td>
+</tr>
+<tr>
+<td>IDSL ( ISDN DSL )</td>
+<td>ISDN回線を使用したDSL。Dチャネルをシグナリングに使用しない場合は144Kbpsで通信可。</td>
+</tr>
+<tr>
+<td>VDSL (Very high bitrate DSL)</td>
+<td>下りが最大100Mbps、上りが最大40Mbpsの高速通信を実現したDSL。ADSL同様に非対称。<br>VDSLの場合は高い周波数帯を使用しているためノイズの影響を受けやすく長距離伝送に<br>適しておらず、基地局から1km以内ならVDSLが高速だがそれ以上ならADSLが高速となる。</td>
+</tr>
+</tbody>
+</table>
+<p>どのDSL方式にも共通して言えることなのですが、加入者宅と電話の基地局(NTTなど)の距離が長くなる
+につれて信号が減衰することになりますし、ノイズ（雑音）が多くなり結果として通信速度が遅くなります。</p>
+<h2 id="-adsl">インターネット接続 - ADSL</h2>
+<p>個人ユーザがインターネット通信を行う場合、Web閲覧やダウンロードなどが多く、通信方向としては
+下りが多くなります。そのため、ADSLでは下図のように上り（Upstream）より、下り（downstream）
+の方に大きな通信帯域を割り当てて非対象(Asymmetric)としています。そのため、周波数帯域の割当が
+下図のようになっています。ADSLでは「<strong class="memory-answer">G.992.1</strong>」と「<strong class="memory-answer">G.992.2</strong>」の2種類の規格で提供を行いました。
+下図は G992.1 上り1Mbps(26～138kHz)、下り8Mbps(148～1104kHz) の周波数帯域を示しています。
+※　音声通話のみ可能な0～4KHzの周波数帯の電話サービスをPOTS （ Plain Old Telephone Service）といいます。</p>
+<p><img alt="画像" src="../studygif/wan7a.png"></p>
+<h2 id="-adsl_1">インターネット接続 - ADSLの物理構成</h2>
+<p>加入者宅でADSL接続を行うためには、ADSLモデムとスプリッタが必要となります。使用するケーブルは
+PCとADSLモデム間は<strong class="memory-answer">RJ45</strong>のLANケーブルとなり、それ以外の電話やLINE接続は<strong class="memory-answer">RJ11</strong>の電話ケーブルと
+なります。PCを複数つなぎたい場合、ADSLモデムにPCを直結するのではなく、ルータを接続することも
+可能であり、その場合は複数のPCがインターネット接続を行えます。加入者宅、基地局のスプリッタにて
+データ通信と音声通話を分離することが可能なので、電話をしながらインターネットをすることが可能です。
+※ DSLAM（Digital Subscriber Line Access Multiplexer）は複数のxDSL回線を束ねる集線装置。キャリア側のルータとも接続。</p>
+<p><img alt="画像" src="../studygif/wan7b.png"></p>
+<h2 id="-catv">インターネット接続 - CATVインターネット</h2>
+<p>CATVインターネットは、テレビ放送で使用するCATV網を利用し提供されるインターネット接続サービスです。
+CATVのネットワークでは、0～770MHzの間で信号がやり取りされるのですが、テレビ放送として実際に使用
+している周波数帯は90MHz～600MHzの間です。CATVインターネットでは、上りで10MHz～55MHzの間から
+任意の1.6M～6.4MHzを使用して下りで600MHz～770MHzの間から任意の6MHzを切り出し利用しています。</p>
+<p><img alt="画像" src="../studygif/wan7c.png"></p>
+<p>CATVインターネットの通信速度はCATVインターネットの出始めた頃は下り30Mbpsという速度でしたが
+現在では下りで最大160Mbps、上りで最大10Mbpsというインターネット接続サービスもあります。CATV
+のインターネットの場合、ADSLのように加入者宅と基地局が遠ければ遠いほど遅くなるということはなく
+加入者宅とCATV局が近くても遠くても同じ速度となります。ADSLでは加入者宅からはメタルケーブルを
+使用するのに対して、CATVの場合は加入者宅から同軸ケーブル（ノイズ影響を受けにくい）を使用します。</p>
+<h2 id="-catv_1">インターネット接続 - CATVインターネットの物理構成</h2>
+<p>加入者宅でCATVインターネット接続を行うためには、<strong class="memory-answer">ケーブルモデム</strong>と<strong class="memory-answer">混合分配器</strong>とが必要となります。
+使用するケーブルは、PCとケーブルモデム間はRJ45のLANケーブルとなり、それ以外のTVとセットトップ
+ボックスとの接続、ケーブルモデムと混合分配器との接続には、<strong class="memory-answer">同軸ケーブル</strong>を使用します。セットトップ
+ボックス(STB)とは、テレビに接続することにより色々なサービスを受けられるようにする機器のことです。</p>
+<p><img alt="画像" src="../studygif/wan7d.png"></p>
+<p>加入者宅とCATV局との間では、上図にある通り
+加入者宅付近では同軸ケーブルを使用し、幹線部
+では現在、光ファイバーを使用しています。</p>
+<p>このようにCATVインターネットでは同軸ケーブル
+による信号の伝送と、光ファイバーによる信号の
+伝送を組み合わせて使用しており、この形態の
+ことをHFC（Hybrid Fiber Coaxial）と言います。</p>
+<p>なお、PCから送出するデータはケーブルモデムと
+CATV局にあるCMTS（Cable Modem Terminaltion
+System）によりデータの変調と復調が行われます。</p>
+<hr>
+<p>← <a href="wan6.html">WAN - HDLCとPPP</a>　<a href="wan8.html">FTTHインターネット</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

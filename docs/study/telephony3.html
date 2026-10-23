@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP Telephony - RTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip">デジタル化 → IPパケット化</a></li>
+<li><a href="#rtpreal-time-transport-protocol">RTP（Real-time Transport Protocol）</a></li>
+<li><a href="#1">1通話あたりの必要帯域</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip-telephony-rtp">IP Telephony - RTP</h1>
+<hr>
+<h2 id="ip">デジタル化 → IPパケット化</h2>
+<p><a href="telephony2.html">前回の解説でアナログ信号である音声をデジタル化</a>しましたが、IP電話ではこのデジタルデータをもとにし
+<strong class="memory-answer">RTP</strong>パケットを構成（音声をIPパケット化）して、IPネットワークに音声を送出していくことになります。
+なお、遅延防止のために一般的に音声をパケットに変換する周期を20～60ミリ秒に固定します。パケット化
+周期を長くすれば転送効率が良くなりますが、その分遅延が大きくなってしまうため、この値が適正値です。</p>
+<p><img alt="画像" src="../studygif/telephony3a.png"></p>
+<h2 id="rtpreal-time-transport-protocol">RTP（Real-time Transport Protocol）</h2>
+<p>アナログの音声からデジタル化されたデータをIPで送信するためには、RTPというプロトコルを使用します。
+<strong class="memory-answer">RTP</strong>は音声や映像をストリーミング再生するためのUDP上で動作するプロトコルです。フォーマットは以下。</p>
+<p><img alt="画像" src="../studygif/telephony3b.png"></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>ビット数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V （Version Number）</td>
+<td>2</td>
+<td>RTPのバージョン。現在のバージョンは2。</td>
+</tr>
+<tr>
+<td>P（Padding）</td>
+<td>1</td>
+<td>最後にパディングがある場合に示すフィールド。</td>
+</tr>
+<tr>
+<td>X（eXtension）</td>
+<td>1</td>
+<td>拡張ヘッダを利用する場合に示すフィールド。</td>
+</tr>
+<tr>
+<td>CC（CSRC Count）</td>
+<td>4</td>
+<td>CRSC識別子の数を示すフィールド。</td>
+</tr>
+<tr>
+<td>M（Marker）</td>
+<td>1</td>
+<td>重要なイベントにマークを示すフィールド。</td>
+</tr>
+<tr>
+<td>PT（Payload Type）</td>
+<td>7</td>
+<td>ペイロードタイプを示すフィールド。</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">シーケンス番号</strong></td>
+<td>16</td>
+<td>シーケンス番号を示すフィールド。</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">タイムスタンプ</strong></td>
+<td>32</td>
+<td>タイムスタンプを示すフィールド。</td>
+</tr>
+<tr>
+<td>SSRC（Synchrozination Source)</td>
+<td>32</td>
+<td>送信元を識別するためのフィールド。</td>
+</tr>
+<tr>
+<td>CSRC（Contributing Source）</td>
+<td>可変</td>
+<td>ストリームの送信元を識別するためのフィールド。</td>
+</tr>
+</tbody>
+</table>
+<p>RTPでは、IP電話機が送信した音声データを正しく伝達するために、受信側ではシーケンス番号によって
+<strong class="memory-answer">パケットを正しい順番に並び替え</strong>ます。また、標本化された瞬間のタイムスタンプを記述することにより
+受信側ではそのタイムスタンプ情報で<strong class="memory-answer">音声再生のタイミングを決定</strong>することで音声通話を実現しています。</p>
+<p>通常、RTPとセットで<strong class="memory-answer">RTCP</strong>（Real-time Transport Control Protocol）というプロトコルが使用されます。
+RTCPでは、送出パケット数、受信パケット数、遅延時間、パケット損失率などの通信状況を伝えています。</p>
+<h2 id="1">1通話あたりの必要帯域</h2>
+<p>1通話あたりの必要帯域（Kbps）は（音声データサイズ＋各ヘッダサイズ）×8×pps により求められます。
+従ってG.711では(160+58)×8×50pps = 87.2Kbpsであると分かります。パケット化周期20ミリ秒が前提。</p>
+<table>
+<thead>
+<tr>
+<th>コーデック情報</th>
+<th>帯域幅の計算値</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Codec bps</td>
+<td>サンプルサイズ</td>
+<td>サンプル間隔</td>
+<td>MOS</td>
+<td>ボイスペイロード</td>
+<td>ボイスペイロード</td>
+<td>PPS</td>
+<td>帯域幅</td>
+</tr>
+<tr>
+<td>G.711 (64kbps)</td>
+<td>80byte</td>
+<td>10ミリ秒</td>
+<td>4.1</td>
+<td>160byte</td>
+<td>20ミリ秒</td>
+<td>50pps</td>
+<td>87.2 Kbps</td>
+</tr>
+<tr>
+<td>G.729 (8kbps）</td>
+<td>10byte</td>
+<td>10ミリ秒</td>
+<td>3.92</td>
+<td>20byte</td>
+<td>20ミリ秒</td>
+<td>50pps</td>
+<td>31.2 Kbps</td>
+</tr>
+</tbody>
+</table>
+<p>※　58byteの内訳 （ イーサネットヘッダ 18byte、IPヘッダ 20byte、UDPヘッダ 8byte、RTPヘッダ12byte )
+※　MOSはボイス品質の評価体系。多種多様な聞き手が 1（悪い）から 5（非常によい）の尺度でボイスサンプルの品質を判断。</p>
+<p>上記の通り1通話あたり厳密にはG.711なら87.2Kbps、G.729なら31.2Kbpsが最低必要帯域となりますが、
+一般的には、ネットワークシステムとして余裕のない帯域設計を行うべきではない、という観点からすると
+1通話あたり<strong class="memory-answer">G.711なら100Kbps</strong>、<strong class="memory-answer">G.729なら40Kbps</strong>として最低必要帯域を計算することが望ましいです。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study36.html">IP電話とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

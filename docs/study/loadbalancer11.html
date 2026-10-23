@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>XFF （ X-Forwarded-For ） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#xff-x-forwarded-for_1">XFF（ X-Forwarded-For ）とは</a></li>
+<li><a href="#xff-x-forwarded-for_2">XFF（ X-Forwarded-For ）を使用しない場合</a></li>
+<li><a href="#xff-x-forwarded-for-lb">XFF（ X-Forwarded-For ）をLBで実装した場合</a></li>
+<li><a href="#xff-x-forwarded-for-f5-big-ip">XFF（ X-Forwarded-For ）の設定 - F5 BIG-IP</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="xff-x-forwarded-for">XFF （ X-Forwarded-For ）</h1>
+<hr>
+<h2 id="xff-x-forwarded-for_1">XFF（ X-Forwarded-For ）とは</h2>
+<p>X-Forwarded-Forとは、HTTPヘッダフィールドの1つであり、ロードバランサなどの機器を経由して
+Webサーバに接続する<strong class="memory-answer">クライアントの送信元IPアドレスを特定</strong>する際のデファクトスタンダードです。
+クライアントの送信元IPアドレスの特定は、ロードバランサなどでクライアントの送信元IPアドレスが
+変換された場合でも、HTTPヘッダに<strong class="memory-answer">元のクライアントIPアドレスの情報を付加</strong>することで実現します。</p>
+<h2 id="xff-x-forwarded-for_2">XFF（ X-Forwarded-For ）を使用しない場合</h2>
+<p>例えば、下図のようにワンアーム構成において「行き」と「戻り」のパケットが同じ経路を通るように
+クライアントの送信元IPアドレスを、ロードバランサのI/FのIPアドレスに変換して送信するとします。
+通信自体は正常に行われますが、リアルサーバに着信したパケットの送信元IPは、ロードバランサのI/F
+のIPアドレスのため、<strong class="memory-answer">実際のクライアントの送信元IPアドレスが分からない状態</strong>になります。</p>
+<p><img alt="画像" src="../studygif/loadbalancer11a.png"></p>
+<h2 id="xff-x-forwarded-for-lb">XFF（ X-Forwarded-For ）をLBで実装した場合</h2>
+<p>LBで「X-Forwarded-For」を有効にした場合、<strong class="memory-answer">HTTPパケットに</strong>クライアントの送信元IPアドレスが
+追加されるので、LBのI/FでSNATを行っても、リアルサーバ（Webサーバ）に着信したパケットでは、
+実際のクライアントの送信元IPアドレス（ 10.1.1.10 ）が分かります。これにより、ECサイトで公開
+しているリアルサーバ（Webサーバ）では、実際のクライアントIPアドレスの情報をログとして取得可。</p>
+<p><img alt="画像" src="../studygif/loadbalancer11b.png"></p>
+<h2 id="xff-x-forwarded-for-f5-big-ip">XFF（ X-Forwarded-For ）の設定 - F5 BIG-IP</h2>
+<p>F5 BIG-IPではXFFの有効化が可能です。つまり、クライアントの送信元IPアドレスをHTTPヘッダに
+埋め込むことが可能であり、それをリアルサーバに伝えられます。BIG-IPでの設定はとても簡単です。</p>
+<p>Step1：「Local Traffic」⇒「Profiles」⇒「Service」でHTTPを選択し、以下の画面で「Create」。</p>
+<p><img alt="画像" src="../studygif/loadbalancer11c.png"></p>
+<p>Step2：新規のHTTPプロファイルの「Insert X-Forwarded-For」を「Enabled」にする。</p>
+<p><img alt="画像" src="../studygif/loadbalancer11d.png"></p>
+<p>Step3：作成したHTTPプロファイルをバーチャルサーバに適用。解説図で言えば「172.16.1.100：80」の
+バーチャルサーバに適用します。設定は以上です。</p>
+<p><img alt="画像" src="../studygif/loadbalancer11e.png"></p>
+<p>注意点として、X-Forwarded-Forの技術はHTTPヘッダに適用できる内容であるので、Webサーバ以外のHTTP
+での通信を行わないサーバとの通信に対して適用できない技術であるので、その点を忘れずLB設計しましょう。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

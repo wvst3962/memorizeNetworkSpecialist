@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - Beacon, Probe, Authentication, Association | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan-">無線LAN通信の流れ - 概要</a></li>
+<li><a href="#lan-_1">無線LAN通信の流れ - 詳細</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-beacon-probe-authentication-association">Wireless LAN - Beacon, Probe, Authentication, Association</h1>
+<hr>
+<h2 id="lan-">無線LAN通信の流れ - 概要</h2>
+<p>無線LAN接続がどのように行われ、どのように通信を開始するのかを有線LANと比較しながら見ていきます。</p>
+<p><img alt="画像" src="../studygif/wireless8a.png"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>有線LAN</th>
+<th>無線LAN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>端末をLANケーブルによりハブへ接続する</td>
+<td>WLAN端末が利用できる周波数帯域を自動スキャンする</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>正しいストレートケーブルの接続によりリンクアップ</td>
+<td>WLAN端末とAPがお互いに一致するESSIDであるか確認</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>正しいストレートケーブルの接続によりリンクアップ</td>
+<td>WLAN端末とAPがお互いに認証を行う</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>正しいストレートケーブルの接続によりリンクアップ</td>
+<td>WLAN端末とAPがお互いにアソシエーションを行う</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>Ethernetフレームを、物理ケーブル上で伝送する</td>
+<td>暗号化したIEEE802.11フレームを、電波に乗せて伝送</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>MACアドレスの情報をもとにフレームをそのまま伝送</td>
+<td>APでIEEE802.11フレームをEthernetフレームに変換し伝送</td>
+</tr>
+<tr>
+<td>?F</td>
+<td>LANケーブルが抜ければ、スイッチへ再接続する</td>
+<td>電波が届かなくなれば、電波の届く範囲に移動する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lan-_1">無線LAN通信の流れ - 詳細</h2>
+<p>IEEE802.11フレームには制御フレーム、管理フレーム、データフレームの大きく3種類がありますが、上図で
+紹介した、無線LANの通信のフローにて使用される IEEE802.11の管理フレームの詳細を見ていきましょう。
+IEEE802.11の管理フレームにはBeacon,　Association Request,　Association Response,　Probe Request
+Probe Response,　Disassociation,　Authentication,　Deauthentication など意外に多くの種類があります。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>無線LAN通信の流れ</th>
+<th>使用されるIEEE802.11フレーム</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>WLAN端末が利用できる周波数帯域を自動スキャンする</td>
+<td>APから100ミリ秒ごとに送信されるビーコンの情報を<br>もとに、利用できるチャネルの情報、及びESSIDの情報<br>を得ている。ただし、一定時間ビーコンが得られない場合<br><strong class="memory-answer">プローブ要求とプローブ応答</strong>で上記の情報を得ている。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>WLAN端末とAPがお互いに一致するESSIDであるか確認</td>
+<td>APから100ミリ秒ごとに送信されるビーコンの情報を<br>もとに、利用できるチャネルの情報、及びESSIDの情報<br>を得ている。ただし、一定時間ビーコンが得られない場合<br><strong class="memory-answer">プローブ要求とプローブ応答</strong>で上記の情報を得ている。</td>
+</tr>
+<tr>
+<td>※</td>
+<td>複数のAPが存在する場合、WLAN端末は<strong class="memory-answer">全チャネルをスキャン</strong>して、最も信号の強いアクセスポイントとの接続を試みる。<br>通信の途中でも現在のAPよりも信号の強いAPを検知した場合、WLAN端末はより信号の強いAPとの接続を試みる。つまり、<br><strong class="memory-answer">複数のAPを近距離で設置した場合</strong>、WLAN端末は何度も再接続したりして、快適に通信ができない場合もあるので注意！</td>
+<td></td>
+</tr>
+<tr>
+<td>?B</td>
+<td>WLAN端末とAPがお互いに認証を行う</td>
+<td>お互いに<strong class="memory-answer">認証パケット</strong>で認証を行っている。 ※1 なお<br>オープンシステム認証とシェアードキー認証の2種類ある。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>WLAN端末とAPがお互いにアソシエーションを行う</td>
+<td><strong class="memory-answer">アソシエーション要求と応答</strong>によりこれを行っている</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>暗号化したIEEE802.11フレームを、電波に乗せて伝送する</td>
+<td>WEP or TKIP or CCMP による暗号化を行い伝送される</td>
+</tr>
+<tr>
+<td>?E</td>
+<td>APでIEEE802.11フレームをEthernetフレームに変換し伝送</td>
+<td>ここでようやく管理フレームではなくデータフレームが伝送</td>
+</tr>
+</tbody>
+</table>
+<p>※1　この2種類の認証は<strong class="memory-answer">IEEE802.11</strong>における内容であり、当然ながら例えば <strong class="memory-answer">IEEE802.11i</strong> には当てはまる内容ではありません。</p>
+<p>WLAN端末とAPとの無線LAN接続手順は以下の2パターンあります。<strong class="memory-answer">パッシブスキャン</strong>ではAPからブロード
+キャストされるビーコンフレームを受信してESSIDの確認をし合いAuthenticationのフェーズに移行します。</p>
+<p><strong class="memory-answer">アクティブスキャン</strong>では、APから一定時間ビーコンを受信できなかった場合にWLAN端末が接続を行いたい
+ESSIDの情報をプローブリクエストで送信しAPからその応答が得られれば、Authenticaionのフェーズに移行
+します。パッシブスキャン、アクティブスキャンのどちらでも認証フェーズ以降は同じシーケンスとなります。</p>
+<p><img alt="画像" src="../studygif/wireless8b.png"></p>
+<p>どのような認証方式、暗号化方式であったとしても無線LAN接続における基本的なフローは上記の通りです。
+使用チャネル、変調方式、ESSIDの相互確認がとれた後、「認証 → アソシエーション → データのやりとり」
+という基本的なフローをまず理解して、それぞれの詳細な認証方式、暗号化方式のフローを理解しましょう。</p>
+<p>※ WPAやWPA2のセキュリティ規格を使用する場合、アソシエーション後に暗号化を行うための鍵の生成プロセスが開始されます。</p>
+<hr>
+<p>← <a href="wireless7.html">無線LAN - 802.11 フレームフォーマット</a>　<a href="wireless9.html">無線LAN - WEP</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

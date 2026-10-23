@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ip_1">IPとは</a></li>
+<li><a href="#ip_2">IPヘッダのフォーマット</a></li>
+<li><a href="#ip_3">IPプロトコルの特徴</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ip">IP</h1>
+<hr>
+<h2 id="ip_1">IPとは</h2>
+<p>IP（ Internet Protocol ）は、TCP/IPの IP のことです。OSI参照モデルではネットワーク層で動作する
+プロトコルであり、TCP/IPの階層モデルにおいてはインターネット層で動作するプロトコルのことです。</p>
+<p>IPは論理アドレス（IPアドレス）を各ノードに割り当てることで、各ノードを識別することができます。
+このIPアドレスの宛先を確認することで、あるノードから別のノードへデータを送信することができます。
+IPアドレスの宛先情報については<strong class="memory-answer">IPヘッダ</strong>に含まれています。それではこのIPヘッダを見ていきましょう。</p>
+<p><img alt="画像" src="../studygif/tcpip1a.png"></p>
+<h2 id="ip_2">IPヘッダのフォーマット</h2>
+<p>IPヘッダのフォーマットは以下の通りです。IPヘッダは <strong class="memory-answer">20バイト</strong> のサイズですが、オプションが追加された
+場合は最大で60バイトのサイズとなります。ただ、オプションやパディングは一般的には使用されることは
+ないのであまり意識する必要はありません。「データ」はIPヘッダではなくIPペイロードと呼ばれる部分です。</p>
+<p><img alt="画像" src="../studygif/tcpip1b.png"></p>
+<p>※　IPペイロード部分には、TCPやUDPなど上位層プロトコルのヘッダとデータが含まれます。</p>
+<table>
+<thead>
+<tr>
+<th>各フィールド</th>
+<th>英語表記</th>
+<th>ビット</th>
+<th>各フィールドの説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バージョン</td>
+<td>version</td>
+<td>4 bit</td>
+<td>IPヘッダのバージョン番号の情報。ここでは「4」の値が入る。</td>
+</tr>
+<tr>
+<td>ヘッダ長</td>
+<td>IHL</td>
+<td>4 bit</td>
+<td>IPヘッダの長さの情報。単位は32ビットであることからオプションを使用しない。<br>IPパケットの場合ここでは「5」の値が入る。32bit×5 = 160bit = 20byte。</td>
+</tr>
+<tr>
+<td>サービスタイプ</td>
+<td>Type of Service</td>
+<td>8 bit</td>
+<td>IPパケットの優先順位の情報。例えば音声トラフィックとデータトラフィック<br>とでは音声トラフィックのデータを優先して送出することができる。QoS処理用。</td>
+</tr>
+<tr>
+<td>全長</td>
+<td>Total Length</td>
+<td>16 bit</td>
+<td>IPヘッダを含むパケットの全長。パケット長とも呼ばれる。</td>
+</tr>
+<tr>
+<td>識別番号</td>
+<td>identification</td>
+<td>16 bit</td>
+<td>個々のパケットを識別するための情報。パケットが分割された時に分割された<br>パケットには同じ識別番号にすることで、受信側で複数の分割されたパケット<br>を受信した場合においても、この識別番号に基づき正しく組み立て処理できる。</td>
+</tr>
+<tr>
+<td>フラグ</td>
+<td>Flags</td>
+<td>3 bit</td>
+<td>パケット分割における制御の情報。3ビットの内訳は以下の通り。詳細は別途。</td>
+</tr>
+<tr>
+<td>フラグメント<br>オフセット</td>
+<td>Fragment<br>Offset</td>
+<td>13 bit</td>
+<td>フラグメントされたパケットが元のパケットのどの位置であったかを示す情報。</td>
+</tr>
+<tr>
+<td>生存時間</td>
+<td>Time to Live<br>( TTL )</td>
+<td>8 bit</td>
+<td>パケットの生存時間を示す情報。実際には、何台のルータ or L3スイッチを<br>通過することができるのかという情報。1台のルータを通過するごとにTTL値は<br>「 1 」つずつ減らされて、TTL値が「 0 」になると、パケットは破棄される。</td>
+</tr>
+<tr>
+<td>プロトコル</td>
+<td>Protocol</td>
+<td>8 bit</td>
+<td>上位層（トランスポート層）のプロトコルが何であるのかを示す情報。この値は<br>ICANNという組織により「プロトコル名」と「番号」が定義されている。例えば、<br>上位層プロトコルにTCPを使用する場合、このプロトコル番号は「6」になる。</td>
+</tr>
+<tr>
+<td>ヘッダ<br>チェックサム</td>
+<td>Header<br>Checksum</td>
+<td>16 bit</td>
+<td>IPヘッダのチェックサムを表す情報。IPヘッダにエラーがないかをチェック。</td>
+</tr>
+<tr>
+<td>送信元IPアドレス</td>
+<td>Source<br>Address</td>
+<td>32 bit</td>
+<td>32ビット（4byte)で構成された、送信元のIPアドレスの情報</td>
+</tr>
+<tr>
+<td>宛先IPアドレス</td>
+<td>Destination<br>Address</td>
+<td>32 bit</td>
+<td>32ビット（4byte)で構成された、宛先のIPアドレスの情報</td>
+</tr>
+<tr>
+<td>オプション</td>
+<td>Options</td>
+<td>可変長</td>
+<td>通常は使用されないが、デバックやテストを行う際に使用される情報。</td>
+</tr>
+<tr>
+<td>パディング</td>
+<td>Padding</td>
+<td>可変長</td>
+<td>通常使用されないが、上記のオプションを使用した場合にはIPヘッダ長が<br>32ビットの整数倍にならない場合がある。32ビットの整数倍にするために<br>詰め物(Padding)として空データの 「 0 」 の値を入れることにより調整する。</td>
+</tr>
+</tbody>
+</table>
+<p>IPヘッダのフィールドにある「フラグ」値には、以下の3ビットの組み合わせが値として入ることになります。
+先頭ビットの0ビット目は未使用です。そしてこの先頭ビットは必ず値が「 0 」である必要があります。次に
+中央ビットの１ビット目はパケットの分割（フラグメント）を許可する場合は値を 0 にして、フラグメントを
+許可しない場合は値を「 1 」にします。そして最終ビットの2ビット目はパケットがフラグメントされた場合
+に使用されます。分割された最後のパケットである場合は値を「 0 」にしてそうでなければ「 １ 」にします。</p>
+<table>
+<thead>
+<tr>
+<th>ビット</th>
+<th>意味</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>先頭ビット　0</td>
+<td>未使用</td>
+<td><strong class="memory-answer">0</strong></td>
+</tr>
+<tr>
+<td>中央ビット　1</td>
+<td>パケットのフラグメントを許可する</td>
+<td><strong class="memory-answer">0</strong></td>
+</tr>
+<tr>
+<td>中央ビット　1</td>
+<td>パケットのフラグメントを許可しない</td>
+<td><strong class="memory-answer">1</strong></td>
+</tr>
+<tr>
+<td>最終ビット　2</td>
+<td>分割された最後のフラグメントである</td>
+<td><strong class="memory-answer">0</strong></td>
+</tr>
+<tr>
+<td>最終ビット　2</td>
+<td>分割された途中のフラグメントである</td>
+<td><strong class="memory-answer">1</strong></td>
+</tr>
+</tbody>
+</table>
+<p>IPヘッダのフィールドにあるプロトコルの値には以下のようなプロトコル番号が値として入ることになります。
+ICMPやOSPF等はIPと同じインターネット層のプロトコルですが、これらのプロトコルはIPヘッダが付加され
+IPパケットとして転送されることから上位層プロトコルの番号があります。その他の<a href="https://www.infraexpert.com/study/tea11.htm">プロトコル番号はこちら</a>。</p>
+<table>
+<thead>
+<tr>
+<th>プロトコル番号 ( 値 )</th>
+<th>略称</th>
+<th>プロトコル名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong class="memory-answer">1</strong></td>
+<td>ICMP</td>
+<td>Internet Control Message Protocol</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">6</strong></td>
+<td>TCP</td>
+<td>Transmission Control Protocol</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">17</strong></td>
+<td>UDP</td>
+<td>User Datagram Protocol</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">88</strong></td>
+<td>EIGRP</td>
+<td>Enhanced Interior Gateway Routing Protocol</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">89</strong></td>
+<td>OSPF</td>
+<td>Open Shortest Path First</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ip_3">IPプロトコルの特徴</h2>
+<p>IPプロトコルには特筆すべき3つの特徴があります。以下の通り、IPプロトコル自体には信頼性のある
+ものではありません。信頼性のある通信にするかどうかは上位層に任せています。TCPを使用すれば
+信頼性の高いTCP/IPの通信となります。UDPを使用した場合は、信頼性のある通信にはなりませんが、
+効率性の高いUDP/IPの通信となります。階層型IPアドレッシングについては、<a href="https://www.infraexpert.com/study/study12.html">IPアドレスとは</a>ご参照。</p>
+<table>
+<thead>
+<tr>
+<th>IPプロトコルの特徴</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong class="memory-answer">コネクションレス型通信</strong></td>
+<td>ネットワーク通信に際して、事前にコンピュータ間でコネクションを確立しないで<br>いきなりデータ伝送をはじめる通信のことです。ただし、上位層プロトコルにTCP<br>を使用すれば、コンピュータ間の通信でみればコネクション型の通信となります。</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">ベストエフォート型通信</strong></td>
+<td>ネットワーク通信に際して、最善の努力（ベストエフォート）は尽くすが、必ずしも<br>十分な品質は保証しない通信のことです。しかし上位層プロトコルにTCPを使用<br>することで、IPを使用した通信でもパケット損失がないように見せることができます。</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">階層型アドレッシング</strong></td>
+<td>IPプロトコルにより割り当てられる論理アドレス（IPアドレス）は、コンピュータが<br>所属しているグループ（ネットワーク部）と、そのネットワークに接続されている<br>コンピュータを識別する番号（ホスト部）のこれら2階層により構成されています。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="tcpip.html">TCP/IPとは</a>　<a href="tcpip2.html">ARPとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

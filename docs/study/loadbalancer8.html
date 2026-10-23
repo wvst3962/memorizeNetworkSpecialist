@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>GSLB - Global Server Load Balancing | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#gslb">GSLBとは</a></li>
+<li><a href="#gslb_1">GSLBの動作</a></li>
+<li><a href="#drgslb">DR対策のためのGSLB装置の導入</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="gslb-global-server-load-balancing">GSLB - Global Server Load Balancing</h1>
+<hr>
+<h2 id="gslb">GSLBとは</h2>
+<p>GSLB（グローバルサーバロードバラシング）は、複数のサイト間でサーバロードバランスを行う機能です。
+例えば、東京DCと大阪DCにサーバを配置して、正常時には東京DCに配置されたサーバにトラフィックを
+転送して、東京DCの障害発生時に大阪DCのサーバにトラフィックを転送するようなことが可能となるので
+<strong class="memory-answer">ディザスタリカバリ対策</strong>ともなります。また、DNSの動きと連動させてユーザのリクエストをトラフィック
+の少ないサーバへ転送することも可能です。</p>
+<p>Webコンテンツを効率よく迅速にユーザに配信するための仕組みのCDN（Content Delivery Network）の
+インフラ上でもGSLB機能を持つ広域負荷分散装置は導入されます。</p>
+<h2 id="gslb_1">GSLBの動作</h2>
+<p>広域負荷分散装置であるGSLB機器の動作は以下のようなフローとなります。</p>
+<p><img alt="画像" src="../studygif/loadbalancer8e.png"></p>
+<p>ローカルDNSが東京DCと大阪DCのGSLBのAレコードを保持している場合、ローカルDNSから外部DNSへの問い合わせ動作は省略。</p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>クライアントPCからの www.example.com へのDNSリクエストをローカルDNSへ送信。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ローカルDNSから外部DNSにAレコードの保持先を問い合わせる。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>東京DCと大阪DCのGSLBがAレコードを保持していることを返信する。※</td>
+</tr>
+<tr>
+<td>4</td>
+<td>東京DCまたは大阪DCのGSLBにAレコードを問い合わせる。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>GSLBの設定に応じた適切なサイト（例えば東京DC）のAレコードを返信する。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ローカルDNSからクライアントPCに、DNSリクエストの回答を送信する。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>クライアントPCは、東京DCにあるLBへのセッションを開始する。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drgslb">DR対策のためのGSLB装置の導入</h2>
+<p>多重障害に対応できる効果的な機器はGSLB機能を持つロードバランサであり、以下のメリットがあります。</p>
+<p>1.　サーバを地理的に分散して、負荷分散させることが可能
+2.　データセンター単位でのフェールオーバーと事業継続性を提供
+3.　リクエストに応答するサイトまでの距離や優先順位に応じて最適なトラフィック転送を実現</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

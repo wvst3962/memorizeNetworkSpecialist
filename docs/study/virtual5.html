@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IoT ( Internet of Things ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#iotinternet-of-things">IoT（Internet of Things）とは</a></li>
+<li><a href="#iot">IoTデバイスとインターネットとの接続方式</a></li>
+<li><a href="#iot_1">IoT向けの通信プロトコル</a></li>
+<li><a href="#ioeinternet-of-everything">IoE（Internet of Everything）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="iot-internet-of-things">IoT ( Internet of Things )</h1>
+<hr>
+<h2 id="iotinternet-of-things">IoT（Internet of Things）とは</h2>
+<p>IoTとは、コンピュータなどの通信機器だけでなく、<strong class="memory-answer">世の中の様々なモノ（物）</strong>に通信機能を持たせた上で
+<strong class="memory-answer">インターネットに接続させて相互に通信</strong>させることで「自動認識、自動制御、遠隔操作」などを可能にする
+概念、または仕組みのことです。IoTの読み方は「アイオーティー」です。</p>
+<p>IoT（ Internet of Things ）は「インターネットオブシングス」と呼ばれたり「モノのインターネット」と
+呼ばれる場合があります。IoTでは、下図のように様々な「モノ」をインターネットに接続させて相互に通信
+を行い「自動認識、自動制御、遠隔操作」などを可能にします。ここでいうモノは<strong class="memory-answer">IoTデバイス</strong>と呼ばれます。</p>
+<p><img alt="画像" src="../studygif/virtual5a.png"></p>
+<p>例えば、移動手段である<strong class="memory-answer">自動車がインターネットに接続することで</strong>、GPS（全地球測位システム）から収集
+される位置や速度などの情報、車両からの制御情報などのデータを「リアルタイムに」クラウド上に集めて
+ビッグデータを解析することで「渋滞」「交通事故」などの道路状況を把握して、クラウドから自動車へと
+これらの状況を自動配信して、迂回路の提示などの走行支援に役立てることができます。その他、検診員に
+変わり<strong class="memory-answer">電力メーターが電力会社と通信して電力使用量を申告</strong>するスマートメーターという形でも役立ちます。</p>
+<h2 id="iot">IoTデバイスとインターネットとの接続方式</h2>
+<p>先ず、インターネットへの接続方法は「<strong class="memory-answer">有線接続</strong>」と「<strong class="memory-answer">無線接続</strong>」の大きく2種類があります。有線接続は
+主にPCデバイスなどがEthernetLANという方式でデバイスにLANケーブルを接続させて、いわゆる固定回線
+経由でインターネット通信を行う接続方式です。一方、無線接続は<strong class="memory-answer">電波を利用</strong>して通信させる接続方式です。</p>
+<p>無線接続の場合、通信距離が短い場合は「Wi-Fi」や「Bluetooth」などで通信を行うのが一般的です。また
+通信距離が遠い場合は「LTE」「WiMAX」「3G」「4G」「5G」等の通信規格で通信を行うのが一般的です。
+これらの無線通信は高速の通信網（ブロードバンド）ですが、利用するデバイスの消費電力は高くなります。</p>
+<p>IoTデバイスでは無線接続で通信を行いますが、IoTにより新しくインターネット接続するIoTデバイスは、
+<strong class="memory-answer">小さなデータをやりとり</strong>する<strong class="memory-answer">低消費電力のデバイス</strong>（low-powered devices）として設計されていることが
+一般的であることから、一定の速度の出る低速な通信網（<strong class="memory-answer">ナローバンド</strong>）による無線通信で十分となります。
+そこで、IoTデバイスの場合、通信速度が遅い代わりに消費電力とコストの安い「 <strong class="memory-answer">LPWA</strong> 」方式が最適です。</p>
+<p><img alt="画像" src="../studygif/virtual5b.png"></p>
+<p>LPWA（Low Power Wide Area）は「<strong class="memory-answer">低い消費電力</strong>」「<strong class="memory-answer">広域対応の無線技術</strong>」「<strong class="memory-answer">低いコスト</strong>」などの特性が
+あり、センサーなど小さなデータ送信に適したIoT向けのワイヤレスネットワークです。消費電力・通信速度
+通信距離の相関関係図は下図の通りです。</p>
+<p><img alt="画像" src="../studygif/virtual5c.png"></p>
+<p>IoTを実現するための通信方式であるLPWA規格には Sigfox、LoRaWAN、NB-IoT、LTE-M、RPMA などが
+あります。LPWAは通信方式によって<strong class="memory-answer">セルラー系</strong>と<strong class="memory-answer">非セルラー系</strong>の二つに大別されます。非セルラー系には
+SigfoxとLoRaWANなどが分類され、セルラー系にはNB-IoT、LTE-Mなどが分類されます。</p>
+<p>SigfoxとLoRaWANは、日本ではSub-GHz帯の一つである920MHz帯を利用します。920MHz帯は Wi-Fi が
+利用する周波数帯と同様に、<strong class="memory-answer">ISMバンド</strong>と呼ばれる周波数帯でありますが、2.4GHz帯と比べると<strong class="memory-answer">電波干渉の</strong>
+<strong class="memory-answer">影響が少ない</strong>です。NB-IoTとLTE-Mは、<strong class="memory-answer">3GPP</strong>と呼ばれる標準化プロジェクトが作成した技術仕様をもとに
+通信事業者が全国規模で構築したLTE網でサービスが提供されています。以下でメジャーなLPWA規格である
+「<strong class="memory-answer">Sigfox</strong>」「<strong class="memory-answer">LoRaWAN</strong>」「<strong class="memory-answer">NB-IoT</strong>」「<strong class="memory-answer">LTE-M</strong>」の比較表を紹介します。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>大別</th>
+<th>国際標準</th>
+<th>利用周波数帯</th>
+<th>最大伝送速度</th>
+<th>最大伝送距離</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sigfox</td>
+<td>非セルラー系</td>
+<td>独自規格</td>
+<td>920MHz</td>
+<td>超低速：100 bps</td>
+<td>10～40 km（郊外）</td>
+</tr>
+<tr>
+<td>LoRaWAN</td>
+<td>非セルラー系</td>
+<td>オープン規格</td>
+<td>920MHz</td>
+<td>低速：50 kbps</td>
+<td>10～15 km（郊外）</td>
+</tr>
+<tr>
+<td>NB-IoT</td>
+<td>セルラー系</td>
+<td>3GPP</td>
+<td>LTE帯域</td>
+<td>低速：250 kbps</td>
+<td>10～20 km（郊外）</td>
+</tr>
+<tr>
+<td>LTE-M</td>
+<td>セルラー系</td>
+<td>3GPP</td>
+<td>LTE帯域</td>
+<td>高速：1～4 Mbps</td>
+<td>10～15 km（郊外）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iot_1">IoT向けの通信プロトコル</h2>
+<p>IoT向けの通信プロトコルには「HTTP・HTTPS」「MQTT・MQTTS」「CoAP」の大きく3つがあります。
+HTTPとHTTPSの関係と同様、MQTTSは、MQTTにTLSによるセキュリティ層を付加したプロトコルです。</p>
+<p>・　<strong class="memory-answer">HTTP</strong>（Hyper-Text Transfer Protocol）
+HTTPは、リクエストの順番通りにレスポンスのある<strong class="memory-answer">同期プロトコル</strong>であることから、通信のタイミングを
+IoTシステムに任せられません。つまり、リアルタイム性の求められるIoTシステムではあまり使用されて
+いないプロトコルですが、リアルタイム性が重視されない大容量のデータ通信などでは採用されています。</p>
+<p>・　<strong class="memory-answer">MQTT</strong>（Message Queueing Telemetry Transport）
+MQTTは、IBMが開発したプロトコルであり、最も使用されているIoTシステム向けの通信プロトコルです。
+HTTPと同じくTCP/IPネットワーク上で使用できるプロトコルですが、ヘッダ部分が 2～5 byte と小さく、
+データ量が小さくなり、HTTPS通信よりも大幅に<strong class="memory-answer">消費電力を抑える</strong>ことができます。また、HTTPとは違い
+MQTTでは非同期通信を採用していることから<strong class="memory-answer">リアルタイム性に優れており</strong>、多数の通信デバイス間で短い
+メッセージを多く送受信する用途に最適なプロトコルです。</p>
+<p>MQTTではパブリッシュ/サブスクライブモデルを実装しています。メッセージの送信者（<strong class="memory-answer">パブリッシャー</strong>）
+をメッセージの受信者（<strong class="memory-answer">サブスクライバー</strong>）から分離しています。代わりに、<strong class="memory-answer">ブローカー</strong>と呼ばれる第三の
+コンポーネントがパブリッシャーとサブスクライバー間の通信を処理します。</p>
+<p>・　<strong class="memory-answer">CoAP</strong>（Constrained Application Protocol）とは
+CoAPは、IoTやM2M（Machine to Machine）向けのプロトコルです。CPUに加えてRAM/ROM、I/Oポート
+を1つの集積回路にまとめた極小コンピュータであるマイコンなどの<strong class="memory-answer">小電力デバイスの通信に向いています</strong>。
+CoAPでは伝送効率を考慮してトランスポート層では<strong class="memory-answer">UDP</strong>プロトコルを使用します。また、セキュアな通信を
+実現したい場合には<strong class="memory-answer">DTLS</strong>（Datagram TLS）により伝送路を暗号化することもできます。</p>
+<p>IoTシステムで最も使用されているプロトコルのMQTTでは、パブリッシュ/サブスクライブモデルでデータ
+伝送を行います。一方、CoAPではHTTPを意識して動作することからCoAPはHTTPベースのRESTful APIを
+IoTデバイス向けに軽量化したものであると言えます。</p>
+<h2 id="ioeinternet-of-everything">IoE（Internet of Everything）とは</h2>
+<p>IoEとは、Cisco Systems社が提唱する「あらゆるものが接続されたインターネット」という意味であり、
+IoEは「ヒト、プロセス、データ、モノのすべてをインターネットでつないで新しい価値を創造する」概念
+として位置付けています。ただし<strong class="memory-answer">IoTとIoEは、同義</strong>であり「IoT」という用語が広く周知されたことから
+Cisco社も「IoE」という言葉を使っていましたが、現在は「IoE」に拘らないという見解を出しています。</p>
+<p>Cisco Systemsでは、IoTを実現するアーキテクチャとして下図の7階層の構造に基づいて、ネットワーク
+機器を中心に様々な製品を提供しています。</p>
+<p><img alt="画像" src="../studygif/virtual5d.png"></p>
+<p>Ciscoの考える「シスコIoTアーキテクチャ」は、当初は以下の4階層の構造に基づいた資料となっていました。
+「<strong class="memory-answer">クラウド</strong>」「<strong class="memory-answer">インターネット</strong>」「<strong class="memory-answer">フォグコンピューティング</strong>」「<strong class="memory-answer">スマートオブジェクトセンサー・デバイス</strong>」
+現在では上図の7階層としていますが、今後のIoTの普及状況や販売戦略等により変更になる可能性もあります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

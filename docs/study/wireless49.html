@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>802.11ac - Wi-Fi 5 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211ac">IEEE802.11acとは</a></li>
+<li><a href="#ieee80211ac_1">IEEE802.11ac 仕様一覧</a></li>
+<li><a href="#ieee80211ac-">IEEE802.11ac - チャネルボンディングの拡張</a></li>
+<li><a href="#ieee80211ac-mimo">IEEE802.11ac - MIMOの拡張</a></li>
+<li><a href="#ieee80211ac-_1">IEEE802.11ac - 変調方式の効率化</a></li>
+<li><a href="#ieee80211ac-ieee80211n">IEEE802.11ac / IEEE802.11n 比較表</a></li>
+<li><a href="#ieee80211ac-mimo_1">IEEE802.11ac 新機能 - マルチユーザMIMO</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="80211ac-wi-fi-5">802.11ac - Wi-Fi 5</h1>
+<hr>
+<h2 id="ieee80211ac">IEEE802.11acとは</h2>
+<p>IEEE802.11acは、理論上<strong class="memory-answer">6.93Gbps</strong>の超高速通信を実現した無線LANの伝送規格です。IEEE802.11n の
+拡張技術を使用しており、IEEE802.11nの後継となる第5世代の規格です。802.11n 同様のカバレージを
+実現し利用帯域の拡大（<strong class="memory-answer">160MHz</strong>）変調方式の向上（<strong class="memory-answer">256QAM</strong>）MIMO（<strong class="memory-answer">8SS</strong>）MU-MIMOで高速化を実現。</p>
+<p><img alt="画像" src="../studygif/wireless49a.png"></p>
+<h2 id="ieee80211ac_1">IEEE802.11ac 仕様一覧</h2>
+<table>
+<thead>
+<tr>
+<th>無線LANの伝送規格</th>
+<th>IEEE802.11ac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周波数帯域</td>
+<td>5 GHz帯のみ</td>
+</tr>
+<tr>
+<td>最大伝送速度</td>
+<td>6.93 Gbps</td>
+</tr>
+<tr>
+<td>無線アクセス方式</td>
+<td>OFDM</td>
+</tr>
+<tr>
+<td>変調方式</td>
+<td>256QAM</td>
+</tr>
+<tr>
+<td>空間多重数（最大）</td>
+<td>8 × 8</td>
+</tr>
+<tr>
+<td>周波数帯域幅（最大）</td>
+<td>160MHz</td>
+</tr>
+<tr>
+<td>新機能</td>
+<td>MU-MIMO（マルチユーザMIMO）</td>
+</tr>
+<tr>
+<td>策定時期</td>
+<td>2013年</td>
+</tr>
+</tbody>
+</table>
+<p>※　IEEE802.11acの理論上の最大速度6.93Gbpsを実現する前提は 「<strong class="memory-answer">160MHz帯域</strong>、<strong class="memory-answer">8ストリーム</strong>、<strong class="memory-answer">256QAM</strong>」 であることです。</p>
+<h2 id="ieee80211ac-">IEEE802.11ac - チャネルボンディングの拡張</h2>
+<p>チャネルボンディングとは、無線LANの周波数帯域で隣り合う2つのチャネルを束ねて通信する技術です。
+802.11a/b/gでは1つのチャネルが使用する帯域は<strong class="memory-answer">20MHz</strong>でしたが、802.11nでは2チャネル分の<strong class="memory-answer">40MHz</strong>
+として通信できるので伝送速度は2倍以上となります。802.11acでは最大で8チャネル分の<strong class="memory-answer">160MHz</strong>として
+通信できるので伝送速度は8倍となります。802.11ac 必須規定は「80MHz」、最大は「160MHz」です。</p>
+<p><img alt="画像" src="../studygif/wireless49b.png"></p>
+<h2 id="ieee80211ac-mimo">IEEE802.11ac - MIMOの拡張</h2>
+<p>MIMO（Multiple Input Multiple Output）とは、複数のアンテナを使用してデータを同時伝送することで
+無線通信を高速化させる技術です。例えば、送信機器、受信機器ともに２つのアンテナがあるとしましょう。</p>
+<p>下図では送信機器でデータを2分割して、2つのアンテナでその分割データを送信し、受信機器はその分割
+データを2つのアンテナで受信して元のデータに復元します。このように複数のアンテナを使用することで
+生じる複数の経路を1つの伝送路として見なし、データを送受信することで高速化を実現するのがMIMOです。</p>
+<p><img alt="画像" src="../studygif/wireless49c.png"></p>
+<p>複数のアンテナを1つの伝送路として使用するMIMOでは、当然アンテナ数が多いほど速度が速くなります。
+IEEE802.11nでは最大で4本（送信4本、受信4本）使用することが可能でした。そしてIEEE802.11acでは
+最大<strong class="memory-answer">8</strong>本（送信8本、受信8本）使用することが可能です。※ アンテナ送信8本、受信8本は8×8と表します。</p>
+<h2 id="ieee80211ac-_1">IEEE802.11ac - 変調方式の効率化</h2>
+<p>変調はデジタル信号を電波として送信できるように信号を変換することですが、1回の変調（1シンボル）で
+多くの情報量を送信できれば通信速度が速くなります。IEEE802.11nの64QAMでは6ビット（2の6乗 = 64）
+の信号を送信可能であるのに対し、802.11acの256QAMでは8ビット（2の8乗=256）情報を1度に送信可能。</p>
+<p><img alt="画像" src="../studygif/wireless49d.png"></p>
+<h2 id="ieee80211ac-ieee80211n">IEEE802.11ac / IEEE802.11n 比較表</h2>
+<table>
+<thead>
+<tr>
+<th>機能</th>
+<th>IEEE802.11n</th>
+<th>IEEE802.11ac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>チャネルボンディング</td>
+<td>最大40MHz</td>
+<td>最大160MHz</td>
+</tr>
+<tr>
+<td>MIMO</td>
+<td>4×4</td>
+<td>8×8</td>
+</tr>
+<tr>
+<td>変調方式</td>
+<td>64QAM</td>
+<td>256QAM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ieee80211ac-mimo_1">IEEE802.11ac 新機能 - マルチユーザMIMO</h2>
+<p>802.11a/g/nの従来規格では、無線LANデバイスとアクセスポイントが通信するその瞬間（まさに一瞬）は、
+無線LANクライアントとAPは1台ずつしか通信しかできませんでしたが、802.11acでは最大<strong class="memory-answer">4台</strong>の無線LAN
+デバイスと同時に通信できます。つまり802.11acのMU-MIMOはスイッチングハブを提供する技術と言えます。</p>
+<p><img alt="画像" src="../studygif/wireless49e.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study11.html">無線LAN（Wi-Fi）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

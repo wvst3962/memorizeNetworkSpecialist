@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>HTTP/3 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#http3hypertext-transfer-protocol-version-3">HTTP/3（Hypertext Transfer Protocol version 3）とは</a></li>
+<li><a href="#http3-udpquic">HTTP/3 - UDPとQUICを使用</a></li>
+<li><a href="#http3-web-">HTTP/3 - Web高速化の仕組み - 接続開始時の遅延が少ない</a></li>
+<li><a href="#http3-web-holhead-of-line">HTTP/3 - Web高速化の仕組み - HOL（head-of-line）ブロッキングの発生防止</a></li>
+<li><a href="#http3-connection-migration">HTTP/3 - 通信の継続性 - Connection Migration</a></li>
+<li><a href="#http3-">HTTP/3 - サーバプッシュ</a></li>
+<li><a href="#http3-_1">HTTP/3 - ストリーム</a></li>
+<li><a href="#http3-_2">HTTP/3 - フレームタイプ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="http3">HTTP/3</h1>
+<hr>
+<h2 id="http3hypertext-transfer-protocol-version-3">HTTP/3（Hypertext Transfer Protocol version 3）とは</h2>
+<p>HTTP/3は、WebサーバとWebクライアントがデータを送受信するために使用する<strong class="memory-answer">HTTPのバージョン3</strong>です。
+HTTP/1.1ではテキスト形式、HTTP/2はバイナリ形式、HTTP/3もバイナリ形式でメッセージのやりとりを
+行います。HTTP/3はRFCドラフト「<strong class="memory-answer">HTTP over QUIC</strong>」をベースとしています。</p>
+<p>HTTP/2では、Google社がHTTPメッセージをより効率良く転送するSPDYというプロトコルを開発し、後に
+HTTP/2の標準化に至りました。HTTP/3でも、Google社がTCPの改善のために設計した<strong class="memory-answer">QUIC</strong>プロトコルが
+ベースとなり、2022年6月にHTTP/3の標準化に至ることになりました。</p>
+<table>
+<thead>
+<tr>
+<th>HTTPバージョン</th>
+<th>派生元</th>
+<th>RFC</th>
+<th>導入年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP/1.1</td>
+<td>-</td>
+<td>RFC 9112</td>
+<td>1997年</td>
+</tr>
+<tr>
+<td>HTTP/2</td>
+<td>SPDY</td>
+<td>RFC 9113</td>
+<td>2015年</td>
+</tr>
+<tr>
+<td>HTTP/3</td>
+<td>QUIC</td>
+<td>RFC 9114</td>
+<td>2022年</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http3-udpquic">HTTP/3 - UDPとQUICを使用</h2>
+<p>HTTP/1.1とHTTP/2の通信ではTCPポート番号80と443を使用しますが、HTTP/3では<strong class="memory-answer">UDPポート番号443</strong>を
+使用します。 HTTP/3ではTCPではなく<strong class="memory-answer">UDPとQUIC</strong>を使用しています。HTTP/3はTCPを使用しない代わりに
+パケット再送、トラフィック制御、信頼性ある通信をQUICが担ってくれます。</p>
+<p>HTTP/1.1とHTTP/2の通信では、トランスポート層にTCPを使用してセキュリティにはTLSを実装しました。
+HTTP/3では、トランスポート層にUDPを使用してTLS1.3を取り込んだQUICがセキュリティを担っています。
+HTTP/1.1とHTTP/2ではTLSの実装は必須ではありませんでしたが、HTTP/3からはTLSの実装は必須となり、
+TLS1.3による暗号化通信が必須となります。</p>
+<p><img alt="画像" src="../studygif/tcpip16.8a.png"></p>
+<table>
+<thead>
+<tr>
+<th>HTTPバージョン</th>
+<th>使用するポート番号</th>
+<th>TLSの実装</th>
+<th>TLSバージョン</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP/1.1</td>
+<td>TCP 80 / TCP 443</td>
+<td>任意</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>HTTP/2</td>
+<td>TCP 80 / TCP 443</td>
+<td>任意</td>
+<td>TLS1.2 / TLS1.3</td>
+</tr>
+<tr>
+<td>HTTP/3</td>
+<td>UDP 443</td>
+<td>必須</td>
+<td>TLS1.3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http3-web-">HTTP/3 - Web高速化の仕組み - 接続開始時の遅延が少ない</h2>
+<p>HTTP/3では、UDPとQUICプロトコルを使用することで、HTTP/2よりもWebサイトの表示が速くなります。</p>
+<p>HTTP/2で使用するTCPは、通信開始時に3wayハンドシェイクが発生しWebサイトのデータ取得を開始する
+までに3往復のやり取りが発生し、TLS通信を行う際にはさらにSSL/TLSハンドシェイクが発生して鍵交換の
+やり取りが完了した後に通信開始となっていました。</p>
+<p>HTTP/3で使用するUDPは、TCP 3wayハンドシェイクは発生することなくTLSハンドシェイクが始まります。
+HTTP/3では信頼性のある通信はQUICにより実現しており、セキュアな通信はTLS1.3により実現しています。</p>
+<p><img alt="画像" src="../studygif/tcpip16.8b.png"></p>
+<p>HTTP/3では、TLS1.3の <strong class="memory-answer">0-RTT</strong>（Zero Round Trip Time）という機能を利用することで、いったん通信を
+した相手とは、セッション再開時にTLSハンドシェイクなしにデータ通信を開始することができます。</p>
+<p><img alt="画像" src="../studygif/tcpip16.8c.png"></p>
+<h2 id="http3-web-holhead-of-line">HTTP/3 - Web高速化の仕組み - HOL（head-of-line）ブロッキングの発生防止</h2>
+<p>HTTP/3はTCPで問題となる<strong class="memory-answer">HOLブロッキング</strong>（ヘッドオブラインブロッキング）の問題を解決しています。
+HOLブロッキングとは、TCPパケットを連続で送信する時に、先頭パケットにエラーが発生した時に再送が
+完了するまで後続パケットを送信できない事象のことです。HTTP/3では、QUICによりHOLブロッキングの
+問題が解決されて、<strong class="memory-answer">エラー発生時のパケットの再送中でも、同時並行して他のパケットを転送処理できます</strong>。</p>
+<h2 id="http3-connection-migration">HTTP/3 - 通信の継続性 - Connection Migration</h2>
+<p>HTTP/3では、Webクライアントが通信中にIPアドレスやポート番号が変更した場合でも、同じ通信を継続
+できる仕組みがあります。例えば、WebクライアントのスマホがWi-Fi通信から4G/5G通信に切り替わる時
+HTTP/1.1やHTTP/2で使用するTCPではコネクション識別子にIPアドレスとポート番号を使用することから
+既存のコネクションは維持できず、新規のコネクションを確立する必要があります。</p>
+<p>一方、HTTP/3で使用するQUICではコネクション識別子に<strong class="memory-answer">コネクションID</strong>を使用するため、Wi-Fi通信から
+4G/5G通信に切り替わった場合でも（その逆の場合でも）、スマホのようなモバイルクライアントは再接続
+することなく通信を継続できます。このように、ネットワーク経路が切り替わりIPアドレスやポート番号が
+変更しても通信を維持できる機能のことを<strong class="memory-answer">コネクションマイグレーション</strong>と言います。</p>
+<h2 id="http3-">HTTP/3 - サーバプッシュ</h2>
+<p>HTTP/3でもサーバプッシュは実装されますが、HTTP/2で実装されたサーバプッシュと動作が異なります。
+WebクライアントからHEADERSフレームを受信したサーバは、PUSH_PROMISEフレームを送信しますが
+このPUSH_PROMISEフレームには<strong class="memory-answer">Push ID</strong>と<strong class="memory-answer">Encoded Field Section</strong>が含まれます。</p>
+<table>
+<thead>
+<tr>
+<th>PUSH_PROMISEフレーム内の情報</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Push ID</td>
+<td>次に送信するPushストリームとひもづけるためのID</td>
+</tr>
+<tr>
+<td>Encoded Field Section</td>
+<td>QPACKによりエンコードされたリクエストヘッダ（：authority や : path が含まれる）</td>
+</tr>
+</tbody>
+</table>
+<p>サーバプッシュのレスポンスを受信したクライアントがキャッシュ領域に格納し、以降はキャッシュ領域の
+リソースはリクエストせずキャッシュ領域の保存情報を使用するという動作はHTTP/2・HTTP/3で共通です。</p>
+<p>HTTP/3では、クライアントが自身のリソースを節約するためにサーバが送信する<strong class="memory-answer">サーバプッシュの数を制限</strong>
+できます。PUSH_PROMISEフレーム受信後にクライアントが制限を行うと判断した場合は、<strong class="memory-answer">MAX_PUSH_ID</strong>
+フレームを送信します。このフレームを受信したサーバは指定数以上のサーバプッシュは行わなくなります。</p>
+<p>HTTP/3では<strong class="memory-answer">サーバプッシュをキャンセル</strong>することもできます。クライアントはPUSH_PROMISEフレームの
+Encoded Field Sectionに記述されたURLのキャッシュがすでにある場合は<strong class="memory-answer">CANCEL_PUSH</strong>フレームを送信し
+キャンセルすることができます。</p>
+<h2 id="http3-_1">HTTP/3 - ストリーム</h2>
+<p>HTTP/3では、HTTP/2同様にストリーム上でフレームをやり取りします。HTTP/3で使用するストリームは、
+QUICにより多重化されており単方向ストリームと双方向ストリームの大きく2つに分類できます。文字通り
+片側からのみデータを送信する単方向ストリームには<strong class="memory-answer">Controlストリーム</strong>と<strong class="memory-answer">Pushストリーム</strong>などがあります。
+Pushストリームはサーバ側でのみ、Controlストリームはクライアント側でもサーバ側でもオープンできます。</p>
+<table>
+<thead>
+<tr>
+<th>単方向 - ストリーム タイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control</td>
+<td>通信制御に関するパラメータの送信、エラー通知のために使用するストリーム</td>
+</tr>
+<tr>
+<td>Push</td>
+<td>サーバプッシュのために使用するストリーム</td>
+</tr>
+</tbody>
+</table>
+<p>双方からデータを送信できる双方向ストリームには<strong class="memory-answer">Requestストリーム</strong>があります。双方からデータを送信
+できますが、クライアントからのみオープンできるストリームでありHTTPメッセージを送受信します。この
+RuquestストリームでHTTPリクエストとHTTPレスポンスを送受信したら再利用されずにクローズされます。</p>
+<table>
+<thead>
+<tr>
+<th>双方向 - ストリーム タイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request</td>
+<td>HTTPメッセージを送受信するためのストリーム</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http3-_2">HTTP/3 - フレームタイプ</h2>
+<p>HTTP/3では、HTTP/2同様にストリーム上でバイナリ形式のフレームをやり取りします。HTTP/3で使用
+されるフレームは以下の7つがあります。0x02、0x06、0x08、0x09は予約済みとなっています。</p>
+<table>
+<thead>
+<tr>
+<th>タイプ値</th>
+<th>フレーム名</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0</td>
+<td>DATA</td>
+<td>HTTPリクエストやHTTPレスポンスのデータであるHTTPボディを送信</td>
+</tr>
+<tr>
+<td>0x1</td>
+<td>HEADERS</td>
+<td>HTTPリクエストヘッダやHTTPレスポンスヘッダのヘッダを送信</td>
+</tr>
+<tr>
+<td>0x3</td>
+<td>CANCEL_PUSH</td>
+<td>サーバプッシュのキャンセル</td>
+</tr>
+<tr>
+<td>0x4</td>
+<td>SETTINGS</td>
+<td>通信に関するパラメータのSETTINGSパラメータを送信</td>
+</tr>
+<tr>
+<td>0x5</td>
+<td>PUSH_PROMISE</td>
+<td>サーバプッシュに用いるストリームを予約（サーバのみ送信可能）</td>
+</tr>
+<tr>
+<td>0x7</td>
+<td>GOAWAY</td>
+<td>コネクションの切断処理の開始</td>
+</tr>
+<tr>
+<td>0xd</td>
+<td>MAX_PUSH_ID</td>
+<td>サーバプッシュ可能な最大Push IDを通知</td>
+</tr>
+</tbody>
+</table></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

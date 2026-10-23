@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SMTP &amp; POP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#smtp">SMTPとは</a></li>
+<li><a href="#pop">POPとは</a></li>
+<li><a href="#-">メールの送受信の仕組み - 簡易説明</a></li>
+<li><a href="#smtp-">SMTPによるメール送信の仕組み - 詳細説明</a></li>
+<li><a href="#pop3">POP3によるメール受信の仕組み ( 詳細説明 )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="smtp-pop">SMTP &amp; POP</h1>
+<hr>
+<h2 id="smtp">SMTPとは</h2>
+<p>SMTP（Simple Mail Transfer Protocol）は、電子メールを<strong class="memory-answer">送信</strong>するために使用するアプリケーション層
+のプロトコルです。メールソフトから、メールサーバへ電子メールを送信する際にこのSMTPを使用します。
+SMTPは、TCP上で動作しており、SMTPサーバにアクセスするために使用しているポート番号は <strong class="memory-answer">25</strong> です。</p>
+<p><img alt="画像" src="../studygif/tcpip17a.png"></p>
+<h2 id="pop">POPとは</h2>
+<p>POP（Post Office Protocol）は、電子メールを<strong class="memory-answer">受信</strong>するために使用するアプリケーション層プロトコル。
+メーラでメールサーバから電子メールを受信する際にPOPを使用します。現在ではPOPのバージョン 3 が
+主流なのでPOPといえばPOP3を指します。POPではパスワード情報は暗号化されずそのまま送信されます。
+POPはTCP上で動作しており、POPサーバにアクセスするために使用しているポート番号は<strong class="memory-answer">110</strong>となります。</p>
+<p><img alt="画像" src="../studygif/tcpip17b.png"></p>
+<h2 id="-">メールの送受信の仕組み - 簡易説明</h2>
+<p>下図では、infraexpert.comのドメイン配下のユーザからexample.comのドメイン配下のユーザに対して
+メールを送信しようとしています。下図の通りメールは直接届くのではなく、メールサーバを経由します。</p>
+<p><img alt="画像" src="../studygif/tcpip17c.png"></p>
+<table>
+<thead>
+<tr>
+<th>シーケンス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?@</td>
+<td>ユーザがメーラーでメールを作成して、メーラーで設定したメールサーバへSMTPによりメールを送信。</td>
+</tr>
+<tr>
+<td>?A</td>
+<td>メールを受信したメールサーバは、メールアドレスの＠以降のドメイン名から宛先を確認する。<br>DNSより名前解決してIPアドレスを取得すると、SMTPによりexample.comのメールサーバにメールを送信。<br>これによって、送信されたメールはexample.comのメールサーバに格納される。SMTPの役割はこれで終了。</td>
+</tr>
+<tr>
+<td>?B</td>
+<td>exmaple.comのユーザはメーラーでメールチェックを実行。<br>メーラーで設定したメールサーバへPOP3によりユーザ名とパスワード情報を送信。</td>
+</tr>
+<tr>
+<td>?C</td>
+<td>メールサーバは、サーバ上に登録しているユーザ名とパスワード情報を確認し、ユーザ認証を実施。</td>
+</tr>
+<tr>
+<td>?D</td>
+<td>ユーザ認証が成功すると、宛先アドレスがexampleのメールをメールサーバが送信し、ユーザがメール受信。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="smtp-">SMTPによるメール送信の仕組み - 詳細説明</h2>
+<p><img alt="画像" src="../studygif/tcpip17d.png"></p>
+<p>メールクライアントは、上図の通りテキストコマンドにより要求を出すのですが、これをメーラが担当します。
+メールクライアントからの要求コマンドに対して、サーバは３桁の数字により応答を行います。※上図にある
+「This is a test mail」はメールの本文内容であってメールクライアントからの要求コマンドではありません。</p>
+<h2 id="pop3">POP3によるメール受信の仕組み ( 詳細説明 )</h2>
+<p><img alt="画像" src="../studygif/tcpip17e.png"></p>
+<p>SMTPと同様にPOP3の場合もメールクライアントから、上図の通りテキストコマンドにより要求を出します。
+メールクライアントからの要求コマンドに対して、サーバは正常な場合は「+OK」、エラーが発生した場合
+「-ERR」の応答を返します。応答はこの2種類だけとなりますがこの応答にメッセージを付加して送信します。</p>
+<hr>
+<p>← <a href="tcpip16.html">HTTPとは</a>　<a href="tcpip18.html">SMTP - サブミッションポート、SMTP認証</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

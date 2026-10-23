@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancer - Node / Pool / Virtual Server | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-">ロードバランサ - 基本構成</a></li>
+<li><a href="#-ip">ロードバランサ - IPアドレスの割り当て</a></li>
+<li><a href="#-ip_1">ロードバランサ - IPアドレス変換</a></li>
+<li><a href="#-_1">ロードバランサ - 用語説明</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancer-node-pool-virtual-server">Load Balancer - Node / Pool / Virtual Server</h1>
+<hr>
+<h2 id="-">ロードバランサ - 基本構成</h2>
+<p>ロードバランサは、Layer2またはLayer3で構成することができます。Layer2構成の場合、ロードバランサの
+両側のインターフェースが同じセグメントとなり、L3構成ではロードバランサの両側のインターフェースで
+異なるセグメントとなります。ロードバランサを導入する場合、特別な要件がないのならLayer3構成が推奨。</p>
+<p><img alt="画像" src="../studygif/loadbalancer7a.png"></p>
+<h2 id="-ip">ロードバランサ - IPアドレスの割り当て</h2>
+<p>ここでは、ロードバランサのLayer3構成におけるIPアドレスの割当を説明します。ロードバランサの両側で
+物理IPアドレスを割り当て、クライアントからのトラフィックを受ける事になる仮想IPアドレスを割り当てる。
+この仮想IPアドレスのことを<strong class="memory-answer">バーチャルサーバ</strong>（仮想サーバ）と言います。クライアントはバーチャルサーバ
+を宛先として通信を行います。一方、実サーバはロードバランサをデフォルトゲートウェイとして設定します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer7b.png"></p>
+<p>上図は、Web通信を行う場合の構成です。クライアントから「https://10.0.0.1/」とアクセスしてきた場合、
+ロードバランサはバーチャルサーバに関連付けた<strong class="memory-answer">リアルサーバ</strong>（ 実サーバ ）に対してパケットを転送します。</p>
+<h2 id="-ip_1">ロードバランサ - IPアドレス変換</h2>
+<p>ロードバランサはバーチャルサーバに着信したパケットを、アドレス変換してからリアルサーバへ転送します。
+このアドレス変換には、ロードバランサの物理インターフェースに割り当てられたIPアドレスは関与しません。</p>
+<p><img alt="画像" src="../studygif/loadbalancer7c.png"></p>
+<p>上図は宛先アドレス変換を示していますが、下図の通りアドレスだけでなく同時にポート番号の変換も可能。</p>
+<p><img alt="画像" src="../studygif/loadbalancer7d.png"></p>
+<h2 id="-_1">ロードバランサ - 用語説明</h2>
+<p>以下はF5社のロードバランサであるBIG-IPで定義されている用語説明です。メーカによって定義している
+用語は異なりますがロードバランサ業界の標準用語として使われることが多く知っておくと非常に便利です。</p>
+<p><img alt="画像" src="../studygif/loadbalancer7e.png"></p>
+<p>※　プールメンバーのポート番号は、バーチャルサーバのポート番号と一致させる必要はりません。※ 一般的には一致させます。</p>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node ( ノード )</td>
+<td>負荷分散対象となる実サーバのIPアドレス</td>
+</tr>
+<tr>
+<td>Pool Member ( プールメンバー )</td>
+<td>負荷分散対象となる実サーバのIPアドレスに使用するサービスポートを追加したもの</td>
+</tr>
+<tr>
+<td>Pool ( プール )</td>
+<td>プールメンバーをグループ化したもの</td>
+</tr>
+<tr>
+<td>Virtual Server ( バーチャルサーバ )</td>
+<td>クライアントからトラフィックを受けるIPアドレスとポート番号を定義したもの。</td>
+</tr>
+<tr>
+<td>Internal ( インターナル )</td>
+<td>一般的にサーバ側セグメントに割り当られるロードバランサのインターフェース名</td>
+</tr>
+<tr>
+<td>External ( エクスターナル )</td>
+<td>一般的にクライアント側セグメントに割り当られるロードバランサのインターフェース名</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

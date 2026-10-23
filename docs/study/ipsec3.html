@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VPN - Encryption System 1 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">暗号システムの概要</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vpn-encryption-system-1">VPN - Encryption System 1</h1>
+<hr>
+<h2 id="_1">暗号システムの概要</h2>
+<p>VPNは様々なセキュリティ技術により実現されています。具体的に、鍵管理、暗号化、ハッシュ関数、認証
+などがあります。ここでは、これらの概要を説明して、次ページ以降で詳細を説明していきたいと思います。</p>
+<p>先ず鍵管理方式。 IPsecでは <strong class="memory-answer">Diffie-Hellman</strong> を採用しています。これは暗号鍵を安全に手渡すために使用。</p>
+<p><img alt="画像" src="../studygif/ipsec3a.png"></p>
+<p>次に、暗号化方式。 <strong class="memory-answer">共通鍵暗号</strong>と<strong class="memory-answer">公開鍵暗号</strong>の2つがあります。データを暗号化するために使用。</p>
+<p><img alt="画像" src="../studygif/ipsec3b.png"></p>
+<p>次に、ハッシュ関数。これにはMD5とSHAなどがあります。このハッシュ関数はある与えられたデータから
+そのデータを代表する固定長の数値を生成する演算手法のこと。これは、改ざん検出などに利用されますが
+この技術自体がデータの暗号化や認証を行うものではありません。認証技術と併用して使うことができます。</p>
+<p><img alt="画像" src="../studygif/ipsec3c.png"></p>
+<p>次に、認証方式。これにはHMACとデジタル署名があります。これはデータが改ざんされていないのかを
+チェックする技術です。共通鍵を使用するのがHMACであり、公開鍵を使用するのがデジタル署名です。
+HMACを使用する場合、ハッシュ関数にMD5またはSHAのどちらでも使用できます。デジタル署名を使用
+する場合にはSHAを使用します。※　HMACはハッシュ関数と共通鍵を組合せて計算するMACのことです。</p>
+<p><img alt="画像" src="../studygif/ipsec3d.png"></p>
+<p>IPsec-VPNでは、IKEのメッセージ交換で鍵交換をする相手を認証する目的でその際に公開鍵暗号やデジタル署名の使用が可能。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

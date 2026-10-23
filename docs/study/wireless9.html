@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - WEP ( Wired Equivalent Privacy ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wep-wired-equivalent-privacy">WEP (Wired Equivalent Privacy) とは</a></li>
+<li><a href="#wep">WEPによるデータの暗号化 &amp; データの完全性の保証</a></li>
+<li><a href="#ieee802112">IEEE802.11における2つの認証方式</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-wep-wired-equivalent-privacy">Wireless LAN - WEP ( Wired Equivalent Privacy )</h1>
+<hr>
+<h2 id="wep-wired-equivalent-privacy">WEP (Wired Equivalent Privacy) とは</h2>
+<p>WEPとは、無線LAN通信において使用される暗号化技術です。有線LANではパケットは物理ケーブル上で
+伝送されるのに対して、無線LANではパケットは空気中の電波で伝送されることから通信傍受が容易です。
+無線LANでは、WEPで通信パケットを暗号化することで有線LAN同様の安全性を持たせようとしています。
+※　現在では、無線LANの暗号化技術において、<strong class="memory-answer">脆弱性のあるWEPを使用することはほとんどありません</strong>。</p>
+<p>WEPは、RC4 アルゴリズムをベースとした共通鍵暗号を採用しています。暗号化の際には64ビットまたは
+128ビットの共通鍵が使用されます。無線LANではこの共通鍵をWEPキーと呼んでおり、送信側と受信側で
+正常に暗号化と復号を行うために同じWEPキーを設定する必要があります。同じWEPキーを設定していない
+とデータの中身が見えない（正常な通信が不可）のでWEPキーは一種のパスワードと考えることもできます。
+また、WEPはデータの暗号化だけではなくデータの完全性を保証する為にCRC32アルゴリズムを使用します。</p>
+<table>
+<thead>
+<tr>
+<th>WEPの特徴</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>共通鍵暗号の使用</td>
+<td>RC4 アルゴリズムをベースとしている</td>
+</tr>
+<tr>
+<td>一種の認証機能</td>
+<td>送信側と受信側とで同じWEPキーを設定する必要があるため</td>
+</tr>
+<tr>
+<td>共通鍵の長さ</td>
+<td>40bit または 104bit のデータサイズ</td>
+</tr>
+<tr>
+<td>最終的な鍵の長さ</td>
+<td>64bit または 128bit (共通鍵のデータサイズに24ビットの IV が加えられる)</td>
+</tr>
+<tr>
+<td>WEPキー（共通鍵）の文字数 - 40bit</td>
+<td>ASCII文字を使用する場合、5文字。16進数を使用する場合、10文字。</td>
+</tr>
+<tr>
+<td>WEPキー（共通鍵）の文字数 - 104bit</td>
+<td>ASCII文字を使用する場合、13文字。16進数を使用する場合、26文字。</td>
+</tr>
+<tr>
+<td>WEPの脆弱性</td>
+<td>脆弱なパケット(Weak IV)を入手できればWEPキーが解読可 (FMS攻撃）</td>
+</tr>
+<tr>
+<td>ICV (Integrity Checksum Value) の使用</td>
+<td>CRC32 アルゴリズムを使用する。実質的に改ざん検知ができない。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wep">WEPによるデータの暗号化 &amp; データの完全性の保証</h2>
+<p>WEPではデータの完全性を保証するために、IEEE802.11フレームのデータ部分からハッシュ値を計算します。
+CRC32により求められたハッシュ値をICVと言います。このICVを、下図の通りDataとFCSの間に挿入します。
+WEPではデータの暗号化のために、RC4により先のICVとデータ部分を暗号文とします。あわせて、暗号化で
+使用される共通鍵の生成を担う24ビットのIVをIEEE802.11ヘッダとDataの間に挿入して最終形態になります。</p>
+<p><img alt="画像" src="../studygif/wireless9a.png"></p>
+<p>WEPによる暗号化の処理をもう少し詳細に見てみましょう。データの暗号化のためには、「キーストリーム」
+なるものが必要となります。キーストリームは、管理者が設定するWEPキー(40bit or 104bit)と IV(24bit)で
+構成されたものをPRNG(擬似乱数ジェネレータ)を通して生成されるものです。そして、そのキーストリームと
+DataとICVをそれぞれ排他的論理和(XOR)を求めることで、最終的な暗号データが生成されることになります。</p>
+<p><img alt="画像" src="../studygif/wireless9b.png"></p>
+<h2 id="ieee802112">IEEE802.11における2つの認証方式</h2>
+<p>無線LAN接続の認証フェーズでは2種類の認証方式がある。1つは、<strong class="memory-answer">Open認証</strong>(オープンシステム認証)です。
+もう1つは<strong class="memory-answer">Shared-key認証</strong>(シェアードキー認証)です。Shared-key認証はWEPを使用する際に使用します。
+※　Windows 7 の無線LANの設定項目では、Open認証は<strong class="memory-answer">オープンシステム</strong>、Shared-key認証は<strong class="memory-answer">共有キー</strong>という用語を使用。</p>
+<table>
+<thead>
+<tr>
+<th>2種類の認証方式 ( 暗号化にWEPを採用した場合 )</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open認証<br>( オープンシステム認証 )</td>
+<td>WLAN端末からの認証要求があった場合、APは必ず認証成功フレームを送信する。<br>つまり、Open認証では必ず認証が成功するため、実質的な認証は行われていない。<br>※　このオープン認証は、PCとAPとでSSIDが一致さえしていれば、通信可能となる。</td>
+</tr>
+<tr>
+<td>Shared-key認証<br>( 共有キー認証 )</td>
+<td>WLAN端末とAPは自身のWEPキーを利用することにより、WLAN端末の認証を行う。<br>ただし、Shared-key認証では認証の際に使用するWEPキーが、電波を不正に傍受<br>しているWLAN端末に見破られる可能性がある。中間者攻撃には脆弱な認証である。</td>
+</tr>
+</tbody>
+</table>
+<p>※　本来WEPキーは暗号化のために使用するのですが、Shared-key認証では「認証時にそのWEPキーを利用しよう」というもの。</p>
+<p>実質的に認証が行われないOpen認証よりも、暗号化のために設定しているWEPキーを利用した認証方式で
+あるShared-key認証の方がセキュリティが高いように思えますが、Shared-key 認証の場合、中間者攻撃
+などでWEPキーが見破られると不正認証とデータの不正傍受も行われてしまいます。一方、Open認証では
+認証が成功することで、あるAPのESSに仲間入りすることができますが、不正認証はされるもののデータの
+不正傍受は行われることはありません。以上のことから、認証方式は「Open認証」が推奨とされています。</p>
+<p>ただし、Open認証において簡単に不正認証が行われることは問題であるので、Open認証を使用する場合は
+実際の認証は、<strong class="memory-answer">IEEE802.1X認証</strong>またはWeb認証などを実装することが推奨であり一般的な実装と言えます。</p>
+<p><img alt="画像" src="../studygif/wireless9c.png"></p>
+<hr>
+<p>← <a href="wireless8.html">無線LAN - 初心者でも分かる無線LAN通信の流れ</a>　<a href="wireless10.html">無線LAN - ESSIDステルス、MACフィルタ、WEP脆弱性</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

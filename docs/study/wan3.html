@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN - Digital leased line / PSTN / ISDN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan-">WAN - 回線の種類</a></li>
+<li><a href="#wan-_1">WANの回線サービス - 専用線</a></li>
+<li><a href="#wan-pstn">WANの回線サービス - PSTN</a></li>
+<li><a href="#wan-isdn">WANの回線サービス - ISDN</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan-digital-leased-line-pstn-isdn">WAN - Digital leased line / PSTN / ISDN</h1>
+<hr>
+<h2 id="wan-">WAN - 回線の種類</h2>
+<p>WANサービスは<strong class="memory-answer">専用型</strong>と<strong class="memory-answer">交換型</strong>の大きく2つに分類されます。交換型は、<strong class="memory-answer">回線交換</strong>と<strong class="memory-answer">パケット交換</strong>の2つ
+にさらに分類されます。専用型は、利用者が回線を占有して使用する方式です。一方で、交換型は複数の
+利用者が回線を共有する方式です。WAN回線のサービスは、以下の表のとおりに分類することができます。</p>
+<table>
+<thead>
+<tr>
+<th>回線のタイプ</th>
+<th>特徴</th>
+<th>WANサービスの例</th>
+<th>使用プロトコル</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>専用型</td>
+<td>専用線</td>
+<td>自社専用として回線を借りて１対1で拠点間接続できる。<br>セキュリティが保証され信頼性が高いが、コストが高い。</td>
+<td>専用線</td>
+<td>PPP, HDLC</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>回線交換</td>
+<td>通信時だけ接続を確立して、通信が終了したら切断する。<br>コストは従量課金制となる。信頼性がなく通信速度も低い。</td>
+<td>PSTN</td>
+<td>PPP, HDLC</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>回線交換</td>
+<td>通信時だけ接続を確立して、通信が終了したら切断する。<br>コストは従量課金制となる。信頼性がなく通信速度も低い。</td>
+<td>ISDN</td>
+<td>PPP, HDLC</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>パケット交換</td>
+<td>１本の物理回線上で複数の仮想回線で拠点間接続できる。<br>データは仮想回線を識別する制御情報が付加されて伝送。<br>専用線より安価、回線交換よりも通信速度や信頼性が高い。</td>
+<td>フレームリレー</td>
+<td>FrameRelay</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>パケット交換</td>
+<td>１本の物理回線上で複数の仮想回線で拠点間接続できる。<br>データは仮想回線を識別する制御情報が付加されて伝送。<br>専用線より安価、回線交換よりも通信速度や信頼性が高い。</td>
+<td>ATM</td>
+<td>ATM</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>パケット交換</td>
+<td>１本の物理回線上で複数の仮想回線で拠点間接続できる。<br>データは仮想回線を識別する制御情報が付加されて伝送。<br>専用線より安価、回線交換よりも通信速度や信頼性が高い。</td>
+<td>IP-VPN</td>
+<td>IP</td>
+</tr>
+<tr>
+<td>交換型</td>
+<td>パケット交換</td>
+<td>１本の物理回線上で複数の仮想回線で拠点間接続できる。<br>データは仮想回線を識別する制御情報が付加されて伝送。<br>専用線より安価、回線交換よりも通信速度や信頼性が高い。</td>
+<td>広域イーサネット</td>
+<td>Ethernet</td>
+</tr>
+</tbody>
+</table>
+<p>※　専用線では<strong class="memory-answer">PPP</strong>、<strong class="memory-answer">HDLC</strong> 以外のレイヤ2プロトコル以外にも、イーサネット専用線サービスの場合は <strong class="memory-answer">Ethernet</strong> を使用可能です。</p>
+<h2 id="wan-_1">WANの回線サービス - 専用線</h2>
+<p>専用線は、契約したユーザが回線を占有して使用できる回線サービスです。1対1のポイントツーポイントで
+接続されます。回線を占有するので契約した通信速度が保証され、セキュリティも保証されますがコストが
+高くなります。料金は定額制ですが、拠点間の距離、通信速度、接続する拠点数等に比例して高くなります。
+※　通信速度の保証とは、アクセス回線からキャリア網内のバックボーン含めてなので絶対保証となります。</p>
+<p><img alt="画像" src="../studygif/wan3a.png"></p>
+<h2 id="wan-pstn">WANの回線サービス - PSTN</h2>
+<p>PSTNは、公衆電話網であり主に音声の通信用の回線サービスです。電話と同じように通信をはじめる時に
+通信を確立させて、通信が終了したら切断します。PSTNでは通信中のみ回線を占有して、終了すれば解放
+します。利用料金は、接続先への距離と通信時間によって課金される従量課金制です。PSTNでデータ通信
+をする場合、ルータやPCなどのDTEをアナログモデムに接続し、通信先に直接ダイヤルアップ接続をします。</p>
+<p>通信速度は56Kbpsであり、コールセットアップに時間がかかり通信開始も遅いことから、現在では拠点間の
+通信のWANとして利用されることはほとんどありません。PSTNが利用される場合、例えばモデム内蔵のPC
+からダイヤルアップ接続を行い、リモートから機器のメンテナンスを行うなどの管理アクセスの手段として
+使われており、このような接続では少量のトラフィックしか発生しないためPSTNでも問題なく通信できます。
+※　ブロードバンドやリモートアクセスVPNの普及前、外出先から自社へダイヤルアップしメール送受信などで利用されていました。</p>
+<p><img alt="画像" src="../studygif/wan3b.png"></p>
+<h2 id="wan-isdn">WANの回線サービス - ISDN</h2>
+<p>ISDNは、音声通信とデータ通信を統合した回線サービスです。PSTNと同様に、通信開始時に通信を確立
+させて通信が終了したら切断します。また、通信中のみ回線を占有し終了すれば解放します。従量課金制。
+ISDNは1つの物理回線に対して複数の論理チャネルがあります。そのチャネルには以下の2種類があります。</p>
+<table>
+<thead>
+<tr>
+<th>ISDNの2種類の論理チャネル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bチャネル</td>
+<td>データの伝送に使用される通信チャネル</td>
+</tr>
+<tr>
+<td>Dチャネル</td>
+<td>コールセットアップ（シグナリング）の制御情報の伝送に使用される制御チャネル</td>
+</tr>
+</tbody>
+</table>
+<p>ISDNには、BRI（Basic Rate Interface）、PRI（Primary Rate Interface）の2つのI/F規格があります。</p>
+<table>
+<thead>
+<tr>
+<th>ISDNの2つのインターフェース規格</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BRI ( 基本インターフェース）</td>
+<td>BRIは64kbpsの2本のBチャネルと16kbpsの1本のDチャネルとで構成される。<br>データ通信用の2つのBチャネルがあるので、1つのBチャネルでデータ通信し<br>もう１つのBチャネルで電話で音声通話を行って、同時に2回線を使用できる。<br>また、2本のBチャネルを束ねて128kbpsとしてデータ通信をすることもできる。</td>
+</tr>
+<tr>
+<td>PRI ( 一次群速度インターフェース）</td>
+<td>PRIは、64kbpsの23本のBチャネルと64kbpsの1本のDチャネルとで構成される。<br>23の論理チャネルにより23拠点同時に通信できる。また、全チャネルを束ねて<br>1.544Mbpsで1拠点と通信することも可能。1544の内訳は(64×24 + 8) となる。<br>※ 8kbpsとはフレーミングビットであることから、実効速度としては1.536Mbps。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wan3c.png"></p>
+<p>ISDNは、現在も音声通信としてはまだまだ使用されていますが、データ通信での利用はかなり少なくなって
+きています。利用例として、下図のように主回線としてIP-VPNや広域イーサネットを利用していて、主回線に
+障害が発生した際にコストの安いISDNをバックアップ回線として使用する構成があります。しかし、現在では
+インターネットVPNが低価格であり広帯域なWANがあることから、以下構成での利用も少なくなっています。</p>
+<p><img alt="画像" src="../studygif/wan3d.png"></p>
+<hr>
+<p>← <a href="wan2.html">WAN - 基本構成とデバイス</a>　<a href="wan4.html">WAN - フレームリレー、ATM</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

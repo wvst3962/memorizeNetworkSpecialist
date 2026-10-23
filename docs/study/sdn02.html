@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OpenFlow | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#openflow_1">OpenFlowとは</a></li>
+<li><a href="#openflow_2">OpenFlowによるネットワーク機器の設定</a></li>
+<li><a href="#openflow-southbound-apinorthbound-api">OpenFlow - Southbound API・Northbound API</a></li>
+<li><a href="#openflownfvsfc">OpenFlow導入における課題点とNFV・SFCの併用</a></li>
+<li><a href="#openflowopenflow">OpenFlowコントローラとOpenFlowスイッチがやり取りするメッセージ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="openflow">OpenFlow</h1>
+<hr>
+<h2 id="openflow_1">OpenFlowとは</h2>
+<p>OpenFlowとは、<strong class="memory-answer">SDNを実現する技術の1つ</strong>であり、ネットワーク機器を1つの制御装置で集中管理して
+複雑な転送制御を行ったり、柔軟にネットワーク構成を変更できる技術のことです。このOpenFlowは、
+GoogleやFacebookなどが参加している団体である<strong class="memory-answer">ONF</strong>（Open Networking Foundation）が標準化を
+進めています。</p>
+<p>OpenFlowでは、従来のネットワーク機器では内部にある「経路制御の機能」と「データ転送の機能」を
+分離させています。OpenFlowは「<strong class="memory-answer">OpenFlowコントローラ</strong>」と「<strong class="memory-answer">OpenFlowスイッチ</strong>」で構成されます。
+※ 経路制御の機能は<strong class="memory-answer">コントロールプレーン</strong>で担い、データ転送の機能は<strong class="memory-answer">データプレーン</strong>で担っています。</p>
+<p><img alt="画像" src="../studygif/sdn02a.png"></p>
+<p>OpenFlowコントローラでは、複数のOpenFlowスイッチの動作を一括して管理できます。ネットワーク
+管理者は各OpenFlowスイッチの動作を記述した<strong class="memory-answer">フローテーブル</strong>を作成して、OpenFlowコントローラは
+フローテーブルを<strong class="memory-answer">OpenFlowプロトコル</strong>によって配送します。各OpenFlowスイッチはフローテーブルに
+基づいてデータの転送、破棄、あて先の書き換えなどを実行します。フローレベルに記述できる情報には、
+OpenFlowスイッチの物理ポート番号、送信元・宛先MACアドレス、VLAN ID、MPLSラベル、送信元・
+宛先IPアドレス、TCP/UDPポート番号等があり、これらのレイヤを組み合わせた条件の記述も可能です。</p>
+<p><img alt="画像" src="../studygif/sdn02b.png"></p>
+<p>OpenFlow Controllerは略して「<strong class="memory-answer">OFC</strong>」、OpenFlow Switchは略して「<strong class="memory-answer">OFS</strong>」と表記されることがあります。</p>
+<h2 id="openflow_2">OpenFlowによるネットワーク機器の設定</h2>
+<p>OpenFlowコントローラはコントロールプレーンでOpenFlowスイッチを制御します。OpenFlowスイッチは
+ただのL2スイッチではなく、OpenFlowはプログラマブルであることから、Firewallやロードバランサなどの
+アプライアンスで実現していた機能をOpenFlowスイッチ上に実装することもできます。</p>
+<p><img alt="画像" src="../studygif/sdn02c.png"></p>
+<h2 id="openflow-southbound-apinorthbound-api">OpenFlow - Southbound API・Northbound API</h2>
+<p>SDNアーキテクチャ図の解説通り、OpenFlowコントローラとネットワーク機器間の <strong class="memory-answer">Southbound API</strong> で
+OpenFlowプロトコルが使用されます。<strong class="memory-answer">Northbound API</strong> では、OpenFlowコントローラとネットワークの
+管理・制御を実現するためのSDNアプリ間でやりとりする仕組みを提供しています。</p>
+<p><img alt="画像" src="../studygif/sdn02d.png"></p>
+<h2 id="openflownfvsfc">OpenFlow導入における課題点とNFV・SFCの併用</h2>
+<p>OpenFlow導入における課題として、OpenFlowのネットワークインフラを導入するためには構成する全ての
+ネットワーク機器を<strong class="memory-answer">比較的コストの高いOpenFlow対応機器にリプレースまたは新規導入する必要</strong>があります。
+また、複雑なネットワーク制御をするためには複雑なフロールールが必要となり、パケットを処理するために
+機器のフローテーブルをルックアップする際に、機種によりはある程度の負荷がかかってしまう点があります。</p>
+<p>ただし、OpenFlowスイッチに全てのNW機器の機能を実装させるのではなく、サーバ仮想化技術を上手く活用
+して、VMを必要に応じて機動してVM上にスイッチ、ルータ、Firewall、ADCなどの機能を動作させて、その
+機器間をどのようにパケット転送するべきなのかを、OpenFlowやオーバレイなどのSDN技術を用いて制御する
+ことで負荷を軽減させることができます。この考え方は、<strong class="memory-answer">NFV</strong>（Network Function Virtualization）そして、
+<strong class="memory-answer">SFC</strong>（Service Function Chaining）と呼ばれる考え方です。</p>
+<h2 id="openflowopenflow">OpenFlowコントローラとOpenFlowスイッチがやり取りするメッセージ</h2>
+<p>・　OpenFlowコントローラ側からの送信メッセージ</p>
+<table>
+<thead>
+<tr>
+<th>メッセージ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packet Out</td>
+<td>OpenFlowスイッチから出力させるためのパケットを送るためのメッセージ</td>
+</tr>
+<tr>
+<td>Flow Mod</td>
+<td>生成したフローをOpenFlowスイッチへと送る際に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Port Mod</td>
+<td>ポートの状態を変更するためのメッセージ</td>
+</tr>
+<tr>
+<td>Set Config</td>
+<td>OpenFlowスイッチのコンフィグパラメータを設定するためのメッセージ</td>
+</tr>
+</tbody>
+</table>
+<p>・　OpenFlowコントローラ側から要求が送信され、OpenFlowスイッチ側で応答するメッセージ</p>
+<table>
+<thead>
+<tr>
+<th>メッセージ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Features Request/Reply</td>
+<td>OpenFlowスイッチのケイパビリティ取得に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Stats Request/Reply</td>
+<td>統計情報取得に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Get Config Request/Reply</td>
+<td>OpenFlowスイッチのコンフィグパラメータの取得に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Barrier Request/Reply</td>
+<td>OpenFlowコントローラ側の要求に対する処理完了の確認に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Queue Get Config Request/Reply</td>
+<td>キューに関するコンフィグ取得に用いられるメッセージ</td>
+</tr>
+</tbody>
+</table>
+<p>・　OpenFlowスイッチ側からの送信メッセージ</p>
+<table>
+<thead>
+<tr>
+<th>メッセージ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packet In</td>
+<td>OpenFlowスイッチが受信したパケットを送るメッセージ</td>
+</tr>
+<tr>
+<td>Flow Removed</td>
+<td>OpenFlowスイッチ中のフローが消えたことを通知するためのメッセージ</td>
+</tr>
+<tr>
+<td>Port Status</td>
+<td>OpenFlowスイッチからポート状態変化を通知するためのメッセージ</td>
+</tr>
+</tbody>
+</table>
+<p>・　OpenFlowコントローラ、OpenFlowスイッチ双方からの送信メッセージ</p>
+<table>
+<thead>
+<tr>
+<th>メッセージ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hello</td>
+<td>OpenFlowコントローラ、OpenFlowスイッチ間接続の開始時に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Echo Request/Reply</td>
+<td>OpenFlowコントローラ、OpenFlowスイッチ間接続の死活監視に用いられるメッセージ</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>エラーを通知するためのメッセージ</td>
+</tr>
+<tr>
+<td>Vendor</td>
+<td>ベンダー独自定義のためのメッセージ</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

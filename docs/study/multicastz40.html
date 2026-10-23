@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>SSM ( Source Specific Multicast ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ssmsource-specific-multicast">SSM（Source Specific Multicast）とは</a></li>
+<li><a href="#ssm">SSMの動作</a></li>
+<li><a href="#ssm_1">SSMの特性</a></li>
+<li><a href="#ssmism">参考：SSMとISMの連携</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ssm-source-specific-multicast">SSM ( Source Specific Multicast )</h1>
+<hr>
+<h2 id="ssmsource-specific-multicast">SSM（Source Specific Multicast）とは</h2>
+<p>SSMは、PIM-SMから派生したモードであり「one-to-many」のマルチキャスト通信で効率よくパケット
+転送できる実装です。PIM-SMにおける（*,G）エントリを作成せずに、<strong class="memory-answer">（S,G）エントリのみを</strong>作成して、
+SenderからReceiverへとマルチキャストパケットをルーティングします。つまりSSMの動作では最初から
+PIM-SMの「スイッチオーバー後の動作」をします。SSMはRFC4607で定義されています。</p>
+<p>RPが存在してShared TreeからShortest Path Treeへ遷移するPIM-SMの動作は複雑です。そもそもRPが
+必要なのはどのホストがマルチキャストパケットを送信するのかを事前に分からないというモデルですが、
+現行のニーズがある1つの既知のホストから多数のReceiverへ送信したい「one-to-many」だけ良い場合
+<strong class="memory-answer">最初から（S,G）Joinすればよく</strong>、PIM-SMを実装するのではなくSSMを実装することの方が適しています。</p>
+<p><img alt="画像" src="../studygif/multicastz40a.png"></p>
+<p>SSMを実装する前提として、<strong class="memory-answer">ルータ側ではPIM-SSMをサポート</strong>している必要があります。Receiver側では
+<strong class="memory-answer">IGMPv3をサポート</strong>している必要があります。</p>
+<p>IGMPv3にはEXCLUDEモードのメンバーシップレポートもありますが、SSMではIGMPv3 EXCLUDEモードの
+メンバーシップレポートをサポートしていないことから、<strong class="memory-answer">IGMPv3 INCLUDEモードのメンバーシップレポート</strong>
+<strong class="memory-answer">を使用します</strong>。INCLUDEは「指定したSenderから指定したマルチキャストパケットを受信する」という意味、
+EXCLUDEは「指定したSender以外から、指定したマルチキャストパケットを受信する」と意味となります。</p>
+<h2 id="ssm">SSMの動作</h2>
+<p>先ず、Receiverから「特定のSenderであるソース（S）と特定のマルチキャストグループ（G)」に参加する
+シグナリングメッセージを送信します。Receiver側からの、この（S,G）シグナリングは、以下のいずれかの
+プロトコルで生成されるのでReceiverでサポートされている必要があります。一般的にIGMPv3を使用します。</p>
+<table>
+<thead>
+<tr>
+<th>Receiver側でサポートが必要</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IGMPv3</td>
+<td>・　IGMPv3のINCLUDEモードのメンバーシップレポートで実現<br>・　SSMで一般的に利用されるプロトコル</td>
+</tr>
+<tr>
+<td>IGMPv3 lite</td>
+<td>・　SSMのアプリを利用できるようにするためのCisco独自のAPIで実現<br>・　IGMPv3をサポートしていないホストで利用される</td>
+</tr>
+<tr>
+<td>URD（URL Rendezvous Directory）</td>
+<td>・　Cisco独自のWebブラウザベースのアプリケーションで実現<br>・　URDインターセプトURLにより、ラストホップルータへ（S,G）を送信</td>
+</tr>
+</tbody>
+</table>
+<p>IGMPv3をReceiverに実装している場合のSSMの動作は以下の通りとなります。</p>
+<p>1.　ReceiverからラストホップルータへIGMPv3（S,G）Joinメッセージを送信
+2.　ラストホップルータで（S,G）エントリを作成
+3.　ラストホップルータから、Senderの方向に向かってPIM（S,G）Joinメッセージを送信</p>
+<p><img alt="画像" src="../studygif/multicastz40b.png"></p>
+<p>このSSMの動作により、ファーストホップルータからラストホップルータとの間で送信元ツリーが作成されて
+最短パスでSenderからReceiverはマルチキャストパケットが転送されます。なお、PIM-SMを実装する場合は
+各ルータにおいてRPアドレスを設定する必要がありましたが、<strong class="memory-answer">SSMによりマルチキャストルーティングを行う</strong>
+<strong class="memory-answer">マルチキャストグループでは、RPアドレスの設定は必要ありません</strong>。</p>
+<h2 id="ssm_1">SSMの特性</h2>
+<p>・　不正なマルチキャストパケットの受信を防げる
+PIM-SMの場合、Senderは意識せずにマルチキャストグループに参加してReceiverはパケットを受信します。
+SSMの場合は特定のソース（Source Specific）のマルチキャストグループに参加してReceiverはパケットを
+受信することになり、<strong class="memory-answer">不正なSenderからのマルチキャストパケットを受信せずに済み、DoS攻撃を防げます</strong>。</p>
+<p>・　SSMで使用するマルチキャストアドレス
+SSMで使用するマルチキャストアドレスは「<strong class="memory-answer">232.0.0.0 ～ 232.255.255.255</strong>」の範囲です。Cisco機器の
+場合は232.0.0.0/8（232.0.0.0 ～ 232.255.255.255）の範囲でSSMを利用する場合は以下の設定をします。</p>
+<p>Cisco(config)# ip pim ssm default</p>
+<p>232.0.0.0/8 以外のマルチキャストアドレスを使用したい場合「ip pim ssm range」コマンドで定義します。
+例えば、SSM用に「239.1.1.5」のマルチキャストアドレスを使用したい場合には、以下のように設定します。</p>
+<p>Cisco(config)# access-list 1 permit 239.1.1.5</p>
+<p>Cisco(config)# ip pim ssm range 1</p>
+<h2 id="ssmism">参考：SSMとISMの連携</h2>
+<p>マルチキャストグループアドレス範囲の設定済みのサブセットにSSM配信モデルを適用することで、SSMと
+ISM（Internet Standard Multicast サービスを一緒に使用することは可能です。
+⇒　<strong class="memory-answer">SSM can work in conjunction with the ISM service</strong>.</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study63.html">マルチキャストの技術解説（応用）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

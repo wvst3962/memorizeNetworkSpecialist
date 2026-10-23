@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Server Virtualization | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">仮想化とは</a></li>
+<li><a href="#_2">仮想化のメリット</a></li>
+<li><a href="#2">2種類の仮想化ソフト</a></li>
+<li><a href="#_3">ハイパーバイザー型の仮想化ソフト：モノリシック型とマイクロカーネル型</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="server-virtualization">Server Virtualization</h1>
+<hr>
+<h2 id="_1">仮想化とは</h2>
+<p>仮想化とは、サーバなどのハードウェアリソース（CPU、メモリ、HDD）を、物理的な構成にとらわれずに
+論理的に統合や分割することができる技術のことです。 仮想化はサーバ、ネットワーク、ストレージなどに
+適用できる技術ですが今回は<strong class="memory-answer">サーバ仮想化</strong>について解説していきます。サーバ仮想化により、1台のサーバを
+複数台のサーバであるかのように論理的に分割して、それぞれにOSやアプリを動作させられます。</p>
+<p><img alt="画像" src="../studygif/virtuala.png"></p>
+<p>※ サーバ仮想化の例として、10台くらいの物理サーバを、<strong class="memory-answer">冗長性も考慮して2台に集約してサーバ仮想化</strong>することが多いです。</p>
+<p>そもそも、OSが同じなら1台のサーバに複数のアプリケーションを同時に動かせば良いのではないかと
+疑問が生まれるかもしれませんが、サーバでは安定してソフトウェアを動作させるために、サーバ1台に
+1つのアプリケーションを動作させることが多いです。</p>
+<h2 id="_2">仮想化のメリット</h2>
+<p><strong class="memory-answer">・　サーバ台数の削減</strong>
+サーバ仮想化で上図のとおりサーバ台数を削減できます。 1台の物理サーバであっても仮想化ソフトの上に
+「1つのOSに1つのアプリケーション」を実現しています。そして、サーバ台数を削減できることによって、
+ランニングの保守費用の削減、省電力化、省スペース化を実現することになります。</p>
+<p><strong class="memory-answer">・　ハードウェアリソースの効率利用</strong>
+1台の物理サーバ上で「1つのOSに1つのアプリ」という構成の場合には、ハードウェアリソースが苦しい
+サーバもある一方、負荷の軽いサーバも存在していました。仮想化によって例えば負荷のピークが異なる
+サーバを集約することにより、集約した1台の物理サーバのハードウェアリソースを効率的に利用できます。</p>
+<p><strong class="memory-answer">・　サーバ環境のカプセル化</strong>
+仮想化ソフト上で動作するサーバは、どれだけ古いOSであっても、どれだけ最新のハードウェア環境で
+あっても、その仮想化ソフトの対応OSであれば問題なく動作します。このため、ハードウェアを交換した
+ことでドライバが認識しなくなるような問題は発生しません。あくまで仮想化ソフト上で動作できればOK。</p>
+<p><img alt="画像" src="../studygif/virtualb.png"></p>
+<p>※　ソフトウェアで実現した1台の仮想的なコンピュータシステム（<strong class="memory-answer">仮想サーバ</strong>）は、あたかも1台の物理的なマシンとして動作します。</p>
+<h2 id="2">2種類の仮想化ソフト</h2>
+<p>仮想化を実現するサーバ仮想化ソフトには、<strong class="memory-answer">ホストOS型</strong>と<strong class="memory-answer">ハイパーバイザー型</strong>の大きく2種類あります。</p>
+<table>
+<thead>
+<tr>
+<th>仮想化の方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ホストOS型</td>
+<td>ホストOSのミドルウェアとして仮想化ソフトが動作する。手軽に構築できるの最大のメリット。<br>ホストOS経由でハードウェアの入出力処理を実行するため、オーバヘッドが大きい。<br>製品例 ： VMware Workstation/Player/Fusion、Oracle VirtualBox</td>
+</tr>
+<tr>
+<td>ハイパーバイザー型</td>
+<td>ホストOSを利用せず、仮想化ソフトが直接物理的なハードウェアの入出力処理を実行する<br>ためオーバヘッドが小さく、ハードウェアリソースを柔軟に管理可能。現在の主流な方式。<br>製品例 ： VMware ESX、Microsoft Hyper-V、Citrix XenServer</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/virtualc.png"></p>
+<p>実際のCPUやメモリなどは、物理的なハードウェアだけが持っているので、各仮想サーバはそのI/O命令を
+仮想化ソフトを介し物理のハードウェアに伝えています。各仮想サーバに割り当てる物理的なハードウェア
+リソースは異なっていても問題ありません。</p>
+<p>例えば、仮想サーバAにはメモリ容量を4GB、仮想サーバBにはメモリ容量を8GBなどです。物理マシンの
+ハードウェアリソースには限りがあるので、適切に割り当てる必要があります。</p>
+<h2 id="_3">ハイパーバイザー型の仮想化ソフト：モノリシック型とマイクロカーネル型</h2>
+<p>ハイパーバイザー型の仮想化ソフトには<strong class="memory-answer">モノリシック型</strong>と<strong class="memory-answer">マイクロカーネル型</strong>の大きく2種類があります。</p>
+<table>
+<thead>
+<tr>
+<th>3種類のタイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モノリシック型</td>
+<td>ハイパーバイザー専用のデバイスドライバを使用して物理デバイスへアクセスするタイプ。<br>ゲストOSはハードウェアに直接アクセスせず、ハイパーバイザーが用意した仮想NICなどに<br>アクセスして、そこを経由した上で物理的なデバイスを利用する。</td>
+</tr>
+<tr>
+<td>マイクロカーネル型</td>
+<td>ハイパーバイザーを管理する特別なOS（管理OS）の用意する仮想的なデバイスドライバを<br>使用して、物理デバイスへアクセスするタイプ。ゲストOSは直接アクセスすることはない。</td>
+</tr>
+</tbody>
+</table>
+<p>※　各仮想サーバは独立しておりそれぞれ異なるOSをインストールできます。仮想サーバ上にインストールするOSが<strong class="memory-answer">ゲストOS</strong>です。</p>
+<p><img alt="画像" src="../studygif/virtuald.png"></p>
+<hr>
+<p><a href="virtual2.html">仮想化 - 仮想サーバの接続構成</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>LDAP Authentication | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ldap">LDAPとは</a></li>
+<li><a href="#ldap_1">LDAP識別名とは</a></li>
+<li><a href="#active-directoryldap">Active Directoryで使用できるLDAP属性値</a></li>
+<li><a href="#cisco-asa-active-directory-by-ldap">Cisco ASA と Active Directory との連携 by LDAP認証</a></li>
+<li><a href="#radiusldap">Radius認証とLDAP認証の違い</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ldap-authentication">LDAP Authentication</h1>
+<hr>
+<h2 id="ldap">LDAPとは</h2>
+<p>LDAP（Lightweight Directory Access Protocol）は、Active Directoryのようなディレクトリサービスに
+アクセスするためのプロトコル。クライアントはTCPポート番号389を使用してLDAPサーバに接続を行い
+<strong class="memory-answer">属性</strong>（個人名や部署名）で構成する<strong class="memory-answer">エントリ</strong>（関連属性のまとまり）の検索、追加、削除の操作をします。</p>
+<p>例えば「cool」というユーザ名に会社名、電話番号、メールアドレスなどを結びつけたデータベースである
+LDAPサーバにおいて「cool」という名前から cool@infraexpert.com のメールアドレスを検索し抽出をし、
+LDAPプロトコルでLDAPクライアント（例としてメアドを検索するメーラー）と通信をし情報を提供します。</p>
+<p><img alt="画像" src="../studygif/security19a.png"></p>
+<p>ディレクトリに登録していく<strong class="memory-answer">オブジェクト</strong>には、単一のオブジェクトとして機能する<strong class="memory-answer">リーフオブジェクト</strong>や
+複数のオブジェクトを格納する機能をもつ<strong class="memory-answer">コンテナオブジェクト</strong>があります。リーフオブジェクトの例として
+ユーザアカウントが該当します。コンテナオブジェクトの例として<strong class="memory-answer">OU</strong>（Organizationl Unit）が該当します。</p>
+<p>上図では、オブジェクトの例として<strong class="memory-answer">ユーザアカウント</strong>を紹介していますが、オブジェクトにはその他にも
+<strong class="memory-answer">コンピューターアカウント</strong>、<strong class="memory-answer">グループポリシー情報</strong>、<strong class="memory-answer">DNSレコードの情報</strong>、<strong class="memory-answer">サイトの情報</strong>などがあります。
+そして、このリーフオブジェクトを格納するOUに適切に構成することでディレクトリ階層を構築できます。</p>
+<p>LDAPサーバにはMicrosoftのActive Directory、オープンソフトウェアのOpenLDAP等があります。現在使用
+されているLDAPのバージョンはセキュリティ機能も強化されたLDAPv3です。RFC4511で勧告されています。</p>
+<h2 id="ldap_1">LDAP識別名とは</h2>
+<p>LDAPによりディレクトリサービスにアクセスする際に対象を指定する手段としてLDAP識別名を使用します。
+LDAP識別名は、単に<strong class="memory-answer">識別名</strong>（<strong class="memory-answer">DN</strong>）とも呼ばれます。LDAP識別名は、複数の<strong class="memory-answer">LDAP相対識別名</strong>（<strong class="memory-answer">RDN</strong>）を
+カンマで区切って並べたもの。DNはDistinguished Name、RDNはRelative Distinguished Nameの略です。
+例えば、ドメイン「infraexpert.com」のコンテナ「Users」に配置したユーザー「cool」は以下となります。</p>
+<p><strong class="memory-answer">cn=cool, cn=Users, dc=infraexpert, dc=com</strong></p>
+<p>LDAP相対識別名は「<strong class="memory-answer">属性値=値</strong>」という構文で定義しますが、この属性値にどのような値を使用できるかは
+ディレクトリサービスのソフトウェアにより異なります。例えばActive Directoryでは次の属性値が使えます。</p>
+<h2 id="active-directoryldap">Active Directoryで使用できるLDAP属性値</h2>
+<table>
+<thead>
+<tr>
+<th>LDAPの属性値</th>
+<th>属性表示名</th>
+<th>オブジェクトタイプ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong class="memory-answer">cn</strong></td>
+<td>Common-Name</td>
+<td>ユーザー名、グループ名、コンピュータ名、コンテナ名</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">ou</strong></td>
+<td>Organizational-Unit-Name</td>
+<td>組織単位（OU）</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">dc</strong></td>
+<td>Domain-Component</td>
+<td>ドメイン</td>
+</tr>
+</tbody>
+</table>
+<p>LDAP識別名は、LDAP相対識別名をADツリーの階層の下から記述します。もう少し例を見てみましょう。
+例えば、ドメイン「infraexpert.com」のOU「Sales」に配置したユーザー「cool」は以下となります。
+<strong class="memory-answer">cn=cool, ou=Sales, dc=infraexpert, dc=com</strong></p>
+<p>例えば、ドメイン「infraexpert.com」のコンテナ「Computers」に配置したコンピュータ「pc5」は以下。
+<strong class="memory-answer">cn=pc5, cn=Computers, dc=infraexpert, dc=com</strong></p>
+<h2 id="cisco-asa-active-directory-by-ldap">Cisco ASA と Active Directory との連携 by LDAP認証</h2>
+<p>SSL-VPN接続のユーザ認証時に、Windows ServerのActive DirectoryとCisco ASAとが連携してLDAPを
+使用し認証することができます。ADとASAが連携するといっても当然LDAPサーバはActive Directoryです。
+LDAP認証の場合は、LDAPディレクトリにエントリがあるユーザがSSL-VPN認証に成功することができます。</p>
+<p>ユーザ認証を行うだけならKeberosを使用した方が良いのですが、例えばActive Directoryの<strong class="memory-answer">グループ</strong>や
+<strong class="memory-answer">OU</strong>などの情報に基づき制御したい場合はLDAPを使用することが多いです。例えば、ADのグループを使用
+して所属するグループ（<strong class="memory-answer">memberOf</strong>）に応じて、ASAのグループポリシーを動的に割り当てる実装などです。</p>
+<p>Cisco ASAとADが連携する前提として、ASA上で設定したクレデンシャル（下図の場合administrator）を
+使用してLDAPサーバとバインドさせる設定が必要です。当然、このユーザはADに存在する必要があります。
+※　Cisco ASAとActive Directory間ではTCPポート番号：<strong class="memory-answer">389</strong> を使用して、LDAPプロトコルがやりとり。</p>
+<p><img alt="画像" src="../studygif/security19b.png"></p>
+<p>上図のコンフィグにより、各種VPN接続のユーザ
+認証時にLDAP認証が行われるようになりますが
+ADを使用したユーザ認証だけであればKerberos
+認証の方が適しており、設定も簡単となります。
+つまり、LDAPを使用するからには上図の設定に
+コンフィグを追加してLDAPの特性を生かすべき。</p>
+<p>例えば、AD属性/LDAP属性の <strong class="memory-answer">memberOf</strong> などを
+ASAで認識可能な「<strong class="memory-answer">IETF-Radius-Class</strong>属性」に
+マッピングするマップを設定し、その上でLDAP
+サーバ(AD)で設定された属性値を、Cisco ASA
+のグループポリシー名にマッピングすることで
+グループに応じたIPアドレスの配布等が可能です。</p>
+<h2 id="radiusldap">Radius認証とLDAP認証の違い</h2>
+<p>LDAPでユーザ認証を行うことができますが、LDAPは本来「ディレクトリサービス」のためのプロトコルです。
+例えば、IEEE802.1X認証でのユーザ認証ではRadiusサーバが使用されますし、ネットワークアクセス（接続）
+を行うためのユーザ認証といえば一般的にはRadius認証を使用します。Radiusでは、ユーザ情報をローカルの
+データベースとして保持することはあまりなくユーザデータベースとしてActive Directoryを使用する。ADの
+実体はLDAPの拡張実装であり、その点でフロントでRadius、バックでLDAPを使用したユーザ認証が多いです。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Load Balancer - Round Robin / Ratio / Least Connection / Fastest | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#3">ロードバランサの重要な3つの機能</a></li>
+<li><a href="#-">ロードバランサ - ロードバランシングの種類</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="load-balancer-round-robin-ratio-least-connection-fastest">Load Balancer - Round Robin / Ratio / Least Connection / Fastest</h1>
+<hr>
+<h2 id="3">ロードバランサの重要な3つの機能</h2>
+<p>ロードバランサには色々な機能があります。また、ロードバランサがシングルの場合と冗長化の場合とでは
+使用する機能も大きく異なってきます。ここではシングル構成や冗長化構成に関係なくロードバランサ導入に
+際し必須知識となる<strong class="memory-answer">ロードバラシング</strong>（負荷分散）、<strong class="memory-answer">パーシステンス</strong>（セッション維持）、<strong class="memory-answer">モニター</strong>（監視）
+の3つの重要な基本機能を紹介していきます。このページでは、<strong class="memory-answer">ロードバラシング</strong>について紹介していきます。</p>
+<h2 id="-">ロードバランサ - ロードバランシングの種類</h2>
+<p>ロードバランサに着信したパケットをサーバへ振り分けるロードバランシングにはいくつかの種類があります。
+ロードバランシングの種類はスタティックとダイナミックの2種類に分類されます。使用実績が多い2つである
+<strong class="memory-answer">ラウンドロビン</strong>（均等負荷分散）はスタティック、<strong class="memory-answer">リーストコネクション</strong>（最小接続）はダイナミック方式。</p>
+<p>以下のロードバランシングの種類は、F5の負荷分散装置（BIG-IP）で実装されている機能を紹介していますが
+他メーカーの製品も基本的には同じような機能をサポートしています。また、色々な種類があるとはいえよく
+使用されているロードバラシングといえば、どのメーカーでも<strong class="memory-answer">ラウンドロビン</strong>と<strong class="memory-answer">リーストコネクション</strong>の2つ。</p>
+<table>
+<thead>
+<tr>
+<th>ロードバラシングの種類</th>
+<th>説明</th>
+<th>分類</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Round Robin</td>
+<td><strong class="memory-answer">ラウンドロビン</strong>。クライアントからのリクエストをサーバに均等に転送。</td>
+<td>スタティック</td>
+</tr>
+<tr>
+<td>Ratio</td>
+<td><strong class="memory-answer">比率</strong>。サーバごとに重みを定義して、その割合に応じてサーバに転送。</td>
+<td>スタティック</td>
+</tr>
+<tr>
+<td>Least Connections</td>
+<td><strong class="memory-answer">最小接続</strong>。現在のコネクション数が最も小さいサーバに転送。</td>
+<td>ダイナミック</td>
+</tr>
+<tr>
+<td>Fastest</td>
+<td><strong class="memory-answer">最速</strong>。Layer7リクエストの<strong class="memory-answer">未処理数</strong>が最も少ないサーバに転送。</td>
+<td>ダイナミック</td>
+</tr>
+<tr>
+<td>Observed</td>
+<td><strong class="memory-answer">監視</strong>。ある一定時間の平均コネクション数が最も少ないサーバに転送。</td>
+<td>ダイナミック</td>
+</tr>
+<tr>
+<td>Predictive</td>
+<td><strong class="memory-answer">予測</strong>。ある一定時間の傾向を解析して、平均コネクション数が減少している場合<br>より多く転送を行い、平均コネクション数が増加している場合は転送を少なくする。</td>
+<td>ダイナミック</td>
+</tr>
+<tr>
+<td>Dynamic Ratio</td>
+<td><strong class="memory-answer">動的比率</strong>。CPUやメモリ使用率が低いサーバに転送。前提として各サーバを<br>Monitor機能による監視が必要となり、サーバにはSNMP Agent等が必要となる。</td>
+<td>ダイナミック</td>
+</tr>
+</tbody>
+</table>
+<p>Round Robinではクライアントからのリクエストをサーバに均等に転送することから、下図ではクライアント
+からの6コネクション目は下図の通り転送されます。このようにあくまでも「1：1：1」の割合で転送します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer4a.png"></p>
+<p>Ratioではクライアントからのリクエストをサーバに比率で転送することから、下図ではクライアントからの
+6コネクション目は「 3：2：1 」の比率設定している場合、下図のように転送。Ratioを使用するケースは
+負荷分散するサーバが異なるスペックである場合が多く、処理能力の高いサーバに対し比率を大きくします。</p>
+<p><img alt="画像" src="../studygif/loadbalancer4b.png"></p>
+<p>Least Connectionsでは、現在のコネクション数が最も小さいサーバに転送します。下図の見方を説明します。</p>
+<p>現在のコネクション数がサーバ1が「5」 サーバ2が「6」 サーバ3が「10」とします。それがスタート地点で
+クライアントPCから6つのコネクション接続を行うとします。その場合は下図の転送順となり。クライアント
+からの5つのコネクションを接続した時点で、現在のコネクション数はサーバ1「8」 サーバ2「8」 サーバ3
+「10」となります。従って、6つ目のコネクションはサーバ1またはサーバ2に割り振られるのですが、下図で
+サーバ1に転送しているのは<strong class="memory-answer">現在のコネクション数が同じ場合、RoundRobinで転送する</strong>というルールのため。</p>
+<p><img alt="画像" src="../studygif/loadbalancer4c.png"></p>
+<p>Fastestでは、クライアントからのリクエストを、L7リクエストの未処理数が最も少ないサーバへ転送する
+ので下図のように転送されます。下図は、先のLeast Connectionsの解説と同じ考え方ですが、?@ ～ ?Dは
+下図で「現在のコネクション数」ではなく「L7リクエストの未処理数」としてカウントする動作を示します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer4d.png"></p>
+<p>Observedでは、クライアントからのリクエストをある一定時間の平均コネクション数が最も少ないサーバに
+転送することから、下図の場合サーバ2にパケットが転送されることになります。ある一定時間とはどこから
+どこまでの時間なのかはメーカ（F5）として公開していません。</p>
+<p><img alt="画像" src="../studygif/loadbalancer4e.png"></p>
+<p>Predictiveはある一定時間の傾向を解析して、平均コネクション数が減少している場合、より多く転送し、
+平均コネクション数が増加している場合は転送を少なくするのですが、これも「ある一定期間」が非公開。</p>
+<p>冒頭の説明通り、一般的にRound RobinまたはLeast Connectionsが最も使用される負荷分散方式なので
+この2つをしっかり理解しておきましょう。</p>
+<p>なお、クライアントの送信元IPアドレスやポート番号やCookie情報に基づいてパケットを振り分ける方式は
+ロードバランシング（負荷分散）ではなく、パーシステンス（セッション維持）の方式に分類される技術です。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

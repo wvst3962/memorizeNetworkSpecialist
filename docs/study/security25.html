@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Stateful Packet Inspection / Stateful Failover | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ファイアウォールの基本機能</a></li>
+<li><a href="#_2">ステートフルインスペクション</a></li>
+<li><a href="#_3">ステートフルフェールオーバー</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="stateful-packet-inspection-stateful-failover">Stateful Packet Inspection / Stateful Failover</h1>
+<hr>
+<h2 id="_1">ファイアウォールの基本機能</h2>
+<p>ファイアウォール製品には、<strong class="memory-answer">ステートフルインスペクション</strong>と<strong class="memory-answer">ステートフルフェールオーバー</strong>と呼ばれる
+ファイアウォールとしての2つの基本機能が備わっています。以降ではこれら2つの基本機能を解説します。
+※　ステートフルインスペクションは、ステートフル パケット インスペクション（ <strong class="memory-answer">SPI</strong> ）とも呼ばれる。</p>
+<h2 id="_2">ステートフルインスペクション</h2>
+<p>ステートフルインスペクションとは、ファイアウォールを通過するパケットの中身を見て、動的にポートを
+開放したり、閉鎖したりする機能のことです。このステートフルインスペクションではLAN側から送信した
+データをセッションログとして一時的に保存しておき、WAN（インターネット）側から到着したパケットが
+セッションログと整合性が合うかどうかを確認して、<strong class="memory-answer">整合性があう場合は開放</strong>、矛盾する場合は閉鎖します。</p>
+<p><img alt="画像" src="../studygif/security25a.png"></p>
+<p>一般的に、このステートフルインスペクションはLAN側（内部）から発信したトラフィックは、その戻りの
+トラフィックを動的に許可させ、WAN側から開始される着信トラフィックは拒否するという実装で使用する
+機能です。ステートフルインスペクションは、多くのセキュリティ製品でデフォルトで有効になっています。</p>
+<h2 id="_3">ステートフルフェールオーバー</h2>
+<p>ステートフルフェールオーバーとは、ファイアウォールで保持している通信セッションの情報を、冗長化
+したバックアップのファイアウォールに引き継つぐことができる機能のことです。この機能により、主系
+のファイアウォールに障害が発生した場合でも、副系のファイアウォールで通信を継続することができる。</p>
+<p>ステートフルフェールオーバーを実装させるために、冗長化を構成する2台のファイアウォール同士を
+<strong class="memory-answer">フェールオーバーケーブル</strong>で接続します。このフェールオーバーケーブルは、ファイアウォール製品に
+よって異なり、専用ケーブルまたはLANケーブルを使用します。フェールオーバーケーブルで接続した
+ファイアウォール間のリンクは<strong class="memory-answer">フェールオーバーリンク</strong>と言い、このリンクでFWの正常性を確認します。</p>
+<p><img alt="画像" src="../studygif/security25b.png"></p>
+<p>冗長化されたファイアウォールには<strong class="memory-answer">アクティブ</strong>と<strong class="memory-answer">スタンバイ</strong>の役割を持ちます。正常時はアクティブの
+ファイアウォールがパケット転送の処理を行い、アクティブ機からスタンバイ機へ通信のセッション情報
+が継続的に同期されます。同期される通信セッション情報には、例えばTCPセッション、UDPセッション
+NAT変換テーブル、ARPテーブルなどがあります。</p>
+<p>アクティブ機にハードウェア障害やインターフェース障害が発生した場合、その情報はフェールオーバー
+リンク上で伝えられて、スタンバイ機がアクティブ機に昇格します。このタイミングで本来アクティブ機
+であったファイアウォールのIPアドレスとMACアドレスは、スタンバイ機に引き継がれることになります。
+また、新たにアクティブ機になったファイアウォールには既存の通信セッション情報が引き継がれている
+のでクライアント側は継続的な通信を行うことができます。※ 本内容はFW製品により動作は異なります。</p>
+<p><img alt="画像" src="../studygif/security25c.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

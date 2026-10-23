@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>dual-band / tri-band / quad-band | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dual-band">デュアルバンド（dual-band）とは</a></li>
+<li><a href="#tri-band">トライバンド（tri-band）とは</a></li>
+<li><a href="#quad-band">クアッドバンド（quad-band）とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dual-band-tri-band-quad-band">dual-band / tri-band / quad-band</h1>
+<hr>
+<h2 id="dual-band">デュアルバンド（dual-band）とは</h2>
+<p>デュアルバンドとは、<strong class="memory-answer">2.4GHz帯と5GHz帯の両方の周波数で同時に無線通信できる通信方式</strong>のことです。
+電波干渉の発生しやすい2.4GHz帯だけでなく、電波干渉が発生しにくい5GHz帯を利用できることから
+1つの周波数帯だけを利用するシングルバンドに比べると快適なWi-Fi通信を実現できます。</p>
+<p><img alt="画像" src="../studygif/wireless60a.png"></p>
+<h2 id="tri-band">トライバンド（tri-band）とは</h2>
+<p>トライバンドとは、<strong class="memory-answer">2.4GHz帯、5GHz帯（W52/W53）、5GHz帯（W56）の3つの周波数で同時に</strong>
+<strong class="memory-answer">無線通信できる通信方式</strong>のことです。デュアルバンドよりも同時に利用できるチャネルが多くなり、
+<strong class="memory-answer">より多くのWi-Fi機器が接続することが可能</strong>で、快適に高速なWi-Fi通信を実現することができます。</p>
+<p>トライバンド対応の無線LANアクセスポイントでは、DFS（Dynamic Frequency Selection）機能で
+5GHz帯の1つのチャンネルが気象レーダーや航空レーダーを検知して停波した場合でも、もう1つの
+5GHz帯のチャンネルに切り替えて使用することができます。ただし、無線LANのAPのメーカーにより
+チャネルの切り替わり時に、一時的な通信切断が発生する可能性があります。</p>
+<p><img alt="画像" src="../studygif/wireless60b.png"></p>
+<p>5GHz帯のW52、W53、W56の特長や違いは以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>5GHz帯</th>
+<th>利用できる場所</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W52</td>
+<td>屋内のみ</td>
+<td>5GHz帯で最も標準的に利用されている周波数帯域</td>
+</tr>
+<tr>
+<td>W53</td>
+<td>屋内のみ</td>
+<td>航空レーダーや気象レーダーと干渉する可能性がある周波数帯域</td>
+</tr>
+<tr>
+<td>W56</td>
+<td>屋内、屋外ともに可</td>
+<td>航空レーダーや気象レーダーと干渉する可能性がある周波数帯域</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quad-band">クアッドバンド（quad-band）とは</h2>
+<p>クアッドバンドとは、<strong class="memory-answer">2.4GHz帯、5GHz帯（W52/W53）、5GHz帯（W56）、6GHz帯の4つの周波数</strong>で
+同時に無線通信できる通信方式のことです。4つの周波数帯を利用できる点よりも、<strong class="memory-answer">6GHz帯</strong>を利用可能で
+あることが最大の特長です。特筆すべきは、6GHz帯ではDFSの制御が不要となる点です。</p>
+<p><strong class="memory-answer">動的周波数選択機能であるDFS</strong>は、航空レーダーや気象レーダーなどが近くにあることを検知した場合は
+無線LANアクセスポイントは、Wi-Fi通信が使用する電波を航空/気象レーダーと干渉しない帯域に変更し
+その結果、Wi-Fi機器の通信速度の低下や一時的な通信切断などが発生していました。しかし6GHz帯では
+そのような干渉は発生せず、2.4GHzや5GHz帯と比較にならない快適な高速無線LAN通信を実現できます。</p>
+<p><img alt="画像" src="../studygif/wireless60c.png"></p>
+<p>6GHz帯（5,925MHz～6,425MHz）を使用するということは、<strong class="memory-answer">無線APはWi-Fi 6Eに対応した製品</strong>である
+必要があります。802.11axの規格では「Wi-Fi 6」を策定しただけでなく「Wi-Fi 6E」も策定しています。</p>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>Wi-Fiアライアンス名称</th>
+<th>策定時期</th>
+<th>使用する周波数帯</th>
+<th>理論上の最大通信速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE802.11b</td>
+<td>-</td>
+<td>1999年</td>
+<td>2.4GHz</td>
+<td>11Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>-</td>
+<td>1999年</td>
+<td>5GHz</td>
+<td>54Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>-</td>
+<td>2003年</td>
+<td>2.4GHz</td>
+<td>54Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11n</td>
+<td>Wi-Fi 4</td>
+<td>2009年</td>
+<td>2.4GHz / 5GHz</td>
+<td>600Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ac</td>
+<td>Wi-Fi 5</td>
+<td>2013年</td>
+<td>5GHz</td>
+<td>6.9Gbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ax</td>
+<td>Wi-Fi 6</td>
+<td>2019年</td>
+<td>2.4GHz / 5GHz</td>
+<td>9.6Gbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ax</td>
+<td>Wi-Fi 6E</td>
+<td>2021年</td>
+<td>2.4GHz / 5GHz / 6GHz</td>
+<td>9.6Gbps</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study11.html">無線LAN（Wi-Fi）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Network - Protocol | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">プロトコルとは</a></li>
+<li><a href="#_2">プロトコルスタックとは</a></li>
+<li><a href="#_3">多くの種類があるプロトコル</a></li>
+<li><a href="#_4">コンピュータ間で通信をするために</a></li>
+<li><a href="#_5">プロトコルの標準化を推進する機関</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="network-protocol">Network - Protocol</h1>
+<hr>
+<h2 id="_1">プロトコルとは</h2>
+<p>プロトコルとは、コンピュータなどの機器同士で通信を行うために取り決められた<strong class="memory-answer">約束ごと</strong>を意味します。
+約束ごとは「コンピュータ間でどのようにデータを送るのか、どれだけのデータを送るのか」ということ。
+コンピュータ間をただLANケーブルなどで物理的に接続しただけでは、相互に通信することができませんが
+このプロトコル（具体的にはIPやTCP等）を使用することで、コンピュータとコンピュータが通信できます。</p>
+<h2 id="_2">プロトコルスタックとは</h2>
+<p>コンピュータ間の通信において使用されるプロトコルは１つではなく、役割の異なる複数のプロトコルを
+使用しています。例えば、現在見ている当方のWebサイトを閲覧するためには、IP、TCP、HTTPなどの
+プロトコルを使用しています。Webブラウザを使用してWebサイトの画面を見るためにHTTPが使用され
+ていますが、その下の階層ではTCP、さらにその下の階層ではIPが使用されています。このように、通信
+に必要な複数のプロトコルを、階層構造で構成するプロトコル群のことを<strong class="memory-answer">プロトコルスタック</strong>と言います。</p>
+<h2 id="_3">多くの種類があるプロトコル</h2>
+<p>プロトコルには数多くの種類があります。そして数多くのプロトコルの体系があります。現在最も主流な
+通信プロトコルといえば<strong class="memory-answer">TCP/IP</strong>です。TCP/IPはLAN、WAN、インターネットなどで最も使用されている
+プロトコルです。TCP/IPといっても、通信する際にTCPとIPだけを使用する訳ではありません。その他に
+UDP、FTP、Telnetなどの数多くのプロトコルを使用しますが、それらを総称してTCP/IPと呼んでいます。</p>
+<table>
+<thead>
+<tr>
+<th>通信プロトコルの体系</th>
+<th>使用されるプロトコルの例</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP/IP</td>
+<td>IP, ICMP, TCP, UDP, SMTP, HTTP....</td>
+<td>全てのネットワーク</td>
+</tr>
+<tr>
+<td>IPX/SPX</td>
+<td>IPX, SPX, NCP....</td>
+<td>Netware OS環境のLAN</td>
+</tr>
+<tr>
+<td>AppleTalk</td>
+<td>AARP, DDP, RTMP, AEP.....</td>
+<td>Mac OS環境のLAN</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">コンピュータ間で通信をするために</h2>
+<p>コンピュータとコンピュータとが通信するためには、同じ体系の通信プロトコルを使用する必要があります。
+例えば、下図においてコンピュータAがTCP/IP対応の通信プロトコルを使用しているならコンピュータBも
+TCP/IPプロトコルを使用していないとプロトコルが異なる（約束ごとが異なる）ので相互に通信できません。
+※　例えば、人と人がコミュニケーションする際に、日本人同士なら日本語を使用しないと会話が成立しない事と同様のことです。</p>
+<p><img alt="画像" src="../studygif/networking2a.png"></p>
+<p>私がネットワークエンジニアに成り立ての頃、TCP/IPだけでなくIPX/SPXなどについてもマスターする
+必要があるネットワーク状況だったのですが、現在では、TCP/IP以外は、ほぼ使用されていませんので
+ネットワークエンジニアとして仕事をする上でも、ネットワーク試験の資格を取得する上でも、TCP/IP
+さえマスターしていればネットワークエンジニアとしてOKです。TCP/IPはそれくらい主流なプロトコル。</p>
+<h2 id="_5">プロトコルの標準化を推進する機関</h2>
+<p>従来はプロトコルを策定する主体は、ネットワーク機器製品を製造するハードウェアのメーカーでした。
+しかし、ネットワークシステムが普及すると異なるメーカー機器同士の接続が重要になりました。そこで
+プロトコルを国際機関で管理して標準化する流れが強まりました。</p>
+<p>国際的に標準化されたプロトコルを採用しているネットワーク機器である場合、他社メーカーの通信機器
+であっても相互にネットワーク通信をすることが可能です。現在、プロトコルの標準化を推進する機関に
+以下のような機関があります。</p>
+<table>
+<thead>
+<tr>
+<th>標準化の機関</th>
+<th>正式名称</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO</td>
+<td>International Organization for Standardization</td>
+<td>国際標準化機構、国際規格の策定が目的。</td>
+</tr>
+<tr>
+<td>ITU</td>
+<td>International Telecommunication Union</td>
+<td>国際電気通信連合。無線通信と電気通信の標準化。</td>
+</tr>
+<tr>
+<td>IETF</td>
+<td>The Internet Engineering Task Force</td>
+<td>インターネット技術の標準を策定。<strong class="memory-answer">RFCを発行</strong>。</td>
+</tr>
+<tr>
+<td>IEEE</td>
+<td>Institute of Electrical and Electronics Engineers</td>
+<td>世界規模の電気工学・電子工学の学会。</td>
+</tr>
+<tr>
+<td>ANSI</td>
+<td>American National Standards Institute</td>
+<td>米国国家規格協会。米国内の工業分野の標準化組織。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VRF | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vrf_1">VRFとは</a></li>
+<li><a href="#vrf-">VRF - 基本構成</a></li>
+<li><a href="#vrf-cisco">VRF - Cisco設定例</a></li>
+<li><a href="#vrf_2">VRFの作成</a></li>
+<li><a href="#vrf_3">VRFのインターフェースへの適用</a></li>
+<li><a href="#vrf_4">VRFのスタティックルートの設定</a></li>
+<li><a href="#vrf-rip">VRFのルーティング - RIP</a></li>
+<li><a href="#vrf-eigrp">VRFのルーティング - EIGRP</a></li>
+<li><a href="#vrf-ospf">VRFのルーティング - OSPF</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vrf">VRF</h1>
+<hr>
+<h2 id="vrf_1">VRFとは</h2>
+<p>VRF（Virtual Routing and Forwarding）は、1つのルータ上で独立した<strong class="memory-answer">複数のルーティングテーブルを保持</strong>
+できる技術です。VRFにより、1台のルータ上でインスタンスごとにルーティングテーブルを保持することが
+できるため、例えばカスタマーごとにルーティングテーブルを保持できます。VRFの技術を実装させることで、
+IP-VPNのようなWANサービスを実現することができます。IP-VPNでは、<strong class="memory-answer">MPLS</strong>の技術が使用されていますと
+説明しましたが、その他にも今回紹介する<strong class="memory-answer">VRF</strong>の技術が使用されています。</p>
+<h2 id="vrf-">VRF - 基本構成</h2>
+<p>IP-VPNにおいてVRFの設定はPEルータで実装されます。このPEルータは、MPLS網のLERにあたるルータです。
+IP-VPNでカスタマーから送信されてくるIPパケットには、ラベル付けもタグ付けもないIPパケットであるため、
+PEルータでどの顧客のパケットなのかを識別するためにPEルータのインターフェースとVRFを関連付けします。</p>
+<p><img alt="画像" src="../studygif/mpls5a.png"></p>
+<p>※　VRFインスタンスと関連付けるインターフェース は、物理インターフェースでもサブインターフェースでもOKです。</p>
+<p>PEルータで顧客ごとに独立したルーティングテーブルを保持することは分かりましたが、PEルータ自身にも
+顧客ごとのルーティングテーブルとは別に、<strong class="memory-answer">MPLS網内でルーティングするためのルーティングテーブル</strong>を
+PEルータは保持しています。このルーティングテーブルの事を<strong class="memory-answer">グローバルルーティングテーブル</strong>と言います。</p>
+<p><img alt="画像" src="../studygif/mpls5b.png"></p>
+<h2 id="vrf-cisco">VRF - Cisco設定例</h2>
+<p>以下では1行目でVRF名を「CustomerA」として作成して、そのVRFの識別子を「1:100」として設定して
+います。VRFの識別子を<strong class="memory-answer">RD</strong>（Route Distinguisher）と言います。RDは、MPLS-VPNの項目で詳細に解説。</p>
+<h2 id="vrf_2">VRFの作成</h2>
+<p>PE(config)# ip vrf CustomerA
+PE(config-vrf)# rd 1:100</p>
+<p>VRFをインターフェースに適用します。VRF作成、インターフェースの適用はPEルータだけで設定します。
+VRFを設定したインターフェースのIPアドレスはsh ip interfaceではなく、sh ip vrf interfaceで確認します。</p>
+<h2 id="vrf_3">VRFのインターフェースへの適用</h2>
+<p>PE(config)# interface GigabitEthernet 0/0
+PE(config-if)# ip vrf forwarding CustomerA
+PE(config-if)# ip address 192.168.1.254</p>
+<p>VRFによるスタティックルーティングの設定もPEルータだけで設定します。例えば上図では、A社もB社も
+10.1.1.0/24 のネットワークですが、VRFを指定することで該当するVRFのルーティングテーブルに反映。</p>
+<h2 id="vrf_4">VRFのスタティックルートの設定</h2>
+<p>PE(config)# ip route vrf CustomerA 10.1.1.0 255.255.255.0 192.168.1.1</p>
+<p><img alt="画像" src="../studygif/mpls5c.png"></p>
+<p>PEで設定するVRFを利用したダイナミックルーティングプロトコル（ RIP/EIGRP/OSPF ）の設定を紹介します。
+RIPでは、router rip の後にただnetworkコマンドでネットワークを定義するだけでは、グローバルルーティング
+テーブルで通知されてしまうので、VRFを認識させるためにaddress-familyコマンドを使用しVRFを指定します。</p>
+<h2 id="vrf-rip">VRFのルーティング - RIP</h2>
+<p>PE(config)# router rip
+PE(config-router)# address-family ipv4 vrf CustomerA
+PE(config-router-af)# network 192.168.1.0</p>
+<p>PE(config-router)# address-family ipv4 vrf CustomerB
+PE(config-router-af)# network 192.168.1.0</p>
+<p>EIGRPでは、VRFを認識させるためにaddress-familyコマンドを使用してVRFを指定するのはRIPと同じですが
+該当するVRF上で動作するEIGRPのAS番号をautonomous-systemコマンドで指定します。以下設定例では
+AS番号 1 がグローバルルーティングテーブルで使用する番号、10がVRF「 CustomerA 」で動作する番号です。</p>
+<h2 id="vrf-eigrp">VRFのルーティング - EIGRP</h2>
+<p>PE(config)# router eigrp 1
+PE(config-router)# address-family ipv4 vrf CustomerA
+PE(config-router-af)# network 192.168.1.0
+PE(config-router-af)# autonomous-system 10</p>
+<p>PE(config-router)# address-family ipv4 vrf CustomerB
+PE(config-router-af)# network 192.168.1.0
+PE(config-router-af)# autonomous-system 10</p>
+<p>OSPFではプロセス番号ごとにVRFを割り当てるため、RIPやEIGRPのようにaddress-familyの指定は不要。</p>
+<h2 id="vrf-ospf">VRFのルーティング - OSPF</h2>
+<p>PE(config)# router ospf 1 vrf CustomerA
+PE(config-router)# network 192.168.1.254 0.0.0.0 area 0</p>
+<p>PE(config)# router ospf 2 vrf CustomerB
+PE(config-router)# network 192.168.1.254 0.0.0.0 area 0</p>
+<p>当然ながらRIP、EIGRP、OSPFのCE側の設定は、address-familyなどの設定不要の通常の設定となります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study29.html">MPLSとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

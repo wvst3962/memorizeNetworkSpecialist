@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - addressing | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6">IPv6アドレスの表記方法</a></li>
+<li><a href="#ipv6_1">IPv6アドレスの省略方法</a></li>
+<li><a href="#ipv6-id">IPv6の「 プレフィックス 」と「 インターフェースID 」</a></li>
+<li><a href="#ipv6_2">IPv6のアドレス経路集約</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-addressing">IPv6 - addressing</h1>
+<hr>
+<h2 id="ipv6">IPv6アドレスの表記方法</h2>
+<p>IPv4アドレスは、32ビットを<strong class="memory-answer">8bit</strong>ごとに ピリオド( <strong class="memory-answer">.</strong> )で区切り、4つのフィールドに分け<strong class="memory-answer">10進数</strong>で表記。</p>
+<p><img alt="画像" src="../studygif/ipv6z2a.png"></p>
+<p>IPv6アドレスは、128ビットを<strong class="memory-answer">16bit</strong>ごとにコロン( <strong class="memory-answer">：</strong> )で区切り、8つのフィールドに分け<strong class="memory-answer">16進数</strong>で表記。</p>
+<p><img alt="画像" src="../studygif/ipv6z2b.png"></p>
+<p>※ IPv6アドレスでは16進数値のアルファベット「A～F」の大文字、小文字が区別されることはありません。</p>
+<h2 id="ipv6_1">IPv6アドレスの省略方法</h2>
+<p>IPv6アドレスは16進数で表記しても長いことから、以下の3つの省略ルールがあり省略表記も可能です。</p>
+<p>?@　フィールドごとに先頭の0の並びは省略可能
+例　01DA ⇒ 1DA　　0012 ⇒ 12　　01B0 ⇒ 1B0</p>
+<p>?A　フィールドのビットが全て0の場合、1つの0に省略可能
+例　0000 ⇒ 0</p>
+<p>?B　ビットが全て0のフィールドが連続している場合、その間の0を全て省略して2重コロン(：：)に省略可能。
+例　2001：0000：0000：0000：aaaa：bbbb：cccc：1111　⇒　2001：：aaaa：bbbb：cccc：1111</p>
+<p>◇　「：：」は１つのIPv6アドレス内で一度だけしか使用できないので、例えば以下のような省略はできない。
+例（×）2001：0000：0000：1111：aaaa：0000：0000：1111　⇒　2001：：1111：aaaa：：1111</p>
+<p>◇　上記のようなアドレスの場合、省略ルールの?Aを使用して、以下のように省略することができる。
+例（○）2001：0000：0000：1111：aaaa：0000：0000：1111　⇒　2001：：1111：aaaa：0:0：1111</p>
+<p><img alt="画像" src="../studygif/ipv6z2c.png"></p>
+<h2 id="ipv6-id">IPv6の「 プレフィックス 」と「 インターフェースID 」</h2>
+<p>IPv4アドレスは、<strong class="memory-answer">ネットワーク部</strong>と<strong class="memory-answer">ホスト部</strong>によって構成されます。IPv6アドレスは、<strong class="memory-answer">プレフィックス</strong>と
+<strong class="memory-answer">インターフェースID</strong>により構成されます。IPv6のプレフィックスは、IPv4のネットワーク部に該当します。
+そして、IPv6のインターフェースIDは、IPv4のホスト部に該当します。</p>
+<p><img alt="画像" src="../studygif/ipv6z2d.png"></p>
+<p>IPv6アドレスは、IPv4アドレスと同じように <strong class="memory-answer">/</strong> を使用することで、プレフィックスを示すことができます。
+例えば 2001：1111：2222：abcd：aaaa：bbbb：cccc：1111 のIPv6アドレスを持つホストがいるとして
+そして 2001：1111：2222：abcd のネットワーク上のホストとします。その場合はホストのIPv6アドレスは
+以下の表記となります。※　IPv6アドレスは1つのフィールドで 16ビットであり4つのフィールドは64ビット。</p>
+<p>2001：1111：2222：abcd：aaaa：bbbb：cccc：1111/64</p>
+<p>上記のIPv6アドレスは、ホスト部を全て0ビットにしてネットワークアドレスとして次のように表記できます。</p>
+<p>2001：1111：2222：abcd：0000：0000：0000：0000/64
+2001：1111：2222：abcd：：/64 （省略表記）</p>
+<h2 id="ipv6_2">IPv6のアドレス経路集約</h2>
+<p>IPv4アドレスでは「192.168.0.0/24 ～ 192.168.255.0/24」 の256つのネットワークを1つのネットワーク
+に集約したい場合、ネットワーク部の8ビットを使用して 「192.168.0.0/16」 とすることにより実現します。</p>
+<p><img alt="画像" src="../studygif/ipv6z2e.png"></p>
+<p>IPv6アドレスも同様に例えば「2001：1111：01DB：0001：：/64 ～ 2001：1111：01DB：FFFF：：/64」
+の65535のネットワークを1つのネットワークに経路集約したい場合、プレフィックスの16bitを使用することで
+「2001：1111：01DB：：/48」と定義すると実現します。</p>
+<p><img alt="画像" src="../studygif/ipv6z2f.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

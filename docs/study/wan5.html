@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN - IP-VPN / Wide Ethernet | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan-ip-vpn">WANの回線サービス - IP-VPN</a></li>
+<li><a href="#wan-">WANの回線サービス - 広域イーサネット</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan-ip-vpn-wide-ethernet">WAN - IP-VPN / Wide Ethernet</h1>
+<hr>
+<h2 id="wan-ip-vpn">WANの回線サービス - IP-VPN</h2>
+<p>IP-VPNは現在企業で最も利用されているWANサービスです。IP-VPNはキャリア網のIPネットワークを
+企業（利用者）で共有して、MPLS（Multi-Protocol Label Switching）により企業ごとのネットワーク
+を仮想的に分離しています。フレームリレーやATMのように利用者で共有の網を使用するという考え方は
+変わりありませんが、キャリア網内のバックボーンが圧倒的な帯域であるため網での輻輳は発生しません。
+※ IP-VPNの場合、L3層の使用できるプロトコルが<strong class="memory-answer">IPに限定</strong>されていますが、今日の企業NWではIPの使用以外は先ずないです。</p>
+<p><img alt="画像" src="../studygif/wan5a.png"></p>
+<p>IP-VPNのWANサービスが、MPLS-VPNという高度な技術を利用しているとはいえ、利用者としてMPLSを
+意識する必要はなく、企業側のルータではキャリア側のルータへデフォルトルートを設定するか、BGPで
+ダイナミックルーティングプロトコルを起動させるだけです。後は、キャリア網でMPLSで適正にラベルが
+つけられてIPパケットが転送され、企業側のルータへのパケットを送出時にはMPLSラベルが外されます。
+MPLSラベルにより通信したい拠点へトラフィックが転送でき、他企業の通信トラフィックが混在しません。</p>
+<p>※　IP-VPNでは、キャリア側のルータを<strong class="memory-answer">PE</strong> (Provider Edge) といい、企業側のルータを<strong class="memory-answer">CE</strong> (Customer Edge) と呼んでいます。
+※　IP-VPNではアクセス回線部分を専用線、FR、ATM、Ether、FTTH、ADSLから選べて、対向先と合わせる必要がありません。</p>
+<p><img alt="画像" src="../studygif/wan5b.png"></p>
+<p>最後にMPLSについて詳しく見てみましょう。MPLSではL2ヘッダとIPヘッダの間にラベルと呼ばれるヘッダを
+つけてラベル情報に基づきIPパケットを転送しています。これをラベルスイッチングと言います。IPヘッダは
+20byteでありこの情報でIPルーティングしてパケット転送するよりもMPLSラベルの4byteという小さな情報で
+ラベルスイッチングする方が遥かに高速に転送できます。下図のように、<strong class="memory-answer">LER</strong>と呼ばれるキャリアのルータで
+企業からのパケットを受信するとラベルを付与し、キャリアのMPLS網内にパケットを転送します。次に<strong class="memory-answer">LSR</strong>が
+ラベルテーブルに従ってラベル情報を付け替えて転送します。最後に、LERがラベルを外して企業NWへ転送。</p>
+<p><img alt="画像" src="../studygif/wan5c.png"></p>
+<p>すべての始まりとして、キャリア網内のルータでIGPを稼働させてIP到達性を持たせます。次に、MPLSを動作
+させるルータでラベル配布プロトコル（ LDP/TDP/RSVP/BGP ）で、各ネットワークに対するラベル値を通知。
+この通知によりラベルテーブルが作成されると、MPLS網内ではLSP（Label Switched Path）が形成されます。</p>
+<p>LSPは、ラベル付けされたパケットがラベルスイッチングされていく片方向のパスです。例えば上図のLSPは
+[ 172.16.～] 宛てのパスなので、[ 192.168.1.0/24 ] 宛てのLSPもあってはじめて双方向通信が成立します。
+なおLSPは<strong class="memory-answer">FEC</strong>（Forwarding Equivalence Class）ごとに形成されます。以下はMPLSの重要用語となります。</p>
+<table>
+<thead>
+<tr>
+<th>MPLS用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LER</td>
+<td>Label Edge Router。MPLS網のエッジに配置される企業ネットワークのルータと接続する<br>キャリアのルータ。パケットのラベルの取り付け、取り外しを行う。PEルータとも呼ばれる。</td>
+</tr>
+<tr>
+<td>LSR</td>
+<td>Label Switching Router。ラベル付けされたパケットを受信して、ラベルテーブルに従って<br>ラベルの付け替えを行い転送していく。MPLS-VPNではP (Provider) ルータとも呼ばれる。</td>
+</tr>
+<tr>
+<td>ラベル配布プロトコル</td>
+<td>ラベルの情報に関して広報するためのプロトコル。ラベルテーブルは、このラベル配布<br>プロトコルにより作成される。LDP、TDP、RSVP、BGPなどがラベル配布プロトコルである。</td>
+</tr>
+<tr>
+<td>FEC</td>
+<td>Forwarding Equivalence Class。MPLS網で同じ宛先のパケットや同じ扱いをさせるパケットの集まり。</td>
+</tr>
+<tr>
+<td>LSP</td>
+<td>Label Switched Path。ラベル付けされたパケットがラベルスイッチングされていく片方向のパス。</td>
+</tr>
+</tbody>
+</table>
+<p>MPLS-VPNではラベルだけでなくVPNを識別するための<strong class="memory-answer">VPNラベル</strong>が付加されます。これはPEルータ間で
+MP-BGPで広報されます。VPNラベルは最終的な通信先のPEルータで取り外され、企業NWへ転送されます。</p>
+<h2 id="wan-">WANの回線サービス - 広域イーサネット</h2>
+<p>広域イーサネットは、IP-VPN同様に企業で多く利用されているWANサービスです。キャリア網で用意された
+イーサネット網に、企業ネットワークのイーサネットLANを直接接続して、広域なLAN間接続を実現できます。
+つまりキャリア網でもイーサネットスイッチでWANが構築されています。なお、広域イーサネットを利用する
+場合はLayer2はEthernet LANである必要がありますが、Layer3で使用するプロトコルには制限がありません。</p>
+<p>広域イーサネットのWANサービスはL2/L3スイッチをONUに直接接続し、キャリア網を「1つのLAN」として
+利用することができます。つまり、例えば東京支店と大阪支社を同じIPのネットワークセグメントにできます。</p>
+<p><img alt="画像" src="../studygif/wan5d.png"></p>
+<p>IP-VPNの場合はMPLS-VPNで網内でラベルスイッチングが行われて、VPNラベルによりセキュリティが
+保たれている事が分かりました。では、広域イーサネットの場合ではどのようにしてL2のセキュリティが
+保たれているのか見ていきましょう。広域イーサネット網も多くの企業でキャリア網を共有していますが、
+どのようにして分離しているのか下図で分かります。例えば、A社の東京本社のVLAN 20のネットワーク
+から、A社の大阪支社のVLAN 20とを通信させるために、キャリア網内でもVLANタグを付加しています。</p>
+<p><img alt="画像" src="../studygif/wan5e.png"></p>
+<p>広域イーサネットでは企業NWからVLAN IDのついたIEEE802.1Qフレームに対し、さらにキャリアスイッチでVLANタギングします。</p>
+<p>例えば、キャリア網でA社用にVLAN2000を割り振り
+ます。これによりA社のトラフィックはキャリア網の
+VLAN2000のタグ付けとタグ解除をできるポートで
+しか通信できないようになります。</p>
+<p>その結果、A社とB社において、企業ネットワークの
+L2スイッチのVLANで同じVLANでも、問題なく識別
+して通信することができます。また、上図のスイッチ
+ネットワークではなく、ルータがONUに直結する構成
+でも、各企業NWにVLANを割り当て、キャリア網で
+タグ付けを行うことで分離をしています。なお、広域
+イーサネットで使用している技術は<strong class="memory-answer">Q-in-Q</strong>と言います</p>
+<hr>
+<p>← <a href="wan4.html">WAN - フレームリレー、ATM</a>　<a href="wan6.html">WAN - HDLCとPPP</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

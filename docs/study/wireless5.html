@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - BSSID &amp; ESSID | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan-bssess">無線LAN - BSSとESS</a></li>
+<li><a href="#lan-bssidessid">無線LAN - BSSIDとESSID</a></li>
+<li><a href="#lan-ssidessid">無線LAN - SSIDとESSIDの違い</a></li>
+<li><a href="#lan-">無線LAN - ローミング</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-bssid-essid">Wireless LAN - BSSID &amp; ESSID</h1>
+<hr>
+<h2 id="lan-bssess">無線LAN - BSSとESS</h2>
+<p>無線LANのインフラストラクチャモードで、1つのAPとそのAPの電波内にいる配下の無線LANクライアント
+で構成されるネットワークを <strong class="memory-answer">BSS</strong>（Basic Service Set）といいます。複数のBSSで構成される無線LANの
+ネットワークは <strong class="memory-answer">ESS</strong>（Extended Service Set）といいます。これらのIDが無線LAN通信で重要となります。</p>
+<p><img alt="画像" src="../studygif/wireless5a.png"></p>
+<h2 id="lan-bssidessid">無線LAN - BSSIDとESSID</h2>
+<p><strong class="memory-answer">BSSID</strong>とは文字通りBSSのIDです。無線LANにおけるネットワーク識別子の1つであり48ビットの数値です。
+このBSSIDは通常、その無線LANネットワークのアクセスポイントのMACアドレスと同じものとなります。
+<strong class="memory-answer">ESSID</strong>とは文字通りESSのIDです。無線LANにおけるネットワークの識別子の1つであり<strong class="memory-answer">最大32文字</strong>までの
+英数字を設定できます。ESSIDは無線LANを構成する機器（APや無線LAN端末）に設定する必要があります。</p>
+<p><img alt="画像" src="../studygif/wireless5b.png"></p>
+<p>無線LANでは、<strong class="memory-answer">ESSIDが同じもの同士が通信することができます</strong>。ESSIDが異なっている場合、無線LANの
+電波がお互いに届く範囲であっても、伝送規格や周波数が同じであっても無線LAN間での通信はできません。
+※　ESSIDにはどのAPにも接続できる<strong class="memory-answer">ANY</strong>という特殊なESSIDもありますが、AP側でこの機能を無効にしておくことが一般的。</p>
+<p>上図で、AとBのWLAN端末がAP2の電波内にいてチャネルが 13ch でも、AP2と無線LAN接続ができません。
+同じように、CとDのWLAN端末がAP1の電波内にいてチャネルが1chでも、AP1と無線LAN接続ができません。
+このように、ESSIDによる識別によって意図した無線LAN機器とだけ通信できるようになり混信を防止します。</p>
+<h2 id="lan-ssidessid">無線LAN - SSIDとESSIDの違い</h2>
+<p><strong class="memory-answer">SSID</strong>とは無線LANにおけるアクセスポイントの識別子です。<strong class="memory-answer">ESSID</strong>とは、アクセスポイントの識別子である
+SSIDを複数のアクセスポイントを設置したネットワークにおいても使用できるように拡張した識別子のこと。</p>
+<p>このように厳密にはSSIDとESSIDの意味は異なりますが、本来、ESSIDの意味であるにも関わらず、SSIDの
+用語が使用されているケースが多いです。現在の企業ネットワークにおける無線LAN導入の実態を考えますと、
+無線LAN導入に１台だけのAP導入というケースは少なく「ESSID」を識別子として使用していることが一般的。
+※　WindowsのバージョンによりSSIDやESSIDの設定項目が「ネットワーク名」という名称になっています。</p>
+<h2 id="lan-">無線LAN - ローミング</h2>
+<p>無線LANにおいて、ローミングとは無線LANクライアントが異なるAP間を渡り歩けるような機能のことです。
+例えば下図の通り、AP1の電波の届く範囲内にいたWLAN端末「Z」が、AP2の電波の届く範囲内に移動した
+場合でも通信が可能である状態を<strong class="memory-answer">ローミング</strong>といいます。このローミングの前提として渡り歩く範囲のAPの
+ESSIDは全て同じであることが必要です。また、使用するチャネルにおいても接続するAPと同じである必要が
+ありますが、最近の無線LAN端末は「<strong class="memory-answer">使用するチャネルを自動検出</strong>」するのでチャネルの手動設定は不要です。</p>
+<p><img alt="画像" src="../studygif/wireless5c.png"></p>
+<p>無線LANクライアントがセッションを切らずにローミングができるよう、異なるチャネルのセルを10％～15％
+オーバーラップさせることが推奨されます。無線LANスイッチ（コントローラ）はこのオーバーラップの範囲
+を自動調整しますが、無線LANスイッチを導入しない場合は電波調査を行い適切な場所にAPを設置しましょう。
+※　現在の企業ネットワークで無線LANスイッチ（コントローラ）を導入しないことは、ほとんどありません。</p>
+<p><img alt="画像" src="../studygif/wireless5d.png"></p>
+<p>※ 有線LAN側のネットワークと継続的な論理接続が維持するローミングにおいても、<strong class="memory-answer">ローミング時にはAPとの再認証</strong>が発生します。
+※ <strong class="memory-answer">無線LANスイッチを導入</strong>した場合、認証方式がWeb認証であっても802.1X認証であってもローミング時に再認証は発生しません。
+なぜなら、認証成功時の情報を<strong class="memory-answer">無線LANスイッチに記憶</strong>しており、ローミング時にこの情報を利用するので再認証が発生しません。</p>
+<hr>
+<p>← <a href="wireless4.html">無線LAN - セルと伝送速度</a>　<a href="wireless6.html">無線LAN - CSMA/CAとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>FCoE ( Fibre Channel over Ethernet ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#fcoe">FCoEとは</a></li>
+<li><a href="#fcoeiscsi">FCoEとiSCSIの違い</a></li>
+<li><a href="#fcoe_1">FCoEの物理構成</a></li>
+<li><a href="#fcoe_2">FCoEによる統合前と統合後</a></li>
+<li><a href="#fcoe_3">FCoEのフレーム</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="fcoe-fibre-channel-over-ethernet">FCoE ( Fibre Channel over Ethernet )</h1>
+<hr>
+<h2 id="fcoe">FCoEとは</h2>
+<p>FCoEとは、ファイバチャネルのフレームをカプセル化し、10Gbps/40Gbps/100Gbpsイーサネットで動作
+するプロトコルです。FCoEによりFC-SANとEthernet LANの統合が可能となります。物理的にはサーバの
+インターフェースに必要な<strong class="memory-answer">CNA</strong>（Converged Network Adapter）と、<strong class="memory-answer">FCoE対応スイッチ</strong>が必要となります。</p>
+<p><img alt="画像" src="../studygif/networking7a.png"></p>
+<p>FCoEの"Ethernet"は、<strong class="memory-answer">既存のイーサネットをそのまま使用するのではなく</strong>、確実なデータ伝送を実現する
+ために、例えば以下のような<strong class="memory-answer">拡張仕様を盛り込んだイーサネット</strong>がFCoEの物理層として採用されています。</p>
+<table>
+<thead>
+<tr>
+<th>IEEE</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE 802.1Qbb</td>
+<td>PFC ： Priority-based Flow Control。優先度ベースフロー制御。</td>
+</tr>
+<tr>
+<td>IEEE 802.1Qaz</td>
+<td>ETS ： Enhanced Transmission Selection。拡張伝送選択。</td>
+</tr>
+<tr>
+<td>IEEE 802.1 DCBX</td>
+<td>DCBX ： Data Center Bridging Exchange Protocol。DCB交換プロトコル。</td>
+</tr>
+<tr>
+<td>IEEE 802.1Qau</td>
+<td>CN ： Congestion Nortification。輻輳通知。</td>
+</tr>
+</tbody>
+</table>
+<p>FCoEは、2009年6月に標準化されていますが、各ベンダーは標準化以前にFCoE対応製品を開発、販売して
+いることから、FCoEで利用する拡張されたイーサネットのことをCiscoでは<strong class="memory-answer">DCE</strong>（Data Center Ethernet）
+と呼んでおりBrocadeでは<strong class="memory-answer">CEE</strong>（Converged Enhanced Ethernet）と呼びます。互換性の実現を現在模索中。
+※ 拡張イーサネットの用語としてベンダー独自にDCE/CEEを使用していますが、正確には<strong class="memory-answer">DCB</strong>（Data Center Bridging）と言います。</p>
+<h2 id="fcoeiscsi">FCoEとiSCSIの違い</h2>
+<p>そもそもFCoEによるFC-SANとEthernet LANの統合ネットワークよりも、iSCSIによるIP-SANの方がより
+シンプルな統合型ネットワークになるのでは？という疑問があるかもしれませんが、iSCSIでは、TCP/IPを
+使用することでオーバヘッドが発生するので、FCoEのネットワークの方が高いパフォーマンスを発揮します。
+しかし導入しやすさやコストという点ではiSCSIの方が圧倒的に優勢性があります。iSCSIネットワークでは
+GigabitEthernetから動作する一方、FCoEネットワークでは<strong class="memory-answer">10GigabitEthernet</strong>のインフラが必要となります。</p>
+<h2 id="fcoe_1">FCoEの物理構成</h2>
+<p>FC-SAN、IP-SAN、FCoEによる統合ネットワークにおいて、物理的に必要となるものは以下の通りです。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>FC-SAN</th>
+<th>IP-SAN</th>
+<th>FCoEによる統合ネットワーク</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ケーブル</td>
+<td>光ファイバー</td>
+<td>光ファイバー/メタルケーブル</td>
+<td>光ファイバー</td>
+</tr>
+<tr>
+<td>インターフェース</td>
+<td>HBA</td>
+<td>NIC</td>
+<td>CNA</td>
+</tr>
+<tr>
+<td>導入機器</td>
+<td>FCスイッチ</td>
+<td>LANスイッチ</td>
+<td>FCoEスイッチ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fcoe_2">FCoEによる統合前と統合後</h2>
+<p>下図の通り、FCoEの統合後では高価なインターフェースとケーブルの数を半減しています。これによる
+<strong class="memory-answer">コスト削減</strong>、<strong class="memory-answer">電力削減</strong>、シンプルな物理配線による<strong class="memory-answer">管理効率化</strong>のメリットがあります。すでにFC-SANが
+ある場合、FCoEでも既存のFCの<strong class="memory-answer">運用管理の仕組みをそのまま踏襲</strong>できるのでそれが最大のメリットです。
+※ 当然ながら、新規にストレージネットワークを構築する場合、小規模なら<strong class="memory-answer">iSCSIによるIP-SAN</strong>の方がコスト的に優れています。</p>
+<p><img alt="画像" src="../studygif/networking7b.png"></p>
+<p>上図は機器台数も削減できる大きなメリットを生んで
+いる構成例です。当然、FCoEには問題点もあります。</p>
+<p>先ず、FCoEによる統合ネットワークを運用のために
+高いスキルが要求されること。次に、機器の台数を
+削減できない場合などはコストに見合う投資効果が
+得られるかどうかということです。機器台数が減れば
+ランニングの保守費用も下がりさらにDCのスペース
+費用や管理費用も下がり、数年間くらいでペイできる
+可能性もあるので問題ありません。あとは管理者の
+利害関係が一致するという事も大きなポイントです。</p>
+<h2 id="fcoe_3">FCoEのフレーム</h2>
+<p>DCBの拡張イーサネット上でFCの通信を行うために、FCフレームをイーサネットフレームのデータ部分に
+組み込む必要があります。FCoEでは、VLANタグフレームを使用するため、以下では、IEEE802.1Qのタグ
+付けのイーサネットフレームとFCoEのイーサネットフレームを比較してみます。注目すべきは、FCoEでは
+データサイズが平均2112byteであることから、FCoEを利用するためには、ジャンボフレームまたはベビー
+ジャンボフレームをサポートするイーサネット環境が必要であることが分かります。</p>
+<p><img alt="画像" src="../studygif/networking7c.png"></p>
+<p>FCoE対応スイッチに、イーサネットフレーム、FCフレーム、FCoEフレームが着信すると以下のように動作。</p>
+<p>1.　イーサネットフレームは、MACアドレスに基づいて転送が行われます。
+2.　FCフレームは、イーサネットフレームにカプセル化（つまりFCoE）してサーバへ転送されます。
+3.　FCoEフレームはイーサネットでカプセル化されているFCフレームを取り出しFCスイッチへ転送されます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study37.html">ストレージネットワークとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

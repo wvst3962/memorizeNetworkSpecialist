@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan_1">WANとは</a></li>
+<li><a href="#wan_2">WANサービスの種類</a></li>
+<li><a href="#wan_3">現在主流なWANサービスの名称</a></li>
+<li><a href="#_1">現在のサービス名</a></li>
+<li><a href="#_2">以前のサービス名</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan">WAN</h1>
+<hr>
+<h2 id="wan_1">WANとは</h2>
+<p>WAN（Wide Area Network）とは、NTTなどの電気通信事業者が提供するWANサービスを利用して、
+本社 ⇔ 支社間など地理的に離れた拠点のLANを相互に接続するネットワークのことです。企業などは
+複数のWANサービスから回線品質やコスト等を考慮した上で最適なWANサービスを選択し契約します。
+つまり企業がネットワーク機器を所有して設計/構築するLANと異なり、WANでは利用料が発生します。</p>
+<p><img alt="画像" src="../studygif/wana.png"></p>
+<p>電気通信事業者（キャリア）は高品質なサービスを提供するため<strong class="memory-answer">SLA</strong>（Service Level Agreement）を
+定めています。SLA（サービス品質保証制度）はサービス品質のキャリアと利用者との間の合意のこと。
+具体的には、WANでのIPパケットの往復転送時間が月間平均値で10msを超えた場合や、障害発生時の
+故障回復までの遅延が１時間以上発生した場合に、企業に利用料金の一部を返還する合意のことです。</p>
+<h2 id="wan_2">WANサービスの種類</h2>
+<p>WANサービスには、従来から存在する<strong class="memory-answer">アナログ専用線</strong>、<strong class="memory-answer">デジタル専用線</strong>、<strong class="memory-answer">ISDN</strong>、<strong class="memory-answer">フレームリレー</strong>
+<strong class="memory-answer">ATM</strong>（セルリレー）や最近主流な<strong class="memory-answer">広域イーサネット</strong>、<strong class="memory-answer">IP-VPN</strong>、<strong class="memory-answer">インターネットVPN</strong>などがあります。</p>
+<p><img alt="画像" src="../studygif/wanb.png"></p>
+<p>なお、個人やSOHOがインターネットアクセス、または企業ネットワークへのアクセスを行う際に使用
+するアクセス回線については、<strong class="memory-answer">アナログ回線</strong>、<strong class="memory-answer">ISDN</strong>、<strong class="memory-answer">ADSL</strong>、<strong class="memory-answer">FTTH</strong>などの接続サービスがあります。</p>
+<p><img alt="画像" src="../studygif/wanc.png"></p>
+<p>WANプロトコルには、<strong class="memory-answer">フレームリレー</strong>、<strong class="memory-answer">ATM</strong>、<strong class="memory-answer">HDLC</strong>、<strong class="memory-answer">PPP</strong>などがありますが、これらのプロトコルは
+データリンク層（Layer2）で動作します。これらのWANインターフェースはシリアルインターフェース
+を使用します。一方、広域イーサネットは<strong class="memory-answer">Ethernet</strong>なのでデータリンク層で動作しますが、LAN同様に
+EthernetポートをONUに直接接続できます。IP-VPNは<strong class="memory-answer">IP</strong>なのでネットワーク層（Layer3)で動作します。
+IPを認識できるインターフェースなら、キャリアのサービスに合わせてどのようなI/Fでも接続できます。
+※　デジタル専用線 (64Kbps～数十Gbps) は通信に利用するプロトコルの制限がないためWANに色々なプロトコルを使用可能。</p>
+<h2 id="wan_3">現在主流なWANサービスの名称</h2>
+<p>なお、インターネットVPNのWANサービスはキャリアのVPN機器 (設定済み) のレンタルとなりますので
+IPsec等の専門的な技術を知らなくても導入できます。たしかに安価に導入できますが、設定変更などの
+柔軟性が乏しい（その都度費用発生）、自社で管理しにくいという観点から一般的には企業にBフレッツ
+などのアクセス回線を契約してもらい、企業が所有するルータにベンダーがIPsecを実装させて、自前で
+インターネットVPNを構築してWANにするケースが多いことでしょう。</p>
+<h2 id="_1">現在のサービス名</h2>
+<table>
+<thead>
+<tr>
+<th>キャリア</th>
+<th>WANサービス</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キャリア</td>
+<td>IP-VPN ( MPLS-VPN )</td>
+<td>広域イーサネット</td>
+<td>インターネットVPN (IPsec-VPN)</td>
+</tr>
+<tr>
+<td>NTTコミュニケーションズ</td>
+<td>Arcstar Universal One L3</td>
+<td>Arcstar Universal One L2</td>
+<td>OCNビジネスパックVPN</td>
+</tr>
+<tr>
+<td>KDDI</td>
+<td>Wide Area Virtual Switch L3</td>
+<td>Wide Area Virtual Switch L3</td>
+<td>マネージドサービス</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">以前のサービス名</h2>
+<table>
+<thead>
+<tr>
+<th>キャリア</th>
+<th>WANサービス</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キャリア</td>
+<td>IP-VPN ( MPLS-VPN )</td>
+<td>広域イーサネット</td>
+<td>インターネットVPN (IPsec-VPN)</td>
+</tr>
+<tr>
+<td>NTTコミュニケーションズ</td>
+<td>Arcstar IP-VPN</td>
+<td>e-VLAN</td>
+<td>OCNビジネスパックVPN</td>
+</tr>
+<tr>
+<td>KDDI</td>
+<td>KDDI IP-VPN</td>
+<td>Powered Ethernet</td>
+<td>マネージドサービス</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="wan2.html">WAN - 基本構成とデバイス</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

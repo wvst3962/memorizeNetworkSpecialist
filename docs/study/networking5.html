@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>NAS ( Network Attached Storage ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#nas">NASとは</a></li>
+<li><a href="#sannas">SANとNASの違い</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="nas-network-attached-storage">NAS ( Network Attached Storage )</h1>
+<hr>
+<h2 id="nas">NASとは</h2>
+<p>NAS（Network Attached Storage）は「ハードディスク、LANインターフェース、簡易OS」などにより
+構成される、いわばファイルサーバ専用機です。あるいは、ネットワークストレージそのものを指します。
+NASは、イーサネットLAN上のTCP/IPネットワークで通信するため、NASにIPアドレスを割り振ります。
+NASは一般的にCIFS、AFP、NFSのファイル共有プロトコルをサポートしておりファイル共有ができます。</p>
+<table>
+<thead>
+<tr>
+<th>主なファイル共有プロトコル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIFS ( Common Internet File System )</td>
+<td>Windows OSで利用するファイル共有プロトコル</td>
+</tr>
+<tr>
+<td>AFP ( Apple Filing Protocol )</td>
+<td>Mac OSで利用するファイル共有プロトコル</td>
+</tr>
+<tr>
+<td>NFS ( Network File System )</td>
+<td>Unix/Linux OSで利用するファイル共有プロトコル</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/networking5a.png"></p>
+<p>NASでは、ファイルシステムを採用してファイル管理を行うため、当然ファイル単位でバックアップできます。
+NASでは例えばWindowsのサーバのように、あるクライアントがNASにあるファイルを編集している状態で
+他のクライアントがアクセスしてくると、現在編集中である旨が伝えられ編集がロックされます（編集不可）。
+※　NASの利用IDとコンピュータのログインIDが同じである必要はなく、NASの利用IDによりファイルへのアクセス権が決まります。</p>
+<h2 id="sannas">SANとNASの違い</h2>
+<p>SANもNASも、ストレージ装置をネットワーク経由で利用する仕組みであることは共通しているのですが、
+NASではファイルシステムを介することでストレージ装置を利用できますが、SANではファイルシステム
+を介することなくストレージ装置を利用できます。この違いで処理速度がSANの方がかなり早くなります。
+以下はSANとNASの違いの比較表です。なお、SANには「<strong class="memory-answer">FC-SAN</strong>と<strong class="memory-answer">IP-SAN</strong>」の大きく2種類があります。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>SAN</th>
+<th>NAS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ネットワーク</td>
+<td>FC-SAN ( ファイバチャネルネットワーク）<br>IP-SAN ( TCP/IPネットワーク )</td>
+<td>TCP/IPネットワーク</td>
+</tr>
+<tr>
+<td>プロトコル</td>
+<td>FC-SAN ( ファイバチャネルプロトコル）<br>IP-SAN ( iSCSI、FCIP、iFCP )</td>
+<td>CIFS/NFS/AFP等のファイル共有プロトコル</td>
+</tr>
+<tr>
+<td>ストレージへのアクセス方式</td>
+<td>ローデバイス（ファイルシステムを介さない）</td>
+<td>ファイルシステム</td>
+</tr>
+<tr>
+<td>ゾーニング</td>
+<td>可</td>
+<td>不可</td>
+</tr>
+<tr>
+<td>コスト</td>
+<td>△ （高価格）</td>
+<td>◎ （低価格）</td>
+</tr>
+<tr>
+<td>パフォーマンス</td>
+<td>◎ （高いパフォーマンス）</td>
+<td>△ （低いパフォーマンス）</td>
+</tr>
+<tr>
+<td>運用性/保守性</td>
+<td>△ （複雑）</td>
+<td>◎ （容易）</td>
+</tr>
+</tbody>
+</table>
+<p>企業ネットワークでは、一般的にSANによりネットワークストレージのシステム構成することがほとんど。
+SAN ( Storage Area Network ) については「<a href="networking6.html">SANとは、FC-SAN と IP-SANの違い</a>」をご参考ください。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study37.html">ストレージネットワークとは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

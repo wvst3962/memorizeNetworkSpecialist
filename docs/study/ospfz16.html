@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OSPF - LSA Type 4 / LSA Type 5 / LSA Type 7 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ospf-lsa-4">OSPF - LSAタイプ 4</a></li>
+<li><a href="#ospf-lsa-5">OSPF - LSAタイプ 5</a></li>
+<li><a href="#ospf-lsa-7">OSPF - LSAタイプ 7</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ospf-lsa-type-4-lsa-type-5-lsa-type-7">OSPF - LSA Type 4 / LSA Type 5 / LSA Type 7</h1>
+<hr>
+<h2 id="ospf-lsa-4">OSPF - LSAタイプ 4</h2>
+<p>LSAタイプ4は、異なるエリアへフラッディングされます。LSAタイプ4はタイプ3同様に<strong class="memory-answer">ABR</strong>が生成します。
+このLSAには、<strong class="memory-answer">ASBRのルータID</strong>、<strong class="memory-answer">ASBRに到達するまでのメトリック値</strong>が含まれています。LSAタイプ4は
+OSPFネットワークに非OSPFネットワークが接続されて、ASBRが保持する経路情報をOSPFネットワークに
+<a href="https://www.infraexpert.com/study/routecontrol01.html">ルート再配布</a>した場合にそのエリアに所属するABRがLSAタイプ4を生成します。</p>
+<p><img alt="画像" src="../studygif/ospfz16a.png"></p>
+<p>LSAタイプ4のLSAは、<strong class="memory-answer">show ip ospf database asbr-summary</strong> コマンドで確認することができます。</p>
+<h2 id="ospf-lsa-5">OSPF - LSAタイプ 5</h2>
+<p>LSAタイプ5（ 外部LSA ）は、AS全体にフラッディングされます。LSAタイプ5は、<strong class="memory-answer">ASBR</strong>が生成します。
+LSAには<strong class="memory-answer">非OSPFネットワークアドレス、サブネットマスク、メトリック値、転送アドレス</strong>が含まれます。
+このLSAは非OSPFネットワークのルート情報を再配布したASBRが生成します。ルーティングテーブルで
+LSAタイプ5の経路情報は、OSPF外部ルートを示す「<strong class="memory-answer">O E1</strong>」または「<strong class="memory-answer">O E2</strong>」のコードが付けられています。</p>
+<p><img alt="画像" src="../studygif/ospfz16b.png"></p>
+<p>LSAタイプ5のLSAは、<strong class="memory-answer">show ip ospf database external</strong>コマンドによって確認することができます。
+OSPF外部ルートを示す「O E1」と「O E2」の違いは以下の通りであり、メトリック値に影響します。
+メトリックタイプは、ASBRでルート再配布の設定をする際に、どちらかを指定することができます。</p>
+<table>
+<thead>
+<tr>
+<th>メトリックタイプ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td>OSPFネットワークのコスト値が、外部ルートのコスト値に加算されていく。</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>OSPFネットワークのコスト値が、外部ルートのコスト値に加算されない。デフォルト値</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ospf-lsa-7">OSPF - LSAタイプ 7</h2>
+<p>LSAタイプ7は、NSSA（ スタブエリアにASBRが存在できる特別なエリア ）へフラッディングされます。
+LSAタイプ7は、NSSAの<strong class="memory-answer">ASBR</strong>が生成します。このLSAにはLSA5と同様に<strong class="memory-answer">非OSPFネットワークアドレス</strong>、
+<strong class="memory-answer">サブネットマスク</strong>、<strong class="memory-answer">メトリック値</strong>、<strong class="memory-answer">転送アドレス</strong>が含まれます。
+このLSAは非OSPFネットワークのルート情報を再配布したASBRが生成します。ルーティングテーブルで
+LSAタイプ7の経路情報は、OSPF外部ルートを示す「<strong class="memory-answer">O N1</strong>」または「<strong class="memory-answer">O N2</strong>」のコードが付けられています。</p>
+<p><img alt="画像" src="../studygif/ospfz16c.png"></p>
+<p>LSAタイプ7のLSAは、<strong class="memory-answer">show ip ospf database nssa-external</strong> コマンドで確認することができます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study58.html">OSPF 設定：応用</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

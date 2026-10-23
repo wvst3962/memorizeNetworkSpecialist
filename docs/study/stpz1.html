@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>STP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#stp_1">STPとは</a></li>
+<li><a href="#bpdu">BPDUとは</a></li>
+<li><a href="#id">ブリッジID</a></li>
+<li><a href="#_1">パスコスト</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="stp">STP</h1>
+<hr>
+<h2 id="stp_1">STPとは</h2>
+<p>STP（Spanning Tree Protocol）は、円環上（ループ状）に形成されたレイヤー2ネットワークにおいて
+データトラフィックが永続的に流れ続けることを防止するプロトコルです。信頼性の高いネットワークを
+構築するためには、ネットワーク機器に障害が発生しても迂回路で通信できるように、複数のスイッチを
+使用したNW構成にしますが、そのような冗長化をした場合に<strong class="memory-answer">STPを有効にしなければ問題が発生</strong>します。</p>
+<p>下図はSTPを有効にしていないネットワーク。ホストAがBと通信するためには、ホストBのMACアドレス
+を知る必要があります。そのためにホストAは<strong class="memory-answer">ARPリクエストをブロードキャスト</strong>します。ARPリクエスト
+のフレームを受信したスイッチ（SWA）は、送信元MACアドレスをMACアドレステーブルに学習したあと、
+隣接スイッチ（BとC）にフラッディングします。ここまでの動作（黒矢印の動作）では問題は発生しません。</p>
+<p><img alt="画像" src="../studygif/stpz1a.png"></p>
+<p>しかしSWBとSWCは、SWAから受信したフレームを同じように処理するので、最初にSWAが送信した
+ブロードキャストフレームがSWAに戻ってきます。そして、SWAはそれを再びフラッディング、という
+動作を繰り返して<strong class="memory-answer">ループ</strong>が発生してしまいます。この状態を「<strong class="memory-answer">ブロードキャストストーム</strong>」と言います。
+ブロードキャストストームが発生すると、そのスイッチネットワークで使用可能な帯域幅を大きく消費し
+ブロードキャストストームを処理する機器のCPU使用率が大幅に上昇して、通信できない状態になります。</p>
+<p>上図では、ループ状の構成にあるスイッチの全てのポートが転送できる状態であることから発生する現象。
+このような状態にならないように、ループ状に構成されたスイッチのどこかのポートで、トラフィックが
+転送できない状態にしておく必要があります。これをケーブルを抜いた状態などによって実現するのでは
+なくて<strong class="memory-answer">STP</strong>を使用することにより実現します。STPを使用すると、そのアルゴリズムによりあるポートが
+自動的にブロッキング状態になりますが、障害発生時は自動的にそのポートが有効化されます。</p>
+<p><img alt="画像" src="../studygif/stpz1b.png"></p>
+<h2 id="bpdu">BPDUとは</h2>
+<p>STP（スパニングツリープロトコル）は <strong class="memory-answer">IEEE802.1D</strong> で標準化されたプロトコルです。STPでは、ループが
+発生しないように<strong class="memory-answer">STA</strong> (スパニングツリーアルゴリズム）を使用し、自動的にあるポートをブロッキング状態
+にします。ブロッキングポートではフレームの送受信が行われなくなるので、ループを防ぐことができます。
+また、障害発生時には、自動的にそのポートがフォワーディング状態になり、通信ができるようになります。</p>
+<p>これらの制御は <strong class="memory-answer">BPDU</strong>（ Bridge Protocol Data Unit ）というフレームによって自動的に行われています。
+STPが有効なスイッチでは、定期的にBPDUをマルチキャストアドレス（0180.C200.0000）で送信します。
+BPDUのメッセージフォーマットは以下の通りです。水色4枠がツリーの中心となるルートブリッジの選択や
+ポートのブロッキング位置を判別する際に使用されます。ピンク色はSTPの状態を監視するためのタイマー。</p>
+<table>
+<thead>
+<tr>
+<th>フィールド</th>
+<th>フィールド<br>（日本語）</th>
+<th>説明</th>
+<th>サイズ<br>（byte）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protocol ID</td>
+<td>プロトコルID</td>
+<td>この値は常に 0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>バージョン</td>
+<td>STPバージョン ( 802.1d = 0 )</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Message Type</td>
+<td>メッセージタイプ</td>
+<td>通常のBPDUタイプ ( Configuration BPDU = 0x00 )<br>変更時のBPDUタイプ ( Topology Change Notification BPDU = 0x80 )</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Flags</td>
+<td>フラグ</td>
+<td>ネットワークのトポロジチェンジ（TC）を最下位ビットで示したり<br>トポロジチェンジの確認応答（TCA)を最上位ビットで示す情報。</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Root ID</td>
+<td>ルートID</td>
+<td>ルートブリッジのブリッジID</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Path Cost</td>
+<td>パスコスト</td>
+<td>ルートブリッジに到達するまでの累積コスト</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Bridge ID</td>
+<td>ブリッジID</td>
+<td>スイッチ自身のブリッジID</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Port ID</td>
+<td>ポートID</td>
+<td>ポートプライオリティとポート番号</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Message Age</td>
+<td>メッセージエージ</td>
+<td>ルートがBPDUを生成してから経過した秒数。<br>実質的にはルートブリッジに至るホップカウント。</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Max Age</td>
+<td>最大エージ</td>
+<td>BPDUの最大保持時間。デフォルトで20秒。このタイマーの時間が<br>経過してもBPDUを受信できない場合は障害が発生したと認識する。</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Hello Time</td>
+<td>Helloタイム</td>
+<td>スイッチがBPDUを送信する間隔。デフォルトで2秒。</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Forward Delay</td>
+<td>転送遅延</td>
+<td>Listening と Learning 状態にとどまる時間。デフォルトで15秒。</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>BPDUフォーマットの中の<strong class="memory-answer">ブリッジID</strong>と<strong class="memory-answer">パスコスト</strong>の2項目を、以下でもう少し詳しく解説します。</p>
+<h2 id>ブリッジID</h2>
+<p>ブリッジIDは、スイッチ自身のブリッジIDのこと。ブリッジIDは2byteのブリッジプライオリティと6byteの
+MACアドレスの計8byteで構成されます。スパニングツリーでは、ブリッジIDの情報によってスイッチを識別
+しています。このブリッジIDが最も小さい値のスイッチが<strong class="memory-answer">ルートブリッジ</strong>と呼ばれ、ツリーの中心となります。</p>
+<p><img alt="画像" src="../studygif/stpz1c.png"></p>
+<h2 id="_1">パスコスト</h2>
+<p>パスコストはツリーの中心であるルートブリッジに至るまでの距離を示す情報です。このパスコスト値は
+リンクの帯域幅から自動的に計算されます（下表の値）。または管理者が手動で設定することもできます。
+従来は<strong class="memory-answer">コスト値＝1000÷帯域幅(Mbps)</strong>で算出されていましたが、その場合、1Gbpsも10Gbpsのリンクも
+コスト値が同じ<strong class="memory-answer">１</strong>という値になってしまうため下表の通りのコスト値に改定されました。IEEE改定後の値。
+コスト値は低い値ほど優れているので、この値が低いほどルートブリッジまでの距離が近いと判断されます。</p>
+<table>
+<thead>
+<tr>
+<th>帯域幅</th>
+<th>コスト値（<strong class="memory-answer">IEEE改定後</strong>）</th>
+<th>コスト値（IEEE改定前）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10Gbps</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1Gbps</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>100Mbps</td>
+<td>19</td>
+<td>10</td>
+</tr>
+<tr>
+<td>10Mbps</td>
+<td>100</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="stpz2.html">STP - スパニングツリープロトコルの動作</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

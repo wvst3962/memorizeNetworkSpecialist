@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Multicast Distribution Tree - Source Tree / Shared Tree | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ディストリビューションツリーの種類</a></li>
+<li><a href="#source-tree">送信元ツリー（Source Tree）</a></li>
+<li><a href="#shared-tree">共有ツリー（Shared Tree）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="multicast-distribution-tree-source-tree-shared-tree">Multicast Distribution Tree - Source Tree / Shared Tree</h1>
+<hr>
+<h2 id="_1">ディストリビューションツリーの種類</h2>
+<p>ディストリビューションツリーには、送信元ツリーと共有ツリーの2種類があります。</p>
+<table>
+<thead>
+<tr>
+<th>ツリーの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>送信元ツリー</td>
+<td>Sender（送信者）ごとに、個別のディストリビューションツリーを作成</td>
+</tr>
+<tr>
+<td>共有ツリー</td>
+<td>特定のルータ（RP）を中心に、複数のSenderで共通したディストリビューションツリーを作成</td>
+</tr>
+</tbody>
+</table>
+<h2 id="source-tree">送信元ツリー（Source Tree）</h2>
+<p>送信元ツリーでは、Sender（マルチキャスト送信者）ごとに個別のディストリビューションツリーを作成する
+ことから、<strong class="memory-answer">SenderとReceiverを結ぶ最適パスが形成</strong>されることからトラフィック転送の遅延を抑えられます。
+しかし、各マルチキャストルータはSenderごとのツリーのパス情報を保持することから、数多くのSenderと
+マルチキャストグループが存在したり、Receiverが散在する場合は、<strong class="memory-answer">ルータのリソース消費が問題</strong>になります。</p>
+<p><img alt="画像" src="../studygif/multicastz13a.png"></p>
+<p>送信元ツリーは最短パスを利用することから <strong class="memory-answer">SPT</strong>（Shortest Path Tree）と言われます。送信元ツリーでは
+送信元の「S」、マルチキャストグループの「G」をとって、SPTを（S,G）形式で表記すると、上図の場合、
+（192.168.1.1, 239.1.1.5）（192.168.2.1, 239.2.2.5）（192.168.3.1, 239.3.3.5）のSPTをルータ上で
+保持していることになります。</p>
+<h2 id="shared-tree">共有ツリー（Shared Tree）</h2>
+<p>共有ツリーでは、RP（Rendezvous Point）と呼ばれる特定のルータをを中心に、複数のSenderで共通した
+ディストリビューションツリーを作成します。<strong class="memory-answer">共有ツリーは、RPを中心に形成されていくただ1つのツリー</strong>。
+先ず、SenderはマルチキャストパケットをRPに送信します。次に、RPから共有ツリーに従ってReceiverへ
+送信されます。なお、SenderとRPの間にReceiverがいる場合、RPを経由せずにReceiverへ直接送信します。</p>
+<p>共有ツリーのメリットは、ただ1つの共有ツリー情報を保持するだけでなく、<strong class="memory-answer">ルータの負荷が少ない点</strong>です。
+また、多くのSenderがいる場合やReceiverが散在する場合でも、共有ツリーでは複数のSenderで共通した
+ディストリビューションツリーを作成するため、下図の通り、ツリーが少なくスッキリとします。</p>
+<p>共有ツリーのデメリットは、RPの配置場所によりSenderとReceiverを結ぶパスが<strong class="memory-answer">最短パスにならない点</strong>や
+RPの配置場所がSenderから離れている場合、マルチキャストパケットの<strong class="memory-answer">配送に遅延が発生する可能性</strong>がある
+点です。下図の動作の通り、SenderはRPへ向かって先ずマルチキャストパケットを転送しています。</p>
+<p><img alt="画像" src="../studygif/multicastz13b.png"></p>
+<p>共有ツリーでは、全ての送信元が共通の１つのツリーを使用することから（ *, G ）形式で表示されます。
+上図の場合は（*, 239.1.1.5）（*, 239.2.2.5）（*, 239.3.3.5）と表記されます。送信元が any になる
+ことから「 * 」の表記が使用されます。</p>
+<p>マルチキャストパケットを転送する際に「送信元ツリー」を使用するのか「共有ツリー」を使用するのかは、
+ルータで設定するマルチキャストルーティングプロトコルのモード（大きく以下の2種類ある）に依存します。</p>
+<table>
+<thead>
+<tr>
+<th>動作モード</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>マルチキャストルーティングプロトコル - Denseモード</td>
+<td>送信元ツリーを使用</td>
+</tr>
+<tr>
+<td>マルチキャストルーティングプロトコル - Sparseモード</td>
+<td>送信元ツリーと共有ツリーを組み合わせて使用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

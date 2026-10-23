@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPsec - IKE : Phase1 &amp; Phase2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ike-1">IKE フェーズ 1</a></li>
+<li><a href="#ike-2">IKE フェーズ 2</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipsec-ike-phase1-phase2">IPsec - IKE : Phase1 &amp; Phase2</h1>
+<hr>
+<h2 id="ike-1">IKE フェーズ 1</h2>
+<p>IKEフェーズ1では、ネゴシエーションによりISAKMP SAに必要な以下のパラメータを決定します。</p>
+<table>
+<thead>
+<tr>
+<th>IKE Phase1 のパラメータ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>ISAKMPメッセージのための暗号化（ DES or 3DES or AES ）</td>
+</tr>
+<tr>
+<td>ハッシュアルゴリズム</td>
+<td>ISAKMPメッセージのための認証と鍵計算に使用するハッシュ方式（ MD5 or SHA-1 ）</td>
+</tr>
+<tr>
+<td>ライフタイム</td>
+<td>ISAKMP SAのライフタイムとライフタイプ（単位：秒など）</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>IPsecのピアをはる相手の機器の認証方式。4つの方式がある。<br>Pre-Shared Key、デジタル署名、公開鍵暗号、改良型公開鍵暗号</td>
+</tr>
+<tr>
+<td>DHグループ</td>
+<td>鍵計算のためのパラメータ。DHグループ1 or 2 or 5。鍵計算に使用する値は<br>暗号化されていないがDiffie-Hellmanのアルゴリズムを使用しているため問題ない</td>
+</tr>
+</tbody>
+</table>
+<p>IKEフェーズ1では、ISAKMPメッセージの交換手順として<strong class="memory-answer">Mainモード</strong>と<strong class="memory-answer">Aggressiveモード</strong>があります。</p>
+<table>
+<thead>
+<tr>
+<th>IKE Phase 1 のモード</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mainモード</td>
+<td>6つのISAKMPメッセージの送受信でフェーズ1を完了させる。<br>第1,2メッセージ（ ISAKMP SAのパラメータのネゴシエーション ）<br>第3,4メッセージ（ 鍵計算用のパラメータの交換と鍵計算 ）<br>第5,6メッセージ（ IPsecのピアをはる通信相手（機器）の認証 ）</td>
+</tr>
+<tr>
+<td>Aggressiveモード</td>
+<td>3つのISAKMPメッセージの送受信でフェーズ1を完了させる。Mainモードよりも<br>早くフェーズ1を完了することが可能であるが、SAのネゴシエーションで制限が<br>発生する。しかしこれにより、Mainモードの制限が緩和されることにもなる。</td>
+</tr>
+</tbody>
+</table>
+<p>IKEフェーズ1では、通信相手（IPsec機器）との認証を行うために4つの認証方式があります。</p>
+<table>
+<thead>
+<tr>
+<th>IKE Phase 1の相手認証方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-Shared Key</td>
+<td>IPsecのピアをはる両方の機器であらかじめ同じ鍵（事前共有鍵）を共有<br>しておく方法。この方式では、予め両方の機器で同じ文字列の鍵を設定して<br>おく必要がある。この事前共有鍵はパスフレーズとも呼ばれる。</td>
+</tr>
+<tr>
+<td>デジタル署名</td>
+<td>DSA と RSA の2つの方式があるが、実際に使用されているのは RSA による<br>デジタル署名方式のみ。RSAではハッシュ関数によりデータからダイジェスト<br>を生成して、それを自身の秘密鍵を使用して暗号化したデジタル署名をもとの<br>データと一緒に送信する。受信側は送信側の公開鍵で復号してダイジェストを<br>取り出し、自身で生成したダイジェストと比較することで改ざんを確認できる。</td>
+</tr>
+<tr>
+<td>公開鍵暗号</td>
+<td>もとのデータを暗号化するためには、データの送信者は受信者が公開して<br>いる公開鍵を使用する。一方、受信者は暗号化されたデータを受信者だけが<br>持つ秘密鍵を使用して復号化する。これを利用して通信相手の機器を認証する。</td>
+</tr>
+<tr>
+<td>改良型公開鍵暗号</td>
+<td>公開鍵暗号を改良した方式であり、公開鍵暗号よりも計算量が少ない方式。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/ipsec9a.png"></p>
+<h2 id="ike-2">IKE フェーズ 2</h2>
+<p>IKE フェーズ2では、ネゴシエーションによりIPsec SAに必要な以下のパラメータを決定します。</p>
+<table>
+<thead>
+<tr>
+<th>IKE Phase 2 のパラメータ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セキュリティプロトコル</td>
+<td>IPsecで使用するセキュリティプロトコル（ AH or ESP ）</td>
+</tr>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>IPsecで使用する暗号化方式（ DES or 3DES or AES ）</td>
+</tr>
+<tr>
+<td>認証アルゴリズム</td>
+<td>IPsecで使用する認証方式（ HMAC-MD5 or HMAC-SHA1 ）</td>
+</tr>
+<tr>
+<td>ライフタイム</td>
+<td>IPsec SAのライフタイムとライフタイプ（ 単位：秒など ）</td>
+</tr>
+<tr>
+<td>カプセル化モード</td>
+<td>トンネルモード or トランスポートモード</td>
+</tr>
+<tr>
+<td>DHグループ</td>
+<td>フェーズ2では必須ではない。共通鍵の生成に際してよりセキュアに<br>行うためにPFSと呼ばれる機能を使用する場合のみフェーズ1と同様に<br>ネゴシエーションによりDHグループを決定する必要がある。</td>
+</tr>
+</tbody>
+</table>
+<p>IKE フェーズ2におけるやりとりは、IKE フェーズ1で確立したISAKMP SA上でやりとりされるので、
+IKE自体のやりとりが暗号化されます。IKE フェーズ2では、ISAKMPメッセージの交換手順として、
+Quickモードのみがある。このモードでは計3回のメッセージの送受信によりIPsec SAを確立します。</p>
+<p><img alt="画像" src="../studygif/ipsec9b.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

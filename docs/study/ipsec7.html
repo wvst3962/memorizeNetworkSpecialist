@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPsec - SA ( Security Association ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#sasecurity-association">SA（Security Association）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipsec-sa-security-association">IPsec - SA ( Security Association )</h1>
+<hr>
+<h2 id="sasecurity-association">SA（Security Association）</h2>
+<p>IPsecの構成要素であるAHやESPなどのプロトコルにより、パケットの暗号化や認証などを行えることが
+分かりました。そして、ESPに暗号と認証の両方の機能が備わっていることから、実際のIPsec-VPNでは
+ESPだけを使用するのが主流であることが分かりました。さらに、IPsecの通信モードにはトランスポート
+モードとトンネルモードがあるが、トンネルモードによる通信が主流であることが分かりました。そして、</p>
+<p>次にVPNゲートウェイ間でコネクションを確立する必要があります。このコネクションのことをIPsecでは
+<strong class="memory-answer">SA（セキュリティアソシエーション）</strong>と呼びます。IPsecの全ての通信はこのSAを使用する事になります。
+SAは一方通行のトンネルであるため、パケットを送受信するためには送信用のSA、受信用のSAの合計2つ
+が必要になります。また、SAはIPsecのカプセル化プロトコルに対して独自のものになることから、例えば
+AHのパケットとESPのパケットの両方を利用して相互にIPsec通信する場合、計4つのSAが必要となります。</p>
+<p><img alt="画像" src="../studygif/ipsec7a.png"></p>
+<p>それではSAを詳細に見ていきます。このようにIPsec機器の間には数多くのSAが発生することになりますが
+あるIPsecのパケットがどのSAのものであるのかは、AHやESPパケットフィールドの <strong class="memory-answer">SPI</strong> で判断できます。
+同じパラメータを使用しないとIPsecの通信ができないので、同じパラメータをSPIにより双方で管理します。
+なおVPNのゲートウェイは、SAデータベース(SAD)というローカルDBの中に有効な全てのSAを保存します。</p>
+<p><img alt="画像" src="../studygif/ipsec7b.png"></p>
+<p>SAは概念的にはコネクションですが、実質的にはIPsecのパラメータのセットです。パラメータセットには
+SPI、プロトコル「AH または ESP」、IPsec通信モード「トンネルモード または トランスポートモード」、
+暗号化「DES or 3DES or AES」、その暗号鍵、認証「HMAC-MD5 or SHA1」、認証鍵、シーケンス番号
+カウンター、DSCP値、Path MTU、トンネルエンドポイントのIPアドレス、SAのライフタイムがあります。</p>
+<p>IPsecの通信において、IPsec処理を行うパケットや行わないパケットを取り決める一連のルールのセットの事を <strong class="memory-answer">SPD</strong> と言います。
+このSPD（Security Policy Database）は、CiscoルータのコンフィグにおいてはIPsec処理の対象を指定する <strong class="memory-answer">ACL</strong> を指しています。</p>
+<p>このSAを自動的に生成、管理、更新することを可能にしたのがIKEです。次回はそのIKEについて解説します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>802.11ax - Wi-Fi 6 / Wi-Fi 6E | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211ax">IEEE802.11axとは</a></li>
+<li><a href="#80211ax80211ac">802.11axと802.11acの違い</a></li>
+<li><a href="#ieee80211ax-1024qam">IEEE802.11ax - 変調方式 1024QAM</a></li>
+<li><a href="#ieee80211ax-ofdmaorthogonal-frequency-division-multiple-access">IEEE802.11ax - OFDMA（Orthogonal Frequency Division Multiple Access）</a></li>
+<li><a href="#ieee80211ax-mu-mimo">IEEE802.11ax - アップリンクMU-MIMO</a></li>
+<li><a href="#ieee80211ax-twt">IEEE802.11ax - TWT</a></li>
+<li><a href="#ieee80211ax-wpa3">IEEE802.11ax - WPA3</a></li>
+<li><a href="#ieee80211ax-bss-coloring">IEEE802.11ax - BSS Coloring</a></li>
+<li><a href="#ieee80211ax-">IEEE802.11ax - チャネルボンディング</a></li>
+<li><a href="#ieee80211ax-mimo">IEEE802.11ax - MIMO</a></li>
+<li><a href="#ieee80211ax-mu-mimomimo">IEEE802.11ax- MU-MIMO（マルチユーザMIMO）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="80211ax-wi-fi-6-wi-fi-6e">802.11ax - Wi-Fi 6 / Wi-Fi 6E</h1>
+<hr>
+<h2 id="ieee80211ax">IEEE802.11axとは</h2>
+<p>IEEE802.11axは、理論上<strong class="memory-answer">9.6Gbps</strong>の超高速通信が可能な第6世代<strong class="memory-answer">（Wi-Fi 6</strong>）の最新の無線LAN規格です。
+802.11axでは、スタジアムのような<strong class="memory-answer">無線LAN端末が密集するような場所でもスループット低下を改善</strong>する
+技術が盛り込まれています。また、802.11axでは、混雑した環境でも快適な通信を実現することを目標と
+したこともあり、<strong class="memory-answer">5GHz帯だけでなく2.4GHz帯</strong>を電波に使用することができます。</p>
+<p>無線LAN規格のIEEE802.11axには、Wi-Fi 6の拡張版の認証規格「<strong class="memory-answer">Wi-Fi 6E</strong>」があります。Wi-Fi 6Eでは
+2.4GHz帯/5GHz帯に加えて<strong class="memory-answer">6GHz</strong>帯の周波数を使用できるので、無線LAN通信の混雑や電波干渉の少ない
+快適なWi-Fi通信を実現することができます。Wi-Fi 6とWi-Fi 6Eとの違いは6GHz帯を使用できるかどうか
+であり、理論上の最大通信速度、無線アクセス方式、変調方式など基本的な仕様は同じです。</p>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>Wi-Fiアライアンス名称</th>
+<th>策定時期</th>
+<th>使用する周波数帯</th>
+<th>理論上の最大通信速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE802.11b</td>
+<td>-</td>
+<td>1999年</td>
+<td>2.4GHz</td>
+<td>11Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>-</td>
+<td>1999年</td>
+<td>5GHz</td>
+<td>54Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>-</td>
+<td>2003年</td>
+<td>2.4GHz</td>
+<td>54Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11n</td>
+<td>Wi-Fi 4</td>
+<td>2009年</td>
+<td>2.4GHz / 5GHz</td>
+<td>600Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ac</td>
+<td>Wi-Fi 5</td>
+<td>2013年</td>
+<td>5GHz</td>
+<td>6.9Gbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ax</td>
+<td>Wi-Fi 6</td>
+<td>2019年</td>
+<td>2.4GHz / 5GHz</td>
+<td>9.6Gbps</td>
+</tr>
+<tr>
+<td>IEEE802.11ax</td>
+<td>Wi-Fi 6E</td>
+<td>2021年</td>
+<td>2.4GHz / 5GHz / 6GHz</td>
+<td>9.6Gbps</td>
+</tr>
+</tbody>
+</table>
+<h2 id="80211ax80211ac">802.11axと802.11acの違い</h2>
+<p>802.11axは802.11acの後継であり、802.11axも<strong class="memory-answer">MIMOに対応</strong>しています。MIMOは複数のアンテナを
+使用してデータを同時に伝送させる技術です。802.11acと同様、最大8本のアンテナを同時に使用して
+データを8ストリームで伝送できます。また、<strong class="memory-answer">MU-MIMO</strong>にも対応していますが、802.11acは最大4台の
+無線LAN端末との同時通信が可能でしたが、802.11axでは<strong class="memory-answer">最大8台との同時通信が可能</strong>となりました。
+さらに、変調方式の最大は802.11acでは256QAMでしたが、802.11axでは<strong class="memory-answer">1024QAM</strong>を実現しています。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANの伝送規格</th>
+<th>IEEE802.11ax（Wi-Fi 6）</th>
+<th>IEEE802.11ac（Wi-Fi 5）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大伝送速度</td>
+<td>9.6Gbps</td>
+<td>6.9Gbps</td>
+</tr>
+<tr>
+<td>周波数帯</td>
+<td>2.4GHz / 5GHz</td>
+<td>5GHz</td>
+</tr>
+<tr>
+<td>チャネル幅</td>
+<td>20、40、80、160MHz</td>
+<td>20、40、80、160MHz</td>
+</tr>
+<tr>
+<td>MIMO（最大）</td>
+<td>8 × 8</td>
+<td>8 × 8</td>
+</tr>
+<tr>
+<td>MU-MIMO（最大）</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr>
+<td>サポートするMU-MIMO</td>
+<td>アップリンクとダウンリンク</td>
+<td>ダウンリンク</td>
+</tr>
+<tr>
+<td>無線アクセス方式</td>
+<td>OFDMA</td>
+<td>OFDM</td>
+</tr>
+<tr>
+<td>変調方式（最大）</td>
+<td>1024QAM</td>
+<td>256QAM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ieee80211ax-1024qam">IEEE802.11ax - 変調方式 1024QAM</h2>
+<p>変調はデジタル信号を電波として送信できるように信号を変換することですが、1回の変調（1シンボル）で
+多くの情報量を送信できれば通信速度が速くなります。802.11acの256QAMは8ビット（2の8乗=256）の
+信号を送信可能ですが、802.11axの<strong class="memory-answer">1024QAM</strong>では10ビット（2の10乗=1024）情報を1度に送信可能です。</p>
+<p><img alt="画像" src="../studygif/wireless57a.png"></p>
+<h2 id="ieee80211ax-ofdmaorthogonal-frequency-division-multiple-access">IEEE802.11ax - OFDMA（Orthogonal Frequency Division Multiple Access）</h2>
+<p>802.11acではMU-MIMOにより複数の無線LAN端末との通信を可能にしました。そして、802.11axでも
+MU-MIMOによりそれを実現しています。それに加えて802.11axでは無線アクセス方式に<strong class="memory-answer">OFDMA</strong>を採用
+することで、周波数（チャネル）を分割して複数の無線LAN端末が同時に通信できるようになっています。</p>
+<p>IEEE802.11ac：OFDA（Orthogonal Frequency Division Multiplexing）直交周波数分割多重
+IEEE802.11ax：OFDMA（Orthogonal Frequency Division Multiple Access）直交周波数分割<strong class="memory-answer">多元接続</strong></p>
+<h2 id="ieee80211ax-mu-mimo">IEEE802.11ax - アップリンクMU-MIMO</h2>
+<p>802.11acでは、APから無線LAN端末への通信である「ダウンリンクMU-MIMO」のみのサポートでしたが
+802.11axでは、無線LAN端末からAPへの<strong class="memory-answer">アップリンクMU-MIMOもサポート</strong>しています。</p>
+<h2 id="ieee80211ax-twt">IEEE802.11ax - TWT</h2>
+<p>802.11axでは<strong class="memory-answer">TWT</strong>（Target Wake Time）をサポートしています。TWTは<strong class="memory-answer">802.11ah</strong>で定義されている
+<strong class="memory-answer">省電力機能</strong>です。アクセスポイントと無線LAN端末の両方がTWTに対応している場合、無線LAN端末が
+自身に必要な時間だけWi-Fi通信を行って、残りはスリープ状態となり電力消費を抑えることができます。</p>
+<p>TWTにより、APと無線LAN端末が同期してスケジュール化して、無線LAN端末ごとに起動タイミングを
+ずらすことができて、無線LAN端末の省電力化を実現しています。</p>
+<p><img alt="画像" src="../studygif/wireless57b.png"></p>
+<h2 id="ieee80211ax-wpa3">IEEE802.11ax - WPA3</h2>
+<p>802.11axでは<strong class="memory-answer">WPA3</strong>をサポートしています。WPA3はWi-Fiアライアンスが2018年6月に発表した最新の
+<strong class="memory-answer">セキュリティ規格</strong>です。WPA3のWPA3-Personalでは、PSKよりもセキュアなSAEにより保護されます。
+WPA3では、総当たり攻撃や辞書攻撃による保護、WPA3-Enterpriseで192ビット暗号化を採用するなど
+WPAやWPA2に比べて、通信の秘匿性がより強化されることになります。</p>
+<h2 id="ieee80211ax-bss-coloring">IEEE802.11ax - BSS Coloring</h2>
+<p>802.11axでは<strong class="memory-answer">BSS Coloring</strong>をサポートしています。BSSカラーやBSSカラーリングと呼ばれています。
+BSSカラーリングは、物理層のフレームにカラーコードと呼ばれる識別子を持たせることで、アクセス
+ポイントが高密度に配置された環境でもチャネル干渉による影響を最小限にし、通信のキャパシティを
+広げる機能のことです。</p>
+<p><img alt="画像" src="../studygif/wireless57c.png"></p>
+<h2 id="ieee80211ax-">IEEE802.11ax - チャネルボンディング</h2>
+<p>チャネルボンディングは、Wi-Fiの周波数帯域で隣り合う2つのチャネルを束ねて通信する技術のことです。
+802.11axでは802.11ac同様に最大8チャネル（最大160MHz）を束ねることができます。8チャネル分を
+束ねて<strong class="memory-answer">最大160MHz</strong>として通信する場合は、1つのチャネルに比べて伝送速度は8倍となります。</p>
+<p><img alt="画像" src="../studygif/wireless57d.png"></p>
+<h2 id="ieee80211ax-mimo">IEEE802.11ax - MIMO</h2>
+<p>MIMO（Multiple Input Multiple Output）とは、複数のアンテナを使用してデータを同時伝送することで
+無線通信を高速化させる技術です。例えば、送信機器、受信機器ともに２つのアンテナがあるとします。</p>
+<p>下図では送信機器でデータを2分割して、2つのアンテナでその分割データを送信し、受信機器はその分割
+データを2つのアンテナで受信して元のデータに復元します。このように複数のアンテナを使用することで
+生じる複数の経路を1つの伝送路と見なして、データを送受信することで高速化を実現するのがMIMOです。</p>
+<p><img alt="画像" src="../studygif/wireless57e.png"></p>
+<p>複数のアンテナを1つの伝送路として使用するMIMOでは、当然アンテナ数が多いほど速度が速くなります。
+IEEE802.11nでは最大で4本（ 送信4本、受信4本 ）、IEEE802.11acでは最大8本（ 送信8本、受信8本 ）
+IEEE802.11axでは最大8本（ 送信8本、受信8本 ）使用することが可能です。
+※　アンテナ送信8本、アンテナ受信8本は 8×8 と表します。</p>
+<h2 id="ieee80211ax-mu-mimomimo">IEEE802.11ax- MU-MIMO（マルチユーザMIMO）</h2>
+<p>802.11a/b/g/nの従来規格では、無線LAN端末とアクセスポイントが通信するその瞬間（まさに一瞬）は
+無線LAN端末とAPは1台ずつしか通信できませんでしたが、802.11acでは、最大4台の無線LAN端末と同時
+通信できるようになりました。そして、802.11axでは<strong class="memory-answer">最大8台</strong>の無線LAN端末と同時通信が可能です。</p>
+<p><img alt="画像" src="../studygif/wireless57f.png"></p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study11.html">無線LAN（Wi-Fi）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

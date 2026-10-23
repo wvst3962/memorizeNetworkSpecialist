@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Internet - FTTH | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#-ftth">インターネット接続 - FTTHとは</a></li>
+<li><a href="#-ftth_1">インターネット接続 - FTTHの接続形態</a></li>
+<li><a href="#-pos">インターネット接続 - POSとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="internet-ftth">Internet - FTTH</h1>
+<hr>
+<h2 id="-ftth">インターネット接続 - FTTHとは</h2>
+<p>FTTH（Fiber To The Home）は、通信設備の収容局からユーザ宅までの通信伝送路を<strong class="memory-answer">光ファイバ</strong>として
+直接引き込む高速なブローバンドアクセス回線のシステムです。NTT等の収容局から各加入者のユーザ宅
+までのラストワンマイルを光ファイバで構築するので、理論上 100Mbps～1Gbps の常時接続サービスを
+実現することができます。2001年からBフレッツという名称において FTTH サービスが開始されています。</p>
+<p>加入者すべてに各ユーザ宅まで光ファイバへ移行するためには莫大なコストが必要なので、実際のところ
+地方においてはまだまだ移行できていない状態です。NTTではこのラストワンマイルにおける光ファイバ
+の移行よりも共用回線部分の光ファイバへの移行を先に完了させる計画にあります。この共用回線部分の
+光ファイバ化を<strong class="memory-answer">FTTC</strong>（Fiber To The Cabinet）といいます。また、商用ビルや高層マンションの集合施設
+ではFTTHが実現されているケースが多く、FTTHと区別して<strong class="memory-answer">FTTB</strong>（Fiber To The Building）と言います。</p>
+<h2 id="-ftth_1">インターネット接続 - FTTHの接続形態</h2>
+<p>NTTの収容局から各ユーザ宅までのアクセス網のネットワーク構成には専有型と共有型の2種類があり
+専有型には<strong class="memory-answer">SS方式</strong>という方式があり、共有型には、<strong class="memory-answer">ADS方式</strong>と<strong class="memory-answer">PDS方式</strong>という2つの方式があります。</p>
+<table>
+<thead>
+<tr>
+<th>接続形態</th>
+<th>接続方式</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>専有型</td>
+<td>SS方式</td>
+<td>SS(Single Star)方式。収容局と加入者宅を1対1で接続する方式。通信の伝送路を加入者ごと<br>に専有することができるが、加入者ごとに光ファイバーが必要なため全体のコストが高くなる。</td>
+</tr>
+<tr>
+<td>共有型</td>
+<td>ADS方式<br>( AON )</td>
+<td>ADS(Active Double Star)方式。収容局と加入者宅の間で<strong class="memory-answer">多重化装置</strong>を使用することにより<br>複数の加入者の信号を多重化して１対Nで接続する方式。多重化装置から加入者の宅内の装置<br>まで既存のメタルケーブルを利用できるメリットがある。一方で、多重化装置に給電が必要<br>である点や多重化装置の設置場所に制約があるデメリットがある。あまり使用されない方式。</td>
+</tr>
+<tr>
+<td>共有型</td>
+<td>PDS方式<br>( PON )</td>
+<td>PDS(Passive Double Star)方式。収容局と加入者宅の間で<strong class="memory-answer">光スプリッタ</strong>を使用することで<br>１対Nで接続する方式。ある程度の加入者が集まらないと、SS方式よりコストが高くなる方式<br>になるが、光スプリッタによる分岐は設備自体が安価で給電等も不要で設置しやすいメリット<br>がある。WDMを用いることで容易に放送型サービスを追加できる。最も使用されている方式。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wan8a.png"></p>
+<h2 id="-pos">インターネット接続 - POSとは</h2>
+<p>NTTのいう<strong class="memory-answer">ADS</strong>という方式は一般的には<strong class="memory-answer">AON</strong>（Active Optical Network）と呼ばれている方式です。また
+NTTのいう<strong class="memory-answer">PDS</strong>という方式は一般的には<strong class="memory-answer">PON</strong>（Passive Optical Network）と呼ばれている方式のことです。
+以下では、最も普及しているPONについて詳しく解説します。PONの構成（PDSの構成）は、物理的には
+収容局に設置するOLT（Optical Line Terminal）、加入者宅内に設置するONU（Optical Network Unit）、
+光スプリッタ、光ファイバから構成されます。各役割は以下の通りです。また、下図はPDS方式の詳細です。</p>
+<table>
+<thead>
+<tr>
+<th>PONの構成要素</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OLT</td>
+<td>収容局に設置される終端装置。OLTは、ONUから受信した光信号を電気信号に変換して<br>インターネット通信を行うために上位となる通信機器への転送、また、インターネット側<br>の通信機器から受信した電気信号を光信号に変換してONUへ転送する役割を担っている。</td>
+</tr>
+<tr>
+<td>光スプリッタ</td>
+<td>OLTとONUの間に光信号を合分波する光スプリットを設置することで、１つのOLTに複数<br>のONUが接続される形態を実現することができる。スプリッタなので給電の必要はなし。</td>
+</tr>
+<tr>
+<td>ONU</td>
+<td>ONUは、加入者宅のPCやルータから受信した電気信号を光信号に変換してOLTへ転送。<br>また、OLTから受信した光信号を電気信号に変換してPCやルータにその電気信号を転送。</td>
+</tr>
+<tr>
+<td>光ファイバ</td>
+<td>光信号を伝送する。FTTHでは、伝送メディアに光ファイバーを採用することによって、<br>ADSLと比べてノイズの影響が受けにくく、距離に影響を受けにくいことを実現している。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wan8b.png"></p>
+<p>PONのシステムを実現するためには<strong class="memory-answer">TDM</strong>、<strong class="memory-answer">TDMA</strong>、<strong class="memory-answer">WDM</strong>という3つの技術を実装させる必要があります。</p>
+<table>
+<thead>
+<tr>
+<th>PONを実現する3つの技術</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TDM<br>（Time Division Multiplexing）</td>
+<td>時分割多重化。OLT→ONU方向の下りの通信方向において、使用される技術。<br>TDMにより複数の加入者のデータ（信号）を時間的に重ならないように多重化<br>して伝送できる。なお、下りの信号では同一の光スプリッタに接続する全ての<br>ONUで同一の信号を受信することから各ONUは自身のデータだけを抽出する。</td>
+</tr>
+<tr>
+<td>TDMA<br>（Time Division Multiple Access）</td>
+<td>時分割多元接続。ONU → OLT方向の上りの通信方向で使用される技術。<br>上りの信号は複数のONUからの信号を光スプリッタにより合波されることになる<br>ので伝送路上で衝突が起きないようTDMAにより各ONUのデータ送信タイミングと<br>送信量を制御することで伝送路上衝突することなく多重化されるようにしている。</td>
+</tr>
+<tr>
+<td>WDM<br>（Wavelength Division Multiplexing）</td>
+<td>波長分割多重。一心の光ファイバで下りと上りの信号を同時に送受信できるよう<br>にするために、WDMでは、上り方向と下り方向の通信で別々の波長を割り当てる。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/wan8c.png"></p>
+<p>この1本の光ファイバを途中で分岐させて複数
+の加入者宅に引き込むPONシステムでは最大で
+32の分岐としています（加入者は32までです）</p>
+<p>1本の光ファイバを分岐して複数の加入者にて
+共有するPONの技術にギガビットイーサネット
+の技術を取り入れた技術は<strong class="memory-answer">GE-PON</strong>と言います。
+GE-PONでは、加入者宅へのアクセス回線として
+上り下りともに1Gbpsの通信速度を実現します。
+※この1Gbpsの通信速度は、理論上の最大速度。</p>
+<p>GE-PONは、IEEE802.3ahとして2004年6月に
+規格されています。例えばフレッツ光ネクスト
+のサービスなどではGE-PONを採用しています。</p>
+<hr>
+<p>← <a href="wan7.html">ADSLインターネット、CATVインターネット</a>　<a href="wan9.html">インターネット接続 - PPPoEとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

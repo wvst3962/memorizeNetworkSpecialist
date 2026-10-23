@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>RSTP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#rstp-rapid-spanning-tree-protocol">RSTP（ Rapid Spanning Tree Protocol ）とは</a></li>
+<li><a href="#rstp-">RSTP - 各ポートの役割</a></li>
+<li><a href="#rstp-_1">RSTP - スパニングツリープロトコルのポート状態</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="rstp">RSTP</h1>
+<hr>
+<h2 id="rstp-rapid-spanning-tree-protocol">RSTP（ Rapid Spanning Tree Protocol ）とは</h2>
+<p>RSTPは、STPを改良して<strong class="memory-answer">高速</strong>（Rapid）収束を実現したプロトコル。STPはIEEE802.1Dで標準化されて
+RSTPはIEEE802.1Wで標準化されたプロトコルです。STPと同様に、RSTPではツリーを作成するために
+ルートブリッジの選出 ⇒ ルートポートの選出 ⇒ 指定ポートの選出を、同じアルゴリズムで行いますが
+RSTPでは非指定ポートは存在せずに<strong class="memory-answer">代替ポート</strong>と<strong class="memory-answer">バックアップポート</strong>があります。特徴は以下のとおり。</p>
+<table>
+<thead>
+<tr>
+<th>項番</th>
+<th>RSTPの特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>トポロジーに変更があった場合、STPは最大50秒間で収束するのに対して、RSTPでは<strong class="memory-answer">数秒以内</strong>で収束。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ツリーは「ルートブリッジ選出 ⇒ ルートポート選出 ⇒ 指定ポート選出 ⇒ 代替ポート選出」の順で形成。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ポートの役割には「ルートポート、指定ポート、代替ポート、バックアップポート」の4つがある。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ポートの状態には「<strong class="memory-answer">ディスカーディング</strong>、<strong class="memory-answer">ラーニング</strong>、<strong class="memory-answer">フォワーディング</strong>」の3つのステータスがある。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>RSTPは、<strong class="memory-answer">STPと下位互換性があり</strong>、RSTPモードのスイッチとSTPモードのスイッチを相互接続可能。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>RSTPは、<strong class="memory-answer">プロポーザル</strong>（提案）と<strong class="memory-answer">アグリーメント</strong>（合意）メッセージをBPDUに含めてネゴシエートする</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rstp-">RSTP - 各ポートの役割</h2>
+<p>RSTPにはルートポート、指定ポート、代替ポート、バックアップポートの4種類があります。以下の説明で
+ルートポートと指定ポートはSTPと同じ内容です。代替ポートとバックアップポートは新しい技術内容です。</p>
+<table>
+<thead>
+<tr>
+<th>ポートの種類</th>
+<th>ステータス</th>
+<th>説明 ( RSTPでは常に小さい値が強い )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ルートポート</td>
+<td>Forwarding</td>
+<td>RP（Root Port)。<strong class="memory-answer">非ルートブリッジごとに1ポート</strong>選出される、ルートブリッジに最も近いポート<br>?@ 各ポートのルートパスコスト　?A 送信元ブリッジID　?B 送信元ポートID の順で比較。</td>
+</tr>
+<tr>
+<td>指定ポート</td>
+<td>Forwarding</td>
+<td>DP (Designated Port)。<strong class="memory-answer">各リンクごとに1ポート</strong>選出される、ルートブリッジに最も近いポート。<br>?@ 各スイッチのRPのルートパスコスト　?A 送信元ブリッジID　?B 送信元ポートID の順で比較。</td>
+</tr>
+<tr>
+<td>代替ポート</td>
+<td>Discarding</td>
+<td>AP (Alternate Port)。<strong class="memory-answer">ルートポートのバックアップ用のポート</strong>。ルートポートのリンクダウン時に<br>即座にルートポートの役割を引き継ぎフォワーディングになる。CiscoのUplinkFastと同等機能。<br>代替ポートはルートポートと指定ポートに選出されなかったポートなのでSTPでいう非指定ポート。</td>
+</tr>
+<tr>
+<td>バックアップ<br>ポート</td>
+<td>Discarding</td>
+<td>BP (Backup Port)。<strong class="memory-answer">指定ポートのバックアップとなるポート</strong>。指定ポートがダウンした際、即座に<br>指定ポートの役割を引き継ぎ、フォワーディングになる。このBPはリピータハブ等の共有メディア<br>とスイッチとが接続する場合に発生するポートです。詳細は下図を参照。どちらのポートがDPで<br>BPになるかは送信元ポートID (ポートプライオリティ+ポート番号)で比較。小さい方がDPになる。</td>
+</tr>
+</tbody>
+</table>
+<p>RSTPの代替ポート（AP）はSTPの非指定ポート（NDP）と同じフローで選出されます。STPと動作も同じ
+ですが、STPのように収束時間が長くなく、UplinkFastの設定がなしでも数秒以内に切り替りが完了します。</p>
+<p><img alt="画像" src="../studygif/stpz8a.png"></p>
+<p>RSTPのバックアップポート（BP）はSTPのポートの役割の概念にはないポートですが、代替ポート（AP）と
+同じようにループを回避するためにブロッキングされるポートです。このバックアップポートは下図のように
+リピータハブ等の共有メディアとスイッチとの接続時に発生します。どちらのポートがDP、BPになるのかは
+送信元ポートID（ポートプライオリティ+ポート番号）が小さい方がDPになり残りのポートがBPとなります。</p>
+<p><img alt="画像" src="../studygif/stpz8b.png"></p>
+<p>※　Catalystスイッチの場合、Catalystスイッチと接続するリピータハブの機種によっては高速収束しない場合があります。</p>
+<h2 id="rstp-_1">RSTP - スパニングツリープロトコルのポート状態</h2>
+<p>RSTPでは、STPのポート状態の「 <strong class="memory-answer">ディセーブル</strong>、<strong class="memory-answer">ブロッキング</strong>、<strong class="memory-answer">リスニング</strong> 」を<strong class="memory-answer">ディスカーディング</strong>に
+統合しています。RSTPのラーニングとフォワーディングはSTPと同じ内容で、動作も全く同じとなります。</p>
+<table>
+<thead>
+<tr>
+<th>STPのポート状態</th>
+<th>RSTPのポート状態</th>
+<th>説明</th>
+<th>MACアドレスの学習</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ディセーブル</td>
+<td>ディスカーディング</td>
+<td>・　フレームを転送しない。<br>・　送信元MACアドレスを学習をしない。<br>・　BPDUを受信する。</td>
+<td>×</td>
+</tr>
+<tr>
+<td>ブロッキング</td>
+<td>ディスカーディング</td>
+<td>・　フレームを転送しない。<br>・　送信元MACアドレスを学習をしない。<br>・　BPDUを受信する。</td>
+<td>×</td>
+</tr>
+<tr>
+<td>リスニング</td>
+<td>ディスカーディング</td>
+<td>・　フレームを転送しない。<br>・　送信元MACアドレスを学習をしない。<br>・　BPDUを受信する。</td>
+<td>×</td>
+</tr>
+<tr>
+<td>ラーニング</td>
+<td>ラーニング</td>
+<td>・　フレームを転送しない。<br>・　送信元MACアドレスを学習する。<br>・　BPDUを送受信し合う。</td>
+<td>○</td>
+</tr>
+<tr>
+<td>フォワーディング</td>
+<td>フォワーディング</td>
+<td>・　フレームを転送する。<br>・　送信元MACアドレスを学習する。<br>・　BPDUを送受信し合う。</td>
+<td>○</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/stpz9.html">RSTPの動作</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

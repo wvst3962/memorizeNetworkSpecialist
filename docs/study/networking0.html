@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Network Storage | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">ストレージとは</a></li>
+<li><a href="#das-direct-attached-storage">DAS ( Direct Attached Storage )</a></li>
+<li><a href="#nas-network-attached-storage">NAS ( Network Attached Storage )</a></li>
+<li><a href="#san-storage-area-network">SAN ( Storage Area Network )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="network-storage">Network Storage</h1>
+<hr>
+<h2 id="_1">ストレージとは</h2>
+<p>ストレージとは、デジタル情報を記憶/保存する装置のことで、ハードディスク、MO、CD-R、磁気テープ
+などが該当します。ストレージの接続形態にはDAS、NAS、SANの大きく3種類があります。ストレージを
+サーバなどに直接接続する形態は<strong class="memory-answer">DAS</strong>（Direct Attached Storage）、ストレージをネットワーク上に接続
+する形態には<strong class="memory-answer">NAS</strong>（Network Attached Storage）と<strong class="memory-answer">SAN</strong>（Storage Area Network）の2種類があります。
+※　NAS や SAN の接続形態によって利用するストレージのことを、<strong class="memory-answer">ネットワークストレージ</strong>といいます。</p>
+<h2 id="das-direct-attached-storage">DAS ( Direct Attached Storage )</h2>
+<p>DASは、1台のサーバなどに直接接続する形態のことです。または、サーバに直接接続するストレージの
+そのものを指します。ストレージの接続には<strong class="memory-answer">ATA</strong>、<strong class="memory-answer">SATA</strong>、<strong class="memory-answer">SCSI</strong>、<strong class="memory-answer">SAS</strong>がプロトコルとして用いられます。
+DASの構成では、接続に専門の知識が必要なく増設も容易ですが、複数のサーバでストレージを共有する
+ことができず、例えば、余っているストレージの領域を別のサーバで利用できないデメリットがあります。</p>
+<p><img alt="画像" src="../studygif/networking0a.png"></p>
+<h2 id="nas-network-attached-storage">NAS ( Network Attached Storage )</h2>
+<p>NASは、ネットワークを介して接続する形態のことです。または、ネットワークを介し利用するストレージ
+そのもの（ネットワークストレージ）を指します。NASは「ハードディスク、LANインターフェース、簡易
+OS」などで構成される<strong class="memory-answer">ファイルサーバ専用機</strong>と言えます。NASは、LAN接続型ハードディスクとも呼ばれ
+ています。NASは、Windows、MAC、Linuxなどの各OSのファイル共有プロトコルをサポートしています。
+※　NASは外付け型のHDDとは異なります。外付け型HDDの場合、LANではなくUSBやIEEE1394経由でデータをやり取りします。</p>
+<p><img alt="画像" src="../studygif/networking0b.png"></p>
+<p>※　当方も家庭内LANにNASを導入しています。最近のNAS（<a href="https://www.amazon.co.jp/gp/search?ie=UTF8&amp;camp=247&amp;creative=1211&amp;index=aps&amp;keywords=LAN%E6%8E%A5%E7%B6%9A%E5%9E%8B%E3%83%8F%E3%83%BC%E3%83%89%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF&amp;linkCode=ur2&amp;tag=internetworke-22">LAN接続型ハードディスク</a><img alt="" src="data:,">）は高機能・低価格で非常に便利です。</p>
+<h2 id="san-storage-area-network">SAN ( Storage Area Network )</h2>
+<p>SANは、ストレージとサーバ間をFC（ファイバチャネル）で接続したストレージ専用のネットワークのこと。
+ファイバチャネルは、サーバなどのコンピュータと周辺機器を接続し、高速伝送を可能にする方式のことです。
+ファイバチャネルに光ファイバーを使用して、LANとは独立した<strong class="memory-answer">ストレージ専用のネットワーク</strong>を構築します。</p>
+<p>NASでは、CIFS、NFS、AFP等のファイル共有プロトコルは問題なく使用できますが、一部のデータベースの
+アプリケーションには適していません。一方、SANでは幅広いアプリケーションに対応しています。SANでは
+DASやNASに比べて導入コストが高いこと、導入に際して高度な専門知識が必要となるデメリットがあります。
+※ NASではファイルシステムを介しストレージ装置を利用します。SANではハードディスク等のストレージ装置そのものを共有します。</p>
+<p><img alt="画像" src="../studygif/networking0c.png"></p>
+<p>iSCSI などを使用した IP-SAN の場合、ネットワークインフラを「FCスイッチ ではなくイーサネットスイッチ」で構成が可能です。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

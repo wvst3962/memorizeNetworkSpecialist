@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>HTTP/2 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#http2hypertext-transfer-protocol-version-2">HTTP/2（Hypertext Transfer Protocol version 2）とは</a></li>
+<li><a href="#http">HTTPのバージョン</a></li>
+<li><a href="#http2-">HTTP/2 - ストリーム</a></li>
+<li><a href="#http2-_1">HTTP/2 - フレーム</a></li>
+<li><a href="#http2-_2">HTTP/2 - ネゴシエーション（通信の開始）</a></li>
+<li><a href="#http2-_3">HTTP/2 - サーバプッシュ</a></li>
+<li><a href="#http2-_4">HTTP/2 - 優先度</a></li>
+<li><a href="#http2-_5">HTTP/2 - ヘッダ圧縮</a></li>
+<li><a href="#http2-tls">HTTP/2 - TLS利用時の順守事項</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="http2">HTTP/2</h1>
+<hr>
+<h2 id="http2hypertext-transfer-protocol-version-2">HTTP/2（Hypertext Transfer Protocol version 2）とは</h2>
+<p>HTTP/2は、WebサーバとWebクライアントがデータを送受信するために使用する<strong class="memory-answer">HTTPのバージョン2</strong>です。
+HTTPは、1997年にバージョン1.1が導入されてから長年にわたり使用され続けていますが、速度が向上する
+HTTP/2が2015年に標準化されてからは、HTTP/2が広く普及しつつあります。</p>
+<p>2010年代からWebページのコンテンツが複雑化して、HTTP1.1を使用した通信ではWebページの表示速度の
+遅延が発生するケースが出てきました。そこで、Google社がHTTPメッセージをより効率よく転送する<strong class="memory-answer">SPDY</strong>
+というプロトコルを開発し、自社のプロダクト群へ展開して改善の効果を確認していましたが、その実績から
+SPDYはHTTP/2の標準化の開始点として選定され、2015年11月にHTTP/2の標準化に至ることになりました。
+※　HTTP/2が標準化されたことで、Google社も自社のプロダクト群に対して、SPDYではなくHTTP/2を使用するようになりました。</p>
+<h2 id="http">HTTPのバージョン</h2>
+<p>HTTPのバージョンには3つのバージョンがありますが、HTTP/2とHTTP/3ともに広く普及しつつあります。</p>
+<table>
+<thead>
+<tr>
+<th>HTTPバージョン</th>
+<th>派生元</th>
+<th>RFC</th>
+<th>導入年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP/1.1（ HTTPバージョン1.1 ）</td>
+<td>-</td>
+<td>RFC 9112</td>
+<td>1997年</td>
+</tr>
+<tr>
+<td>HTTP/2（ HTTPバージョン2 ）</td>
+<td>SPDY</td>
+<td>RFC 9113</td>
+<td>2015年</td>
+</tr>
+<tr>
+<td>HTTP/3（ HTTPバージョン3 ）</td>
+<td>QUIC</td>
+<td>RFC 9114</td>
+<td>2022年</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http2-">HTTP/2 - ストリーム</h2>
+<p>HTTP/1.1では、HTTPリクエストとレスポンスをやり取りするごとにTCPコネクションを切断していますが
+HTTP/2では、1つのTCPコネクション上で複数のHTTPリクエストとHTTPレスポンスを多重化することで、
+<strong class="memory-answer">複数のHTTPメッセージを並列的にやりとり</strong>できます。</p>
+<p>HTTP/2のTCPコネクション上でのHTTPリクエストとHTTPレスポンスのやりとりを管理するための概念を
+<strong class="memory-answer">ストリーム</strong>と言います。下図のとおり、1対のHTTPリクエストとレスポンスが1つのストリームに属します。
+一度使用したストリームは再利用されることなくて、HTTPレスポンスを受信すると使用されなくなります。</p>
+<p><img alt="画像" src="../studygif/tcpip16.7a.png"></p>
+<p>ストリームには<strong class="memory-answer">ストリームID</strong>と呼ばれる一意のIDがあります。Webクライアントから開始したストリームは
+奇数のストリームIDを使用して、Webサーバから開始されるストリームは偶数のストリームIDを使用します。
+コネクション自体を意味する制御用の <strong class="memory-answer">ストリームID 0</strong> は、HTTPメッセージのやりとりでは使用されません。</p>
+<h2 id="http2-_1">HTTP/2 - フレーム</h2>
+<p>HTTP/2では、この仮想的な通信単位であるストリームごとに<strong class="memory-answer">フレーム</strong>というメッセージをやりとりします。</p>
+<p><img alt="画像" src="../studygif/tcpip16.7b.png"></p>
+<p>HTTP/1.1では、テキスト形式のメッセージをやりとりしますが、<strong class="memory-answer">HTTP/2ではバイナリ形式のメッセージ</strong>を
+やりとりします。HTTP/2でやりとりされるフレームは使用用途ごとに10種類のフレームタイプがあります。
+HTTP/2ではHTTPリクエストとレスポンスはHEADERフレームとDATAクレームを組み合わせて表現します。</p>
+<table>
+<thead>
+<tr>
+<th>タイプ値</th>
+<th>フレーム名</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>DATA</td>
+<td>HTTPリクエストやHTTPレスポンスのデータであるHTTPボディを送信</td>
+</tr>
+<tr>
+<td>1</td>
+<td>HEADERS</td>
+<td>HTTPリクエストヘッダやHTTPレスポンスヘッダのヘッダを送信</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PRIORITY</td>
+<td>ストリームの優先度を変更（クライアントのみ送信可能）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RST_STREAM</td>
+<td>HTTPリクエストのキャンセルやエラーが発生した場合にストリームを強制終了</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SETTINGS</td>
+<td>コネクションの接続設定の変更</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PUSH_PROMISE</td>
+<td>サーバプッシュに用いるストリームを予約（サーバのみ送信可能）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>PING</td>
+<td>アイドル状態のコネクションが維持できているのかを確認</td>
+</tr>
+<tr>
+<td>7</td>
+<td>GOAWAY</td>
+<td>コネクションの切断処理の開始</td>
+</tr>
+<tr>
+<td>8</td>
+<td>WINDOW_UPDATE</td>
+<td>フロー制御のためにウィンドウサイズを変更</td>
+</tr>
+<tr>
+<td>9</td>
+<td>CONTINUATION</td>
+<td>1フレームで送信できないサイズのHEADERS/PUSH_PROMISEフレームの継続送信</td>
+</tr>
+</tbody>
+</table>
+<p>HTTPリクエスト/レスポンスの本体はDATAにあり、リクエスト/レスポンスヘッダーはHEADERSフレームに入れてやり取りします。</p>
+<p><img alt="画像" src="../studygif/tcpip16.7c.png"></p>
+<p>ストリームで送受信される<strong class="memory-answer">全てのフレームはどのストリームのデータなのかを示すストリームIDを持ちます</strong>。
+HTTPリクエストとHTTPレスポンスはストリーム上で多重化されて送信されますが、一度に並べて送信する
+ことはできず、実際は順不同にフレームとして送信されます。しかし、すべてのフレームはストリームIDを
+持つため、Webクライアントとサーバはどのストリームに関するフレームのやりとりなのかを認識できます。</p>
+<p><img alt="画像" src="../studygif/tcpip16.7d.png"></p>
+<h2 id="http2-_2">HTTP/2 - ネゴシエーション（通信の開始）</h2>
+<p>HTTP/2では、バイナリ形式のメッセージ（フレーム）を送信するので<strong class="memory-answer">HTTP/1.1とは互換性がありません</strong>。
+しかし、HTTP/1.1とHTTP/2はともにTCPポート番号80、443を使用して通信するため、HTTP/2通信を
+開始する際に通信先とHTTP/2を使用することを合意する必要があります。httpの場合とhttpsの場合とで
+使用できる通信開始方法が異なります。</p>
+<table>
+<thead>
+<tr>
+<th>使用プロトコル</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>http</td>
+<td>HTTP/1.1で通信を開始し、UpgradeヘッダーによりそのコネクションをHTTP/2通信にアップグレード。</td>
+</tr>
+<tr>
+<td>https</td>
+<td>TLS拡張機能のALPNを使用。TLSハンドシェイク時に内部プロトコルを交渉する機能を使用する。</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="画像" src="../studygif/tcpip16.7e.png"></p>
+<h2 id="http2-_3">HTTP/2 - サーバプッシュ</h2>
+<p>HTTP/1.1では、クライアントからのHTTPリクエストを受信してからサーバがHTTPレスポンスを返します。
+HTTP/2には<strong class="memory-answer">サーバプッシュ</strong>という機能があり、クライアントがリクエストしたページに紐付くコンテンツを
+サーバがHTTPリクエストを受信していない段階でも、先行して送信できるので、待ち時間が少なくなります。</p>
+<p><img alt="画像" src="../studygif/tcpip16.7f.png"></p>
+<p>サーバプッシュは、HTTPリクエストを受信してからHTTPレスポンスを返す間にサーバが<strong class="memory-answer">PUSH_PROMISE</strong>の
+フレームを送信することで開始できます。PUSH_PROMISEにはサーバプッシュで使用するストリームの予約、
+サーバプッシュするHTTPレスポンスがどのような内容であるのかが記述されています。サーバから先行して
+送信されたHTTPレスポンス（プッシュされたリソース）をクライアントはキャッシュします。クライアントは
+HTTPリクエストの送信前に確認して、必要なデータがキャッシュされている場合はキャッシュを使用します。</p>
+<h2 id="http2-_4">HTTP/2 - 優先度</h2>
+<p>HTTP/2では、<strong class="memory-answer">ストリームごとに優先度を設定することが可能</strong>であり、例えばコンテンツの表示にあたり必須
+となるデータを優先して送信するような処理も可能であり、画像よりもJavaScriptやCSSファイルを優先して
+Webブラウザに送信できるので、Webページの表示が早くなります。</p>
+<p>WebクライアントはHTTPリクエストに優先度を指定できます。例えばPRIORITYフレームで優先度を変更する
+ことが可能であり、優先度の指定はStream Dependency、Weightというパラメータを用います。HEADERS
+フレームに追加されるのStream DependencyとWeightはPRIORIYフラグが設定された場合にのみ存在します。</p>
+<table>
+<thead>
+<tr>
+<th>HEADERSフレーム（追加フィールド）</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stream Dependency</td>
+<td>31ビットのストリームID</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>ストリーム優先度の重みを示す8ビットの符号なし整数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="http2-_5">HTTP/2 - ヘッダ圧縮</h2>
+<p>HTTP/1.1では、HTTPリクエストの度にUser-Agent、Webブラウザ、Accept-Encodingなどのヘッダ情報を
+送信していました。Webクライアントが同じWebサーバに画像などの多くのリソースを要求した場合は同様の
+HTTPリクエストヘッダが大量に送られることになります。</p>
+<p>HTTP/2では、RFC7541で標準化された<strong class="memory-answer">HPACK</strong>というヘッダ圧縮方式を使用しており、一度送信したHTTP
+ヘッダをそのまま再送信することなく、ハフマン符号を用いることで文字列トータルのデータ量を削減したり
+インデックステーブルを使用し、インデックス番号を指定することでそのヘッダを表現できるようになるので
+HTTP/2ではHTTPヘッダは圧縮されることになり、Webサーバでの処理やトラフィック軽減につながります。</p>
+<h2 id="http2-tls">HTTP/2 - TLS利用時の順守事項</h2>
+<p>HTTP/2でTLSを使用する際は以下のルールを順守する必要があり、順守されない場合はHTTP/2レイヤーで
+コネクションエラーとして切断されます。</p>
+<p>・　TLS上のHTTP/2に対して、<strong class="memory-answer">TLS 1.2</strong>（TLSバージョン1.2）以上を使用する必要がある。
+・　プロトコルの選択に<strong class="memory-answer">ALPN</strong>（RFC7301）を使用する。
+・　TLSの実装は、TLSの<strong class="memory-answer">SNI</strong>（Server Name Indication）拡張に対応する必要がある。
+・　TLS1.2上のHTTP/2のデプロイメントは、<strong class="memory-answer">圧縮（TLS Compression）を無効</strong>にする必要がある。
+・　TLS1.2上のHTTP/2のデプロイメントは、<strong class="memory-answer">再ネゴシエーションを無効</strong>にする必要がある。
+・　TLS1.2上のHTTP/2のデプロイメントは、<strong class="memory-answer">仕様で定義された暗号スイートを使用</strong>する必要がある。
+・　鍵長はDHEの暗号スイートには<strong class="memory-answer">2048bit以上</strong>、ECDHEの暗号スイートには<strong class="memory-answer">224bit以上</strong>のサポート必須。</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>BGP ( Border Gateway Protocol ) | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#bgp-egp">BGP - EGPの一種</a></li>
+<li><a href="#bgp-as">BGP - AS番号</a></li>
+<li><a href="#bgp-">BGP - パスベクタ型ルーティングプロトコル</a></li>
+<li><a href="#bgp-_1">BGP - 特徴</a></li>
+<li><a href="#bgp-4as-4-byte-as-number">BGP - 4バイトAS番号（ 4 byte AS number ）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="bgp-border-gateway-protocol">BGP ( Border Gateway Protocol )</h1>
+<hr>
+<h2 id="bgp-egp">BGP - EGPの一種</h2>
+<p>ルーティングプロトコルは、内部で使用する<strong class="memory-answer">IGP</strong>と、外部で使用する<strong class="memory-answer">EGP</strong>の大きく2つに分類できます。
+RIPv2、EIGRP、OSPF、IS-ISは、<strong class="memory-answer">AS</strong>（ Autonomous System ）内部で経路情報を交換するIGPです。
+今回紹介する<strong class="memory-answer">BGP</strong>は、AS間で経路情報を交換するEGPです。AS（ 自律システム ）とは、ある管理組織
+にあるネットワークの集まりであり、例えば、ISPが管理しているネットワークは1つのASとなります。
+※ OSPFやEIGRPのASは 同じルーティングプロセスを使用する範囲を指す用語のことであり、BGPのASとは異質のものです。</p>
+<p>EGPという名称が同じで紛らわしいですが、EGPには「BGP」と「EGP」の2つの経路制御プロトコルが
+あります。現在では「EGP」は使用されておらず、後継のBGP（ BGP version 4 ）が使用されています。</p>
+<h2 id="bgp-as">BGP - AS番号</h2>
+<p>BGPでは、インターネット上での各ASを識別するために番号を割り当てています。それが<strong class="memory-answer">AS番号</strong>です。
+ISP以外にも、大企業、学術研究機関なども1つのASが割り当てられており、AS番号の一覧は<a href="https://www.nic.ad.jp/ja/ip/as-numbers.txt">こちら</a>で
+確認することができます。AS番号は<strong class="memory-answer">ICANN</strong>という組織により、RIR（Regional Internet Registry）に
+ブロック単位で割り当てしています。日本ではJPINICやAPNICがAS番号の割り当てを管理しています。</p>
+<p>AS番号は、以下の通りグローバルAS番号とプライベートAS番号の大きく2つに分類することができます。</p>
+<table>
+<thead>
+<tr>
+<th>AS番号</th>
+<th>AS番号の範囲</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>グローバルAS番号</td>
+<td>1 ～ 64511</td>
+<td>インターネット全体で一意のAS番号</td>
+</tr>
+<tr>
+<td>プライベートAS番号</td>
+<td>64512 ～　65535</td>
+<td>組織内部で自由に使用できるAS番号</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bgp-">BGP - パスベクタ型ルーティングプロトコル</h2>
+<p>BGPは、<strong class="memory-answer">パスベクタ型</strong>ルーティングプロトコルです。パスベクタ型では、AS内のルート情報に付加された
+<strong class="memory-answer">パスアトリビュート</strong>を送信して最適経路を決定します。デフォルトでは、宛先ネットワークまでに経由する
+ASが少ない経路をベストパスとして使用します。下図では、AS1からAS2の「2.0.0.0/8」宛のパケットを
+送信する時、BGPルータのISP1はASの通り道が少ない経路となるネクストホップとして「1.1.1.2」を選択。</p>
+<p><img alt="画像" src="../studygif/bgpz01a.png"></p>
+<h2 id="bgp-_1">BGP - 特徴</h2>
+<p>インターネット上のBGPが設定されているルータは、2016年時点で60万ルート以上をルーティングテーブル
+に保持していますが、転送プロトコルに<strong class="memory-answer">TCP</strong>を使用して信頼性のあるルーティングアップデートを行います。
+BGPでは定期的なルーティングアップデートは行わず、変更発生時にのみ差分アップデートを行っています。
+また、BGPでは<strong class="memory-answer">パスアトリビュート</strong>という属性をルート情報に付加することによって、経路制御を行えます。</p>
+<table>
+<thead>
+<tr>
+<th>BGPの特徴</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>転送プロトコルにTCPを使用</td>
+<td>TCPポート<strong class="memory-answer">179</strong>を使用し、TCP接続を行い信頼性のあるルーティングアップデートを実行</td>
+</tr>
+<tr>
+<td>差分アップデート</td>
+<td>定期的なルーティングアップデートを行わず、変更発生時にのみ差分アップデートを実行</td>
+</tr>
+<tr>
+<td>パスアトリビュート</td>
+<td>パスアトリビュートをルートに付加して、詳細なポリシーを定義したルーティングを実現</td>
+</tr>
+<tr>
+<td>ループフリー</td>
+<td>AS-PATHリストを使用することで、ループフリーの構成を実現</td>
+</tr>
+<tr>
+<td>クラスレスルーティングプロトコル</td>
+<td>CIDRによるルート集約、VLSMによるサブネット分割時の可変長マスクを実現</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bgp-4as-4-byte-as-number">BGP - 4バイトAS番号（ 4 byte AS number ）</h2>
+<p>4バイトAS番号は、AS番号を従来の2バイトから4バイトに拡張したものです。2バイトのAS番号が枯渇する
+とみられており仕様策定されています。4バイトのAS番号は2バイトずつピリオドで区切りそれぞれを10進数
+で表すことから、4バイトAS番号は「 0.0 」から「 65535.65535 」という値で表現されます。</p>
+<p>以上の通り、BGPは同一の管理ポリシーにより管理されるネットワーク群であり、2バイト（2オクテット）か
+4バイト（4オクテット）のAS番号により識別されます。</p>
+<hr>
+<p><a href="study60.html">BGP（Border Gateway Protocol）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

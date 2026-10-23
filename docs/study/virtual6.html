@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>VDI （Virtual Desktop Infrastructure） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#vdivirtual-desktop-infrastructure">VDI（Virtual Desktop Infrastructure）とは</a></li>
+<li><a href="#vdi">シンクライアントとVDIの違い</a></li>
+<li><a href="#_1">ネットワークブート型</a></li>
+<li><a href="#_2">画面転送型</a></li>
+<li><a href="#sbc">画面転送型シンクライアント：サーバベース（SBC）方式</a></li>
+<li><a href="#pc">画面転送型シンクライアント：ブレードPC方式</a></li>
+<li><a href="#vdi_1">画面転送型シンクライアント：VDI 方式</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="vdi-virtual-desktop-infrastructure">VDI （Virtual Desktop Infrastructure）</h1>
+<hr>
+<h2 id="vdivirtual-desktop-infrastructure">VDI（Virtual Desktop Infrastructure）とは</h2>
+<p>VDI（仮想デスクトップ基盤）とは、デスクトップ環境を仮想化させて、<strong class="memory-answer">パソコンのデスクトップ環境を</strong>
+<strong class="memory-answer">サーバ上に集約してサーバ上で稼働させる仕組み</strong>のことです。利用者はクライアントPCからネットワーク
+経由で仮想マシンに接続して、デスクトップ画面を呼び出した上で操作します。なお、VDIという用語は
+仮想デスクトップ基盤、仮想デスクトップインフラ、デスクトップ仮想化などと呼ばれています。</p>
+<p>VDIではサーバ上に利用者数に見合う多数の仮想マシンを実装して、それぞれにデスクトップOSやアプリを
+インストールするため、従来のような利用者ごとのPCにOSやアプリをインストールする形式にくらべると
+<strong class="memory-answer">サーバ上で集中管理することから各種ソフトウェアの追加や更新などのメンテナンスが容易</strong>になるメリット
+があります。また、どのパソコンからでも自分用のデスクトップ環境を呼び出して利用できるので、例えば
+職場環境においてフリーアドレスを容易に実現したり、在宅勤務が実現しやすくなります。</p>
+<p><img alt="画像" src="../studygif/virtual6a.png"></p>
+<p>VDIの最大のメリットは<strong class="memory-answer">情報漏洩のリスクが軽減される</strong>ことです。VDIでは通常はパソコン側で行う処理を
+サーバ側で行います。利用者のクライアント機（パソコン・タブレット・スマホなど）には、サーバ上で
+実行されているデスクトップ環境の画面だけが転送されるので、手元のパソコン等にはデータを保管しない
+ことになりUSBディスクなどを利用したデータ流失のリスクを軽減することができます。</p>
+<p>下図の通り、仮想デスクトップ上にあるデータをローカルデスクトップ上に移動することはできませんし、
+ローカルデスクトップ上にあるデータを、仮想デスクトップへ移動することもできないのでセキュアです。</p>
+<p><img alt="画像" src="../studygif/virtual6b.png"></p>
+<p>なお、VDIでの利用者の端末は、キーボード入力を受け付けてネットワーク経由でサーバに送信することと
+デスクトップ画面を受信してディスプレイに表示することができれば良くPC側の機能を最小限にできるので
+<strong class="memory-answer">VDIを導入する場合には、通常のPCよりも安価な専用のシンクライアント端末を導入できる場合もあります。</strong></p>
+<h2 id="vdi">シンクライアントとVDIの違い</h2>
+<p>VDIはシンクライアントの実装方式の1つです。シンクライアントとは、<strong class="memory-answer">プログラム実行やデータ保存などの</strong>
+<strong class="memory-answer">機能をクライアント端末から分離させてサーバに集中させるアーキテクチャ</strong>のことです。シンクライアントは
+ハードディスクなどの記憶装置を搭載せずに、処理はサーバ側で行われてデータもサーバ側に保存されます。</p>
+<p>シンクライアントは2タイプに分類することができ、画面転送型は次の3つの方式に分類することができます。</p>
+<p><img alt="画像" src="../studygif/virtual6c.png"></p>
+<h2 id="_1">ネットワークブート型</h2>
+<p>クライアント端末がサーバに保存したイメージファイルをネットワーク経由でダウンロードして、OSや
+アプリを実行する方式です。画面転送型とは異なり、クライアント端末側のCPUやメモリーを使用する
+ことから、ネットワーク経由での<strong class="memory-answer">ブート後は通常のPC端末と同じような感覚で高速な動作を実現</strong>します。</p>
+<p>また、<strong class="memory-answer">クライアント端末にハードディスクを持たせず全てのデータをサーバ上に保存</strong>するため、情報漏洩
+のリスクを軽減します。デメリットとしては、ネットワーク経由でブートすることから、<strong class="memory-answer">広帯域なネット</strong>
+<strong class="memory-answer">ワークと十分なサーバーリソースが必要となる点、ブートに時間がかかる点</strong>が問題点として挙げられます。</p>
+<h2 id="_2">画面転送型</h2>
+<p>OSやアプリをサーバ側で実行して、クライアント側ではその結果の画面出力を指せる方式です。サーバと
+クライアント間では画面情報と操作情報だけをやり取りします。画面転送型では、ネットワークブート型と
+同様にクライアント端末にハードディスクを持たせず全てのデータをサーバ上で保存するため、情報漏洩の
+リスクを軽減します。また、 OSやアプリをサーバ上で集中管理できることから<strong class="memory-answer">各種ソフトウェアの追加や</strong>
+<strong class="memory-answer">更新などのメンテナンスが容易</strong>になります。また、画面情報はサイズが小さいためネットワークブート型の
+ように広帯域なネットワークは必要としません。</p>
+<p>ところでシンクライアントのシンは英語の「thin」であり「薄い・細い」という意味となりますが、通常の
+PCと比較して機能を最小限にしたクライアントということになります。thinの対義語が「fat」が近いこと
+から、シンクライアントと比較する際に、通常のPCのことをファットクライアントと呼ぶ場合があります。
+下図は、通常のPC、ネットワークブート型シンクライアント、画面転送型シンクライアントの比較です。</p>
+<p><img alt="画像" src="../studygif/virtual6d.png"></p>
+<p>画面転送型シンクライアントには、サーバーベース方式、ブレードPC方式、VDI方式の3種類がありますが
+現在主流なのはVDI（仮想デスクトップ基盤）方式です。それぞれの方式の違いを以降で説明していきます。</p>
+<h2 id="sbc">画面転送型シンクライアント：サーバベース（SBC）方式</h2>
+<p>サーバーベース方式は、「SBC方式」または「ターミナルサーバ方式」とも呼ばれています。この方式では、
+<strong class="memory-answer">サーバにアプリをインストールして実行し複数のユーザで共有</strong>します。なお、Microsoft Officeなどアプリが
+マルチユーザアクセスに対応している必要があります。あるユーザが負荷の高い処理を発生させた場合には
+同時アクセスしている他の利用者も影響を受けます。<strong class="memory-answer">ユーザにとっては独立環境ではないことも問題点</strong>です。</p>
+<h2 id="pc">画面転送型シンクライアント：ブレードPC方式</h2>
+<p>ブレードPC方式では、<strong class="memory-answer">ユーザごとに「ブレードPC」と呼ばれる物理リソースを割り当てる方式</strong>です。この
+方式ではユーザごとに1台のマシンを占有できることから、アプリの互換性が高く移行が比較的容易である点、
+高い負荷業務に適している点などのメリットがありますが、ユーザごとに1ブレードが必要であるため非常に
+コストがかかる問題点があります。</p>
+<h2 id="vdi_1">画面転送型シンクライアント：VDI 方式</h2>
+<p>VDI方式では、<strong class="memory-answer">仮想化ソフトを使用してサーバ上にクライアントごとの仮想環境を構築できる方式</strong>です。
+ブレードPC方式ではユーザ数の分だけブレードPCを用意する必要がありましたが、<strong class="memory-answer">VDI方式ではユーザ数</strong>
+<strong class="memory-answer">の分だけ仮想マシンを用意すれば良い</strong>だけなのでコスト面で大きなメリットがあります。また、独立した
+環境がユーザごとに用意されるため、サーバーベース方式のように特定のユーザの処理が全てのユーザーに
+影響しないというメリットもあります。このVDI方式が現在主流な方式となります。</p>
+<p><img alt="画像" src="../studygif/virtual6e.png"></p>
+<p>仮想デスクトップを実現するソフトウェアには、VMware社の「VMware Horizon」、シトリックス社の
+「Citrix XenDesktop」、マイクロソフト社の「Microsoft VDI」などがあります。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study67.html">仮想化技術（サーバ仮想化・ネットワーク仮想化）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

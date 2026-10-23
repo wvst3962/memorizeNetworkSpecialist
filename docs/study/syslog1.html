@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>syslog | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#syslog_1">syslogとは</a></li>
+<li><a href="#syslog-facilityseverity">syslog - FacilityとSeverity</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="syslog">syslog</h1>
+<hr>
+<h2 id="syslog_1">syslogとは</h2>
+<p>syslogはIPネットワーク上でログメッセージを転送する標準規格でありクライアント/サーバ型プロトコル。
+syslog送信側（Ciscoルータなど）はsyslog受信側（Linuxサーバなど）にログ情報をテキストメッセージで
+送信します。syslogメッセージはUDPまたはTCPポート番号の<strong class="memory-answer">514</strong>を使用してsyslogサーバに送信されます。</p>
+<p><img alt="画像" src="../studygif/syslog1a.png"></p>
+<p>CiscoルータやCatalystスイッチなどの「デバイス上の動作状況の記録」を<strong class="memory-answer">ログ</strong>と言いますが、このログを
+取得することで、そのデバイスで何が起きているのかを把握できます。Cisco機器などのネットワーク機器は
+syslogプロトコルにより、Ciscoデバイスで発生する各種イベントをログとしてsyslogサーバに送信できます。</p>
+<h2 id="syslog-facilityseverity">syslog - FacilityとSeverity</h2>
+<p>syslogにおけるシステムログには「<strong class="memory-answer">Facility</strong>」と「<strong class="memory-answer">Severity</strong>」という考え方があります。</p>
+<p><strong class="memory-answer">Facility</strong>とは、正確に言えば「ログの種別」のことであり、分かりやすくいえばメッセージの「出力元」
+のことです。ファシリティには以下の種類があり、ファシリティを使用することでメッセージの出力元に
+応じてログの出力先を制御できます。Linuxでは「 * 」を使用することで全ファシリティを選択できます。</p>
+<p>【 syslogのFacility 】</p>
+<table>
+<thead>
+<tr>
+<th>Facility</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auth、authpriv</td>
+<td>認証サービス ( login、su など)</td>
+</tr>
+<tr>
+<td>cron</td>
+<td>cron</td>
+</tr>
+<tr>
+<td>daemon</td>
+<td>各種デーモン</td>
+</tr>
+<tr>
+<td>kern</td>
+<td>カーネル</td>
+</tr>
+<tr>
+<td>lpr</td>
+<td>印刷システム</td>
+</tr>
+<tr>
+<td>mail</td>
+<td>メールシステム</td>
+</tr>
+<tr>
+<td>news</td>
+<td>ニュースサービス</td>
+</tr>
+<tr>
+<td>syslog</td>
+<td>syslog機能</td>
+</tr>
+<tr>
+<td>user</td>
+<td>ユーザープログラム</td>
+</tr>
+<tr>
+<td>local0 ～ local7</td>
+<td>独自の設定</td>
+</tr>
+</tbody>
+</table>
+<p><strong class="memory-answer">Severity</strong>とは、メッセージの優先度を表します。Severityはemergが最も高く、debugが最も低い
+ことを意味します。指定したSeverityよりもレベルが高いものが全て記憶されるので、例えばcritを
+指定した場合、crit、alert、emergレベルのログが記録されます。特定のSeverityを指定したい場合、
+Severityの前に = をつけます。noneは例外指定したファシリティのログを除外する役割を持ちます。</p>
+<p>【 syslogのSeverity 】</p>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>emerg</td>
+<td>非常に危険な状態</td>
+</tr>
+<tr>
+<td>alert</td>
+<td>危険な状態</td>
+</tr>
+<tr>
+<td>crit</td>
+<td>危険な状態</td>
+</tr>
+<tr>
+<td>err</td>
+<td>一般的なエラー</td>
+</tr>
+<tr>
+<td>warning</td>
+<td>システムからの警告</td>
+</tr>
+<tr>
+<td>notice</td>
+<td>システムからの重要な通知</td>
+</tr>
+<tr>
+<td>info</td>
+<td>システムからの情報</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>デバッグ情報</td>
+</tr>
+<tr>
+<td>none</td>
+<td>ファシリティ無効（メッセージを送らない）</td>
+</tr>
+</tbody>
+</table>
+<p>上述の標準仕様に従いシスコデバイスではSYSLOGのプライオリティを以下のように定義しています。</p>
+<table>
+<thead>
+<tr>
+<th>Level キーワード</th>
+<th>レベル</th>
+<th>説明</th>
+<th>UNIX Syslog定義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>emergencies</td>
+<td>0</td>
+<td>システムが不安定</td>
+<td>LOG_EMERG</td>
+</tr>
+<tr>
+<td>alerts</td>
+<td>1</td>
+<td>即時処理が必要</td>
+<td>LOG_ALERT</td>
+</tr>
+<tr>
+<td>critical</td>
+<td>2</td>
+<td>クリティカルな状態</td>
+<td>LOG_CRIT</td>
+</tr>
+<tr>
+<td>errors</td>
+<td>3</td>
+<td>エラー状態</td>
+<td>LOG_ERR</td>
+</tr>
+<tr>
+<td>warnings</td>
+<td>4</td>
+<td>警告状態</td>
+<td>LOG_WARNING</td>
+</tr>
+<tr>
+<td>notifications</td>
+<td>5</td>
+<td>正常だが注意を要する状態</td>
+<td>LOG_NOTICE</td>
+</tr>
+<tr>
+<td>informational</td>
+<td>6</td>
+<td>情報メッセージ</td>
+<td>LOG_INFO</td>
+</tr>
+<tr>
+<td>debugging</td>
+<td>7</td>
+<td>デバッグメッセージ</td>
+<td>LOG_DEBUG</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study15.html">TCP/IP 入門</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

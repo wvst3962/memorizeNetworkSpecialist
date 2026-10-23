@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - Enterprise Security | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan">無線LANのセキュリティ対策（さらに高度セキュリティ）</a></li>
+<li><a href="#wi-fi-wfa">Wi-Fi アライアンス (WFA) とは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-enterprise-security">Wireless LAN - Enterprise Security</h1>
+<hr>
+<h2 id="lan">無線LANのセキュリティ対策（さらに高度セキュリティ）</h2>
+<p>そもそも暗号化にWEPではなく、<strong class="memory-answer">WPA</strong>規格のTKIPまたは<strong class="memory-answer">WPA2</strong>規格のCCMPなどの暗号化を実装させて
+MACアドレスフィルタリングではなく、<strong class="memory-answer">IEEE802.1X認証を実装</strong>させる方式が現在の最も主流な実装です。</p>
+<table>
+<thead>
+<tr>
+<th>セキュリティ項目</th>
+<th>従来のセキュリティ対策</th>
+<th>現在主流なセキュリティ対策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗号化</td>
+<td>WEP</td>
+<td>CCMP</td>
+</tr>
+<tr>
+<td>認証</td>
+<td>MACアドレスのフィルタリング</td>
+<td>IEEE802.1X による認証</td>
+</tr>
+<tr>
+<td>セキュリティ規格</td>
+<td>WEP ( IEEE802.11 )</td>
+<td>WPA2 ( IEEE802.11i )</td>
+</tr>
+</tbody>
+</table>
+<p>WEPの脆弱性が発覚した時、この事態を深刻に受け止めたIEEE802.11では新たなセキュリティ規格として
+IEEE802.11i (WPA2) の策定化作業をはじめました。しかし、標準化にはかなりの時間が必要であることが
+分かり、この事態に危機感を募らせたWi-Fi アライアンスがIEEE802.11i（WPA2）の中で容易に実装できる
+セキュリティ技術を部分的に先取りした規格を策定しました。それが、WPA（Wi-Fi Protected Access）。
+そして2004年6月にはようやく IEEE802.11i の標準化が完了して、多くの製品にその実装が進められました。</p>
+<p><img alt="画像" src="../studygif/wireless11a.png"></p>
+<table>
+<thead>
+<tr>
+<th>セキュリティ規格</th>
+<th>WEP ( <strong class="memory-answer">IEEE802.11</strong> )</th>
+<th>WPA</th>
+<th>WPA2 ( <strong class="memory-answer">IEEE802.11i</strong> )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>規格策定の団体</td>
+<td>IEEE802.11</td>
+<td>Wi-Fiアライアンス</td>
+<td>IEEE802.11i</td>
+</tr>
+<tr>
+<td>規格策定の時期</td>
+<td>1997年</td>
+<td>2002年10月</td>
+<td>2004年6月</td>
+</tr>
+<tr>
+<td>暗号化方式</td>
+<td>WEP</td>
+<td>TKIP</td>
+<td>CCMP</td>
+</tr>
+<tr>
+<td>暗号化アルゴリズム</td>
+<td>RC4</td>
+<td>RC4</td>
+<td>AES</td>
+</tr>
+<tr>
+<td>暗号鍵の長さ</td>
+<td>40 or 104bit</td>
+<td>128bit</td>
+<td>128bit</td>
+</tr>
+<tr>
+<td>認証鍵の長さ</td>
+<td>-</td>
+<td>64bit</td>
+<td>64bit</td>
+</tr>
+<tr>
+<td>IVの長さ</td>
+<td>24bit</td>
+<td>48bit</td>
+<td>48bit</td>
+</tr>
+<tr>
+<td>整合性の検証</td>
+<td>CRC32</td>
+<td>MIC</td>
+<td>CCM</td>
+</tr>
+<tr>
+<td>アンチ ・ リプレイ攻撃</td>
+<td>なし</td>
+<td>あり</td>
+<td>あり</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>?@ オープンシステム認証<br>?A シェアードキー認証<br>?B オープンシステム認証<br>＋ IEEE802.1x認証</td>
+<td>?@ PSK (Pre-Shared Key) 認証<br>?A IEEE802.1x認証</td>
+<td>?@ PSK (Pre-Shared Key) 認証<br>?A IEEE802.1x認証</td>
+</tr>
+</tbody>
+</table>
+<p>「IEEE802 ～ 」という用語は<strong class="memory-answer">規格</strong>の名称でもあり、<strong class="memory-answer">策定委員会</strong>の名称でもあります。つまり1つの用語で2つの意味を持っています。</p>
+<h2 id="wi-fi-wfa">Wi-Fi アライアンス (<strong class="memory-answer">WFA</strong>) とは</h2>
+<p>Wi-Fi アライアンスとは、無線LAN製品の普及促進、および異なるメーカー間の無線LAN製品の互換性を
+保証することを目的とした業界団体のこと。Cisco、Intel、Nokiaなど数百社のメーカが参画しています。
+最近では大手のネットワーク関連の業界だけでなく Nintendo などのゲーム業界からの加盟もあります。</p>
+<p>Wi-Fiアライアンスの設立背景として、IEEE802.11規格が曖昧であることもあり異なるメーカー間の無線
+LAN機器が相互接続できない事態がよく発生したため、無線LAN業界の大手メーカーが、無線LAN機器の
+相互接続性を推進するための業界団体を設立しました。Wi-Fiアライアンスは加盟メーカーに対して認証
+試験を行っており、異なるメーカー間の無線LAN機器で無線LAN通信や暗号化などの通信が成功した場合
+その製品は <strong class="memory-answer">Wi-Fi CERTIFIED</strong> ロゴの使用が許可されます。それによって相互接続性をアピールできます。</p>
+<p><img alt="画像" src="../studygif/wireless11b.png"></p>
+<p>異なるメーカーの無線LAN機器であっても、それらのプロダクトに上図の「Wi-Fi CERTIFIED」のロゴが
+あれば利用者としては安心して利用できます。ところで「Wi-Fi」という言葉はブランド名を意味しますが
+Wi-Fi = 無線LANの意味で使われている場合もあり、一般利用者には Wi-Fi の方が馴染みがあるようです。</p>
+<p>IEEEとWi-Fiアライアンスとでは、IEEE802.11における規格において、以下の通り呼称が異なります。</p>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>IEEEにおける呼称</th>
+<th>Wi-Fiアライアンスにおける呼称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セキュリティ規格</td>
+<td>IEEE802.11i</td>
+<td>WPA2</td>
+</tr>
+<tr>
+<td>QoS関連規格</td>
+<td>IEEE802.11e ( EDCA )</td>
+<td>WMM</td>
+</tr>
+<tr>
+<td>QoS関連規格</td>
+<td>IEEE802.11e ( HCCA )</td>
+<td>WMM-SA</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>← <a href="wireless10.html">無線LAN - ESSIDステルス、MACフィルタ、WEP脆弱性</a>　<a href="wireless12.html">無線LAN - WPA</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

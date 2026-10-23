@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>RPF check | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#rpf-check_1">RPF checkとは</a></li>
+<li><a href="#rpf-check-">RPF check - 宛先ネットワークへ複数のパスがある場合</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="rpf-check">RPF check</h1>
+<hr>
+<h2 id="rpf-check_1">RPF checkとは</h2>
+<p>RPF（Reverse Path Forwarding）check は、受信したマルチキャストパケットの送信元IPアドレスと
+ユニキャストのルーティングテーブルを見て、Senderから最短ルートで転送されたものであるかを確認
+して、<strong class="memory-answer">最短ルートで転送されたマルチキャストパケットではない場合はそれを破棄する機能</strong>のことです。</p>
+<p>このRPFチェックにより、マルチキャストルーティングにおけるパケットの重複受信やループを回避する
+ことができます。下図ではSenderからReceiverまでの経路が冗長化されており、RPFチェックがないと
+マルチキャストパケットが重複して届いてしまう構成です。</p>
+<p>受信するマルチキャストの送信元IPアドレスは「SenderのIPアドレス」です。そのSenderのIPアドレスに
+到達するための最短経路と出力インターフェースは、ユニキャストのルーティングテーブルに載っています。
+このSenderのIPアドレスに到達するための出力インターフェースと、マルチキャストパケットを受信した
+インターフェースとが一致すれば、受信したマルチキャストは最短経路でルーティングされてきたと見なし
+RPFチェックは成功します。</p>
+<p><img alt="画像" src="../studygif/multicastz15a.png"></p>
+<p>上図の場合は、R3のGi0/1とGi0/2の2つのインターフェースへ、マルチキャストパケットは着信しますが、
+R3でRPFチェックが行われる結果、Gi0/1に着信したマルチキャストパケットはRPFチェックに成功して
+転送されますが、Gi0/2に着信したマルチキャストパケットはRPFチェックに失敗して破棄されます。結果
+重複することなくLAN側へマルチキャストパケットが転送されていきます。なお、このRPFチェックは全て
+のマルチキャストルータでデフォルトで行われる動作です。</p>
+<p>「一体どこへ向かうのか」ではなく「一体どこから来たのか」なのでReverse Path Forwardingです。なお、
+RPFチェックが成功するインターフェースのことを<strong class="memory-answer">、RPFインターフェース</strong>と言います。上述の解説どおり
+RPFインターフェースは「<strong class="memory-answer">マルチキャストパケットを受信するインターフェース</strong>」であることが分かります。</p>
+<h2 id="rpf-check-">RPF check - 宛先ネットワークへ複数のパスがある場合</h2>
+<p>RPFインターフェースは、マルチキャストパケットの送信元IPアドレスとユニキャストルーティングテーブル
+から自動的に決定されることを解説しました。下図のように同じ宛先ネットワークに複数のルートが存在する
+場合には、<strong class="memory-answer">ネクストホップアドレスの値が大きいルート情報の出力インターフェース</strong>がRPFインターフェース
+となります。複数の等コストパスのルートがあっても、RPFインターフェースは常に1つだけとなります。</p>
+<p><img alt="画像" src="../studygif/multicastz15b.png"></p>
+<p>上図では、SenderのIPアドレスに到達するための最短経路は2つあります。この場合は、ネクストホップ
+アドレスの値が大きいルート情報は「ネクストホップアドレスが 192.168.2.254 のルート」となります。
+従って、R2では「 GigabitEthernet0/2 」がRPFインターフェースとなります。RPFインターフェースに
+着信したマルチキャストパケットは「RPFチェック」に成功して、マルチキャストパケットを転送します。</p>
+<p>ユニキャスト伝送では、インターフェースに着信したユニキャストパケットの宛先アドレスを見て転送します。
+マルチキャスト伝送では、インターフェースに着信したマルチキャストパケットの「送信元アドレス」を先ず
+見ます。次に、その送信元アドレスが、ユニキャストのルーティングテーブル上で送信元ネットワークに戻る
+ためのルート情報の出力インターフェースから着信している場合はRPF checkを成功させて、次へ転送します。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study62.html">マルチキャストの技術解説</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

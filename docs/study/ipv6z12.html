@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - ICMPv6 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6-icmpv6_1">IPv6 - ICMPv6とは</a></li>
+<li><a href="#router-solicitation-router-advertisement">Router Solicitation / Router Advertisement</a></li>
+<li><a href="#neighbor-solicitation-neighbor-advertisement">Neighbor Solicitation / Neighbor Advertisement</a></li>
+<li><a href="#redirect-ipv4icmp">Redirect - 最短となる転送先を通知する機能 （ IPv4のICMPリダイレクトに相当する機能）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-icmpv6">IPv6 - ICMPv6</h1>
+<hr>
+<h2 id="ipv6-icmpv6_1">IPv6 - ICMPv6とは</h2>
+<p>ICMPv6（Internet Control Message Protocol for IPv6）は、IPv6で使用されるICMPプロトコルのこと。
+ICMPv6では、ICMPのエラー通知機能やネットワークの情報収集の機能だけではなくて、ARPに相当する
+IPv6アドレス解決機能、IPv6アドレス重複検出機能、マルチキャスト機能が含まれています。ICMPv6は
+IPv4で使用しているICMPとは別のプロトコルであり、IPプロトコル番号が<strong class="memory-answer">58</strong>となります。RFC4443定義。</p>
+<p><strong class="memory-answer">ICMPv6フォーマット</strong>自体は、IPv4で使用するICMPと同じとなります。</p>
+<p><img alt="画像" src="../studygif/ipv6z12a.png"></p>
+<p>実際のIPv6パケットとして転送される<strong class="memory-answer">ICMPv6パケット</strong>としては、以下の通りのフォーマットとなります。</p>
+<p><img alt="画像" src="../studygif/ipv6z12b.png"></p>
+<p>ICMPv6メッセージは、タイプ0～127の<strong class="memory-answer">エラーメッセージ</strong>とタイプ128～255の<strong class="memory-answer">情報メッセージ</strong>の大きく
+2種類に分類されます。以下ではカテゴリとして3つに分類して、重要なタイプのメッセージを紹介します。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>タイプ</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>エラー</td>
+<td>1</td>
+<td>Destination Unreachable （ 宛先到達不能 ）</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>2</td>
+<td>Packet too Big （ パケット過大 ）</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>3</td>
+<td>Time Exceeded （ 時間切れ ）</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>4</td>
+<td>Parameter Problem （ パラメータ異常 ）</td>
+</tr>
+<tr>
+<td>情報</td>
+<td>128</td>
+<td>Echo Request （ エコー要求 ）</td>
+</tr>
+<tr>
+<td>情報</td>
+<td>129</td>
+<td>Echo Reply （ エコー応答 ）</td>
+</tr>
+<tr>
+<td>情報</td>
+<td>130</td>
+<td>Multicast Listener Query （ マルチキャストリスナクエリー ）</td>
+</tr>
+<tr>
+<td>情報</td>
+<td>131</td>
+<td>Multicast Listener Report （ マルチキャストリスナレポート ）</td>
+</tr>
+<tr>
+<td>情報</td>
+<td>132</td>
+<td>Multicast Listener Done （ マルチキャストリスナダン ）</td>
+</tr>
+<tr>
+<td>近隣探索</td>
+<td>133</td>
+<td>Router Solicitation （ ルータ要請 ）</td>
+</tr>
+<tr>
+<td>近隣探索</td>
+<td>134</td>
+<td>Router Advertisement （ ルータ広告 ）</td>
+</tr>
+<tr>
+<td>近隣探索</td>
+<td>135</td>
+<td>Neighbor Solicitation （ 近隣要請 ）</td>
+</tr>
+<tr>
+<td>近隣探索</td>
+<td>136</td>
+<td>Neighbor Advertisement （ 近隣広告 ）</td>
+</tr>
+<tr>
+<td>近隣探索</td>
+<td>137</td>
+<td>Redirect （ リダイレクト ）</td>
+</tr>
+</tbody>
+</table>
+<p>近隣探索メッセージのICMPv6はマルチキャストアドレスを使用することで次の機能を実現します。つまり、
+IPv6ネットワークでは、IPv6の近隣探索メッセージの使われ方の1つとして「IPv6アドレスが他のノードと
+重複していないかの検出に使われる」ことが分かります。</p>
+<h2 id="router-solicitation-router-advertisement">Router Solicitation / Router Advertisement</h2>
+<table>
+<thead>
+<tr>
+<th>機能</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPv6アドレスの自動設定</td>
+<td>ノードにIPv6アドレスを自動的に割り当てる機能</td>
+</tr>
+<tr>
+<td>IPv6プレフィックスの検出</td>
+<td>接続リンクのプレフィックスを検出して、直接通信可能なアドレス範囲を識別する機能</td>
+</tr>
+<tr>
+<td>ネクストホップの決定</td>
+<td>パケットのネクストホップを決定する機能</td>
+</tr>
+<tr>
+<td>パラメーターの検出</td>
+<td>MTUなどの値を検出する機能</td>
+</tr>
+<tr>
+<td>ルータの検出</td>
+<td>同一リンク上でノードが接続できるルータを検出する機能</td>
+</tr>
+</tbody>
+</table>
+<h2 id="neighbor-solicitation-neighbor-advertisement">Neighbor Solicitation / Neighbor Advertisement</h2>
+<table>
+<thead>
+<tr>
+<th>機能</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データリンク層アドレスの解決</td>
+<td>MACアドレスとIPv6アドレスを関連付けるIPv4のARPに相当する機能</td>
+</tr>
+<tr>
+<td>IPv6アドレスの重複検出</td>
+<td>ノードのI/Fに設定したIPv6アドレスが、他のノードと重複していないか検出する機能</td>
+</tr>
+<tr>
+<td>近隣ノードの到達不能の検出</td>
+<td>近隣ノードの通信不能状態を検出する機能</td>
+</tr>
+</tbody>
+</table>
+<h2 id="redirect-ipv4icmp">Redirect - 最短となる転送先を通知する機能 （ IPv4のICMPリダイレクトに相当する機能）</h2>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - IEEE802.11 Frame Format | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211-">IEEE802.11フレームフォーマット - 概要</a></li>
+<li><a href="#ieee80211-80211b">IEEE802.11フレームフォーマット - 物理ヘッダの例 - 802.11b</a></li>
+<li><a href="#ieee80211-ieee80211">IEEE802.11フレームフォーマット - IEEE802.11ヘッダ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-ieee80211-frame-format">Wireless LAN - IEEE802.11 Frame Format</h1>
+<hr>
+<h2 id="ieee80211-">IEEE802.11フレームフォーマット - 概要</h2>
+<p>先ず、Ethernetフレーム（DIX規格）のフォーマットを見てみます。Ethernetフレームの先頭に付加される
+「プリアンブル」とはEthernetの送受信においてフレームの始まりを合図するための特別なビット列であり
+プリアンブルはフレーム長として含めずに考えるのでEthernetフレームサイズは 64～1518byteとなります。</p>
+<p><img alt="画像" src="../studygif/wireless7a.png"></p>
+<p>次に、無線LANフレームのフォーマットを見ます。IEEE802.11フレームの場合、IEEE802.11 a/b/g の
+いずれにおいてもPLCPプリアンブル、PLCPヘッダ、PSDUの3つで構成されます。詳細は以下の通りです。</p>
+<p><img alt="画像" src="../studygif/wireless7b.png"></p>
+<table>
+<thead>
+<tr>
+<th>IEEE802.11フレーム - 3つの構成要素</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLCPプリアンブル</td>
+<td>IEEE802.11フレームの先頭に付加される同期信号のビット列。この情報は物理層で付加される。</td>
+</tr>
+<tr>
+<td>PLCPヘッダ</td>
+<td>変調方式(伝送速度)、データ長などの情報があるヘッダ。この情報は物理層で付加される。</td>
+</tr>
+<tr>
+<td>PSDU</td>
+<td>IEEE802.11ヘッダと実際のデータから構成される情報。この情報はデータリンク層で付加される。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ieee80211-80211b">IEEE802.11フレームフォーマット - 物理ヘッダの例 - 802.11b</h2>
+<p>物理ヘッダを、例えばIEEE802.11bのものとしたWLANのフレームフォーマットを詳細に見ていきます。</p>
+<p><img alt="画像" src="../studygif/wireless7c.png"></p>
+<p>802.11bの場合、PLCPプリアンブルにはロングプリアンブル(18byte)とショートプリアンブル(9byte)の
+2種類があります。ロングプリアンブルの場合は、物理ヘッダ(PLCPプリアンブル ・ PLCPヘッダ)は常に
+1Mbpsで伝送されます。ショートプリアンブルでは物理ヘッダ(PLCPプリアンブル ・ PLCPヘッダ)は常に
+2Mbpsで伝送されます。無線LANの伝送速度がどのような値でも、物理ヘッダはこの速度で伝送されます。</p>
+<table>
+<thead>
+<tr>
+<th>IEEE802.11bにおける2種類のプリアンブル</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ロングプリアンブル</td>
+<td>18 byte ( 144bit )</td>
+<td>11bでは、PLCPプリアンブル、PLCPヘッダは常に1Mbpsで伝送される。</td>
+</tr>
+<tr>
+<td>ショートプリアンブル</td>
+<td>9 byte ( 72bit )</td>
+<td>11bでは、PLCPプリアンブル、PLCPヘッダは常に2Mbpsで伝送される。</td>
+</tr>
+</tbody>
+</table>
+<p>IEEE802.11では、送信側「例：WLAN端末」がどの値の伝送速度でデータが送られてきたのかを、受信側
+「例：アクセスポイント」が知るための規定があり、伝送速度の情報があるPLCPヘッダ（物理ヘッダ）を
+最も遅い伝送速度で送るようにしています。この規定により受信側は常に低速で物理ヘッダを受信します。
+PLCPヘッダに書かれた伝送速度が分かれば、その伝送速度でMACフレームは受け取られるようになります。</p>
+<h2 id="ieee80211-ieee80211">IEEE802.11フレームフォーマット - IEEE802.11ヘッダ</h2>
+<p>次に、IEEE802.11フレームの中の「IEEE802.11ヘッダ」の詳細を見ていきます。Ethernetフレームでは
+宛先アドレス、送信元アドレス、タイプの3項目だけでしたが無線LANでは7項目もフィールドがあります。</p>
+<p><img alt="画像" src="../studygif/wireless7d.png"></p>
+<table>
+<thead>
+<tr>
+<th>IEEE802.11ヘッダ (MACヘッダ) のフィールド</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frame Control</td>
+<td>フレームの種類、フレームの宛先、送信元が無線か有線かどうか、フラグメント情報、電力管理、<br>WEPの使用の有無などの情報を含む。フレームの種類は次の通り。APが発信するビーコン等の<br>管理フレーム(00)、Ackフレームなどの制御フレーム(01)、データの送信を示すデータフレーム(10)</td>
+</tr>
+<tr>
+<td>Duration/ID</td>
+<td>RTS/CTSなどで使用するフィールド。電波を使用する予定期間(フレーム送信に必要な時間)の情報。</td>
+</tr>
+<tr>
+<td>Address 1</td>
+<td>宛先のMACアドレス、送信元のMACアドレス、アクセスポイントのMACアドレス(BSSID)などの情報。</td>
+</tr>
+<tr>
+<td>Address 2</td>
+<td>宛先のMACアドレス、送信元のMACアドレス、アクセスポイントのMACアドレス(BSSID)などの情報。</td>
+</tr>
+<tr>
+<td>Address 3</td>
+<td>宛先のMACアドレス、送信元のMACアドレス、アクセスポイントのMACアドレス(BSSID)などの情報。</td>
+</tr>
+<tr>
+<td>Sequence Control</td>
+<td>送信するデータのシーケンス番号、またはフラグメント化した場合のフラグメント番号の情報</td>
+</tr>
+<tr>
+<td>Address 4</td>
+<td>宛先のMACアドレス、送信元のMACアドレス、アクセスポイントのMACアドレス(BSSID) などの情報。<br>※　ビーコンなどの管理フレームである場合、このフィールドに SSIDの情報 (実際の文字列) がある。</td>
+</tr>
+</tbody>
+</table>
+<p>※ 制御フレーム(01)としてはRTS、CTS、Ack、PS-Pollの4種類のフォーマットがあります。管理フレーム（00）としては、例えば
+ビーコン、プローブリクエスト、プローブレスポンス、アソシエーションリクエスト、アソシエーションレスポンスなどがあります。</p>
+<p>Address 1/2/3/4 のフィールドのアドレス情報については、以下の通りネットワーク構成により変化します。</p>
+<p><img alt="画像" src="../studygif/wireless7e.png"></p>
+<p>?Aの場合、送信元のPCはEthernetフレームを送信してくるので、宛先アドレスと送信元アドレスの情報
+しか指定していません。これをAPでヘッダーを書き換えて、上図のAddress 1/2/3 の情報に変更します。</p>
+<p>?Bの場合、送信元のPCはIEEE802.11フレームを送信してきます。APはこのIEEE802.11フレームを宛先
+と送信元アドレスの情報だけのEthernetフレームのフォーマットに変更して有線LANの宛先に転送します。</p>
+<p>?Cの場合、送信元のPCはEthernetフレームを送信してくるのでこれを上図のようなIEEE802.11フレーム
+に変更して転送します。そのフレームを受信したAPはEthernetフレームのフォーマットに変更して有線へ。</p>
+<hr>
+<p>← <a href="wireless6.html">無線LAN - CSMA/CAとは</a>　<a href="wireless8.html">無線LAN - ビーコン、プローブ、認証、アソシエーション</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

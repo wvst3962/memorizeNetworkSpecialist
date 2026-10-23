@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>OSI reference model | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#osi">OSI参照モデルとは</a></li>
+<li><a href="#osi_1">OSI参照モデルの歴史</a></li>
+<li><a href="#osi_2">OSI参照モデルの階層構造</a></li>
+<li><a href="#osi_3">OSI参照モデルの各層ごとの役割</a></li>
+<li><a href="#osi_4">OSI参照モデルにおけるカプセル化と非カプセル化</a></li>
+<li><a href="#pdu">PDU ( プロトコルデータユニット )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="osi-reference-model">OSI reference model</h1>
+<hr>
+<h2 id="osi">OSI参照モデルとは</h2>
+<p>OSI（Open Systems Interconnection）参照モデルとは、国際標準化機構（ISO）により策定された
+コンピュータなどの通信機器の通信機能を、階層構造に分割したモデルです。このOSI参照モデルでは
+通信プロトコルを7つの階層に分けて、<strong class="memory-answer">それぞれの階層で行われる通信機能を定義</strong>しています。また、
+OSI参照モデルにより、ネットワーク全体でどのようにデータが伝送されていくのか、ネットワークの
+仕組みを分かりやすく理解できるように促進している側面もあります。</p>
+<p>ネットワークエンジニアが設計、構築、障害対応などでプロトコルに関して議論する場合は、OSI参照
+モデルに基づき話をすることが一般的であり、<strong class="memory-answer">OSI参照モデル</strong>は完全に理解しておく必要があります。</p>
+<h2 id="osi_1">OSI参照モデルの歴史</h2>
+<p>OSI参照モデルの策定される以前では、コンピュータネットワークは、単一のベンダー（メーカー）の
+製品だけで構成されており、異なるベンダーのコンピュータ同士の通信を行うことは難しい状況でした。
+ネットワークが普及するにつれ、特定のベンダーに依存することなく異なるベンダーの機器との接続
+の要望が増えたため、<strong class="memory-answer">異機種間の通信を実現</strong>するための設計方針（OSI）が1984年に策定されました。</p>
+<p>当初、OSI参照モデルに準拠したコンピュータやソフトウェアが開発されていくのを想定していましたが
+1990年代にTCP/IPが急速に普及したことでOSI準拠製品は普及しませんでした。つまり、各メーカーの
+機器はOSI準拠製品ではなくTCP/IPを実装させた製品としてリリースされていきました。現在、OSI参照
+モデルはネットワーク通信の基本的な考え方として使用されており、理解しておくことはとても大切です。</p>
+<h2 id="osi_2">OSI参照モデルの階層構造</h2>
+<p>OSI参照モデルは第1層から第7層まで7つの層があります。各階層の呼び方は、一般的に数値ではなく
+例えば、第１層の場合は「物理層」または「レイヤ1」と呼ばれています。では各層ごとに説明します。</p>
+<p><img alt="画像" src="../studygif/networking3a.png"></p>
+<h2 id="osi_3">OSI参照モデルの各層ごとの役割</h2>
+<p>OSI参照モデルの各層では、コンピュータで以下のような役割を担います。詳細は後ほど紹介します。</p>
+<p><img alt="画像" src="../studygif/networking3b.png"></p>
+<h2 id="osi_4">OSI参照モデルにおけるカプセル化と非カプセル化</h2>
+<p>コンピュータ間で通信する場合、送信側ではレイヤ７→6→5→4→3→2→1の順番に処理を行っていきます。
+各層の規定通りに順番に処理されると、その処理した情報は<strong class="memory-answer">ヘッダ</strong>としてデータの前に付加されていきます。
+このように上位層の処理情報をヘッダとして下位層で包み込んでいくことを<strong class="memory-answer">カプセル化</strong>といいます。そして
+レイヤ７から順番に処理されていくと、レイヤ1の処理でデータが最終的に電気信号となって送信されます。
+※　レイヤ2ヘッダでは受信したフレームに誤りがないかどうかを調べるための<strong class="memory-answer">FCSヘッダ</strong>も付加されます。</p>
+<p><img alt="画像" src="../studygif/networking3c.png"></p>
+<p>一方、受信側のコンピュータでは受信した電気信号をレイヤ1→2→3→4→5→6→7の順で処理していきます。
+レイヤ1では電気信号をビット列に変換してコンピュータ上に取り込んでいき、レイヤ2ではL2ヘッダの情報に
+基づいて処理した上でL2ヘッダを取り外します。レイヤ3以降も同様に、ヘッダ情報に基づいて処理した上で
+ヘッダをとりはずし、最終的には受信側のコンピュータのアプリケーション上でもとのデータを受け取れます。
+このように、下位層から上位層にいくにつれて各層のヘッダを取り外していくことを<strong class="memory-answer">非カプセル化</strong>といいます。</p>
+<p><img alt="画像" src="../studygif/networking3d.png"></p>
+<h2 id="pdu">PDU ( プロトコルデータユニット )</h2>
+<p>PDUは、コンピュータ間の通信において使用されるデータの単位のことです。レイヤ2ではデータの単位を
+<strong class="memory-answer">フレーム</strong>、レイヤ3ではデータの単位を<strong class="memory-answer">パケット</strong>、レイヤ4ではデータの単位を<strong class="memory-answer">セグメント</strong>と呼んでいます。
+以上から、レイヤ2の機器のスイッチなどではフレーム転送、レイヤ3の機器のルータなどではパケット転送
+などと言われます。ただし一般的には、コンピュータのデータの単位は「パケット」と呼ぶ人が多いです。
+なお、パケットやフレームなどのヘッダを取り除いたデータ部分だけのことは<strong class="memory-answer">ペイロード</strong>と呼ばれています。</p>
+<table>
+<thead>
+<tr>
+<th>レイヤ</th>
+<th>PDU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>レイヤ1 （ 物理層 ）</td>
+<td>ビット</td>
+</tr>
+<tr>
+<td>レイヤ2 （ データリンク層 ）</td>
+<td>フレーム</td>
+</tr>
+<tr>
+<td>レイヤ3 （ ネットワーク層 ）</td>
+<td>パケット</td>
+</tr>
+<tr>
+<td>レイヤ4 （ トランスポート層 ）</td>
+<td>セグメント または データグラム</td>
+</tr>
+</tbody>
+</table>
+<p>※　TCPにおけるPDUは「セグメント」と呼び、UDPにおけるPDUは「データグラム」と呼ばれています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study14.html">ネットワーク、プロトコル、OSI参照モデル</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

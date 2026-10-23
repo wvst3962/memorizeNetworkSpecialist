@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>LTE | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lte_1">LTEとは</a></li>
+<li><a href="#lte-">各キャリアのLTE - サービス名と通信速度</a></li>
+<li><a href="#lte-_1">LTE - プラチナバンドとは</a></li>
+<li><a href="#lte-nttlte">フルLTE - NTTドコモのLTE設計</a></li>
+<li><a href="#lte-advanced-ntt">LTE-Advanced （NTTドコモにおけるキャリアアグリゲーション）</a></li>
+<li><a href="#lte-_2">LTE - ネットワーク構成</a></li>
+<li><a href="#lte_2">LTEの特徴</a></li>
+<li><a href="#lte-3">LTE - 高速化の3つの理由</a></li>
+<li><a href="#lte-_3">LTE - カテゴリー</a></li>
+<li><a href="#lte-etwsearthquake-and-tsunami-warning-system">LTE - ETWS（Earthquake and Tsunami Warning System）とは</a></li>
+<li><a href="#lte-cs-fallback">LTE - CS Fallbackとは</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="lte">LTE</h1>
+<hr>
+<h2 id="lte_1">LTEとは</h2>
+<p>LTE（Long Term Evolution）は第3世代（3G）の拡張版（3.9G）でありデータ通信を高速化した規格です。
+LTEは3.9Gの携帯電話の通信規格であり<strong class="memory-answer">理論上</strong>の最大受信速度は「<strong class="memory-answer">326Mbps</strong>」送信速度は「<strong class="memory-answer">86Mbps</strong>」です。</p>
+<p><img alt="画像" src="../studygif/wireless46a.png"></p>
+<p>ちなみに、4G技術（ LTE-Advanced または WiMAX2) に対応したスマートフォンではないのにも関わらず、
+「4G対応」としてスマートフォンが販売されていますが、これはITUが3.9Gに相当する「<strong class="memory-answer">LTE</strong>」「<strong class="memory-answer">WiMAX</strong>」
+そして3.5Gに相当する「<strong class="memory-answer">HSPA+</strong>」については「4Gと呼称してよい」とする声明を発表したことに起因します。</p>
+<h2 id="lte-">各キャリアのLTE - サービス名と通信速度</h2>
+<p>各キャリアが提供する<strong class="memory-answer">LTEサービスにおける理論上の最大</strong>通信速度です。iPhone5の発売を機にすべての
+キャリアのLTEサービスが揃いました。LTEサービス名はキャリアごとに異なりますが、LTEの技術仕様は
+同じなので、理論上の通信速度は同じとなります。品質とカバーエリアについてはNTTドコモが現在No.1。</p>
+<table>
+<thead>
+<tr>
+<th>キャリア</th>
+<th>LTEのサービス名</th>
+<th>通信速度</th>
+<th>LTE方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NTTドコモ</td>
+<td>Xi</td>
+<td>下り 75Mbps / 上り 25Mbps</td>
+<td>FDD-LTE</td>
+</tr>
+<tr>
+<td>KDDI au</td>
+<td>4G LTE</td>
+<td>下り 75Mbps / 上り 25Mbps</td>
+<td>FDD-LTE</td>
+</tr>
+<tr>
+<td>ソフトバンクモバイル</td>
+<td>SoftBank 4G LTE</td>
+<td>下り 75Mbps / 上り 25Mbps</td>
+<td>FDD-LTE</td>
+</tr>
+</tbody>
+</table>
+<p>※　TD-LTE 　：　上りと下りとで同じ周波数を時分割して送受信するTDD ( Time Division Duplex ) 方式のLTE。
+※　FDD-LTE　：　上りと下りとで異なる周波数を利用して送受信するFDD ( Frequency Division Duplex ) 方式のLTE。</p>
+<p>ソフトバンクが「Softbank 4G LTE」ではなくて「Softbank 4G」という名称で提供しているサービスは
+XGP規格を改良したAXGPによる通信サービスです。AXGPによる通信サービスとは、AXGP規格の要件を
+満たした仕様の１つのTD-LTEによる通信サービスです。一方、Softbank 4G LTEは上表通りFDD-LTEです。</p>
+<h2 id="lte-_1">LTE - プラチナバンドとは</h2>
+<p>LTEにおけるプラチナバンドとは、移動体通信用に割り当てられた周波数帯のうち<strong class="memory-answer">700MHz～900MHz</strong>帯を
+指しています。NTTドコモ、KDDI au、ソフトバンクモバイルには、以下のように割り当てられています。</p>
+<table>
+<thead>
+<tr>
+<th>キャリア</th>
+<th>バンド</th>
+<th>周波数帯</th>
+<th>利用可能日</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NTTドコモ</td>
+<td>19</td>
+<td>800MHz</td>
+<td>現在、利用可</td>
+</tr>
+<tr>
+<td>KDDI au</td>
+<td>18</td>
+<td>800MHz</td>
+<td>現在、利用可</td>
+</tr>
+<tr>
+<td>ソフトバンク</td>
+<td>8</td>
+<td>900MHz</td>
+<td>現在、利用可</td>
+</tr>
+</tbody>
+</table>
+<p>なぜ700MHz～900MHz帯の周波数帯をプラチナバンドと言うかというと、携帯電話向けの電波のなかでも
+700～900MHz帯の周波数帯は、他の周波数帯より電波が建物を回り込みやすく電波が届きやすいからです。
+従って、iPhone5s 以降のLTEデータ通信や、それを利用した<a href="https://www.infraexpert.com/study/wireless43.html">テザリング</a>通信はかなり快適になっています。</p>
+<h2 id="lte-nttlte">フルLTE - NTTドコモのLTE設計</h2>
+<p>2014年度以降、NTTドコモでは周波数帯によって以下のLTE通信速度を実現しています。</p>
+<table>
+<thead>
+<tr>
+<th>周波数帯</th>
+<th>LTE</th>
+<th>最高スループット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.7 GHHz</td>
+<td>フルLTE</td>
+<td>150Mbps</td>
+</tr>
+<tr>
+<td>1.5 GHz</td>
+<td>フルLTE</td>
+<td>112.5Mbps</td>
+</tr>
+<tr>
+<td>2 GHz</td>
+<td>LTEと3Gの混在</td>
+<td>112.5Mbps</td>
+</tr>
+<tr>
+<td>800 MHz</td>
+<td>LTEと3Gの混在</td>
+<td>75Mbps</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lte-advanced-ntt">LTE-Advanced （NTTドコモにおけるキャリアアグリゲーション）</h2>
+<p>NTTドコモでは4つの周波数のベストフォーメーションを活かして、以下の組み合わせで225Mbpsを実現。</p>
+<p><img alt="画像" src="../studygif/wireless46b.png"></p>
+<h2 id="lte-_2">LTE - ネットワーク構成</h2>
+<p>HSPAネットワークでは、データ通信はパケット交換網で処理され音声通信は回線交換網で処理されています。
+LTEネットワークは最終的に（現在は過渡期）、右図のようにパケット交換網だけでデータ通信と音声通信を
+処理できるネットワーク構成となり全てがIP化されていきます。つまり音声もVoIPで伝送される事になります。
+下図のようなシンプルな構成により伝送遅延も大幅に抑えられて、LTEの伝送遅延(5msec以内)を実現します。
+※　無線電波を送受信するNECのeNondeB、マルチメディアプラットフォームのCisco ASR 5000の組み合わせなら下図構成を実現。</p>
+<p><img alt="画像" src="../studygif/wireless46c.png"></p>
+<p>最終的には従来の回線交換（CS：Circuit Switched）をなくして、CSで提供していた音声やSMSはVoIPに
+置き換えられ（SIPを使用）、このための制御基盤となるIMS(IP Multimedia Subsystem)導入が必要です。</p>
+<p>LTEのコアネットワークといっても、この先かなりの間は「3GPP/3GPP2」のアクセス網は残ることになり、
+無線LAN、WiMAXなどの無線アクセスを収容する共通のコアネットワーク（下図のような構成）となります。</p>
+<p><img alt="画像" src="../studygif/wireless46d.png"></p>
+<h2 id="lte_2">LTEの特徴</h2>
+<p>3.9GであるLTEには大きく5つの特徴があります。3.5GのHSPAと比較しながらその特徴を見ていきます。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>LTE</th>
+<th>HSPA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1、最大通信速度</td>
+<td>下り ： 326Mbps / 上り ： 86Mbps</td>
+<td>下り ： 14.4Mbps / 上り ： 5.76Mbps</td>
+</tr>
+<tr>
+<td>2、遅延時間の目標</td>
+<td>接続遅延：100msec /伝送遅延：5msec</td>
+<td>目標値なし</td>
+</tr>
+<tr>
+<td>3、通信方式</td>
+<td>パケット方式のみ</td>
+<td>回線交換方式（音声用） / パケット方式（データ用）</td>
+</tr>
+<tr>
+<td>4、周波数利用効率</td>
+<td>下り ： 3倍 / 上り ： 2倍</td>
+<td>下り ： 1倍 / 上り ： 1倍</td>
+</tr>
+<tr>
+<td>5、周波数帯域幅</td>
+<td>1.4 /3 / 5 /10 /15 / 20MHz（可変）</td>
+<td>5MHz（固定）</td>
+</tr>
+</tbody>
+</table>
+<p>1、最大通信速度は大幅に高速化されています。ただし、理論上の最大通信速度であるという点と、キャリア
+によって使用する週数帯域幅などのポリシーが異なるので、ここまでの通信速度は実測として得られません。
+※ 326Mbpsを出すためには「4×4MIMO」「周波数20MHz」「端末カテゴリー5」の3条件が必要となります。</p>
+<p>2、「接続遅延」とは、通信開始のためのコネクションの確立にかかる時間。現在は数秒以上かかっています。
+「伝送遅延」は通信中のデータ伝送にかかる時間。LTEではこれらを上の値を目標値として定められています。</p>
+<p>3、HSPAでは、音声通話用の「回線交換方式」とデータ通信用の「パケット方式」の両方を提供していました。
+LTEでは音声もデータもパケット方式で提供されます。音声通話はVoIPによってパケット化を実現しています。</p>
+<p>4、LTEでは、周波数利用効率が向上しており、下りのデータ通信量がHSPAに比べて3倍に増えた場合でも
+同じ周波数幅/同じセクタで今まで同様のユーザ数を収容できます。1つの基地局で収容できるキャパの増加。</p>
+<p>5、LTEでは、利用する周波数帯域幅を「1.4MHz、3MHz、5MHz、10MHz、15MHz、20MHz」の中から自由
+に選択できます。これによりキャリアは段階的な導入や柔軟な導入を実現できます。周波数帯域幅は、大きな
+値であるほど、通信を高速化できます。つまり、5MHzと20MHzとでは20MHzの周波数帯域幅の方が高速通信。</p>
+<h2 id="lte-3">LTE - 高速化の3つの理由</h2>
+<p>1、利用周波数帯域が3Gでは最大で「5MHz」でしたが、LTEでは最大「<strong class="memory-answer">20MHz</strong>」を使用することができます。
+2、LTEでは複数のアンテナを使用してデータを同時伝送可能な技術の「<strong class="memory-answer">MIMO</strong>」を採用「最大4×4」します。
+3、LTEでは変調方式に「下りはOFDMA、上りはSC-FDMA」をベースに「<strong class="memory-answer">QPSK</strong>、<strong class="memory-answer">16QAM</strong>、<strong class="memory-answer">64QAM</strong>」を採用。</p>
+<p>変調とはデジタル信号を電波として送信できるように信号を変換することですが、1回の変調（1シンボル）で
+多くの情報量を送ることができれば通信速度が速くなります。QPSKでは、1シンボルで2ビット（2の2乗=4）
+の信号を送信でき、16QAMでは4ビット（2の4乗=16）64QAMでは6ビット(2の6乗=64）の信号を送信可能。</p>
+<p><img alt="画像" src="../studygif/wireless46e.png"></p>
+<p>例えば、HSPAの場合「QPSKと16QAM」しかサポートされていないので、OFDMをベースにした「16QAM」
+の変調方式のHSPAに比べて、OFDMAをベースにした「64QAM」の変調方式のLTEは4倍の情報量を伝送可能。
+※　LTEでは基地局とLTE端末の距離やLTE端末の電力制約に応じて「QPSK / 16QAM / 64QAM」の変調方式を自動的に切り替え。</p>
+<h2 id="lte-_3">LTE - カテゴリー</h2>
+<p>LTEにおける通信速度は、基地局の設備や制御だけでなく、クライアントが使用する無線端末側のカテゴリー
+と呼ばれる実装技術と伝送速度を組み合わせた基準により変わります。カテゴリーには以下の5種類がある。
+例えば基地局側で300Mbps以上の伝送速度をサポートとしていても、使用する無線デバイスのカテゴリーが
+「3」である場合、その無線デバイスを使用したLTE通信は100Mbpsに通信速度が制限されることになります。</p>
+<p>【　LTEカテゴリー表　】</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>カテゴリー 1</th>
+<th>カテゴリー 2</th>
+<th>カテゴリー 3</th>
+<th>カテゴリー 4</th>
+<th>カテゴリー 5</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大通信速度</td>
+<td>下り</td>
+<td>10Mbps</td>
+<td>50Mbps</td>
+<td>100Mbps</td>
+<td>150Mbps</td>
+<td>300Mbps</td>
+</tr>
+<tr>
+<td>最大通信速度</td>
+<td>上り</td>
+<td>5Mbps</td>
+<td>25Mbps</td>
+<td>50Mbps</td>
+<td>50Mbps</td>
+<td>75Mbps</td>
+</tr>
+<tr>
+<td>利用周波数幅</td>
+<td>20MHz</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>変調方式</td>
+<td>下り<br>OFDMA</td>
+<td>QPSK、16QAM、64QAM</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>変調方式</td>
+<td>上り<br>SC-FDMA</td>
+<td>QPSK、16QAM</td>
+<td>QPSK、16QAM、64QAM</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2ダイバーシティ受信</td>
+<td>必要に応じて利用</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2×2 MIMO</td>
+<td>サポートなし</td>
+<td>必須</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4×4 MIMO</td>
+<td>サポートなし</td>
+<td>必須</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>利用周波数幅</th>
+<th>5MHz</th>
+<th>10MHz</th>
+<th>15MHz</th>
+<th>20MHz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>カテゴリー1</td>
+<td>10Mbps</td>
+<td>10Mbps</td>
+<td>10Mbps</td>
+<td>10Mbps</td>
+</tr>
+<tr>
+<td>カテゴリー2</td>
+<td>37.5Mbps</td>
+<td>50Mbps</td>
+<td>50Mbps</td>
+<td>50Mbps</td>
+</tr>
+<tr>
+<td>カテゴリー3</td>
+<td>37.5Mbps</td>
+<td>75Mbps</td>
+<td>100Mbps</td>
+<td>100Mbps</td>
+</tr>
+<tr>
+<td>カテゴリー4</td>
+<td>37.5Mbps</td>
+<td>75Mbps</td>
+<td>112.5Mbps</td>
+<td>150Mbps</td>
+</tr>
+<tr>
+<td>カテゴリー5</td>
+<td>75Mbps</td>
+<td>75Mbps</td>
+<td>225Mbps</td>
+<td>300Mbps</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lte-etwsearthquake-and-tsunami-warning-system">LTE - ETWS（Earthquake and Tsunami Warning System）とは</h2>
+<p>ETWSはLTEの標準規格の1つであり、地震・津波などの災害発生時にスマホ利用者に「大きな音と画面上の
+メッセージ」によって、緊急地震速報や避難情報が送信されます。ETWS対応スマホであれば、デフォルトで
+受信できる状態になっています。<strong class="memory-answer">海外製の格安スマホはETWSに対応していない機種もあるのでご注意</strong>下さい。</p>
+<h2 id="lte-cs-fallback">LTE - CS Fallbackとは</h2>
+<p>LTEネットワークにおいて音声通話を実現するためには、VoLTE（Voice over LTE）の技術を使用します。
+LTEではVoLTE対応の携帯電話（スマートフォン）である場合、音声通信もパケットとして転送されますが、
+現在ではデータ通信のみLTEで通信を行い、音声通信は3Gで通信を行っています。LTEのサービスエリアが
+3Gなみに広がりVoLTE対応の携帯電話が普及するまでは、過渡的なシステムとしてCS Fallbackがシステム
+として使用されます。CS Fallbackにより回線交換 = CS（Circuit Switched）を持たないLTEサービスでは、
+音声通話時には3Gに自動的に切り替わり<strong class="memory-answer">音声通話は3Gに任せる</strong>ことになります。仕組みは下図の通りです。</p>
+<p>◇　音声通話の発信時
+?@　音声発信時は、LTEコアネットワークのMME (Mobility Management Entity) に発信要求を送信します。
+?A　MMEはLTE端末にハンドオーバー命令を出します。
+?B　LTE端末は、無線をLTEから3Gへと切り替えます。
+?C　LTE端末は3GコアネットワークのMSC/VLRに発信要求を行い、その後はSGSNに音声通信を伝送します。</p>
+<p><img alt="画像" src="../studygif/wireless46f.png"></p>
+<p>◇　音声通話の着信時
+?@　音声着信時は、3GコアネットワークのMSC/VLRに着信信号が送られてきます。
+?A　着信情報から対応するMMEを特定し一斉呼出し信号を送出します。
+?B　CSサービスの呼出であることを示す情報を含めた上で、MMEからLTE端末に一斉呼出信号を送出します。
+?C　この情報を識別したLTE端末は、MMEにたいしてCSサービス要求を送信します。
+?D　?E　ハンドオーバー命令を受けたLTE端末は3Gへ切替を行います。
+?F　LTE端末は、自分が登録されているMSC/VLRに一斉呼出し応答の信号を送信します。</p>
+<p><img alt="画像" src="../studygif/wireless46g.png"></p>
+<p>現在はLTE移行への過渡期でありキャリアは3GとLTEの2つの基地局が必要になっています。これが3G並み
+の電波環境、VoLTEの完全普及でLTEネットワークのみに一本化できた場合はキャリアの設備投資や維持が
+大幅に負担軽減となり現在のサービス料金からの引き下げや、通話料金の定額制などが期待されています。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study11.html">無線LAN（Wi-Fi）</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

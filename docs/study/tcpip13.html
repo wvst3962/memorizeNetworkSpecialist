@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DHCP | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dhcp_1">DHCPとは</a></li>
+<li><a href="#dhcp_2">DHCPの構成要素</a></li>
+<li><a href="#dhcp_3">DHCPのパケット</a></li>
+<li><a href="#dhcp_4">DHCPの仕組み</a></li>
+<li><a href="#dhcp_5">DHCPサーバ</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dhcp">DHCP</h1>
+<hr>
+<h2 id="dhcp_1">DHCPとは</h2>
+<p>DHCP ( Dynamic Host Configuration Protocol ) は、ネットワーク接続するのに必要なIPアドレスなどの
+情報を自動的に割り当てる<strong class="memory-answer">アプリケーション層プロトコル</strong>です。DHCPを使用すれば、IPアドレスに関する
+知識がないユーザでも、パソコンをケーブルに接続するだけで簡単にネットワーク接続することができます。</p>
+<h2 id="dhcp_2">DHCPの構成要素</h2>
+<p>DHCPの環境はDHCPサーバとDHCPクライアントから構成されます。それぞれの特徴は以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>構成要素</th>
+<th>役割</th>
+<th>使用される機器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DHCPサーバ</td>
+<td>IPアドレスの設定情報などを<br>DHCPクライアントに割り当てる</td>
+<td>Windowsサーバ、Linuxサーバ、Ciscoルータなど</td>
+</tr>
+<tr>
+<td>DHCPクライアント</td>
+<td>IPアドレスの設定情報などを<br>DHCPサーバから割り当てられる</td>
+<td>Windows OSなどのパソコン、IP電話など</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dhcp_3">DHCPのパケット</h2>
+<p>DHCPプロトコルはUDP上で動作するプロトコルです。DHCPサーバ宛にパケットを送る場合のポート番号は
+「67」を使用し、DHCPクライアント宛にパケットを送る場合はポート番号に「68」を使用します。下図の
+DHCPメッセージ部分に、例えばDHCPサーバがDHCPクライアントに割り当てるIPアドレス情報があります。</p>
+<p><img alt="画像" src="../studygif/tcpip13a.png"></p>
+<h2 id="dhcp_4">DHCPの仕組み</h2>
+<p>最初はDHCPクライアントは自身のIPアドレスも知らなければ、DHCPサーバのIPアドレスも知らないので
+全ての宛先（ブロードキャスト）にDHCP Discoverメッセージを送信して、ネットワーク全体に問い合わせ。</p>
+<p><img alt="画像" src="../studygif/tcpip13b.png"></p>
+<p>次に、DHCPサーバはクライアントに割り当てるIPアドレス設定などをアドレスプールから選択して提案。
+DHCPサーバの仕様によりDHCP Offerはブロードキャストで送信するので、その場合は宛先MACとIPは
+ブロードキャストアドレスになります。今回の解説では、ユニキャストを送信することが前提の内容です。</p>
+<p><img alt="画像" src="../studygif/tcpip13c.png"></p>
+<p>次に、DHCPクライアントは提案されたIPを使用する事を通知するためにDHCP Requestをブロードキャスト。</p>
+<p><img alt="画像" src="../studygif/tcpip13d.png"></p>
+<p>最後に、DHCPサーバはDHCPクライアントが使用するIPアドレスなどの設定情報をDHCP Ackで送信します。</p>
+<p><img alt="画像" src="../studygif/tcpip13e.png"></p>
+<p>これで、DHCPクライアントは自身のIPアドレスを「192.168.0.1/24」として稼動できるようになります。</p>
+<h2 id="dhcp_5">DHCPサーバ</h2>
+<p>DHCPサーバにはWindowsサーバ、Linuxサーバ、Ciscoルータ等がなることができます。当然、設定方法は
+異なりますが設定項目自体は共通です。DHCPサーバには色々な設定項目がありますが、DHCPクライアント
+にIPアドレスを割り当てる範囲のアドレスプール、サブネットマスク、デフォルトゲートウェイのアドレス、
+DNSサーバのIPアドレス、リース期間（ IPアドレスの貸し出し期間 ）などが、基本的な設定項目となります。</p>
+<hr>
+<p>← <a href="tcpip12.html">UDPとは</a>　<a href="tcpip14.html">DHCPリレーエージェント</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Wireless LAN - 802.11b / 11a / 11g / 11n / 11ac / 11ax / 11be | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ieee80211-lan">IEEE802.11 - 無線LAN規格</a></li>
+<li><a href="#ieee80211bagn-lan">IEEE802.11b/a/g/n - 無線LANの伝送規格</a></li>
+<li><a href="#ieee80211b">IEEE802.11b</a></li>
+<li><a href="#ieee80211a">IEEE802.11a</a></li>
+<li><a href="#ieee80211g">IEEE802.11g</a></li>
+<li><a href="#lan-">無線LAN - 変調方式の詳細</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wireless-lan-80211b-11a-11g-11n-11ac-11ax-11be">Wireless LAN - 802.11b / 11a / 11g / 11n / 11ac / 11ax / 11be</h1>
+<hr>
+<h2 id="ieee80211-lan">IEEE802.11 - 無線LAN規格</h2>
+<p>無線LANの規格を定めているのが <strong class="memory-answer">IEEE802.11</strong> です。無線LAN規格の詳細として、伝送規格については
+IEEE802.11b/11a/11g/11n/11ac/11ax/11beで定義、無線LANのセキュリティ規格は802.11iで定義、
+QoS関連の規格は 802.11e で定義しています。今回は伝送規格を定義した 802.11b/11a/11g/11n の
+基本を解説します。802.11n の詳細は <a href="wireless15.html">802.11n</a>、802.11acの詳細は <a href="wireless49.html">802.11ac</a> で解説します。</p>
+<table>
+<thead>
+<tr>
+<th>IEEE802.11（無線LAN規格）の詳細</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE802.11b</td>
+<td>伝送規格</td>
+<td>2.4GHz帯での最大11Mbpsの無線LANの物理層仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>伝送規格</td>
+<td>5GHz帯での最大54Mbpsの無線LANの物理層仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>伝送規格</td>
+<td>2.4GHz帯での最大54Mbpsの無線LANの物理層仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11i</td>
+<td>セキュリティ</td>
+<td>802.11のMAC層を拡張し、セキュリティ機能と認証機構を強化するための仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11e</td>
+<td>QoS関連規格</td>
+<td>802.11のMAC層を拡張し、QoS機能を追加するための仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11n</td>
+<td>伝送規格</td>
+<td>実効速度100Mbps以上の伝送速度を実現するための仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11ac</td>
+<td>伝送規格</td>
+<td>802.11n後継の理論上6.93Gbpsの伝送速度を実現する仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11ax</td>
+<td>伝送規格</td>
+<td>802.11ac後継の理論上9.6Gbpsの伝送速度を実現する仕様</td>
+</tr>
+<tr>
+<td>IEEE802.11be</td>
+<td>伝送規格</td>
+<td>802.11ax後継の理論上30Gbpsの伝送速度を実現する仕様（2024年標準化予定）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ieee80211bagn-lan">IEEE802.11b/a/g/n - 無線LANの伝送規格</h2>
+<p>IEEE802.11b、a、g、n の規格により周波数帯域、伝送速度、同時使用チャネル数などが異なります。</p>
+<table>
+<thead>
+<tr>
+<th>無線LANの伝送規格</th>
+<th>IEEE802.11b</th>
+<th>IEEE802.11a</th>
+<th>IEEE802.11g</th>
+<th><a href="wireless15.html">IEEE802.11n</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周波数帯域</td>
+<td>2.4GHz帯</td>
+<td>5GHz帯</td>
+<td>2.4GHz帯</td>
+<td>2.4 / 5 GHz帯</td>
+</tr>
+<tr>
+<td>最大伝送速度</td>
+<td>11Mbps</td>
+<td>54Mbps</td>
+<td>54Mbps</td>
+<td>600Mbps<br>(40MHzチャネル<br>ボンディング,<br>4ストリーム時）</td>
+</tr>
+<tr>
+<td>伝送速度※1</td>
+<td>1Mbps ～ 11Mbps</td>
+<td>6Mbps ～ 54Mbps</td>
+<td>6Mbps ～ 54Mbps</td>
+<td>600Mbps<br>(40MHzチャネル<br>ボンディング,<br>4ストリーム時）</td>
+</tr>
+<tr>
+<td>同時使用チャネル数</td>
+<td>4 ※2</td>
+<td>19 ※3</td>
+<td>4</td>
+<td>2 / 9</td>
+</tr>
+<tr>
+<td>利用可能チャネル数</td>
+<td>14</td>
+<td>19</td>
+<td>13</td>
+<td>13 / 19</td>
+</tr>
+<tr>
+<td>チャネル幅</td>
+<td>22 MHz</td>
+<td>20 MHz</td>
+<td>20 MHz</td>
+<td>20MHz or 40MHz</td>
+</tr>
+<tr>
+<td>データの電波への変換方法</td>
+<td>DSSS</td>
+<td>OFDM</td>
+<td>DSSS / OFDM</td>
+<td>OFDM</td>
+</tr>
+<tr>
+<td>屋外での利用</td>
+<td>○</td>
+<td>×</td>
+<td>○</td>
+<td>△</td>
+</tr>
+<tr>
+<td>IEEE802.11bとの互換性</td>
+<td>-</td>
+<td>×</td>
+<td>○</td>
+<td>○</td>
+</tr>
+<tr>
+<td>策定時期</td>
+<td>1999年</td>
+<td>1999年</td>
+<td>2003年</td>
+<td>2009年</td>
+</tr>
+</tbody>
+</table>
+<p>※1　無線LANの伝送速度は、実際には<strong class="memory-answer">段階的</strong>なものとなります。また、この解説どおり<a href="wireless4.html">伝送速度は電波強度</a>により異なります。
+※2　1～14chの中の<strong class="memory-answer">14ch</strong>は日本国内で802.11bのみの対応となります。つまり1ch, 6ch, 11ch, 14chのチャネル設計は日本のみ。
+※3　2007年1月の省令改正で使用可能なチャネル数が8chから19chに増加。11aの場合、同時使用チャネル = 利用可能チャネル。</p>
+<h2 id="ieee80211b">IEEE802.11b</h2>
+<p>IEEE802.11bは<strong class="memory-answer">ISMバンド</strong>と呼ばれる2.4GHzの周波数帯域を使用します。最大伝送速度は11Mbpsですが
+電波の強度によって通信速度が異なります。電波が強い所ほど速度が速くなります。同時使用チャネルが
+4ch、利用可能チャネル数が 14ch であるのは日本のみです。海外では <strong class="memory-answer">14</strong> というチャネルは使用しません。</p>
+<p>変調方式は、DSSSをベースにCCK方式を採用することにより11Mbpsによる高速度化を実現しています。
+IEEE802.11bで干渉することなく利用できるチャネルは1ch、6ch、11ch、14ch (日本のみ) の4つです。
+※　無線LAN機器と同じ2.4GHz帯域を使用する<strong class="memory-answer">電子レンジ</strong>、<strong class="memory-answer">Bluetooth</strong>、<strong class="memory-answer">コードレス電話</strong>が近くにあると電波干渉が発生します。</p>
+<h2 id="ieee80211a">IEEE802.11a</h2>
+<p>IEEE802.11aは<strong class="memory-answer">U-NIIバンド</strong>の5GHzの周波数帯域を使用します。変調方式をOFDMにすることによって
+最大伝送速度は54Mbpsへと飛躍的に伸びました。ただし、この5GHzの周波数帯域は電波法により屋外
+での利用が禁止されているので、802.11aを使用する場合は屋内である必要があります。※　屋外で使用
+可能な周波数もあります。IEEE802.11b/g に比べて干渉を受けにくいのでスループットが出やすいです。</p>
+<p>2005年5月の省令改正によりIEEE802.11aの周波数帯域が変更になりました。以前から<strong class="memory-answer">日本国内</strong>で使用
+されてきた周波数5.15GHz～5.25GHz（<strong class="memory-answer">J52</strong>）から、<strong class="memory-answer">国際標準</strong>の5.15GHz～5.35GHz（<strong class="memory-answer">W52</strong>, <strong class="memory-answer">W53</strong>）に
+変更となり、改正前に使用できるチャネル数は4つでしたが改正後に<strong class="memory-answer">8つ</strong>に増えました。そして、さらに
+2007年1月の省令改正によりIEEE802.11aの周波数帯域に 5.47GHz～5.725GHz（<strong class="memory-answer">W56</strong>）も使用可能に
+なりました。この改正により、改正前に使用できるチャネル数は8つでしたが改正後に<strong class="memory-answer">19つ</strong>に増えました。</p>
+<h2 id="ieee80211g">IEEE802.11g</h2>
+<p>IEEE802.11gは 802.11bと同様に2.4GHzの周波数帯域を使用します。また、11aと同じように変調方式に
+OFDM（Orthogonal Frequency Division Multiple）を使用することによって、最大伝送速度が 54Mbps と
+なりました。しかし、電子レンジやBluetoothなども2.4GHzを使用している混雑した周波数であることから
+IEEE802.11bと同様に干渉の影響を受けやすい。また、802.11gで干渉することなく利用できるチャネルは
+基本的に5チャネル以上あけた組み合わせでよいが、推奨としては <strong class="memory-answer">1ch</strong>、<strong class="memory-answer">7ch</strong>、<strong class="memory-answer">13ch</strong> を使用することです。</p>
+<p>IEEE802.11gはIEEE802.11bとの互換性があるため、既存の無線LAN環境が802.11bである場合、802.11g
+の機器を新たに導入しても既存資産（ 802.11bのアクセスポイントや無線LANカード ）を有効活用できます。
+ただし802.11bの機器と混在した場合、802.11bモードにて動作するため最大伝送速度も11Mbpsとなります。</p>
+<p>※　現在では、11bによる無線LAN通信がほとんど行われないので、速度低下を回避するために11bは無効化することが推奨です。</p>
+<h2 id="lan-">無線LAN - 変調方式の詳細</h2>
+<table>
+<thead>
+<tr>
+<th>IEEE規格</th>
+<th>帯域幅</th>
+<th>変調方式 / 伝送速度</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IEEE802.11b</td>
+<td>22MHz</td>
+<td>DSSS</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11b</td>
+<td>22MHz</td>
+<td>DBPSK</td>
+<td></td>
+<td>DQPSK</td>
+<td>CCK</td>
+<td>CCK</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11b</td>
+<td>22MHz</td>
+<td>1Mbps</td>
+<td></td>
+<td>2Mbps</td>
+<td>5.5Mbps</td>
+<td>11Mbps</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>20MHz</td>
+<td>OFDM</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>20MHz</td>
+<td>BPSK 1/2</td>
+<td>BPSK 3/4</td>
+<td>QPSK 1/2</td>
+<td>QPSK 3/4</td>
+<td>16QAM 1/2</td>
+<td>16QAM 3/4</td>
+<td>64QAM 2/3</td>
+<td>64QAM 3/4</td>
+</tr>
+<tr>
+<td>IEEE802.11a</td>
+<td>20MHz</td>
+<td>6Mbps</td>
+<td>9Mbps</td>
+<td>12Mbps</td>
+<td>18Mbps</td>
+<td>24Mbps</td>
+<td>36Mbps</td>
+<td>48Mbps</td>
+<td>54Mbps</td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>DSSS</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>DBPSK</td>
+<td></td>
+<td>DQPSK</td>
+<td>CCK</td>
+<td>CCK</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>1Mbps</td>
+<td></td>
+<td>2Mbps</td>
+<td>5.5Mbps</td>
+<td>11Mbps</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>OFDM</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>BPSK 1/2</td>
+<td>BPSK 3/4</td>
+<td>QPSK 1/2</td>
+<td>QPSK 3/4</td>
+<td>16QAM 1/2</td>
+<td>16QAM 3/4</td>
+<td>64QAM 2/3</td>
+<td>64QAM 3/4</td>
+</tr>
+<tr>
+<td>IEEE802.11g</td>
+<td>20MHz</td>
+<td>6Mbps</td>
+<td>9Mbps</td>
+<td>12Mbps</td>
+<td>18Mbps</td>
+<td>24Mbps</td>
+<td>36Mbps</td>
+<td>48Mbps</td>
+<td>54Mbps</td>
+</tr>
+</tbody>
+</table>
+<p>※　IEEE802.11g規格ではIEEE802.11bクライアントとの通信に互換性を持たせるためDSSSも実装しています。</p>
+<hr>
+<p>← <a href="wireless.html">無線LAN（Wi-Fi）とは</a>　<a href="wireless3.html">無線LAN - チャネルとは</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

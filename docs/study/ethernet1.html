@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>FastEthernet / GigabitEthernet / 10GigabitEthernet | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#lan">LANの規格</a></li>
+<li><a href="#_1">イーサネット規格の命名規則</a></li>
+<li><a href="#10mbps">イーサネット ( 10Mbps )</a></li>
+<li><a href="#100mbps">ファーストイーサネット ( 100Mbps )</a></li>
+<li><a href="#1gbps">ギガビットイーサネット ( 1Gbps )</a></li>
+<li><a href="#10-10gbps">10ギガビットイーサネット ( 10Gbps )</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="fastethernet-gigabitethernet-10gigabitethernet">FastEthernet / GigabitEthernet / 10GigabitEthernet</h1>
+<hr>
+<h2 id="lan">LANの規格</h2>
+<p>LANの代表的な規格には、イーサネット、トークンリング、FDDIがあります。今日のネットワークでは
+トークンリングやFDDIはほぼ使用されていないので、今回の解説はイーサネットLANに焦点を当てます。</p>
+<table>
+<thead>
+<tr>
+<th>規格</th>
+<th>IEEE</th>
+<th>媒体アクセス制御方式</th>
+<th>伝送メディア</th>
+<th>トポロジー</th>
+<th>伝送速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>イーサネット</td>
+<td>802.3</td>
+<td>CSMA/CD</td>
+<td>同軸ケーブル</td>
+<td>バス型</td>
+<td>10Mbps ～</td>
+</tr>
+<tr>
+<td>イーサネット</td>
+<td>802.3</td>
+<td>CSMA/CD</td>
+<td>UTPケーブル</td>
+<td>スター型</td>
+<td>10Mbps ～</td>
+</tr>
+<tr>
+<td>イーサネット</td>
+<td>802.3</td>
+<td>CSMA/CD</td>
+<td>光ファイバーケーブル</td>
+<td>拡張スター型</td>
+<td>10Mbps ～</td>
+</tr>
+<tr>
+<td>トークンリング</td>
+<td>802.5</td>
+<td>トークンパッシング</td>
+<td>STPケーブル</td>
+<td>リング型</td>
+<td>4M or 16Mbps</td>
+</tr>
+<tr>
+<td>FDDI</td>
+<td>-</td>
+<td>トークンパッシング</td>
+<td>光ファイバーケーブル</td>
+<td>二重リング型</td>
+<td>100Mbps ～</td>
+</tr>
+</tbody>
+</table>
+<p>LANの規格は、OSI参照モデルの上では物理層とデータリンク層の2つの階層に位置します。そして
+IEEEが定義するLAN規格では、データリンク層はLLC副層とMAC副層の2つの副層に分類されています。</p>
+<p><img alt="画像" src="../studygif/ethernet1a.png"></p>
+<table>
+<thead>
+<tr>
+<th>100Base-TX</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAC (Media Access Contorl) 副層</td>
+<td>媒体アクセス制御。MACアドレスのアドレッシング機構を提供する。フレームの<br>送受信方法、フレームの形式、誤り検出方法なども規定。物理層の上に位置する。</td>
+</tr>
+<tr>
+<td>LLC (Logical Link Control) 副層</td>
+<td>論理リンク制御。イーサネットやトークンリングなどのネットワーク媒体の種類の違いに<br>関係なく、ネットワーク層からネットワーク媒体を同じ手順で利用できるようにするもの。</td>
+</tr>
+</tbody>
+</table>
+<p>※　現在ではLLC層は使用されておらずIEEE802.2も活動休止中。MAC層とLLC層を併せ持つEthernet?Uフレームの使用が一般的。</p>
+<h2 id="_1">イーサネット規格の命名規則</h2>
+<p>イーサネットの規格名は、伝送メディア（ケーブルの種類）や伝送速度により以下の命名規則があります。
+ここでは100Base-TXを例に解説します。100Base-TXの読み方は「ヒャクベースティーエックス」です。</p>
+<table>
+<thead>
+<tr>
+<th>100Base-TX</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>伝送速度</td>
+<td>「10」の場合は10Mbps、「100」の場合は100Mbps、「1000」の場合は1000Mbps。</td>
+</tr>
+<tr>
+<td>Base</td>
+<td>伝送形式</td>
+<td>「Base」はベースバンド方式の意味。イーサネットでは現在ベースバンド方式以外はない。</td>
+</tr>
+<tr>
+<td>TX</td>
+<td>ケーブルの種類</td>
+<td>数字の場合は最大セグメント長※1、アルファベットの場合はケーブルの種類を意味する。<br>「T」はUTP、「F」は光ファイバー、「X」の場合FDDIの技術の使用※2 を意味する。</td>
+</tr>
+</tbody>
+</table>
+<p>※1　10Base5の最大ケーブル長は「500M」なので「5」ですが、10Base2の最大ケーブル長は「200M」ではなく「185M」です。
+※2　100Base-TXはFDDIの物理層規格を借用しているので「X」が名称として付け加えられています。</p>
+<h2 id="10mbps">イーサネット ( 10Mbps )</h2>
+<p>イーサネットとして、10Base5 ⇒ 10Base2 ⇒ 10Base-Tの順番で標準化されたので当初は同軸ケーブルを
+使用したバス型のトポロジーを採用していましたが、バス型のトポロジーでは一箇所に故障が発生した場合
+その同軸ケーブルに接続したネットワーク全体が通信できなくなるので、10BaseTが登場してからはすぐに
+UTPケーブルとハブ（集線装置）を使用したスター型のトポロジーに移行していきました。以降バス型は衰退。</p>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>IEEE</th>
+<th>伝送媒体</th>
+<th>コネクタ</th>
+<th>最大長</th>
+<th>トポロジー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10Base5</td>
+<td>IEEE802.3</td>
+<td>同軸ケーブル</td>
+<td>AUI</td>
+<td>500m</td>
+<td>バス</td>
+</tr>
+<tr>
+<td>10Base2</td>
+<td>IEEE802.3a</td>
+<td>同軸ケーブル</td>
+<td>BNC</td>
+<td>185m</td>
+<td>バス</td>
+</tr>
+<tr>
+<td>10Base-T</td>
+<td>IEEE802.3i</td>
+<td>UTPケーブル (2対のCAT3以上)</td>
+<td>RJ-45</td>
+<td>100m</td>
+<td>スター</td>
+</tr>
+</tbody>
+</table>
+<h2 id="100mbps">ファーストイーサネット ( 100Mbps )</h2>
+<p>通信速度を100Mbpsにしたイーサネット規格。最も使用されている規格が100Base-TXです。100Base-T4
+が使用されることは先ずありません。最大ケーブル長の100mを超える配線が必要な場合は、100Base-FX
+が使用されますが、そのような配線は一般的にギガビットイーサネットで行います。なお、100Base-TXに
+対応した機器は10Base-Tも対応しており、対向機器の状況に応じ10 or 100Mbpsのどらかを使用できます。</p>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>IEEE</th>
+<th>伝送媒体</th>
+<th>コネクタ</th>
+<th>最大長</th>
+<th>トポロジー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100Base-TX</td>
+<td>IEEE802.3u</td>
+<td>UTPケーブル (2対のCAT5以上)</td>
+<td>RJ-45</td>
+<td>100m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>100Base-T4</td>
+<td>IEEE802.3u</td>
+<td>UTPケーブル (4対のCAT3以上)</td>
+<td>RJ-45</td>
+<td>100m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>100Base-FX</td>
+<td>IEEE802.3u</td>
+<td>光ファイバ （マルチモード）</td>
+<td>ST</td>
+<td>400m</td>
+<td>スター</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1gbps">ギガビットイーサネット ( 1Gbps )</h2>
+<p>通信速度を1000Mbpsにしたイーサネット規格。現在は、エンドユーザのPCとLANスイッチ間の通信速度が
+100Mbpsが一般的であることから、バックボーンのネットワークではギガビットイーサネットにすることが
+一般的になっています。ギガビットイーサネットには以下の規格がありますが、1000Base-CXは、あまり
+使用されることはありませんが、工場などのノイズが多い場所でも高い通信速度を求められる状況では使用。
+1000BaseT/SX/LXについては機器が持っているインターフェース、ケーブル配線距離に応じて使用します。</p>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>IEEE</th>
+<th>伝送媒体</th>
+<th>コネクタ</th>
+<th>最大長</th>
+<th>トポロジー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1000Base-CX</td>
+<td>IEEE802.3z</td>
+<td>STPケーブル</td>
+<td>RJ-45</td>
+<td>25m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>1000Base-T</td>
+<td>IEEE802.3ab</td>
+<td>UTPケーブル</td>
+<td>RJ-45</td>
+<td>100m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>1000Base-SX</td>
+<td>IEEE802.3z</td>
+<td>光ファイバ （マルチモード）</td>
+<td>SC or LC</td>
+<td>550m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>1000Base-LX</td>
+<td>IEEE802.3z</td>
+<td>光ファイバ （マルチモード）</td>
+<td>SC or LC</td>
+<td>550m</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>1000Base-LX</td>
+<td>IEEE802.3z</td>
+<td>光ファイバ （シングルモード）</td>
+<td>SC or LC</td>
+<td>10km</td>
+<td>スター</td>
+</tr>
+<tr>
+<td>1000Base-ZX</td>
+<td>Cisco独自</td>
+<td>光ファイバ （シングルモード）</td>
+<td>LC</td>
+<td>100Km</td>
+<td>スター</td>
+</tr>
+</tbody>
+</table>
+<p>なお、GLC-SX-MM (1000BASE-SX)、 GLC-LH-SM (1000BASE-LX(SMF/MMF) )、GLC-ZX-SM (1000BASE-ZX) はどの製品も
+LCコネクタです。Cisco機器で光ファイバー接続を行う場合、企業ネットワークでは GLC-SX-MM= を使用するケースが多いです。
+企業ネットワークでは、光ファイバーを使用する場合はビルのフロアー間接続などが主であり、距離的にシングルモードの光ファイバ
+を必要としないからです。価格もGLC-SX-MM= → GLC-LH-SM= → GLC-ZX-SM順で高くなります。GLC-ZX-SM はまずないです。</p>
+<h2 id="10-10gbps">10ギガビットイーサネット ( 10Gbps )</h2>
+<p>通信速度を10Gbpsにしたイーサネット規格。10Gbpsのイーサネット規格は大きくLAN向けの「LAN PHY」と
+WAN向けの「WAN PHY」の2つに分かれます。 LAN PHYでは「10GBase-R、10GBase-X、10GBase-T」の
+規格群が使用されます。また、WAN PHYでは「10GBase-W」ファミリー規格が使用されます。WAN PHYは
+SONET/SDHネットワーク（※1）に接続可能な仕様のグループを指します。用途や距離に応じて使用します。</p>
+<table>
+<thead>
+<tr>
+<th>物理層規格</th>
+<th>規格群</th>
+<th>規格名</th>
+<th>IEEE</th>
+<th>伝送媒体</th>
+<th>最大長</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-T</td>
+<td>10GBase-T</td>
+<td>IEEE802.3an</td>
+<td>UTPケーブル ( CAT6a/CAT7 )</td>
+<td>100m</td>
+</tr>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-X</td>
+<td>10GBase-LX4</td>
+<td>IEEE802.3ae</td>
+<td>MMF ※2</td>
+<td>240m</td>
+</tr>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-X</td>
+<td>10GBase-LX4</td>
+<td>IEEE802.3ae</td>
+<td>SMF ※3</td>
+<td>10km</td>
+</tr>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-R</td>
+<td>10GBase-SR</td>
+<td>IEEE802.3ae</td>
+<td>MMF ※4</td>
+<td>300m</td>
+</tr>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-R</td>
+<td>10GBase-LR</td>
+<td>IEEE802.3ae</td>
+<td>SMF</td>
+<td>10km</td>
+</tr>
+<tr>
+<td>LAN PHY</td>
+<td>10GBase-R</td>
+<td>10GBase-ER</td>
+<td>IEEE802.3ae</td>
+<td>SMF</td>
+<td>40km</td>
+</tr>
+<tr>
+<td>WAN PHY</td>
+<td>10GBase-W</td>
+<td>10GBase-SW</td>
+<td>IEEE802.3ae</td>
+<td>MMF</td>
+<td>300m</td>
+</tr>
+<tr>
+<td>WAN PHY</td>
+<td>10GBase-W</td>
+<td>10GBase-LW</td>
+<td>IEEE802.3ae</td>
+<td>SMF</td>
+<td>10km</td>
+</tr>
+<tr>
+<td>WAN PHY</td>
+<td>10GBase-W</td>
+<td>10GBase-EW</td>
+<td>IEEE802.3ae</td>
+<td>SMF</td>
+<td>40km</td>
+</tr>
+</tbody>
+</table>
+<p>※1　SONET/SDH　： 光ファイバーを用いた高速デジタル通信方式の国際規格。ISP間を結ぶバックボーン回線で使用します。
+※2　MMF (Multi Mode Fiber) ： マルチモード光ファイバー　　※3　SMF (Single Mode Fiber) ： シングルモード光ファイバー
+※4　Cisco SFP-10G-SRがサポートするリンク長は、MMFでは26m、2000 MHz*km MMF（OM3）では300m。OM3が推奨です。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study13.html">イーサネット（Ethernet）LAN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

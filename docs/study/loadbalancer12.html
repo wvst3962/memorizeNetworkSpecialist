@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>DSR （ Direct Server Return ） | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#dsrdirect-server-return">DSR（Direct Server Return）とは</a></li>
+<li><a href="#l2-dsr">L2 DSRの仕組み</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="dsr-direct-server-return">DSR （ Direct Server Return ）</h1>
+<hr>
+<h2 id="dsrdirect-server-return">DSR（Direct Server Return）とは</h2>
+<p>DSRとは、ワンアーム構成において、ロードバランサに着信したクライアントからのリクエストパケットを
+レスポンスはロードバランサを経由せずに、直接（Direct）にクライアントに返す方式のことです。DSRは
+F5社のBIG-IPでは<strong class="memory-answer">nPathルーティング</strong>と呼ばれる技術に該当します。トラフィックフローは下図の通りです。</p>
+<p>行きのパケット ： クライアント　⇒　ロードバランサ　⇒　リアルサーバ
+戻りのパケット ： リアルサーバ　⇒　クライアント</p>
+<p><img alt="画像" src="../studygif/loadbalancer12a.png"></p>
+<p>リアルサーバからのトラフィックをロードバランサを経由せず、クライアント側に直接転送できることから
+以下の<strong class="memory-answer">メリット</strong>があります。</p>
+<p>・　ロードバランサ側での処理が必要なくなりシステム全体としてのスループットが向上する
+・　ロードバランサ側でクライアントの送信元アドレスを変換させる必要がなくなる</p>
+<p>一方、DSRはL4モードでしか動作しないことから、以下のような<strong class="memory-answer">デメリット</strong>があります。</p>
+<p>・　ロードバランサでLayer7の情報に基づいた負荷分散を行えない
+・　ロードバランサでSSL終端はできない
+・　リアルサーバでVIPの設定が必要となる</p>
+<p>クライアント、LB、リアルサーバのネットワーク構成や通信要件によってDSRを使用しなければ正常に通信
+できない場合を除き<strong class="memory-answer">DSRの実装はお勧めしません</strong>。現在では、ロードバランサの処理能力やスループットは
+以前に比べて大幅に向上しており、上述のようなメリットのために実装させるような技術ではありませんし、
+現在は実装例が多くないことからも、LBの未知のソフトウェアバグを引いてしまう可能性もあると言えます。</p>
+<h2 id="l2-dsr">L2 DSRの仕組み</h2>
+<p>01.　クライアントからロードバランサのバーチャルサーバ宛て（ 172.16.1.100：80 ）に通信します。</p>
+<p>02.　ロードバランサでは負荷分散方式に従いリアルサーバにパケットを転送します。例えばBIG-IPの場合
+分散先のリアルサーバにARPリクエストを行い、リアルサーバのMACアドレスを取得して、その宛先に送信。</p>
+<p>03.　リアルサーバは、送信元IPアドレスをloopbackアドレス、送信元MACアドレスを自身のアドレスにして
+クライアントに対して戻りのトラフィックをロードバランサを経由せずに送信します。</p>
+<p><img alt="画像" src="../studygif/loadbalancer12b.png"></p>
+<p>リアルサーバに「ループバックアドレスの設定」と「LBを経由しないスタティックルートの設定」を忘れずに。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study24.html">ロードバランサ 仕組み</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

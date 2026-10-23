@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPsec - IKE : ISAKMP Message | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ike-internet-key-exchange">IKE（ Internet Key Exchange ）</a></li>
+<li><a href="#isakmp">ISAKMPメッセージのフォーマット</a></li>
+<li><a href="#isakmp_1">ISAKMPヘッダ</a></li>
+<li><a href="#isakmp_2">ISAKMPペイロード</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipsec-ike-isakmp-message">IPsec - IKE : ISAKMP Message</h1>
+<hr>
+<h2 id="ike-internet-key-exchange">IKE（ Internet Key Exchange ）</h2>
+<p>SAを生成するために、<strong class="memory-answer">IKE</strong>という鍵交換プロトコルを使用できます。認証用のセッション鍵（ HMAC ）と
+暗号化用のセッション鍵のこれら両方の鍵の生成、交換、更新がIKEにより自動で行われることになります。
+IKEによるSAの生成はフェーズ1とフェーズ2のステップがあります。フェーズ1では各種パラメータを交換し
+ISAKMP SAを生成します。フェーズ2ではそのISAKMP SA上で各種パラメータを交換してIPsec SAを生成。</p>
+<h2 id="isakmp">ISAKMPメッセージのフォーマット</h2>
+<p>ISAKMPメッセージは、IKE phase1、phase2 のメッセージ交換の際に送受信されます。このメッセージは
+ISAKMPヘッダとISAKMPペイロードで構成され、送信元、宛先ともUDPポート500を使用して伝送します。
+ISAKMPヘッダには、クッキー値やモードを示す値 (Mainモード or Aggressiveモード) が含まれています。
+ISAKMPペイロードには、IPsecでのSAのパラメータ、鍵計算のパラメータ、自身のIDの情報が含まれます。</p>
+<p><img alt="画像" src="../studygif/ipsec8a.png"></p>
+<p>これはIPsec-VPNの通信を確立するための全ての始まりとなるパケット。このメッセージがやり取りされた後
+IPsecのパラメータが決定されて、例えばESPによる暗号化・認証が行われることが決定すると、ESPヘッダが
+付加されたいわゆるIPsecパケットがネットワーク上に流れるようになります。これが Peer 間の全ての始まり。</p>
+<h2 id="isakmp_1">ISAKMPヘッダ</h2>
+<p>ここでは、ISAKMPメッセージを構成する1つであるISAKMPヘッダの詳細なフォーマットについて説明します。</p>
+<p><img alt="画像" src="../studygif/ipsec8b.png"></p>
+<table>
+<thead>
+<tr>
+<th>ISAKMPヘッダの項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initiator Cookie</td>
+<td>ISAKMP_SAのネゴシエーションの開始側が生成するクッキー値を示すフィールド。</td>
+</tr>
+<tr>
+<td>Responder Cookie</td>
+<td>ISAKMP_SAのネゴシエーションの応答側が生成するクッキー値を示すフィールド。</td>
+</tr>
+<tr>
+<td>Next Payload</td>
+<td>ISAKMPヘッダの後にくるISAKMPペイロードのタイプを示すフィールド。</td>
+</tr>
+<tr>
+<td>MjVer</td>
+<td>ISAKMPプロトコルのメジャーバージョン番号を示すフィールド。値は 「1」</td>
+</tr>
+<tr>
+<td>MnVer</td>
+<td>ISAKMPプロトコルのマイナーバージョン番号を示すフィールド。値は 「0」</td>
+</tr>
+<tr>
+<td>Exchange Type</td>
+<td>モードを示すフィールド。具体的な値としては次の通り。IKE Phase1のMainモード 「2」<br>IKE Phase1のAggresiveモード「4」IKE Phase2のQuickモード「32」Transaction交換 「6」</td>
+</tr>
+<tr>
+<td>Flags</td>
+<td>フラグを示すフィールド。上位5ビットは「0」と示される。下位3ビットは最下位から順番に<br>A bit、C bit、E bitと呼ばれる。メッセージが暗号化されている場合は「E bit」が立っている。</td>
+</tr>
+<tr>
+<td>Message ID</td>
+<td>IKE Phase 2で交換されるメッセージを識別するためのメッセージIDを示すフィールド。</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>ISAKMPメッセージ （ISAKMPヘッダ及びISAKMPペイロード）の長さを示すフィールド。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="isakmp_2">ISAKMPペイロード</h2>
+<p>ここでは、ISAKMPメッセージを構成するもう１つであるISAKMPペイロードのタイプについて説明します。
+ISAKMPペイロードは、モード（Main, Aggressive, Quickなど）によりペイロードのタイプの組み合わせが
+異なります。例えば、ISAKMPメッセージのMainモードの第一メッセージは以下のペイロードタイプが組み
+合わさることになります。ペイロードタイプはタイプ値で表されます。そのタイプには以下の値があります。</p>
+<p><img alt="画像" src="../studygif/ipsec8c.png"></p>
+<table>
+<thead>
+<tr>
+<th>ペイロードのタイプ値</th>
+<th>ペイロードのタイプ名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>ペイロードなし</td>
+</tr>
+<tr>
+<td>1</td>
+<td>SA ( Security Association )</td>
+</tr>
+<tr>
+<td>2</td>
+<td>P ( Proposal )</td>
+</tr>
+<tr>
+<td>3</td>
+<td>T ( Transform )</td>
+</tr>
+<tr>
+<td>4</td>
+<td>KE ( KeyExchange )</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ID ( Identification )</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CERT ( Certificate )</td>
+</tr>
+<tr>
+<td>7</td>
+<td>CR ( CertificateRequest )</td>
+</tr>
+<tr>
+<td>8</td>
+<td>HASH ( Hash )</td>
+</tr>
+<tr>
+<td>9</td>
+<td>SIG ( Signature )</td>
+</tr>
+<tr>
+<td>10</td>
+<td>NONCE ( Nonce )</td>
+</tr>
+<tr>
+<td>11</td>
+<td>N ( Notification )</td>
+</tr>
+<tr>
+<td>12</td>
+<td>D ( Delete )</td>
+</tr>
+<tr>
+<td>13</td>
+<td>VID ( VendorID )</td>
+</tr>
+<tr>
+<td>20</td>
+<td>NAT-D ( NAT discovery )</td>
+</tr>
+<tr>
+<td>21</td>
+<td>NAT-OA ( NAT Original Address )</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study10.html">IPsec、IPsec-VPN、リモートアクセスVPN</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

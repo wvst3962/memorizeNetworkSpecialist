@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>Floating Static Route | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#_1">フローティングスタティックルートとは</a></li>
+<li><a href="#_2">フローティングスタティックルート：従来のよくある利用例</a></li>
+<li><a href="#_3">フローティングスタティックルート：現在のよくある利用例</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="floating-static-route">Floating Static Route</h1>
+<hr>
+<h2 id="_1">フローティングスタティックルートとは</h2>
+<p>フローティングスタティックルートとは、ダイナミックルーティングプロトコルによりルート情報が受信
+できなくなった場合に、<strong class="memory-answer">AD値を調整したスタティックルートでトラフィックを救済する手法のこと</strong>です。</p>
+<p>デフォルトでは、スタティックルートのAD値は 1 であることから、ダイナミックルーティングプロトコル
+で学習したルート情報よりもスタティックルートは優先されます。そこで、スタティックルートのAD値を
+ダイナミックルーティングプロトコルのAD値より大きな値に設定することで、そのスタティックルートは
+ダイナミックルーティングプロトコルでルート情報を受信できなくなった場合にトラフィックを救済します。</p>
+<p>つまり、フローティングスタティックルートとは、<strong class="memory-answer">ルーティングテーブル上のダイナミックルート情報が</strong>
+<strong class="memory-answer">障害などで消失した場合などに、ルーティングテーブル上にインストールされるスタティックルート</strong>です。</p>
+<h2 id="_2">フローティングスタティックルート：従来のよくある利用例</h2>
+<p>フローティングスタティックルートは、従来のWAN構成ではレガシーなISDNをバックアップ回線として
+使用していたネットワークでよく利用されていました。</p>
+<p><img alt="画像" src="../studygif/routing12a.png"></p>
+<p>レガシーなISDN回線を知らない方は、上図の構成なら主回線と副回線ともにダイナミックルーティング
+プロトコルを動作させればいいのではないかと考えるかもしれません。</p>
+<p>しかしISDNは従量課金のサービスであることから、普段は使用しないのに通信トラフィックを流すのは
+コスト面から非常に問題であることが分かると思います。そのため、上図のような過去のWAN構成では
+フローティングスタティックとダイヤルオンデマンドルーティングがセットでよく実装されていました。</p>
+<h2 id="_3">フローティングスタティックルート：現在のよくある利用例</h2>
+<p>フローティングスタティックルートが、AD値の高いスタティックルートを設定することにより実現できる
+バックアップ手法という点から、<strong class="memory-answer">IP SLAの機能と併用してAD値を設定するスタティックルート</strong>についても
+フローティングスタティックルートと言えます。</p>
+<p>記事の冒頭で、フローティングスタティックルートはダイナミックルーティングプロトコルでルート情報が
+受信できなくなった場合に、AD値を調整したスタティックルートでトラフィックを救済する手法であると
+解説しましたが、<strong class="memory-answer">ダイナミックルートだけでなくスタティックルートのルート情報がルーティングテーブル</strong>
+<strong class="memory-answer">から消失した場合にも、</strong>フローティングスタティックルートを使用することができます。</p>
+<p><img alt="画像" src="../studygif/routing12b.png"></p>
+<p>IP SLAを実装したフローティングスタティックルートとは、具体的にはIP SLA - Object Trackingによる
+ルート情報のバックアップの実装のことです。</p>
+<p>なお、IP SLA以外の手法でも、フローティングスタティックは実装することができます。要するにAD値を
+調整したスタティックルートを潜伏させてバックアップ経路を生成させておきたい時に実装する手法です。
+※　注意点として、企業LANネットワークで実装する場合は必ず双方向通信を意識して実装させましょう。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study19.html">ルーティング</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

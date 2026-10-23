@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>WAN - Frame-Relay / ATM | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#wan-">WANの回線タイプ - パケット交換</a></li>
+<li><a href="#wan-_1">WANの回線サービス - フレームリレー</a></li>
+<li><a href="#wan-atm">WANの回線サービス - ATM（セルリレー ）</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="wan-frame-relay-atm">WAN - Frame-Relay / ATM</h1>
+<hr>
+<h2 id="wan-">WANの回線タイプ - パケット交換</h2>
+<p>以降で解説する<strong class="memory-answer">フレームリレー</strong>、<strong class="memory-answer">ATM</strong>、<strong class="memory-answer">IP-VPN</strong>、<strong class="memory-answer">広域イーサネット</strong>の回線タイプは「<strong class="memory-answer">パケット交換</strong>」です。
+パケット交換の回線タイプでは、データを細かい単位（パケット）に分割してキャリア網のネットワークへ
+データ伝送する方式です。各パケットには宛先となる識別情報を付加することで、相手先(通信先)を特定し
+拠点間の通信をすることができます。パケット交換の回線タイプでは、通信中に回線を占有しないことから
+理論上キャリア網内での<strong class="memory-answer">輻輳</strong>（ トラフィックが集中して混雑している状態 ）が発生する可能性があります。</p>
+<p>しかし、現在主流の<strong class="memory-answer">IP-VPN</strong>と<strong class="memory-answer">広域イーサネット</strong>では非常に広帯域なバックボーンインフラであることから
+実質的にアクセス回線での契約帯域が保証されます。なお、回線交換のコールセットアップは発生しません。</p>
+<h2 id="wan-_1">WANの回線サービス - フレームリレー</h2>
+<p>フレームリレーは、前身のX.25というWANサービスからエラー訂正機能を取り除いたWANサービスです。
+フレームリレーは、エラー訂正、確認応答、再送制御等を行わないため高速データ伝送を実現しています。
+フレームリレーは、1つの物理回線上で複数の仮想回線を用意して複数の拠点との通信を可能にしています。</p>
+<p>仮想回線は<strong class="memory-answer">VC</strong>（Virtual Circuit）と言いますが、VCには<strong class="memory-answer">PVC</strong>（相手先固定接続）と<strong class="memory-answer">SVC</strong>（相手先選択接続）
+の2つがあります。PVCは契約時に定義した通信相手と固定接続するのに対して、SVCは接続を動的に確立
+して通信終了時に切断する方式です。SVCは日本のキャリアでサポートされておらずPVCが主流の方式です。
+※　現在フレームリレーをWANとして採用する企業はほぼなく、多くの企業はフレームリレーからIP-VPN等に切り替えています。</p>
+<p><img alt="画像" src="../studygif/wan4a.png"></p>
+<p>以下はフレームリレーを理解する上で重要な用語です。以下の内容は全て覚えるようにしましょう。</p>
+<table>
+<thead>
+<tr>
+<th>FRの用語</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PVC</td>
+<td>Permanent Virtual Circuit。契約時に定義した通信相手と固定接続する仮想回線。</td>
+</tr>
+<tr>
+<td>SVC</td>
+<td>Switched Virtual Circuit。接続を動的に確立して、通信終了時に切断する一時的な仮想回線。</td>
+</tr>
+<tr>
+<td>DLCI</td>
+<td>データリンク接続識別子。VC(仮想回線）を識別するもので、フレームリレーヘッダの中にある情報。<br>DLCI番号はキャリアにより割り当てられ、ルータとローカルのFRスイッチ間でのみ意味を持つ番号。<br>したがって接続先の拠点とDLCI番号が同じでも問題ありません。このDLCI番号と宛先IPアドレスが<br>関連付け（フレームリレーマップ）されているので送出されるパケットは使用するDLCI番号が分かる。</td>
+</tr>
+<tr>
+<td>Inverse ARP</td>
+<td>ローカルのDLCI番号と宛先ルータのIPアドレスのフレームリレーマップを動的に生成するプロトコル。</td>
+</tr>
+<tr>
+<td>LMI</td>
+<td>Local Management Interface。ユーザのルータとキャリアのFRスイッチ間のシグナリング。LMIにより<br>ルータとFRスイッチ間のステータスを保持している。LMIタイプは<strong class="memory-answer">cisco</strong>、<strong class="memory-answer">ansi</strong>、<strong class="memory-answer">q933a</strong>の3つがある。</td>
+</tr>
+<tr>
+<td>ローカル<br>アクセスレート</td>
+<td>ルータとFRスイッチ間のアクセス回線の速度</td>
+</tr>
+<tr>
+<td>CIR</td>
+<td>Committed information Rate。契約時に定義するフレームリレー網内におけるPVCごとの保証速度。</td>
+</tr>
+<tr>
+<td>FECN</td>
+<td>Forward Explicit Congestion Nortification。フレームリレー網内の輻輳状態を宛先に知らせるため<br>のフレームリレーヘッダのフィールド。輻輳を検知すると、FRスイッチはFECNビット1にして送信する。</td>
+</tr>
+<tr>
+<td>BECN</td>
+<td>Backward Explicit Congestion Nortification。フレームリレー網内の輻輳状態を送信元に知らせる<br>ためのフレームリレーヘッダのフィールド。輻輳を検知すると、FRスイッチはBECNビット1にして送信。</td>
+</tr>
+</tbody>
+</table>
+<p>フレームリレーの用語を理解したところで下図を見てみましょう。下図では、東京本社から名古屋支社の
+10.1.3.0/24のネットワークにパケットを送信している様子です。東京本社のR1に着信したパケットに対し
+R1のルータは宛先IPアドレスを確認し、宛先ネットワークがルーティングテーブルに存在するかどうかを
+確認します。宛先ネットワークが存在して、ネクストホップアドレスが192.168.0.3であると分かります。</p>
+<p>次にフレームリレーマップを確認すると192.168.0.3にマップされているDLCI番号が200だと分かるので
+R1からパケットが送出される際にはDLCI番号の200を使用して、フレームが転送されていきます。この
+DLCI=200を使用したフレームがDLCI=400に転送される設定は、キャリアのFRスイッチで行っています。</p>
+<p><img alt="画像" src="../studygif/wan4b.png"></p>
+<p>次にLMIのステータスを見ます。LMIのステータスには<strong class="memory-answer">Active</strong>、<strong class="memory-answer">Inactive</strong>、<strong class="memory-answer">Deleted</strong>の3つがあります。</p>
+<p><img alt="画像" src="../studygif/wan4c.png"></p>
+<table>
+<thead>
+<tr>
+<th>LMIのステータス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active</td>
+<td>PVCが有効であり正常に通信できる状態。</td>
+</tr>
+<tr>
+<td>Inactive</td>
+<td>ローカルのルータとFRスイッチ間の接続には問題ないが、接続先のルータとFRスイッチ間に問題が発生。</td>
+</tr>
+<tr>
+<td>Deleted</td>
+<td>ローカルのルータとFRスイッチ間の接続に問題が発生。PVCの設定がない、LMIを受信していないなど。</td>
+</tr>
+</tbody>
+</table>
+<p>最後にフレームリレー網内で輻輳が発生した時のFECNとBECNの輻輳の通知の様子を下図で見てみましょう。</p>
+<p><img alt="画像" src="../studygif/wan4d.png"></p>
+<h2 id="wan-atm">WANの回線サービス - ATM（セルリレー ）</h2>
+<p>ATM（Asynchronous Transfer Mode）の技術を使用した<strong class="memory-answer">セルリレー</strong>のWANサービスは、フレームリレー
+同様に１つの物理回線を共有して複数の仮想回線を生成することができます。ATMはフレームリレー同様、
+現在、企業ネットワークのWANサービスとして、ほぼ使用されておりません。ATMでは<strong class="memory-answer">53</strong>バイトの固定長
+のデータである<strong class="memory-answer">セル</strong>を基本的な通信の単位としています。53バイトの固定長のセルは<strong class="memory-answer">5</strong>バイトのヘッダーと
+48バイトのデータ（ペイロード）で構成されます。VPIとVCIにより仮想回線の識別を行うことができます。</p>
+<p><img alt="画像" src="../studygif/wan4e.png"></p>
+<table>
+<thead>
+<tr>
+<th>ATMセルのヘッダー</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ヘッダー</td>
+<td>ビット</td>
+<td>説明</td>
+</tr>
+<tr>
+<td>GFC</td>
+<td>4bit</td>
+<td>汎用フロー制御。１つのATMインターフェースを共有する複数のステーションの識別</td>
+</tr>
+<tr>
+<td>VPI</td>
+<td>8bit</td>
+<td>仮想パス識別子。VCIと組み合わせて使用され、ATM網で宛先に到達するまでのセルの次の宛先を識別。</td>
+</tr>
+<tr>
+<td>VCI</td>
+<td>16bit</td>
+<td>仮想チャネル識別子。VPIと組み合わせて使用され、ATM網で宛先に到達するまでのセルの宛先を識別。</td>
+</tr>
+<tr>
+<td>PT</td>
+<td>3bit</td>
+<td>ペイロードタイプ。セルに格納しているデータの種類や輻輳の有無を示す。</td>
+</tr>
+<tr>
+<td>CLP</td>
+<td>1bit</td>
+<td>輻輳損失プライオリティ。強度の輻輳時に、セルを廃棄するかどうかを示す。</td>
+</tr>
+<tr>
+<td>HEC</td>
+<td>8bit</td>
+<td>ヘッダーエラー制御。ヘッダーのエラー検出を行う。</td>
+</tr>
+</tbody>
+</table>
+<p>ATMはレイヤ2プロトコルですが正確にはATMレイヤーにはLayer1からLayer2の間で3層で構成されています。
+<strong class="memory-answer">AAL</strong>では上位層から受け取るデータを48バイトのATMペイロードにセグメント化、及び再構築する機能があり
+<strong class="memory-answer">ATM層</strong>では上位層のAALから48バイトのデータを受け取り、5バイトのヘッダーを付加してATMセルを生成し
+<strong class="memory-answer">ATM物理層</strong>ではATMセルをSDH/SONETの物理規格上で伝送できるようにしています。以上がATMの3層です。</p>
+<p><img alt="画像" src="../studygif/wan4f.png"></p>
+<p>AALには「AAL1～AAL5」までの4種類が規定されており、現在主に使用されているAAL5となります。</p>
+<table>
+<thead>
+<tr>
+<th>AALの種類</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAL1</td>
+<td>コネクション型。ビデオなどの大容量の動画配信向けの規格。</td>
+</tr>
+<tr>
+<td>AAL2</td>
+<td>コネクション型。低速な音声符号向けの規格。</td>
+</tr>
+<tr>
+<td>AAL3/4</td>
+<td>コネクションレス型。データ通信用向けの規格。</td>
+</tr>
+<tr>
+<td>AAL5</td>
+<td>コネクションレス型。AAL3/4を簡略化した規格。広域LANとして以下が広く用いられている。<br>・　Ethernet over ATM　・　IP over ATM 　・PPPoA</td>
+</tr>
+</tbody>
+</table>
+<p>セルリレーのWANサービスでは、DCEにATM-ONUまたはATM-DSUを使用します。現在、ATMは下図の
+ようなWANで利用されることは少ないですが、キャリアのバックボーンとして使用するケースもあります。</p>
+<p><img alt="画像" src="../studygif/wan4g.png"></p>
+<hr>
+<p>← <a href="wan3.html">WAN - 専用線、PSTN、ISDN</a>　<a href="wan5.html">WAN - IP-VPN、広域イーサネット</a> →</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>

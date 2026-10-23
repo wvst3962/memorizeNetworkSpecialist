@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>IPv6 - EUI-64 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#ipv6-eui-64id">IPv6アドレス - EUI-64で自動生成するインターフェースID</a></li>
+<li><a href="#ipv6-ipv6">IPv6 - 特殊なIPv6アドレス</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="ipv6-eui-64">IPv6 - EUI-64</h1>
+<hr>
+<h2 id="ipv6-eui-64id">IPv6アドレス - EUI-64で自動生成するインターフェースID</h2>
+<p>IPv6アドレスは、64ビットの<strong class="memory-answer">プレフィックス</strong>と、64ビットの<strong class="memory-answer">インターフェースID</strong>により構成されます。
+インターフェースIDは「<strong class="memory-answer">手動</strong>で設定する方法」か「<strong class="memory-answer">自動</strong>で生成する方法」のどちらかで構成できます。</p>
+<p>自動で生成する場合、<strong class="memory-answer">EUI-64</strong>と呼ばれるフォーマットを使用して自動生成します。EUI-64は、IEEEに
+よって標準化された64ビット長の識別子です。EUI-64による自動生成は、48ビットのMACアドレスの
+中央に16ビットの「<strong class="memory-answer">FFFE</strong>」を追加して64ビットに拡張することでインターフェースIDが生成されます。</p>
+<p><img alt="画像" src="../studygif/ipv6z4a.png"></p>
+<p>※　これらは自動で行われるのでユーザは意識する必要はありませんが、EUI-64による自動生成の仕組みを知っておきましょう。</p>
+<p>Ciscoルータの場合は、グローバルユニキャストアドレスとユニークローカルアドレスは ipv6 address の設定
+コマンドの後に<strong class="memory-answer">eui-64</strong>と指定することでインターフェースIDが自動で生成されます。リンクローカルアドレス
+の場合、インターフェースでIPv6が有効になった時点で自動でEUI-64でインターフェースIDが生成されます。</p>
+<h2 id="ipv6-ipv6">IPv6 - 特殊なIPv6アドレス</h2>
+<p>?@　ループバックアドレス
+IPv6のループバックアドレスは「0：0：0：0：0：0：0：1」となります。一般的に「<strong class="memory-answer">：：1</strong>」と表記します。</p>
+<p>?A　未指定アドレス
+全ビットが 0 のアドレス「 0：0：0：0：0：0：0：0 」を未指定アドレスと呼びます。IPv6アドレスの自動
+取得する場合などに送信元アドレスとして使用されます。未指定アドレスは一般的に「<strong class="memory-answer">：：</strong>」と表記します。</p>
+<p>?B　IPv4互換アドレス
+先頭の96ビットが全て <strong class="memory-answer">0</strong> で、残りの32ビットが「IPv4アドレス」を使用するアドレスを、IPv4互換アドレス
+と呼びます。例えば「<strong class="memory-answer">：：192.168.0.1</strong>」と表記します。現在、このIPv4互換アドレスは廃止されています。</p>
+<p>?C　IPv4射影アドレス
+先頭の80ビットが「全て 0 」で、次の16ビットが「全て 1」、残りの32ビットがIPv4アドレスを使用する
+アドレスをIPv4射影アドレス（ IPv4-mapped address ）と呼びます。例えば「<strong class="memory-answer">：：FFFF：192.168.0.1</strong>」
+と表記します。このアドレスはIPv6端末が、IPv4しかサポートしていない端末と通信する際に使用されます。</p>
+<hr>
+<p><a href="https://www.infraexpert.com/study/study35.html">IPv6 とは</a></p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>
