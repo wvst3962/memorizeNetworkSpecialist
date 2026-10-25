@@ -59,9 +59,9 @@ VXLANによるカプセル化を解除し、宛先となるデバイスへオリ
 ことで解決します。VXLANでは送信元側でイーサネットフレームにVNI（VXLAN ID）を付加しUDP/IPで
 カプセル化することで、<strong class="memory-answer">仮想マシン（VM）は Layer3 ネットワークを超えて移動が可能</strong>なようになります。</p>
 <h2 id="evpnvxlan">EVPN/VXLANとは</h2>
-<p>EVPN/VXLANは、<strong class="memory-answer">L3ネットワーク上にオーバーレイでL2ネットワークを構築するためのL2VPN技術</strong>です。
+<p>EVPN/VXLANは、L3ネットワーク上に<strong class="memory-answer">オーバーレイでL2ネットワークを構築</strong>するためのL2VPN技術です。
 EVPN/VXLANは、コントロールプレーンとデータプレーンにより構成されます。コントロールプレーンを
-担うEVPN（Ethernet VPN）は<strong class="memory-answer">管理プロトコルにBGPを使用してテナントごとのMAC/IP情報を取り交わし</strong>
+担うEVPN（Ethernet VPN）は管理プロトコルに<strong class="memory-answer">BGP</strong>を使用してテナントごとのMAC/IP情報を取り交わし
 データプレーンを担うVXLANでは、マルチテナント環境の拡張性のあるカプセリングプロトコルとして、
 L3ファブリックのネットワーク上にオーバーレイでL2ネットワークを提供します。</p>
 <p><img alt="画像" src="../studygif/virtual3d.png"></p>

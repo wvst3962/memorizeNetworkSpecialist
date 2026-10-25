@@ -49,8 +49,8 @@ HDD障害が発生した場合でもデータの復旧及びアクセスを可�
 本記事では <strong class="memory-answer">RAID0、RAID1、RAID5、RAID6、RAID10</strong> について解説します。</p>
 <h2 id="raid_2">RAIDレベルの違い</h2>
 <p>理論上のRAIDレベルごとの比較表は以下の通りとなりますが、RAID製品によってこの比較表の内容とは
-異なる場合があります。なお、<strong class="memory-answer">書き込み・読み出しのディスク性能はRAID0が最も優れていて、RAID10が</strong>
-<strong class="memory-answer">次に優れています</strong>。比較表の「ディスク容量の利用効率」の「 n 」は「 ディスク台数 」を指しています。</p>
+異なる場合があります。なお、書き込み・読み出しのディスク性能は<strong class="memory-answer">RAID0</strong>が最も優れていて、<strong class="memory-answer">RAID10</strong>が
+次に優れています。比較表の「ディスク容量の利用効率」の「 n 」は「 ディスク台数 」を指しています。</p>
 <table>
 <thead>
 <tr>
@@ -112,20 +112,20 @@ RAID1は「<strong class="memory-answer">ミラーリング</strong>」とも呼
 <p><img alt="画像" src="../studygif/networking9b.png"></p>
 <p>RAID1では、1つのHDDに障害が発生してもペアとなるもう1つのでHDDで継続してデータ利用できます。</p>
 <h2 id="raid-5">RAID 5</h2>
-<p>RAID5では、<strong class="memory-answer">データからパリティ（誤り訂正符号）を生成し、3台以上のハードディスクに分散して書き込み</strong>
+<p>RAID5では、データから<strong class="memory-answer">パリティ（誤り訂正符号）</strong>を生成し、<strong class="memory-answer">3台以上</strong>のハードディスクに分散して書き込み
 します。RAID5は、RAID0のように複数のディスクに分散しているため<strong class="memory-answer">読み出し性能が優れている</strong>だけでなく
-<strong class="memory-answer">1台のHDDに障害発生した場合でも、残りのHDDにより継続利用することが可能</strong>です。</p>
+<strong class="memory-answer">1台</strong>のHDDに障害発生した場合でも、残りのHDDにより継続利用することが可能です。</p>
 <p><img alt="画像" src="../studygif/networking9c.png"></p>
 <p>RAID5は耐障害性と高い利用効率が得られるバランスのよい構成であり、広く利用されているRAID構成です。</p>
 <h2 id="raid-6">RAID 6</h2>
-<p>RAID6では、<strong class="memory-answer">データからパリティ（誤り訂正符号）を生成し、4台以上のハードディスクに分散して書き込み</strong>
-します。RAID5と異なる点は、ハードディスク台数が4台以上である点、許容されるHDDの障害台数が2台と
+<p>RAID6では、データから<strong class="memory-answer">パリティ（誤り訂正符号）</strong>を生成し、<strong class="memory-answer">4台以上</strong>のハードディスクに分散して書き込み
+します。RAID5と異なる点は、ハードディスク台数が4台以上である点、許容されるHDDの障害台数が<strong class="memory-answer">2台</strong>と
 なる点、RAID5よりもパリティが増える分はハードディスクの利用効率が下がる点です。RAID6は、その他の
 RAID0、RAID1、RAID5 に比べて耐障害性の高いRAID構成です。ただし、二重にパリティを生成するため、
 RAID5よりもさらに書き込みが速度が低下する点はデメリットとなります。</p>
 <p><img alt="画像" src="../studygif/networking9d.png"></p>
 <h2 id="raid-1010">RAID 10（1＋0）</h2>
-<p>RAID10は<strong class="memory-answer">RAID1（ミラーリング）とRAID0（ストライピング）を組み合わせた構成</strong>です。RAID10では、
+<p>RAID10は<strong class="memory-answer">RAID1（ミラーリング）</strong>と<strong class="memory-answer">RAID0（ストライピング）</strong>を組み合わせた構成です。RAID10では、
 高速化を実現するRAID0と、耐障害性のあるRAID1を組み合わせることで高速化と耐障害性を実現します。
 RAID10では最低4つのドライブが必要となります。</p>
 <p><img alt="画像" src="../studygif/networking9e.png"></p>

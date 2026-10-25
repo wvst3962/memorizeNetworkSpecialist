@@ -53,24 +53,24 @@ Denseモードの場合は「送信元ツリー」が使用され、Sparseモー
 </tr>
 </tbody>
 </table>
-<p>Denseモード、Sparseモードのどちらを使用するのかは、マルチキャストパケットを送信する<strong class="memory-answer">Senderの</strong>
-<strong class="memory-answer">配置状況</strong>、<strong class="memory-answer">受信するReceiverの配置状況</strong>、<strong class="memory-answer">ネットワークの帯域幅</strong>から判断して決めるのが一般的です。
+<p>Denseモード、Sparseモードのどちらを使用するのかは、マルチキャストパケットを送信するSenderの
+配置状況、受信するReceiverの配置状況、ネットワークの帯域幅から判断して決めるのが一般的です。
 それでは、それぞれのモードで想定しているネットワーク環境、動作概要などについて解説していきます。</p>
 <h2 id="-dense">マルチキャストルーティングプロトコル - Denseモード</h2>
 <p>Denseは「密集」という意味です。Denseモードは、マルチキャストグループのメンバーがネットワークに
-高密度に位置してネットワークの帯域幅に余裕がある場合に使用します。つまり<strong class="memory-answer">SenderとReceiverともに</strong>
-<strong class="memory-answer">LAN上で狭い範囲に位置する場合</strong>（ 1つの拠点内のGigabitEthernet LAN等 ）に使用します。ただし1つの
+高密度に位置してネットワークの帯域幅に余裕がある場合に使用します。つまりSenderとReceiverともに
+<strong class="memory-answer">LAN上で狭い範囲</strong>に位置する場合（ 1つの拠点内のGigabitEthernet LAN等 ）に使用します。ただし1つの
 拠点内LANであっても、音声システムがある場合はDenseモードでなくSparseモードを使用することが多い。</p>
 <p><img alt="画像" src="../studygif/multicastz14a.png"></p>
-<p>Denseモードのマルチキャストルーティングプロトコルでは、<strong class="memory-answer">マルチキャストのトラフィックを定期的に</strong>
+<p>Denseモードのマルチキャストルーティングプロトコルでは、マルチキャストのトラフィックを定期的に
 <strong class="memory-answer">フラッディング</strong>します。Denseモードのマルチキャストルーティングプロトコルには、<strong class="memory-answer">PIM-DM</strong>、<strong class="memory-answer">DVMRP</strong>
 <strong class="memory-answer">MOSPF</strong>などがあります。一般的にはPIM-DMが使用されます。基本的な共通動作として、Receiverが存在
 する可能性のあるインターフェース全てにマルチキャストパケットを送信して、その後にReceiverが存在
 しないと判明したインターフェースへはフラッディングをしない <strong class="memory-answer">Flood &amp; Prune</strong> という動作となります。</p>
 <h2 id="-sparse">マルチキャストルーティングプロトコル - Sparseモード</h2>
 <p>Sparseは「希薄」という意味です。Sparseモードは、マルチキャストグループのメンバーがネットワークに
-散在して位置してネットワークの帯域幅に余裕がない場合に使用します。つまり、<strong class="memory-answer">SenderとReceiverともに</strong>
-<strong class="memory-answer">WANを経由して通信する場合</strong>などで使用します。</p>
+散在して位置してネットワークの帯域幅に余裕がない場合に使用します。つまり、SenderとReceiverともに
+<strong class="memory-answer">WANを経由</strong>して通信する場合などで使用します。</p>
 <p><img alt="画像" src="../studygif/multicastz14b.png"></p>
 <p>Sparseモードのマルチキャストルーティングプロトコルでは、最初に空のディストリビューションツリーを
 作り、そのツリーに対して明示的に Join Request（参加要求）があった場合にのみ、そのルータをツリーに

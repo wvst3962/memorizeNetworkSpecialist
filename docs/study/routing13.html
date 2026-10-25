@@ -37,7 +37,7 @@
 <hr>
 <h2 id="ecmpequal-cost-multi-path">ECMP（Equal Cost Multi Path）とは</h2>
 <p>ECMPとは、ルーティングにおいて、同一の宛先アドレスに到達するためのコスト（メトリック）が同じ
-複数の経路が存在する場合、<strong class="memory-answer">それらの経路にパケットを分散して転送する技術</strong>のことです。ECMPにより
+複数の経路が存在する場合、それらの経路にパケットを<strong class="memory-answer">分散して転送</strong>する技術のことです。ECMPにより
 トラフィックの分散を実現して、ネットワーク帯域幅の利用効率を向上させることができます。</p>
 <p>ECMPは「等コストマルチパス」または「等コストロードバランス」とも呼ばれます。ルーティングする
 ルータは宛先に対してコスト（メトリック）が等しい転送経路が存在する場合、動的に転送先を切り替え
@@ -59,7 +59,7 @@
 </tr>
 <tr>
 <td>Per Flow ECMP<br>（ フローモード ）</td>
-<td>Per Flow ECMPは<strong class="memory-answer">フロー単位の負荷分散</strong>であることから、Per Flow Load Balancingとも言う。<br>同一のフロー（同一の送信元IP、宛先IP、ポート、プロトコルなど）のパケットは同一のパスに<br>割り当てられる方式。パケットの順序が維持されることから、ECMPを実装する時の<strong class="memory-answer">推奨方式</strong>。<br>フロー数によりトラフィックが不均等になるデメリットがあるが、パケットの順序が維持されて<br>アプリケーションの性能が安定するメリットの方が大きく、一般的に使用されている推奨方式。</td>
+<td>Per Flow ECMPは<strong class="memory-answer">フロー単位の負荷分散</strong>であることから、Per Flow Load Balancingとも言う。<br>同一のフロー（同一の送信元IP、宛先IP、ポート、プロトコルなど）のパケットは同一のパスに<br>割り当てられる方式。パケットの<strong class="memory-answer">順序が維持される</strong>ことから、ECMPを実装する時の推奨方式。<br>フロー数によりトラフィックが不均等になるデメリットがあるが、パケットの順序が維持されて<br>アプリケーションの性能が安定するメリットの方が大きく、一般的に使用されている推奨方式。</td>
 </tr>
 </tbody>
 </table>

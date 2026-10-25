@@ -45,10 +45,10 @@
 できることを証明しています。Windowsの場合は、デフォルトで4回のICMPメッセージが送信されます。</p>
 <p><img alt="画像" src="../studygif/tcpip5a.png"></p>
 <p>192.168.0.1 に ping を送信しています 32 バイトのデータ：
-<strong class="memory-answer">192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128</strong>
-<strong class="memory-answer">192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128</strong>
-<strong class="memory-answer">192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128</strong>
-<strong class="memory-answer">192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128</strong></p>
+192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128
+192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128
+192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128
+192.168.0.1 からの応答：バイト数 = 32 時間 &lt;1ms TTL=128</p>
 <table>
 <thead>
 <tr>
@@ -82,10 +82,10 @@
 出力されても<strong class="memory-answer">通信できないのはICMPの通信だけ</strong>であり、TCP/IPにおける通信が問題ないケースがあります。</p>
 <p><img alt="画像" src="../studygif/tcpip5b.png"></p>
 <p>192.168.0.1 に ping を送信しています 32 バイトのデータ：
-<strong class="memory-answer">要求がタイムアウトしました。</strong>
-<strong class="memory-answer">要求がタイムアウトしました。</strong>
-<strong class="memory-answer">要求がタイムアウトしました。</strong>
-<strong class="memory-answer">要求がタイムアウトしました。</strong></p>
+要求がタイムアウトしました。
+要求がタイムアウトしました。
+要求がタイムアウトしました。
+要求がタイムアウトしました。</p>
 <h2 id="windows-ping-destination-net-unreachable">Windows の PING - Destination net unreachable（宛先ネットワークに到達できません）</h2>
 <p>以下のように「宛先ネットワークに到達できません」と表示されている場合はPINGが失敗しています。
 172.16.0.1にPINGをした結果、172.16.0.1からの応答はありませんが、代わりに 192.168.0.254 が
@@ -94,10 +94,10 @@
 <p>※　Ciscoルータのインターフェースに、ICMPを拒否するアクセスリストを適用している時も、同じICMPメッセージをPCは受信。</p>
 <p><img alt="画像" src="../studygif/tcpip5c.png"></p>
 <p>172.16.0.1 に ping を送信しています 32 バイトのデータ：
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ネットワークに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ネットワークに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ネットワークに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ネットワークに到達できません。</strong></p>
+192.168.0.254 からの応答：宛先ネットワークに到達できません。
+192.168.0.254 からの応答：宛先ネットワークに到達できません。
+192.168.0.254 からの応答：宛先ネットワークに到達できません。
+192.168.0.254 からの応答：宛先ネットワークに到達できません。</p>
 <h2 id="windows-ping-destination-host-unreachable">Windows の PING - Destination host unreachable（宛先ホストに到達できません）</h2>
 <p>以下のように「宛先ホストに到達できません」と表示されている場合もPINGが失敗しています。この
 エラーは「net」ではなく「host」です。このエラーメッセージは192.168.0.254のルータまでは到達
@@ -106,10 +106,10 @@
 <p>※　Ciscoルータの場合、172.16.0.1へのルーティングが見つけられないと、pingを実行したホストに対してこのメッセージを返答。</p>
 <p><img alt="画像" src="../studygif/tcpip5d.png"></p>
 <p>172.16.0.1 に ping を送信しています 32 バイトのデータ：
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ホストに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ホストに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ホストに到達できません。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：宛先ホストに到達できません。</strong></p>
+192.168.0.254 からの応答：宛先ホストに到達できません。
+192.168.0.254 からの応答：宛先ホストに到達できません。
+192.168.0.254 からの応答：宛先ホストに到達できません。
+192.168.0.254 からの応答：宛先ホストに到達できません。</p>
 <h2 id="windows-ping-ttl-expired-in-transitttl">Windows の PING - TTL expired in transit（転送中にTTLが期限切れになりました）</h2>
 <p>その他のエラーメッセージに「 192.168.0.254からの応答： 転送中にTTLが期限切れになりました 」
 があります。TTLの超過によるエラーを 192.168.0.254 からpingを実行したホストに伝達しています。
@@ -117,10 +117,10 @@
 途中でパケットが廃棄されたことを意味します。しかし、このエラーメッセージが出力される場合には
 ルータ側の<strong class="memory-answer">設定ミスによるルーティングループが原因</strong>であることがほとんどです。</p>
 <p>172.16.0.1 に ping を送信しています 32 バイトのデータ：
-<strong class="memory-answer">192.168.0.254 からの応答：転送中に TTL が期限切れになりました。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：転送中に TTL が期限切れになりました。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：転送中に TTL が期限切れになりました。</strong>
-<strong class="memory-answer">192.168.0.254 からの応答：転送中に TTL が期限切れになりました。</strong></p>
+192.168.0.254 からの応答：転送中に TTL が期限切れになりました。
+192.168.0.254 からの応答：転送中に TTL が期限切れになりました。
+192.168.0.254 からの応答：転送中に TTL が期限切れになりました。
+192.168.0.254 からの応答：転送中に TTL が期限切れになりました。</p>
 <hr>
 <p>← <a href="tcpip4.html">ICMPとは</a>　<a href="https://www.infraexpert.com/study/tcpip6.html">ICMP - traceroute</a> →</p></article>
 </main>

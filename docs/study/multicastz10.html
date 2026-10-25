@@ -120,8 +120,8 @@ Receiverが1つでも存在すれば、そのセグメント上でマルチキ�
 10秒以内に応答する必要があり、<strong class="memory-answer">IGMPv2ではこのクエリの最大応答時間を設定変更することが可能</strong>です。</p>
 <p><img alt="画像" src="../studygif/multicastz10c.png"></p>
 <p>IGMPv1と異なる2点目には、IGMPv2ではクエリア（クエリーを送信するルータ）選択の概念があることです。
-1つのサブネット上に複数のルータが存在する場合、IGMPv2ではそのサブネット上で<strong class="memory-answer">最も小さいIPアドレスを</strong>
-<strong class="memory-answer">持つルータがIGMPクエリア</strong>となります。初期状態では、自分自身がIGMPクエリアと認識していることから
+1つのサブネット上に複数のルータが存在する場合、IGMPv2ではそのサブネット上で<strong class="memory-answer">最も小さいIPアドレス</strong>を
+持つルータがIGMPクエリアとなります。初期状態では、自分自身がIGMPクエリアと認識していることから
 クエリを送信しますが、自分より小さいIPのルータのクエリを受信した場合は、クエリアの動作を停止します。</p>
 <p><img alt="画像" src="../studygif/multicastz10d.png"></p>
 <h2 id="igmpv2-_1">IGMPv2 - マルチキャストグループからの離脱</h2>

@@ -156,32 +156,32 @@ DNSサーバのソフトウェアとして最も使用されている<strong cla
 <tr>
 <td>NS</td>
 <td>Name Server</td>
-<td>ドメイン名と、そのドメイン名を管理するDNSサーバを対応付けたレコード。<br>例：<strong class="memory-answer">infraexpert.com. IN NS ns1.infraexpert.com.</strong><br>→　infraexpert.com のドメインのDNSサーバは、ns1.infraexpert.com であるという意味。</td>
+<td>ドメイン名と、そのドメイン名を管理するDNSサーバを対応付けたレコード。<br>例：infraexpert.com. IN NS ns1.infraexpert.com.<br>→　infraexpert.com のドメインのDNSサーバは、ns1.infraexpert.com であるという意味。</td>
 </tr>
 <tr>
 <td>A</td>
 <td>Address</td>
-<td>ホストのIPアドレスを指定。<br>例：<strong class="memory-answer">intra1.infraexpert.com. IN A 192.168.0.1</strong><br>→　intra1.infraexpert.com のIPアドレスは 192.168.0.1 であるという意味。</td>
+<td>ホストのIPアドレスを指定。<br>例：intra1.infraexpert.com. IN A 192.168.0.1<br>→　intra1.infraexpert.com のIPアドレスは 192.168.0.1 であるという意味。</td>
 </tr>
 <tr>
 <td>PTR</td>
 <td>Pointer</td>
-<td>IPアドレスに対応するホスト名を指定。（逆引きで使用）<br>例：<strong class="memory-answer">192.168.0.1 IN PTR intra1.infraexpert.com.</strong><br>→　192.168.0.1 のホスト名は intra1.infraexpert.com であるという意味。</td>
+<td>IPアドレスに対応するホスト名を指定。（逆引きで使用）<br>例：192.168.0.1 IN PTR intra1.infraexpert.com.<br>→　192.168.0.1 のホスト名は intra1.infraexpert.com であるという意味。</td>
 </tr>
 <tr>
 <td>CNAME</td>
 <td>Canonical NAME</td>
-<td>ホストの別名を指定。構文は、「 エイリアス名 IN CNAME 本当のホスト名 」 となる。<br>例：<strong class="memory-answer">www.infraexpert.com. IN CNAME intra1.infraexpert.com.</strong><br>→　intra1.infraexpert.com の別名（エイリアス名）はwww.infraexpert.com という意味。</td>
+<td>ホストの別名を指定。構文は、「 エイリアス名 IN CNAME 本当のホスト名 」 となる。<br>例：www.infraexpert.com. IN CNAME intra1.infraexpert.com.<br>→　intra1.infraexpert.com の別名（エイリアス名）はwww.infraexpert.com という意味。</td>
 </tr>
 <tr>
 <td>MX</td>
 <td>Mail exchange</td>
-<td>ドメインのメールサーバを指定。<br>例：<strong class="memory-answer">infraexpert.com. IN MX 10 mail1.infraexpert.com.</strong><br>→　xxx@infraexpert.com宛のメールはmail1.infraexpert.comに転送すれば届くという意味。</td>
+<td>ドメインのメールサーバを指定。<br>例：infraexpert.com. IN MX 10 mail1.infraexpert.com.<br>→　xxx@infraexpert.com宛のメールはmail1.infraexpert.comに転送すれば届くという意味。</td>
 </tr>
 <tr>
 <td>TXT</td>
 <td>text strings</td>
-<td>ホストへのテキスト情報を指定。<br>例：<strong class="memory-answer">www.infraexpert.com. IN TXT "cool"</strong><br>→　www.infraexpert.com ってサイトはクールなサイトという意味。</td>
+<td>ホストへのテキスト情報を指定。<br>例：www.infraexpert.com. IN TXT "cool"<br>→　www.infraexpert.com ってサイトはクールなサイトという意味。</td>
 </tr>
 </tbody>
 </table>
@@ -193,8 +193,8 @@ mail1.infraexpert.com.となり、mail1.infraexpert.com.への配送が失敗し
 への配送が行われるようになります。</p>
 <p><img alt="画像" src="../studygif/tcpip23d.png"></p>
 <h2 id="dnssecdomain-name-system-security-extensions">DNSSEC（Domain Name System Security Extensions）とは</h2>
-<p>DNSSECは、<strong class="memory-answer">DNSサーバからの応答が正しいDNSサーバから応答されたものであるかを検証する仕組み</strong>です。
-DNSSECは、DNSに対しデータ作成元の認証やデータの完全性を確認できるように仕様を拡張するものです。
+<p>DNSSECは、DNSサーバからの応答が正しいDNSサーバから応答されたものであるかを検証する仕組みです。
+DNSSECは、DNSに対し<strong class="memory-answer">データ作成元の認証</strong>や<strong class="memory-answer">データの完全性</strong>を確認できるように仕様を拡張するものです。
 DNSSECではDNSサーバから受け取るリソースレコードに対するデジタル署名を利用し、リソースレコード
 の送信者の正当性とデータの完全性を検証します。DNSSECによりデータの偽装を検知できるようになるので
 <strong class="memory-answer">DNSキャッシュポイズニングの攻撃を防げる</strong>ようになります。</p>

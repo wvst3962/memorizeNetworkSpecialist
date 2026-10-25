@@ -45,8 +45,8 @@ LSAタイプによって、エリア内だけでフラッディングされる�
 <p>LSAタイプ1のLSAは、<strong class="memory-answer">show ip ospf database router</strong>コマンドで確認することができます。</p>
 <h2 id="ospf-lsa-2">OSPF - LSAタイプ 2</h2>
 <p>LSAタイプ2は、自身の<strong class="memory-answer">エリア内でのみフラッディング</strong>されます。LSAタイプ1は、すべてのOSPFルータが
-LSAを生成していましたが、<strong class="memory-answer">LSAタイプ2はDRが生成</strong>します。このLSAには<strong class="memory-answer">DRのIPアドレス</strong>、<strong class="memory-answer">セグメントの</strong>
-<strong class="memory-answer">サブネットマスク情報</strong>、<strong class="memory-answer">セグメント上のルータIDの一覧</strong>などが含まれています。ルーティングテーブルでは、
+LSAを生成していましたが、LSAタイプ2は<strong class="memory-answer">DR</strong>が生成します。このLSAにはDRのIPアドレス、セグメントの
+<strong class="memory-answer">サブネットマスク情報</strong>、セグメント上のルータIDの一覧などが含まれています。ルーティングテーブルでは、
 LSAタイプ1と同様に、LSAタイプ2の経路情報は「<strong class="memory-answer">Ｏ</strong>」のコードが付けられています。</p>
 <p><img alt="画像" src="../studygif/ospfz15b.png"></p>
 <p>LSAタイプ2のLSAは、<strong class="memory-answer">show ip ospf database network</strong>コマンドで確認することができます。</p>

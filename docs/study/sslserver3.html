@@ -62,8 +62,8 @@ SSL-VPNの証明書認証を行う場合にはユーザ―証明書をクライ�
 </tbody>
 </table>
 <p>※1　Cisco ASAをSSL-VPNサーバにして、Cisco AnyConnectをインストールしたPCがSSL-VPNを行う際に社内のWindows CAが
-証明書を発行した証明書認証の場合、コンピュータ証明書であってもユーザー証明書であっても認証は成功します。<strong class="memory-answer">Cisco ASAは</strong>
-<strong class="memory-answer">クライアント証明書が"署名されたものであるか"と"失効していないかどうか"の2つをだけ見て認証における正当性を見ているから。</strong></p>
+証明書を発行した証明書認証の場合、コンピュータ証明書であってもユーザー証明書であっても認証は成功します。Cisco ASAは
+クライアント証明書が「<strong class="memory-answer">署名されたものであるか</strong>」と「<strong class="memory-answer">失効していないかどうか</strong>」の2つだけを見て認証における正当性を見ているから。</p>
 <p>※2　EAP-TLS認証では、コンピュータ証明書ではなくユーザー証明書を使用することも可能。IEEEで定義しているEAP-TLSでは
 クライアント証明書を使用することを定義しており、コンピュータ証明書やユーザー証明書のどちらか指定している訳ではないです。</p>
 <p>以下で紹介する内容はWindows OSに適用できる内容となります。クライアント証明書を確認するこの手順は

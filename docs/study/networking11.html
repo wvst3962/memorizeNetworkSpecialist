@@ -33,19 +33,19 @@
   <article class="article-card prose"><h1 id="cluster-system">cluster system</h1>
 <hr>
 <h2 id="_1">クラスタシステムとは</h2>
-<p>クラスタシステムとは、<strong class="memory-answer">複数のサーバをネットワークで接続して1つのシステムとして運用するシステム</strong>
+<p>クラスタシステムとは、複数のサーバをネットワークで接続して<strong class="memory-answer">1つのシステムとして運用</strong>するシステム
 のことです。そのようなサーバの冗長システムを構築することを<strong class="memory-answer">クラスタリング</strong>と言います。クラスタを
 構成するために必要なソフトウェアは、サーバOSの機能の1つとして提供されていることから、複数台の
 サーバを用意するだけで、クラスタリングすることができます。</p>
 <p>クラスタシステムでは、１台のサーバで障害が発生しても、別のサーバで通信を継続して処理できるので
 システム全体が停止することなく、障害復旧の交換作業中などの間もサービスを提供することができます。</p>
 <p><img alt="画像" src="../studygif/networking11a.png"></p>
-<p>HAクラスタソフト（クラスタソフトウェア）には、Microsoftでは<strong class="memory-answer">MSFC</strong>（Microsoft Failover Cluster）や
-NECでは<strong class="memory-answer">CLUSTERPRO</strong>、富士通では<strong class="memory-answer">PRIMECLUSTER</strong>などがあります。</p>
+<p>HAクラスタソフト（クラスタソフトウェア）には、MicrosoftではMSFC（Microsoft Failover Cluster）や
+NECではCLUSTERPRO、富士通ではPRIMECLUSTERなどがあります。</p>
 <h2 id="-">クラスタシステム - 正常時と障害時</h2>
 <p>物理サーバのクラスタタイプでは、正常時はアクティブな稼働系に「仮想IPアドレスとアプリケーション」
 が起動している状態であることから、クライアントからの通信は自動的に稼働系のサーバへと向かいます。</p>
-<p>クラスタシステムでは<strong class="memory-answer">、クラスタソフトウェアがサーバのハードウェアとアプリケーションのプロセスを</strong>
+<p>クラスタシステムでは、クラスタソフトウェアがサーバのハードウェアとアプリケーションのプロセスを
 <strong class="memory-answer">監視しています</strong>。クラスタソフトウェアがアクティブな稼働系のサーバに異常を検知した場合には自動的に
 稼働系から待機系スタンバイのサーバに<strong class="memory-answer">フェールオーバー</strong>します。アクティブな稼働系から、スタンバイの
 待機系に処理を引き継ぐことをフェールオーバーと言います。</p>
@@ -65,12 +65,12 @@ NECでは<strong class="memory-answer">CLUSTERPRO</strong>、富士通では<str
 サーバのうちアクティブサーバに障害発生した場合に切り替えるという点でも同じであると言えます。</p>
 <p>大きく異なる点は、<strong class="memory-answer">クラスタシステムでは共有ディスクを実装できるという点</strong>です。共有ディスクを持つ
 ことでデータをリアルタイムに共有できて、複数のクライアントからデータが同時に更新された場合でも
-同じ共有ディスクを参照することから、データの不整合が起きません。このことから<strong class="memory-answer">クラスタシステムは、</strong>
-<strong class="memory-answer">主にデーターベースサーバ、ファイルサーバなどでよく利用される実装</strong>です。</p>
+同じ共有ディスクを参照することから、データの不整合が起きません。このことからクラスタシステムは、
+主にデータベースサーバ、ファイルサーバなどでよく利用される実装です。</p>
 <p>ロードバランサによる負荷分散システムは、負荷分散対象のサーバの共有ディスクを持つことや書き込み
 はできません。一方、ロードバランサによる負荷分散システムではサーバ台数の拡張が容易に行える上に
-多数のクライアントからの要求を振り分けを適切に行うことでき、静的な情報を提供する<strong class="memory-answer">Webサーバ等の</strong>
-<strong class="memory-answer">アプリケーションサーバでよく利用される実装</strong>です。</p>
+多数のクライアントからの要求を振り分けを適切に行うことでき、静的な情報を提供するWebサーバ等の
+アプリケーションサーバでよく利用される実装です。</p>
 <hr>
 <p><a href="https://www.infraexpert.com/study/study37.html">ストレージネットワークとは</a></p></article>
 </main>

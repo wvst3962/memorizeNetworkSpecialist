@@ -54,7 +54,7 @@ LDAPプロトコルでLDAPクライアント（例としてメアドを検索す
 LDAP識別名は、単に<strong class="memory-answer">識別名</strong>（<strong class="memory-answer">DN</strong>）とも呼ばれます。LDAP識別名は、複数の<strong class="memory-answer">LDAP相対識別名</strong>（<strong class="memory-answer">RDN</strong>）を
 カンマで区切って並べたもの。DNはDistinguished Name、RDNはRelative Distinguished Nameの略です。
 例えば、ドメイン「infraexpert.com」のコンテナ「Users」に配置したユーザー「cool」は以下となります。</p>
-<p><strong class="memory-answer">cn=cool, cn=Users, dc=infraexpert, dc=com</strong></p>
+<p>cn=cool, cn=Users, dc=infraexpert, dc=com</p>
 <p>LDAP相対識別名は「<strong class="memory-answer">属性値=値</strong>」という構文で定義しますが、この属性値にどのような値を使用できるかは
 ディレクトリサービスのソフトウェアにより異なります。例えばActive Directoryでは次の属性値が使えます。</p>
 <h2 id="active-directoryldap">Active Directoryで使用できるLDAP属性値</h2>
@@ -86,9 +86,9 @@ LDAP識別名は、単に<strong class="memory-answer">識別名</strong>（<str
 </table>
 <p>LDAP識別名は、LDAP相対識別名をADツリーの階層の下から記述します。もう少し例を見てみましょう。
 例えば、ドメイン「infraexpert.com」のOU「Sales」に配置したユーザー「cool」は以下となります。
-<strong class="memory-answer">cn=cool, ou=Sales, dc=infraexpert, dc=com</strong></p>
+cn=cool, ou=Sales, dc=infraexpert, dc=com</p>
 <p>例えば、ドメイン「infraexpert.com」のコンテナ「Computers」に配置したコンピュータ「pc5」は以下。
-<strong class="memory-answer">cn=pc5, cn=Computers, dc=infraexpert, dc=com</strong></p>
+cn=pc5, cn=Computers, dc=infraexpert, dc=com</p>
 <h2 id="cisco-asa-active-directory-by-ldap">Cisco ASA と Active Directory との連携 by LDAP認証</h2>
 <p>SSL-VPN接続のユーザ認証時に、Windows ServerのActive DirectoryとCisco ASAとが連携してLDAPを
 使用し認証することができます。ADとASAが連携するといっても当然LDAPサーバはActive Directoryです。

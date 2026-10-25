@@ -51,8 +51,8 @@ VPLSでは、広域イーサネットサービス（WANサービス）をルー�
 <h2 id="vpls">VPLSの仕組み</h2>
 <p>VPLSでは、MPLSで利用するラベルごとの仮想的な伝送路であるLSPを、PEルータ同士でフルメッシュに
 張ることにより、EthernetフレームをMPLSを使用しMultipoint to Multipointで転送することができます。</p>
-<p>VPLSとMPLSとの違いは、利用者（企業）から送信されるパケットを<strong class="memory-answer">IPアドレスではなくMACアドレスに</strong>
-<strong class="memory-answer">基づき転送することができる点</strong>です。PEルータ（VPLSルータ）では、企業ごとのMACアドレスと転送先
+<p>VPLSとMPLSとの違いは、利用者（企業）から送信されるパケットをIPアドレスではなく<strong class="memory-answer">MACアドレス</strong>に
+基づき転送することができる点です。PEルータ（VPLSルータ）では、企業ごとのMACアドレスと転送先
 パスの対応テーブルを持っており、その情報に基づいてラベルを付加して転送します。</p>
 <p>MPLS網内のコアルータ（Pルータ）はそのラベルに基づきフレームを転送するだけでよく、コアルータは
 MACアドレスを学習する必要はありません。</p>

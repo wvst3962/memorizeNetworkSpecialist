@@ -45,8 +45,8 @@ PIM-SMの「スイッチオーバー後の動作」をします。SSMはRFC4607�
 <p>SSMを実装する前提として、<strong class="memory-answer">ルータ側ではPIM-SSMをサポート</strong>している必要があります。Receiver側では
 <strong class="memory-answer">IGMPv3をサポート</strong>している必要があります。</p>
 <p>IGMPv3にはEXCLUDEモードのメンバーシップレポートもありますが、SSMではIGMPv3 EXCLUDEモードの
-メンバーシップレポートをサポートしていないことから、<strong class="memory-answer">IGMPv3 INCLUDEモードのメンバーシップレポート</strong>
-<strong class="memory-answer">を使用します</strong>。INCLUDEは「指定したSenderから指定したマルチキャストパケットを受信する」という意味、
+メンバーシップレポートをサポートしていないことから、<strong class="memory-answer">IGMPv3 INCLUDEモード</strong>のメンバーシップレポート
+を使用します。INCLUDEは「指定したSenderから指定したマルチキャストパケットを受信する」という意味、
 EXCLUDEは「指定したSender以外から、指定したマルチキャストパケットを受信する」と意味となります。</p>
 <h2 id="ssm">SSMの動作</h2>
 <p>先ず、Receiverから「特定のSenderであるソース（S）と特定のマルチキャストグループ（G)」に参加する
@@ -81,13 +81,13 @@ EXCLUDEは「指定したSender以外から、指定したマルチキャスト�
 <p><img alt="画像" src="../studygif/multicastz40b.png"></p>
 <p>このSSMの動作により、ファーストホップルータからラストホップルータとの間で送信元ツリーが作成されて
 最短パスでSenderからReceiverはマルチキャストパケットが転送されます。なお、PIM-SMを実装する場合は
-各ルータにおいてRPアドレスを設定する必要がありましたが、<strong class="memory-answer">SSMによりマルチキャストルーティングを行う</strong>
-<strong class="memory-answer">マルチキャストグループでは、RPアドレスの設定は必要ありません</strong>。</p>
+各ルータにおいてRPアドレスを設定する必要がありましたが、SSMによりマルチキャストルーティングを行う
+マルチキャストグループでは、<strong class="memory-answer">RPアドレスの設定は必要ありません</strong>。</p>
 <h2 id="ssm_1">SSMの特性</h2>
 <p>・　不正なマルチキャストパケットの受信を防げる
 PIM-SMの場合、Senderは意識せずにマルチキャストグループに参加してReceiverはパケットを受信します。
 SSMの場合は特定のソース（Source Specific）のマルチキャストグループに参加してReceiverはパケットを
-受信することになり、<strong class="memory-answer">不正なSenderからのマルチキャストパケットを受信せずに済み、DoS攻撃を防げます</strong>。</p>
+受信することになり、不正なSenderからのマルチキャストパケットを受信せずに済み、DoS攻撃を防げます。</p>
 <p>・　SSMで使用するマルチキャストアドレス
 SSMで使用するマルチキャストアドレスは「<strong class="memory-answer">232.0.0.0 ～ 232.255.255.255</strong>」の範囲です。Cisco機器の
 場合は232.0.0.0/8（232.0.0.0 ～ 232.255.255.255）の範囲でSSMを利用する場合は以下の設定をします。</p>
@@ -99,7 +99,7 @@ SSMで使用するマルチキャストアドレスは「<strong class="memory-a
 <h2 id="ssmism">参考：SSMとISMの連携</h2>
 <p>マルチキャストグループアドレス範囲の設定済みのサブセットにSSM配信モデルを適用することで、SSMと
 ISM（Internet Standard Multicast サービスを一緒に使用することは可能です。
-⇒　<strong class="memory-answer">SSM can work in conjunction with the ISM service</strong>.</p>
+⇒　SSM can work in conjunction with the ISM service.</p>
 <hr>
 <p><a href="https://www.infraexpert.com/study/study63.html">マルチキャストの技術解説（応用）</a></p></article>
 </main>
