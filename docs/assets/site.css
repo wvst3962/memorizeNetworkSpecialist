@@ -123,11 +123,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, .memory-answer:focus
 .prose pre { overflow-x: auto; padding: 18px; border-radius: 10px; background: #1d2d3a; color: #f4f7f6; }
 .prose pre code { padding: 0; background: none; color: inherit; }
 .prose blockquote { margin: 24px 0; padding: 2px 20px; border-left: 4px solid var(--teal); background: #eef6f4; }
-.prose .memory-answer { color: var(--red); font-weight: 800; border-radius: 3px; }
+.prose .memory-answer { color: var(--red); font-weight: 800; border-radius: 3px; touch-action: manipulation; }
+.prose .unmasked-red { color: var(--red); }
 .sheet-active .prose .memory-answer:not([data-revealed]) { color: transparent !important; -webkit-text-fill-color: transparent; background: repeating-linear-gradient(112deg, #ed919b 0, #ed919b 8px, #e58a94 8px, #e58a94 16px); box-shadow: 0 0 0 2px #e997a0; cursor: pointer; user-select: none; }
-.sheet-active .prose .memory-answer:not([data-revealed]):hover,
-.sheet-active .prose .memory-answer:not([data-revealed]):focus-visible { color: var(--red) !important; -webkit-text-fill-color: var(--red); background: #ffe8e8; user-select: text; }
 .sheet-active .prose .memory-answer[data-revealed] { color: var(--red); -webkit-text-fill-color: var(--red); background: #fff0e9; }
+@media (hover: hover) and (pointer: fine) {
+  .sheet-active .prose .memory-answer:not([data-revealed]):hover { color: var(--red) !important; -webkit-text-fill-color: var(--red); background: #ffe8e8; user-select: text; }
+}
 
 .site-footer { display: flex; justify-content: space-between; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .site-footer a { color: var(--muted); }

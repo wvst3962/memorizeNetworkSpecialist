@@ -51,52 +51,52 @@ DNSサーバのソフトウェアとして最も使用されている<strong cla
 </thead>
 <tbody>
 <tr>
-<td>?@</td>
+<td>①</td>
 <td>$TTL</td>
 <td>DNSサーバがゾーンファイルのデータをキャッシュする時間を指定（デフォルト：86400秒）</td>
 </tr>
 <tr>
-<td>?A</td>
+<td>②</td>
 <td>$ORIGIN</td>
 <td>対象ドメイン名を補う。「 IN NS ns1.infraexpert.com. 」を IN NS ns1 のように省略可。</td>
 </tr>
 <tr>
-<td>?B</td>
+<td>③</td>
 <td>@</td>
 <td>ドメイン名を表す。このゾーンファイルでは @ は「 infraexpert.com 」と同じ意味を表す。</td>
 </tr>
 <tr>
-<td>?C</td>
+<td>④</td>
 <td>ns1.infraexpert.com.</td>
 <td>このゾーンファイルのデータを持つプライマリーDNSサーバ</td>
 </tr>
 <tr>
-<td>?D</td>
+<td>⑤</td>
 <td>postmaster.infraexpert.com.</td>
 <td>このドメインの管理者のメールアドレス。管理者との連絡用に使用。<br>「 postmaster.infraexpert.com. 」 = 「 postmaster@infraexpert.com 」</td>
 </tr>
 <tr>
-<td>?E</td>
+<td>⑥</td>
 <td>Serial ( 2012062501 )</td>
 <td>ゾーンファイルのバージョンを表す数字。管理者が自由に記載する。ゾーンファイル<br>更新日＋管理番号を表す ( YYYYMMDDNN ) の10桁使用が多い。DNS情報を更新<br>する場合、このシリアル番号を現在よりも大きな値として更新される必要がある。<br>DNS情報を更新した場合、自動で更新される場合はこの更新値を意識する必要はない。</td>
 </tr>
 <tr>
-<td>?F</td>
+<td>⑦</td>
 <td>Refresh ( 10800秒 )</td>
 <td>セカンダリDNSサーバが、プライマリDNSサーバにゾーン情報の更新を確認する間隔の時間。</td>
 </tr>
 <tr>
-<td>?G</td>
+<td>⑧</td>
 <td>Retry ( 3600秒 )</td>
 <td>セカンダリDNSサーバが、Refreshでゾーン情報の更新が失敗した場合に<br>再度Refreshを試みるまでの時間。</td>
 </tr>
 <tr>
-<td>?H</td>
+<td>⑨</td>
 <td>EXPIRE ( 604800秒 )</td>
 <td>セカンダリDNSサーバが、ゾーン情報のリフレッシュができない状態が続いた場合、<br>セカンダリDNSサーバが持っているゾーン情報をどれだけの時間利用するかの時間。</td>
 </tr>
 <tr>
-<td>?I</td>
+<td>⑩</td>
 <td>Minumum TTL (86400秒)</td>
 <td>存在しないドメイン名のキャッシュを維持する時間。存在しないドメイン名を問い合わせると<br>キャッシュサーバは他の正規な情報と同様、この存在しないドメイン情報も指定時間保持する。</td>
 </tr>
@@ -104,9 +104,9 @@ DNSサーバのソフトウェアとして最も使用されている<strong cla
 </table>
 <h2 id="dns-_1">DNS - リソースレコードの省略表記</h2>
 <p>リソースレコードは省略した表記が可能です。そのリソースレコードの省略ルールは以下の通りです。</p>
-<p>?@　デフォルトのTTLと同じTTLの場合、TTLの値を省略可能。デフォルトのTTLは「 $TTL 」で指定。
-?A　前行と同じラベルで始まる行は、ラベルを省略可能。
-?B　ORIGINと同じドメインは省略可能。ORIGINの値は「 $ORIGIN 」で指定。</p>
+<p>①　デフォルトのTTLと同じTTLの場合、TTLの値を省略可能。デフォルトのTTLは「 $TTL 」で指定。
+②　前行と同じラベルで始まる行は、ラベルを省略可能。
+③　ORIGINと同じドメインは省略可能。ORIGINの値は「 $ORIGIN 」で指定。</p>
 <p>※　 明示的にORIGINを指定しない場合、そのゾーンファイルのドメイン名が暗黙に指定される。
 ※　 ORIGINと同じドメイン名は @ で記載される。 例 - infraexpert.com. ⇒ @
 ※　 ORIGINの前にホスト名を付加する場合はそのホスト名を記載して最後に「. 」をつけない。例 - www.infraexpert.com. ⇒ www

@@ -87,14 +87,14 @@ WEPで登場した「<strong class="memory-answer">ICV</strong>」がありま�
 <p><img alt="画像" src="../studygif/wireless12c.png"></p>
 <h2 id="wpa-1">WPAの接続シーケンス その1 （アソシエーション処理）</h2>
 <p>WPAでは、無線LANクライアント（ = Supplicant ) と、アクセスポイント ( = Authenticator ) との間で
-以下の接続処理が行われます。アルゴリズムが複雑なので?@と?Aに焦点をあて解説します。?B～?Dにおける
+以下の接続処理が行われます。アルゴリズムが複雑なので①と②に焦点をあて解説します。③～⑤における
 接続処理は簡単にいえば、SupplicantとAuthenticatorとで使用される「鍵を生成」しているということです。</p>
-<p>?@　アソシエーション処理　-　WPAにおける各種情報の共有
-?A　PMK (Pairwise Master Key) の共有　-　WPAで使用する様々な鍵のもとになるマスター鍵の生成
-?B　PTK (Pairwise Transient Key) の生成　-　 ユニキャスト通信で使用される鍵情報の生成
-?C　GTK (Group Transient Key) の生成　-　マルチキャスト、ブロードキャスト通信で使用される鍵情報の生成
-?D　Temporal KeyとData MIC Keyの生成　-　暗号化用の<strong class="memory-answer">Temporal Key</strong>、改ざん検知用の<strong class="memory-answer">Data MIC Key</strong>の生成</p>
-<p>?@の<strong class="memory-answer">アソシエーション処理</strong>では、無線LAN端末とアクセスポイントとでWPAの情報共有と双方の認証をします。
+<p>①　アソシエーション処理　-　WPAにおける各種情報の共有
+②　PMK (Pairwise Master Key) の共有　-　WPAで使用する様々な鍵のもとになるマスター鍵の生成
+③　PTK (Pairwise Transient Key) の生成　-　 ユニキャスト通信で使用される鍵情報の生成
+④　GTK (Group Transient Key) の生成　-　マルチキャスト、ブロードキャスト通信で使用される鍵情報の生成
+⑤　Temporal KeyとData MIC Keyの生成　-　暗号化用の<strong class="memory-answer">Temporal Key</strong>、改ざん検知用の<strong class="memory-answer">Data MIC Key</strong>の生成</p>
+<p>①の<strong class="memory-answer">アソシエーション処理</strong>では、無線LAN端末とアクセスポイントとでWPAの情報共有と双方の認証をします。
 最初にSupplicantからAuthenticatorにプローブ要求を送信します。プローブ要求を受信したAuthenticatorは
 プローブ応答を返します。その際にRSN IN (Robust Security Network Information Element) の情報を付加
 します。このRSN INにAuthenticatorがどのような暗号化や改ざん検知をサポートしているかのセキュリティ
@@ -104,7 +104,7 @@ WEPで登場した「<strong class="memory-answer">ICV</strong>」がありま�
 アソシエーション要求を行いその際にSupplicantもRSN INの情報を送信します。そして、これらの情報の
 受信後、AuthenticatorはSupplicantにアソシエーション応答を返信して、アソシエーションは成功します。</p>
 <h2 id="wpa-2-pmk">WPAの接続シーケンス その2 （PMKの共有）</h2>
-<p>?A の<strong class="memory-answer">PMKの共有</strong>は、上記のアソシエーション処理の完了後に行われます。WPAでは、色々な鍵を使用して
+<p>② の<strong class="memory-answer">PMKの共有</strong>は、上記のアソシエーション処理の完了後に行われます。WPAでは、色々な鍵を使用して
 通信するのですがPMK (Pairwise Master Key) はこれらのもとになるマスターキーです。WPAの認証方式
 にPSK認証を使用する場合は、パスフレーズで設定したPSK (Pre-Shared Key) がPMKとして使用されます。
 IEEE802.1X認証を使用する場合、802.1X認証成功後に配布されるセッション鍵がPMKとして使用されます。

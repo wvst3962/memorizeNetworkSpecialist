@@ -22,9 +22,9 @@
     <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
 <ul>
 <li><a href="#ipv6ipv6">IPv6ルータへのIPv6アドレスの割り当て</a></li>
-<li><a href="#ipv6-">IPv6アドレス - ?@ 管理者の手動による割り当て</a></li>
-<li><a href="#ipv6-a-eui-64">IPv6アドレス - ?A EUI-64の生成による割り当て</a></li>
-<li><a href="#ipv6-b-ipv6">IPv6アドレス - ?B IPv6アドレスの自動取得</a></li>
+<li><a href="#ipv6-1">IPv6アドレス - ① 管理者の手動による割り当て</a></li>
+<li><a href="#ipv6-2-eui-64">IPv6アドレス - ② EUI-64の生成による割り当て</a></li>
+<li><a href="#ipv6-3-ipv6">IPv6アドレス - ③ IPv6アドレスの自動取得</a></li>
 </ul>
 </div>
 </div>
@@ -60,15 +60,15 @@
 </tr>
 </tbody>
 </table>
-<h2 id="ipv6-">IPv6アドレス - ?@ 管理者の手動による割り当て</h2>
+<h2 id="ipv6-1">IPv6アドレス - ① 管理者の手動による割り当て</h2>
 <p>管理者の手動の割り当てでは「プレフィックス」と「インターフェースID」の両方を手動で割り当てます。
 例えば、Ciscoルータでは以下のように設定します。</p>
 <p><img alt="画像" src="../studygif/ipv6z5.1a.png"></p>
-<h2 id="ipv6-a-eui-64">IPv6アドレス - ?A EUI-64の生成による割り当て</h2>
+<h2 id="ipv6-2-eui-64">IPv6アドレス - ② EUI-64の生成による割り当て</h2>
 <p>EUI-64の生成による割り当てでは、「プレフィックス」を手動で割り当て、「インターフェースID」は
 EUI-64で自動で生成させます。例えばCiscoルータでは、以下のように最後に<strong class="memory-answer">eui-64</strong>とつけて設定します。</p>
 <p><img alt="画像" src="../studygif/ipv6z5.1b.png"></p>
-<h2 id="ipv6-b-ipv6">IPv6アドレス - ?B IPv6アドレスの自動取得</h2>
+<h2 id="ipv6-3-ipv6">IPv6アドレス - ③ IPv6アドレスの自動取得</h2>
 <p>IPv6ホストと同様、IPv6ルータのインターフェースでもIPv6アドレスを自動取得することは可能。ただし
 この設定は一般的なIPv6アドレスの割り当て手法ではなく、あまり使用されることはない方式となります。</p>
 <p><img alt="画像" src="../studygif/ipv6z5.1c.png"></p>

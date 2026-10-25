@@ -50,15 +50,15 @@ SIPサーバとして説明を行っていきます。IP電話機の呼制御（
 <p><img alt="画像" src="../studygif/telephony10c.png"></p>
 <h2 id="ip-ip">IPテレフォニーシステムの構成 - IP電話機の動作の流れ</h2>
 <p>IPテレフォニーシステムにおいて、IP電話機は以下のフローで起動して、自身の電話番号を取得できます。</p>
-<p>?@　IP電話機をPoEスイッチに接続することで、電源供給を受けてIP電話機が起動する。
-?A　IP電話機がDHCPサーバによって、IPアドレス情報およびSIPサーバのアドレス情報を取得する。
-?B　IP電話機はSIPサーバへ<strong class="memory-answer">SIP REGISTER</strong>メッセージを送信して、SIPサーバから自身の電話番号を取得。</p>
+<p>①　IP電話機をPoEスイッチに接続することで、電源供給を受けてIP電話機が起動する。
+②　IP電話機がDHCPサーバによって、IPアドレス情報およびSIPサーバのアドレス情報を取得する。
+③　IP電話機はSIPサーバへ<strong class="memory-answer">SIP REGISTER</strong>メッセージを送信して、SIPサーバから自身の電話番号を取得。</p>
 <p>次に、同じSIPサーバ配下にいるIP電話機は、以下のフローで音声通話を実現することができます。</p>
-<p>?@　IP電話機で通話先となる電話番号を押すことで、SIPサーバに<strong class="memory-answer">SIP INVITE</strong>メッセージが送信される。
-?A　SIPサーバではIP電話機の電話番号とIPアドレスの対応データを持っており、SIPサーバから通話先の
+<p>①　IP電話機で通話先となる電話番号を押すことで、SIPサーバに<strong class="memory-answer">SIP INVITE</strong>メッセージが送信される。
+②　SIPサーバではIP電話機の電話番号とIPアドレスの対応データを持っており、SIPサーバから通話先の
 IP電話機の電話番号へSIP INVITEメッセージを送信。このメッセージを受信したIP電話機は着信音がなる。
-?B　着信音の鳴っているIP電話の受話器を取ると音声通話を行えます。これでシグナリングプロセスが完了。
-?C　RTPで転送されるVoIPパケットはIP電話機同士で直接やりとりして、SIPサーバを介さず音声通話を行う。</p>
+③　着信音の鳴っているIP電話の受話器を取ると音声通話を行えます。これでシグナリングプロセスが完了。
+④　RTPで転送されるVoIPパケットはIP電話機同士で直接やりとりして、SIPサーバを介さず音声通話を行う。</p>
 <p><img alt="画像" src="../studygif/telephony10d.png"></p>
 <p>※　RTPパケットから<strong class="memory-answer">通話先のIPアドレス</strong>情報が取得できて、SIPパケットからは<strong class="memory-answer">通話先の電話番号</strong>情報が得られます。</p>
 <h2 id="ip-sipip">IPテレフォニーシステムの構成 - 異なるSIPサーバで管理しているIP電話機の動作の流れ</h2>

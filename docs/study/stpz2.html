@@ -21,11 +21,11 @@
     <a class="back-link" href="../index.html">← 記事一覧</a>
     <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
 <ul>
-<li><a href="#_1">スパニングツリープロトコルの動作 ?@ ルートブリッジの選出</a></li>
-<li><a href="#a-rp">スパニングツリープロトコルの動作 ?A ルートポート（RP）の選出</a></li>
-<li><a href="#b-dp">スパニングツリープロトコルの動作 ?B 指定ポート（DP）の選出</a></li>
-<li><a href="#c-ndp">スパニングツリープロトコルの動作 ?C 非指定ポート（NDP）の選出</a></li>
-<li><a href="#_2">スパニングツリーの各ポートの役割</a></li>
+<li><a href="#1">スパニングツリープロトコルの動作 ① ルートブリッジの選出</a></li>
+<li><a href="#2-rp">スパニングツリープロトコルの動作 ② ルートポート（RP）の選出</a></li>
+<li><a href="#3-dp">スパニングツリープロトコルの動作 ③ 指定ポート（DP）の選出</a></li>
+<li><a href="#4-ndp">スパニングツリープロトコルの動作 ④ 非指定ポート（NDP）の選出</a></li>
+<li><a href="#_1">スパニングツリーの各ポートの役割</a></li>
 <li><a href="#stp">STPツリーは「 ルートブリッジの選出 ⇒ ルートポートの選出 ⇒ 指定ポートの選出 ⇒ 非指定ポートの選出 」のフローで決定。</a></li>
 </ul>
 </div>
@@ -34,7 +34,7 @@
   </aside>
   <article class="article-card prose"><h1 id="stp-root-bridge-root-designated-blocking-port">STP - Root Bridge / Root | Designated | Blocking Port</h1>
 <hr>
-<h2 id="_1">スパニングツリープロトコルの動作 ?@ ルートブリッジの選出</h2>
+<h2 id="1">スパニングツリープロトコルの動作 ① ルートブリッジの選出</h2>
 <p>スパニングツリーでは、スイッチネットワークのループ構成をツリー状にするために、ツリー状の中心となる
 <strong class="memory-answer">ルートブリッジ</strong>を先ず始めに選出します。ルートブリッジにはブリッジIDが最も小さなスイッチが選ばれます。</p>
 <p><img alt="画像" src="../studygif/stpz2a.png"></p>
@@ -43,16 +43,16 @@
 ブリッジIDを比較する際に、<strong class="memory-answer">先ずブリッジプライオリティ値を比較</strong>して、この値が同じ場合にはMACアドレス
 を比較します。従って下図の場合、ブリッジプライオリティ値が最も小さいSWAがルートブリッジとなります。</p>
 <p><img alt="画像" src="../studygif/stpz2b.png"></p>
-<h2 id="a-rp">スパニングツリープロトコルの動作 ?A ルートポート（<strong class="memory-answer">RP</strong>）の選出</h2>
+<h2 id="2-rp">スパニングツリープロトコルの動作 ② ルートポート（<strong class="memory-answer">RP</strong>）の選出</h2>
 <p>スパニングツリーではルートブリッジの選出後、<strong class="memory-answer">ルートポート</strong>と呼ばれるポートを選出することになります。
 ルートポートは、ルートブリッジに最も近いポートです。非ルートブリッジごとに１ポートがルートポートに
 なります。何をもって<strong class="memory-answer">最も近い</strong>かですが、それは「 <strong class="memory-answer">ルートブリッジに至るパスコストが最も小さいこと</strong> 」を
 指します。ルートブリッジに至るパスコストの合計値の事を<strong class="memory-answer">ルートパスコスト</strong>と言います。下図を解説します。</p>
-<p>ルートブリッジはパスコスト <strong class="memory-answer">0</strong> でBPDUを送信します。非ルートブリッジのSWBとSWCのポート?@では受信
-したBPDUのパスコストに自身のコスト値 <strong class="memory-answer">4</strong> を加算するので、SWBとSWCのポート?@のルートパスコストは
+<p>ルートブリッジはパスコスト <strong class="memory-answer">0</strong> でBPDUを送信します。非ルートブリッジのSWBとSWCのポート①では受信
+したBPDUのパスコストに自身のコスト値 <strong class="memory-answer">4</strong> を加算するので、SWBとSWCのポート①のルートパスコストは
 <strong class="memory-answer">4</strong> となります。次にSWBとSWCもBPDUを送信し合い、受信したBPDUのパスコストに自身のコスト値 <strong class="memory-answer">19</strong> を
-加算するので、SWBとSWCのポート?Aのルートパスコストは <strong class="memory-answer">23</strong> 。ルートポートは非ルートブリッジごとに
-1ポートずつ選出されるので、SWBではポート?@がRPになります。そしてSWCではポート?@がRPになります。</p>
+加算するので、SWBとSWCのポート②のルートパスコストは <strong class="memory-answer">23</strong> 。ルートポートは非ルートブリッジごとに
+1ポートずつ選出されるので、SWBではポート①がRPになります。そしてSWCではポート①がRPになります。</p>
 <p><img alt="画像" src="../studygif/stpz2c.png"></p>
 <table>
 <thead>
@@ -85,7 +85,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="b-dp">スパニングツリープロトコルの動作 ?B 指定ポート（<strong class="memory-answer">DP</strong>）の選出</h2>
+<h2 id="3-dp">スパニングツリープロトコルの動作 ③ 指定ポート（<strong class="memory-answer">DP</strong>）の選出</h2>
 <p>スパニングツリーでは、ルートブリッジを選出して、ルートポートを選出した後は<strong class="memory-answer">指定ポート</strong>を選出します。
 指定ポートは各リンク（セグメント）でルートブリッジに最も近いポートです。以下は指定ポート選出ルール。</p>
 <p>○　各リンクごとに1ポートが指定ポートになります。
@@ -96,17 +96,17 @@
 <p>次に、SWB ⇔ SWC間の指定ポート（ DP ）の選出ですが、<strong class="memory-answer">各スイッチのRPのルートパスコストを見る</strong>ので
 SWBのルートパスコストは <strong class="memory-answer">4</strong>、SWCのルートパスコストは <strong class="memory-answer">4</strong> であることから、ルートパスコストは同じです。
 ルートパスコストが同じ場合には、<strong class="memory-answer">送信元ブリッジIDの値を比較</strong>します。送信元ブリッジIDが最も小さい値の
-ポートが指定ポートになります。SWBの方がブリッジID小さいことからそのポート?Aが指定ポートになります。</p>
+ポートが指定ポートになります。SWBの方がブリッジID小さいことからそのポート②が指定ポートになります。</p>
 <p><img alt="画像" src="../studygif/stpz2d.png"></p>
 <p>ちなみに、指定ポート（DP）を決定する際に、<strong class="memory-answer">先ず各スイッチのルートパスコストの値を見る</strong>ので、例えば
 SWBのルートパスコストが <strong class="memory-answer">19</strong> で、SWCのルートパスコストが <strong class="memory-answer">4</strong> である場合、SWB ⇔ SWC間ではSWCの
-?Aポートが指定ポートになります。</p>
+②ポートが指定ポートになります。</p>
 <p><img alt="画像" src="../studygif/stpz2e.png"></p>
-<h2 id="c-ndp">スパニングツリープロトコルの動作 ?C 非指定ポート（<strong class="memory-answer">NDP</strong>）の選出</h2>
+<h2 id="4-ndp">スパニングツリープロトコルの動作 ④ 非指定ポート（<strong class="memory-answer">NDP</strong>）の選出</h2>
 <p>ルートポート、指定ポートにも選出されなかった残りのポートが<strong class="memory-answer">非指定ポート</strong>になります。非指定ポートでは
 データフレームが送受信されない（BPDUは受信する）ブロッキング状態になり、これでループを回避します。</p>
 <p><img alt="画像" src="../studygif/stpz2f.png"></p>
-<h2 id="_2">スパニングツリーの各ポートの役割</h2>
+<h2 id="_1">スパニングツリーの各ポートの役割</h2>
 <p>スパニングツリーではルートポート、指定ポート、非指定ポートの3種類あります。役割は以下の通りです。</p>
 <table>
 <thead>
@@ -120,12 +120,12 @@ SWBのルートパスコストが <strong class="memory-answer">19</strong> で�
 <tr>
 <td>ルートポート</td>
 <td>Forwarding</td>
-<td><strong class="memory-answer">RP</strong> (Root Port)。<strong class="memory-answer">非ルートブリッジごとに１ポート</strong>選出される、ルートブリッジに最も近いポート。<br>?@ 各ポートのルートパスコスト　?A 送信元ブリッジID　?B 送信元ポートID、の順で比較。</td>
+<td><strong class="memory-answer">RP</strong> (Root Port)。<strong class="memory-answer">非ルートブリッジごとに１ポート</strong>選出される、ルートブリッジに最も近いポート。<br>① 各ポートのルートパスコスト　② 送信元ブリッジID　③ 送信元ポートID、の順で比較。</td>
 </tr>
 <tr>
 <td>指定ポート</td>
 <td>Forwarding</td>
-<td><strong class="memory-answer">DP</strong> (Designated Port)。<strong class="memory-answer">各リンクごとに１ポート</strong>選出される、ルートブリッジに最も近いポート。<br>?@ 各スイッチのRPのルートパスコスト　?A 送信元ブリッジID　?B 送信元ポートIDの順で比較。</td>
+<td><strong class="memory-answer">DP</strong> (Designated Port)。<strong class="memory-answer">各リンクごとに１ポート</strong>選出される、ルートブリッジに最も近いポート。<br>① 各スイッチのRPのルートパスコスト　② 送信元ブリッジID　③ 送信元ポートIDの順で比較。</td>
 </tr>
 <tr>
 <td>非指定ポート</td>
@@ -134,8 +134,8 @@ SWBのルートパスコストが <strong class="memory-answer">19</strong> で�
 </tr>
 </tbody>
 </table>
-<p>どのようなL2接続構成であってもスパニングツリーの構成は、?@ルートブリッジの選出、?Aルートポートの選出
-?B指定ポートの選出、?C非指定ポートの選出の順番で考えていきます。下図のスイッチでは、プライオリティ値
+<p>どのようなL2接続構成であってもスパニングツリーの構成は、①ルートブリッジの選出、②ルートポートの選出
+③指定ポートの選出、④非指定ポートの選出の順番で考えていきます。下図のスイッチでは、プライオリティ値
 が小さいSWAがルートブリッジになります。次にルートポートの選出です。2つのリンクの帯域幅が同じなので
 ルートパスコストは同じになります。そして、同じスイッチなので送信元ブリッジIDも同じになります。すると
 次の選定基準の<strong class="memory-answer">送信元ポートID</strong>を見ます。送信元ポートIDは<strong class="memory-answer">ポートプライオリティ+ポート番号</strong>で構成されます。</p>
@@ -146,8 +146,8 @@ SWBのルートパスコストが <strong class="memory-answer">19</strong> で�
 <p>色々な解説を行いましたが以下の3点を理解しておけばどのようなL2トポロジーでもSTP状態が分かります。</p>
 <h2 id="stp">STPツリーは「 ルートブリッジの選出 ⇒ ルートポートの選出 ⇒ 指定ポートの選出 ⇒ 非指定ポートの選出 」のフローで決定。</h2>
 <p>1、ルートブリッジは、ブリッジID（ ブリッジプライオリティ + MACアドレス ）が<strong class="memory-answer">最も小さい値</strong>を持つスイッチが選出される。
-2、ルートポートは、?@各ポートのルートパスコスト ?A送信元ブリッジID ?B送信元ポートID の順で<strong class="memory-answer">最も小さい値</strong>を持つポート。
-3、指定ポートは、?@各スイッチのRPのルートパスコスト ?A送信元ブリッジID ?B送信元ポートID の順で<strong class="memory-answer">最も小さい値</strong>を持つポート。</p>
+2、ルートポートは、①各ポートのルートパスコスト ②送信元ブリッジID ③送信元ポートID の順で<strong class="memory-answer">最も小さい値</strong>を持つポート。
+3、指定ポートは、①各スイッチのRPのルートパスコスト ②送信元ブリッジID ③送信元ポートID の順で<strong class="memory-answer">最も小さい値</strong>を持つポート。</p>
 <p><strong class="memory-answer">ルートポートは最上位のBPDUを受信するポート</strong>、指定ポートは最上位のBPDUを送信するポートとなります。
 この「最上位のBPDU」は「最良のBPDU」とも呼ばれています。英語における「 best BPDU 」と翻訳です。</p>
 <hr>

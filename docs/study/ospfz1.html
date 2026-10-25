@@ -45,11 +45,11 @@
 ルータから通知されたルーティングアップデートの情報をそのまま追加していく」という単純な方式でした。</p>
 <p><img alt="画像" src="../studygif/ospfz1a.png"></p>
 <p>リンクステート型ルーティングプロトコルではルーティングテーブル作成のために次のステップを踏みます。</p>
-<p>?@　Helloパケットを送信し合い、隣接ルータとネイバー関係を確立し、<strong class="memory-answer">ネイバーテーブル</strong>を作成。
-?A　全体のネットワーク構成を知るために、そのネットワーク上の全てのルータから情報（<strong class="memory-answer">LSA</strong>）を収集。
-?B　その収集したLSAを<strong class="memory-answer">トポロジテーブル</strong>に格納する。そして、その情報から<strong class="memory-answer">トポロジマップ</strong>を作成。
-?C　そのトポロジマップから、SPFアルゴリズムにより<strong class="memory-answer">SPFツリー</strong>と呼ばれるネットワーク構成図を作成。
-?D　そのSPFツリーから最短経路を計算し、最短パスを<strong class="memory-answer">ルーティングテーブル</strong>に登録。</p>
+<p>①　Helloパケットを送信し合い、隣接ルータとネイバー関係を確立し、<strong class="memory-answer">ネイバーテーブル</strong>を作成。
+②　全体のネットワーク構成を知るために、そのネットワーク上の全てのルータから情報（<strong class="memory-answer">LSA</strong>）を収集。
+③　その収集したLSAを<strong class="memory-answer">トポロジテーブル</strong>に格納する。そして、その情報から<strong class="memory-answer">トポロジマップ</strong>を作成。
+④　そのトポロジマップから、SPFアルゴリズムにより<strong class="memory-answer">SPFツリー</strong>と呼ばれるネットワーク構成図を作成。
+⑤　そのSPFツリーから最短経路を計算し、最短パスを<strong class="memory-answer">ルーティングテーブル</strong>に登録。</p>
 <p>LSA （Link State Advertisement）には、ルータの I/F のIPアドレス情報、そのルータのリンクに関する情報などが含まれます。</p>
 <p><img alt="画像" src="../studygif/ospfz1b.png"></p>
 <p>上図のトポロジテーブルは、OSPFでは <strong class="memory-answer">LSDB</strong>（ Link State Database ）とも呼ばれています。</p>

@@ -45,9 +45,9 @@ Catalyst(config-if)# duplex full</p>
 いなければ通信が不安定になります。 IEEE802.3uにより標準化されたオートネゴシエーション機能では
 通信速度と通信モードを自動的に最適化します。オートネゴシエーション機能は、機器間でFLPバースト
 という信号を交換することで相手の通信速度と通信モードを検出して、以下の優先順位に従い決定します。</p>
-<p>?@ 100BaseTXの全二重 ⇒ ?A 100BaseTXの半二重 ⇒ ?B 10BaseTの全二重 ⇒ ?C 10BaseTの半二重</p>
-<p>正確な検出順位 ⇒ ?@1000BaseT/Full duplex　?A1000BaseT/Half duplex　?B100BaseT2/Full duplex ?C100BaseTX/Full duplex
-?D100BaseT2/Half duplex　?E100BaseT4　?F100BaseTX/Half duplex　?G10BaseT/Full duplex　?H10BaseT/Half duplex です。</p>
+<p>① 100BaseTXの全二重 ⇒ ② 100BaseTXの半二重 ⇒ ③ 10BaseTの全二重 ⇒ ④ 10BaseTの半二重</p>
+<p>正確な検出順位 ⇒ ①1000BaseT/Full duplex　②1000BaseT/Half duplex　③100BaseT2/Full duplex ④100BaseTX/Full duplex
+⑤100BaseT2/Half duplex　⑥100BaseT4　⑦100BaseTX/Half duplex　⑧10BaseT/Full duplex　⑨10BaseT/Half duplex です。</p>
 <p><img alt="画像" src="../studygif/ethernet8b.png"></p>
 <p>※　CatalystスイッチのF0/1ポートでの設定例　：　通信速度、通信モードともにオートネゴシエーション状態</p>
 <p>Catalyst(config)# interface FastEthernet 0/1

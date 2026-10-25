@@ -122,11 +122,11 @@ RIPのダイナミックルートがR1のルーティングテーブルに登録
 </table>
 <p>EIGRPやBGPの"外部"というルートは、他のルーティングプロトコルで再配布され、EIGRP/BGPルートに変換されたルートのこと。</p>
 <p>ルーティングテーブルの比較基準には3つあります。
-?@　<strong class="memory-answer">ロンゲストマッチ</strong>
-?A　<strong class="memory-answer">アドミニストレーティブディスタンス</strong>
-?B　<strong class="memory-answer">メトリック</strong></p>
+①　<strong class="memory-answer">ロンゲストマッチ</strong>
+②　<strong class="memory-answer">アドミニストレーティブディスタンス</strong>
+③　<strong class="memory-answer">メトリック</strong></p>
 <p>ルーティングテーブルにおける優先順位は例外なく
-?@、?A、?Bの順番で比較されていくことになります。</p>
+①、②、③の順番で比較されていくことになります。</p>
 <p>ルーティングテーブルにパケットが着信した時にその
 パケットの宛先アドレスを見て、これらの優先順位に
 従ってパケットが転送されていきます。この考え方は

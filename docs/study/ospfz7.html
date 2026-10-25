@@ -43,9 +43,9 @@ DR、BDRとだけの間でLSAを交換するようになることから <strong 
 <p>DRとBDRの選出には<strong class="memory-answer">OSPFプライオリティ値</strong>が使用されます。OSPFプライオリティ値はHelloパケットに
 含まれており、OSPFルータがHelloパケットを交換して2Way Stateになった後にDR/BDRが選出されます。
 DRとBDRの選出は<strong class="memory-answer">OSPFプライオリティ値</strong>が使用されます、その値が同じ場合には<strong class="memory-answer">ルータID</strong>を使用します。</p>
-<p>?@　OSPFプライオリティ値が最も大きいルータがDRになる。
-?A　OSPFプライオリティ値が2番目に大きいルータがBDRになる。
-?B　OSPFプライオリティ値が同じ場合、ルータIDが最も大きいルータがDR、２番目に大きいルータがBDR。</p>
+<p>①　OSPFプライオリティ値が最も大きいルータがDRになる。
+②　OSPFプライオリティ値が2番目に大きいルータがBDRになる。
+③　OSPFプライオリティ値が同じ場合、ルータIDが最も大きいルータがDR、２番目に大きいルータがBDR。</p>
 <p>※ OSPFプライオリティ値はデフォルトで <strong class="memory-answer">1</strong> です。なお、OSPFプライオリティ値が <strong class="memory-answer">0</strong> のOSPFルータは必ずDROTHERになります。</p>
 <p>下図の場合、R1とR2が最もプライオリティ値が高く同じ値ですが、R1とR2ではルータIDがR2の方が大きい
 のでR2がDRとなってR1がBDRとなります。DR/BDR選出後は、全てのOSPFルータはDROTHERとなります。</p>
@@ -64,24 +64,24 @@ DRとBDRの選出は<strong class="memory-answer">OSPFプライオリティ値</
 </thead>
 <tbody>
 <tr>
-<td>?@</td>
+<td>①</td>
 <td>R1 のインターフェースでネットワーク（192.168.1.0/24）にダウンが発生したことを検知。</td>
 </tr>
 <tr>
-<td>?A</td>
+<td>②</td>
 <td>R1 は、192.168.1.0/24 のLSAを更新したLSUを、セグメント1 のDR/BDRへマルチキャスト（<strong class="memory-answer">224.0.0.6</strong>）で送信。</td>
 </tr>
 <tr>
-<td>?B</td>
+<td>③</td>
 <td>LSUを受信したDR（R3）は、セグメント1 の全OSPFルータへマルチキャスト（<strong class="memory-answer">224.0.0.5</strong>）で送信。</td>
 </tr>
 <tr>
-<td>?C</td>
+<td>④</td>
 <td>このフラッディングされたLSAをエリア内に伝搬するために、R3 はセグメント2のDR/BDRへ（<strong class="memory-answer">224.0.0.6</strong>）で送信。</td>
 </tr>
 </tbody>
 </table>
-<p>?C以降は同一エリアの範囲内で?A～?Cの流れが繰り返されます。なお、?AのLSUをセグメント１のBDRである
+<p>④以降は同一エリアの範囲内で②～④の流れが繰り返されます。なお、②のLSUをセグメント１のBDRである
 R4が受信した後、Waitタイマーをセットした上で、DR（R3）からも同じLSUが送信されてくるのを待ちます。
 このWaitタイマーが切れるまでにLSUを受信できない場合、DRがダウンしたと判断しBDRがDRへ昇格します。</p>
 <h2 id="ospf-">OSPF - ネイバー関係、アジャセンシ―関係（ 用語のまとめ ）</h2>

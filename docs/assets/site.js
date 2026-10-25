@@ -23,10 +23,12 @@
         answer.tabIndex = 0;
         answer.setAttribute("role", "button");
         answer.setAttribute("aria-label", "暗記する語句。操作すると答えを表示");
+        answer.setAttribute("aria-pressed", "false");
       } else {
         answer.removeAttribute("tabindex");
         answer.removeAttribute("role");
         answer.removeAttribute("aria-label");
+        answer.removeAttribute("aria-pressed");
       }
     });
   }
@@ -36,6 +38,7 @@
     const shown = answer.hasAttribute("data-revealed");
     answer.toggleAttribute("data-revealed", !shown);
     answer.setAttribute("aria-label", shown ? "暗記する語句。操作すると答えを表示" : `答え: ${answer.textContent.trim()}`);
+    answer.setAttribute("aria-pressed", String(!shown));
   }
 
   applyMode(loadMode());

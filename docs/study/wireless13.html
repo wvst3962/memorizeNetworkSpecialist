@@ -39,7 +39,7 @@
 802.11i の相互接続性をWiFiアライアンスが認定したものであるので、WPA2で認定されている無線機器は
 IEEE802.11i に準拠したものです。従って以下のWPA2の技術解説は IEEE802.11i の技術解説を意味します。</p>
 <p>WPA2の動作はWPAと共通部分が多いです。無線LANクライアントとアクセスポイントとでやりとりされる
-前回に解説したWPAの動作（ ?@アソシエーション処理、?APMKの共有、?BPTKの生成、?CGTKの生成 ）は
+前回に解説したWPAの動作（ ①アソシエーション処理、②PMKの共有、③PTKの生成、④GTKの生成 ）は
 ほとんど同じです。異なる点は、WPA2では暗号化方式に<strong class="memory-answer">CCMP</strong>（Counter-mode CBC-MAC Protocol）を
 採用していることです。CCMPは<strong class="memory-answer">AESに基づいてデータの暗号化</strong>を行いますが、<strong class="memory-answer">最長 256 ビットの暗号鍵</strong>を
 利用できることから、WPAに比べて格段にセキュリティ強度が高くなります。</p>
@@ -95,7 +95,7 @@ IEEE802.11i に準拠したものです。従って以下のWPA2の技術解説�
 <h2 id="wpa2-ccmp">WPA2による暗号化方式 - CCMPのパケットフォーマット</h2>
 <p><img alt="画像" src="../studygif/wireless13c.png"></p>
 <h2 id="wpa2-windows-pmk">WPA2 - Windowsクライアントの設定 ( PMKの共有 )</h2>
-<p>WPA2の接続シーケンスは、WPAとほぼ同じなので詳細は「<a href="wireless12.html">WPA</a>」でご確認下さい。?AのPMKの共有方法も
+<p>WPA2の接続シーケンスは、WPAとほぼ同じなので詳細は「<a href="wireless12.html">WPA</a>」でご確認下さい。②のPMKの共有方法も
 WPA、WPA2ともに同じ認証方式（PSK認証またはIEEE802.1X認証）をサポートとしているので、ほぼ同じ。
 異なる点として、PSK認証の設定項目においてWPAではなくWPA2を選択するということ、暗号化にはTKIPで
 はなくAESを選択するという点です。オプションとしてTKIPが設定項目にありますがAESを選択するのが推奨。

@@ -34,15 +34,15 @@
 <hr>
 <h2 id="garp_1">GARPとは</h2>
 <p>GARP（Gratuitous ARP）はARPパケットの1つであり、以下の2つの役割を持っているプロトコルです。</p>
-<p>?@　自分自身に設定する<strong class="memory-answer">IPアドレスが重複していないかどうかを検出</strong>
-?A　同一セグメントのネットワーク機器上の<strong class="memory-answer">ARPキャッシュを更新</strong>させる</p>
+<p>①　自分自身に設定する<strong class="memory-answer">IPアドレスが重複していないかどうかを検出</strong>
+②　同一セグメントのネットワーク機器上の<strong class="memory-answer">ARPキャッシュを更新</strong>させる</p>
 <p>GARPとは、自分自身に設定するIPアドレスに対するARPのことです。通常のARPでは宛先のIPアドレスに
 対して宛先のMACアドレスを得ようとしますが、GARPでは自身のIPアドレスに対して自身のMACアドレス
 を得ようとします。自身のMACアドレスは知っているはずなのに、なぜ、自身のIPアドレスに対してARPを
 行うのかは、上記の2つの役割を実現するためです。では、その2つの役割を以降で詳細に解説していきます。</p>
 <h2 id="garp-1">GARPの役割 - その1</h2>
 <p>GARPにより、自分自身にIPアドレスがアサインされる際に他のホストが同じIPアドレスを使用していないか
-どうかを確認することができます。以下の?@～?Bの流れとなります。Windows Server 2012 や Windows 8
+どうかを確認することができます。以下の①～③の流れとなります。Windows Server 2012 や Windows 8
 以降では、デフォルトの動作でアドレス重複確認のためのARPとGARPを送信します。</p>
 <p><img alt="画像" src="../studygif/tcpip3.5a.png"></p>
 <p>Windows Server 2008R2、Windows 7では修正プログラム（KB2811463）を適用することでアドレス

@@ -42,17 +42,17 @@
 </thead>
 <tbody>
 <tr>
-<td>?@</td>
+<td>①</td>
 <td>Down State</td>
 <td>停止状態。OSPFルータを起動した直後の状態。リンクアップするとHelloパケットの送信を開始。<br>Helloパケットはマルチキャストアドレス ( 224.0.0.5 ) 宛てに送信されて隣接ルータに到達する。</td>
 </tr>
 <tr>
-<td>?A</td>
+<td>②</td>
 <td>Init State</td>
 <td>初期状態。ネイバールータ（R1）から Helloパケットをはじめて受信した状態。このHelloパケット<br>を受信すると、R2ではネイバールータにR1を追加する。</td>
 </tr>
 <tr>
-<td>?B</td>
+<td>③</td>
 <td>2Way State</td>
 <td>双方向状態。ネイバールータ（R1）の存在を認識したOSPFルータがHelloパケットを送信して、<br>そのHelloパケットをネイバールータ（R1）が受信した状態。R1ではネイバールータにR2を追加。</td>
 </tr>
@@ -61,10 +61,10 @@
 <p><img alt="画像" src="../studygif/ospfz6a.png"></p>
 <p>OSPFルータには、識別のために<strong class="memory-answer">ルータID</strong>が割り当てられます。ルータIDは32ビットの値でIPアドレスと同様
 4オクテットで区切り10進数で表記します。ルータIDは重複しないよう割り当てる必要があります。ルータID
-の決定は以下の優先順位 ?@ → ?A → ?Bで決定します。上図では明示的に?@を設定した事を前提としています。</p>
-<p>?@　router-id コマンドで設定した値
-?A　ループバックインターフェースの中で最も大きいIPアドレス
-?B　アクティブなインターフェースの中で最も大きいIPアドレス</p>
+の決定は以下の優先順位 ① → ② → ③で決定します。上図では明示的に①を設定した事を前提としています。</p>
+<p>①　router-id コマンドで設定した値
+②　ループバックインターフェースの中で最も大きいIPアドレス
+③　アクティブなインターフェースの中で最も大きいIPアドレス</p>
 <h2 id="ospf-adjacency-full-state">OSPFアジャセンシー関係（ <strong class="memory-answer">Adjacency</strong> ）の確立 - Full State</h2>
 <p>OSPFルータは2Way State状態になり<a href="ospfz7.html">DR/BDRの選出</a>が完了すると、アジャセンシー関係（Adjacency）に
 至るルータ間では、LSAを交換してLSDBを同期するフローに移行します。そのフローを以下で解説します。</p>
@@ -78,22 +78,22 @@
 </thead>
 <tbody>
 <tr>
-<td>?C</td>
+<td>④</td>
 <td>Exstart State</td>
 <td>起動後状態。どちらのルータからLSAに関するデータの送信を開始するかを決定するプロセス。<br>ルータIDが大きいルータから送信を開始。送信開始側をマスター、もう一方をスレーブと呼ぶ。</td>
 </tr>
 <tr>
-<td>?D</td>
+<td>⑤</td>
 <td>Exchange State</td>
 <td>交換状態。マスターからDBD（LSDBに格納されるLSAリスト）パケットを送信し相手からも送信。</td>
 </tr>
 <tr>
-<td>?E</td>
+<td>⑥</td>
 <td>Loading State</td>
 <td>ロード状態。受信したDBDと自身のLSDBを比較し、不足分のLSAについてはLSRで情報を要求。</td>
 </tr>
 <tr>
-<td>?F</td>
+<td>⑦</td>
 <td>Full State</td>
 <td>完全状態。隣接ルータと完全にLSDBを同期できた状態。これにより同期プロセスが完了。</td>
 </tr>

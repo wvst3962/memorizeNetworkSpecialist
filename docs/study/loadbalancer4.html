@@ -103,7 +103,7 @@
 サーバ1に転送しているのは<strong class="memory-answer">現在のコネクション数が同じ場合、RoundRobinで転送する</strong>というルールのため。</p>
 <p><img alt="画像" src="../studygif/loadbalancer4c.png"></p>
 <p>Fastestでは、クライアントからのリクエストを、L7リクエストの未処理数が最も少ないサーバへ転送する
-ので下図のように転送されます。下図は、先のLeast Connectionsの解説と同じ考え方ですが、?@ ～ ?Dは
+ので下図のように転送されます。下図は、先のLeast Connectionsの解説と同じ考え方ですが、① ～ ⑤は
 下図で「現在のコネクション数」ではなく「L7リクエストの未処理数」としてカウントする動作を示します。</p>
 <p><img alt="画像" src="../studygif/loadbalancer4d.png"></p>
 <p>Observedでは、クライアントからのリクエストをある一定時間の平均コネクション数が最も少ないサーバに

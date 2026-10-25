@@ -53,8 +53,8 @@ NPATではIPアドレスの他にTCP/UDPの<strong class="memory-answer">ポー�
 <p>NAPTでもNATと同様に<strong class="memory-answer">送信元アドレスの変換</strong>を行います。また、NAT変換エントリとしてIPアドレスだけで
 なくて<strong class="memory-answer">ポート番号</strong>も登録します。ここでは、インターネット上のサーバはHTTPサーバであると仮定します。</p>
 <p><img alt="画像" src="../studygif/ip11.5b.png"></p>
-<p>NATの場合、?Dの処理が「内部グローバルアドレス」情報をもとにNATテーブルの検索を行っていましたが
-NAPTの場合、?Dの処理が「内部グローバルアドレス＋ポート番号」「外部グローバルアドレス＋ポート番号」
+<p>NATの場合、⑤の処理が「内部グローバルアドレス」情報をもとにNATテーブルの検索を行っていましたが
+NAPTの場合、⑤の処理が「内部グローバルアドレス＋ポート番号」「外部グローバルアドレス＋ポート番号」
 の4つの情報をもとにNATテーブル上の検索を行って、NATエントリに合致すると変換されることになります。</p>
 <p><img alt="画像" src="../studygif/ip11.5c.png"></p>
 <hr>

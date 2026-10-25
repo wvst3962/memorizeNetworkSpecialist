@@ -61,12 +61,12 @@ IPv6対応のルータとIPv6対応の端末とが、<strong class="memory-answe
 </tbody>
 </table>
 <p><img alt="画像" src="../studygif/ipv6z5a.png"></p>
-<p>?@?A　IPv6対応のホストはインターフェースでIPv6が有効であれば、リンクアップした時点でリンクローカル
+<p>①②　IPv6対応のホストはインターフェースでIPv6が有効であれば、リンクアップした時点でリンクローカル
 アドレスは自動的に設定されます。次にそのリンクローカルアドレスを送信元アドレスとして同一セグメントの
 ルータにRS（ルータ要請）メッセージを送信し、グローバルユニキャストのプレフィックスを得ようとします。</p>
-<p>?B　ホストからRSメッセージを受信したルータはRA (ルータアドバタイズメント) を送信します。この情報に
+<p>③　ホストからRSメッセージを受信したルータはRA (ルータアドバタイズメント) を送信します。この情報に
 IPv6ホストに割り当てる<strong class="memory-answer">プレフィックス</strong>、<strong class="memory-answer">デフォルトゲートウェイ</strong>、<strong class="memory-answer">有効期限</strong>などの情報が含まれています。</p>
-<p>?C　RAを受信したホストは受信した<strong class="memory-answer">プレフィックス</strong>と自身のMACアドレスを利用してEUI-64により生成した
+<p>④　RAを受信したホストは受信した<strong class="memory-answer">プレフィックス</strong>と自身のMACアドレスを利用してEUI-64により生成した
 <strong class="memory-answer">インターフェースID</strong>を組み合わせることで、グローバルユニキャストアドレスを生成し自動設定が完了します。</p>
 <p>Ciscoルータでは <strong class="memory-answer">ipv6 unicast-routing</strong> とグローバルで定義することによって、イーサネットの I/F 上では
 <strong class="memory-answer">デフォルトでRAメッセージが送信</strong>されることになります。その他のインターフェースタイプの場合、I/F上で

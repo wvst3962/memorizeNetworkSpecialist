@@ -55,7 +55,7 @@ Router(config-if)# encapsulation hdlc</p>
 LCP（リンク制御プロトコル）はリンク確立、維持、切断処理をします。その他4つオプションがあります。</p>
 <p>NCP（ネットワーク制御プロトコル）は、ネットワーク層プロトコルを識別するためのタイプフィールドを
 持っており、ネットワーク層がIPなら<strong class="memory-answer">IPCP</strong>、IPXなら<strong class="memory-answer">IPXCP</strong>をNCPとして使用し通信の開始、終了をします。
-PPPの接続は、?@LCPにおけるリンクの確立 ?A認証（認証がある場合）?BNCPにおける接続の確立の順です。</p>
+PPPの接続は、①LCPにおけるリンクの確立 ②認証（認証がある場合）③NCPにおける接続の確立の順です。</p>
 <p><img alt="画像" src="../studygif/wan6c.png"></p>
 <table>
 <thead>
@@ -97,8 +97,8 @@ PPPの接続は、?@LCPにおけるリンクの確立 ?A認証（認証がある
 PAPのようにクリアテキストのままパスワードを送信したりしません。CHAPは3ウェイハンドシェイクです。</p>
 <p><img alt="画像" src="../studygif/wan6e.png"></p>
 <p>以下は、CiscoルータでPPPリンク確立時のCHAPによる<strong class="memory-answer">相互認証</strong>のためのコンフィグレーション設定です。
-CHAP認証を設定の上で必須の設定事項は、?@ホスト名 ?Aカプセル化タイプ（ppp）?B認証タイプ（chap）
-?C 認証情報のユーザ名(接続先ルータのホスト名)、パスワード（両方のルータとで同じパスワード）です。</p>
+CHAP認証を設定の上で必須の設定事項は、①ホスト名 ②カプセル化タイプ（ppp）③認証タイプ（chap）
+④ 認証情報のユーザ名(接続先ルータのホスト名)、パスワード（両方のルータとで同じパスワード）です。</p>
 <p><img alt="画像" src="../studygif/wan6f.png"></p>
 <p>ステータスはshow interfaces serial0/0で確認できて、動作検証はdebug ppp authenticationで確認可能。</p>
 <hr>

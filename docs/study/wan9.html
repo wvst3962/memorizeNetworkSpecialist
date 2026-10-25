@@ -63,11 +63,11 @@ PPPoEを採用しているFTTHサービスのBフレッツ
 <p><img alt="画像" src="../studygif/wan9b.png"></p>
 <p>※　例えばCiscoルータの場合、このDiscoveryステージの結果を<strong class="memory-answer">show pppoe session all</strong>コマンドで確認することができます。</p>
 <h2 id="pppoe-step-2-ppp">PPPoE Step 2 ： PPPセッションステージ</h2>
-<p>Discoveryステージの?CでPPPoEサーバがPPPoEクライアントにセッションIDを通知すると次のステージの
+<p>Discoveryステージの④でPPPoEサーバがPPPoEクライアントにセッションIDを通知すると次のステージの
 PPPセッションステージに移行します。PPPセッションステージにより認証が成功して、PPPoEサーバから
 適切なIPアドレスが割り当てられるとPPPoE接続は完了です。これにより、IP通信ができるようになります。</p>
 <p><img alt="画像" src="../studygif/wan9c.png"></p>
-<p>※　PPPoE接続が上手くいかない場合、一般的にはこのフェーズの問題であることが非常に多く、?Aの部分で失敗しています。
+<p>※　PPPoE接続が上手くいかない場合、一般的にはこのフェーズの問題であることが非常に多く、②の部分で失敗しています。
 認証方式 (CHAP or PAP) のミス、ユーザIDやパスワード誤入力など。Ciscoルータならdebug ppp authenticationで確認します。</p>
 <h2 id="pppoe-isp">PPPoE - ISPの認証サーバへの振り分け</h2>
 <p>例えばBフレッツを契約すると、NTTからレンタルでONU (回線終端装置) が設置されることになります。
