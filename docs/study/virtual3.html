@@ -71,6 +71,7 @@ L3ファブリックのネットワーク上にオーバーレイでL2ネット�
 <p>メリット1：<strong class="memory-answer">拡張性に優れて効率的な大規模なL2ネットワークの展開</strong>
 メリット2：<strong class="memory-answer">アクティブ/アクティブ型の冗長リンク</strong>（オールアクティブ マルチホーミング）
 メリット3：<strong class="memory-answer">BUMトラフィックの抑制</strong>（ブロードキャスト、不明なユニキャスト、マルチキャストの抑制）</p>
+<p><strong class="memory-answer">BUM</strong>は Broadcast、<strong class="memory-answer">Unknown Unicast（宛先MACアドレスが未学習のユニキャスト）</strong>、Multicast の総称です。未知の宛先へのフレームはフラッディングの対象となります。EVPNでMACアドレスを事前に学習できれば、その発生を抑えられます。</p>
 <p>BUMトラフィックの抑制の一例として、EVPN/VXLANでは、VTEPはMP-BGPを使用してリモートVTEPの
 IPアドレスとVNI情報を事前に学習するだけでなく、リモートVTEPに接続されたサーバのMACアドレスも
 事前に学習するようになります。以上のことから、BUMトラフィックのうち、ARPリクエストのフレームの

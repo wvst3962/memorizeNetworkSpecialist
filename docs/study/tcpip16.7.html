@@ -90,6 +90,7 @@ HTTP/2では、1つのTCPコネクション上で複数のHTTPリクエストと
 奇数のストリームIDを使用して、Webサーバから開始されるストリームは偶数のストリームIDを使用します。
 コネクション自体を意味する制御用の <strong class="memory-answer">ストリームID 0</strong> は、HTTPメッセージのやりとりでは使用されません。</p>
 <h2 id="http2-_1">HTTP/2 - フレーム</h2>
+<p>HTTP/2のリクエストには、通常のヘッダより前に置く<strong class="memory-answer">疑似ヘッダ</strong>があります。<strong class="memory-answer"><code>:method</code></strong> は GET や POST などのメソッド、<strong class="memory-answer"><code>:scheme</code></strong> は http / https、<strong class="memory-answer"><code>:authority</code></strong> は接続先のホスト名など、<strong class="memory-answer"><code>:path</code></strong> はパスとクエリを表します。レスポンスの <strong class="memory-answer"><code>:status</code></strong> はステータスコードです。これらはストリームIDとは別の情報です。</p>
 <p>HTTP/2では、この仮想的な通信単位であるストリームごとに<strong class="memory-answer">フレーム</strong>というメッセージをやりとりします。</p>
 <p><img alt="画像" src="../studygif/tcpip16.7b.png"></p>
 <p>HTTP/1.1では、テキスト形式のメッセージをやりとりしますが、<strong class="memory-answer">HTTP/2ではバイナリ形式のメッセージ</strong>を

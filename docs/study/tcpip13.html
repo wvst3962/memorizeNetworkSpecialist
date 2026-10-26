@@ -66,6 +66,7 @@
 DHCPメッセージ部分に、例えばDHCPサーバがDHCPクライアントに割り当てるIPアドレス情報があります。</p>
 <p><img alt="画像" src="../studygif/tcpip13a.png"></p>
 <h2 id="dhcp_4">DHCPの仕組み</h2>
+<p>アドレス取得時の基本順序は <strong class="memory-answer">DHCPDISCOVER</strong> → <strong class="memory-answer">DHCPOFFER</strong> → <strong class="memory-answer">DHCPREQUEST</strong> → <strong class="memory-answer">DHCPACK</strong> です。クライアントの探索、サーバの提案、クライアントの選択・要求、サーバの確定応答に対応します（以下の Discover / Offer / Request / Ack と同じメッセージ）。</p>
 <p>最初はDHCPクライアントは自身のIPアドレスも知らなければ、DHCPサーバのIPアドレスも知らないので
 全ての宛先（ブロードキャスト）にDHCP Discoverメッセージを送信して、ネットワーク全体に問い合わせ。</p>
 <p><img alt="画像" src="../studygif/tcpip13b.png"></p>

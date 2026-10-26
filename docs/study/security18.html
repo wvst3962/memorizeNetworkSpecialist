@@ -27,6 +27,7 @@
 <li><a href="#cisco-asa-active-directory-by">Cisco ASA と Active Directory との連携 by ケルベロス認証</a></li>
 <li><a href="#radiuskerberos">RadiusとKerberosの違い</a></li>
 <li><a href="#windowssso">統合Windows認証によるSSO</a></li>
+<li><a href="#oauth-20">関連する認可技術：OAuth 2.0</a></li>
 </ul>
 </div>
 </div>
@@ -144,6 +145,8 @@ NTLMを使用するためには、ASA側でプロトコル指定
 <p><img alt="画像" src="../studygif/security18d.png"></p>
 <p>統合Windows認証により、社内のイントラサイト（Webサイト）参照時にユーザID/パスワードが求められ
 ないシステムを構築するが可能です。共有フォルダなどの参照はKerberosのSSOを生かす場合が多いです。</p>
+<h2 id="oauth-20">関連する認可技術：OAuth 2.0</h2>
+<p><strong class="memory-answer">OAuth 2.0</strong> は利用者の許可に基づき、クライアントへ保護されたリソースへのアクセス権限を委譲する枠組みです。<strong class="memory-answer">アクセストークン</strong>はリソースサーバへの要求に使います。<strong class="memory-answer">リフレッシュトークン</strong>は期限切れなどの後に新しいアクセストークンを取得するため、認可サーバへ提示します。リフレッシュトークンをリソースサーバへ送ることはありません。ケルベロスのチケットとは用途と発行・提示先が異なります。</p>
 <hr>
 <p><a href="https://www.infraexpert.com/study/study23.html">ネットワークセキュリティ</a></p></article>
 </main>

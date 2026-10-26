@@ -21,6 +21,7 @@
     <a class="back-link" href="../index.html">← 記事一覧</a>
     <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
 <ul>
+<li><a href="#ikev2sa">IKEv2でのSA</a></li>
 <li><a href="#ike-internet-key-exchange">IKE（ Internet Key Exchange ）</a></li>
 <li><a href="#isakmp">ISAKMPメッセージのフォーマット</a></li>
 <li><a href="#isakmp_1">ISAKMPヘッダ</a></li>
@@ -32,6 +33,8 @@
   </aside>
   <article class="article-card prose"><h1 id="ipsec-ike-isakmp-message">IPsec - IKE : ISAKMP Message</h1>
 <hr>
+<h2 id="ikev2sa">IKEv2でのSA</h2>
+<p>このページのフェーズ1・フェーズ2、Main / Aggressive / Quickモードは主に <strong class="memory-answer">IKEv1</strong> の説明です。<strong class="memory-answer">IKEv2</strong> では <strong class="memory-answer">IKE SA</strong> がIKE制御通信を保護し、その中で確立する <strong class="memory-answer">Child SA</strong> が実際のIPsec通信（ESPまたはAH）を保護します。初回の交換は IKE_SA_INIT と IKE_AUTH、追加のChild SAの作成や再鍵交換には CREATE_CHILD_SA を使用します。</p>
 <h2 id="ike-internet-key-exchange">IKE（ Internet Key Exchange ）</h2>
 <p>SAを生成するために、<strong class="memory-answer">IKE</strong>という鍵交換プロトコルを使用できます。認証用のセッション鍵（ HMAC ）と
 暗号化用のセッション鍵のこれら両方の鍵の生成、交換、更新がIKEにより自動で行われることになります。

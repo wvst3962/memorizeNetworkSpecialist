@@ -23,6 +23,7 @@
 <ul>
 <li><a href="#ssl">SSLとは</a></li>
 <li><a href="#tls">TLSとは</a></li>
+<li><a href="#tls_1">TLSハンドシェイクのメッセージ</a></li>
 <li><a href="#ssltls_1">SSL/TLSバージョン</a></li>
 <li><a href="#ssltls_2">SSL/TLSの動作するレイヤ</a></li>
 <li><a href="#ssltls_3">SSL/TLSの実装例</a></li>
@@ -45,6 +46,8 @@
 <p>TLS（Transport Layer Security）は、<strong class="memory-answer">SSLの後継プロトコル</strong>であり、SSLをもとに標準化させています。
 現在ではTLSが使用されていますが、SSLの名称が広く使用されていたこともあり、TLSのことをSSLと
 呼んだり、TLSのことをSSL/TLSと表記する場合があります。</p>
+<h2 id="tls_1">TLSハンドシェイクのメッセージ</h2>
+<p><strong class="memory-answer">Client_Hello</strong>（仕様上の表記は ClientHello）はクライアントが対応するTLSバージョン、暗号スイートなどを提示するメッセージです。<strong class="memory-answer">Server_Hello</strong>（ServerHello）はサーバが選択した条件を返します。TLS 1.3 では両者の鍵共有情報も鍵交換に使われ、サーバ認証や通信鍵の確立へ進みます。</p>
 <h2 id="ssltls_1">SSL/TLSバージョン</h2>
 <p>現在の最新バージョンはTLS1.3です。SSLとTLSのバージョン、リリース年、脆弱性は以下の通りです。</p>
 <table>

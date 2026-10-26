@@ -37,6 +37,7 @@ RFC3768で標準化されたプロトコルです。VRRPは、デフォルトゲ
 IPアドレスとMACアドレスを共有させることができるので、PCなどの「デフォルトゲートウェイのパスを
 冗長化」させることができます。VRRPはIETF標準プロトコルなので<strong class="memory-answer">マルチベンダー環境で実装</strong>できます。</p>
 <p>VRRPを使用することで、物理的には2台あるルータが論理的（仮想的）には、1台のルータに見せられます。
+<strong class="memory-answer">VRID（Virtual Router Identifier）</strong>は同一リンク上の仮想ルータを識別する番号です。同じ仮想ルータに参加するルータは同じVRIDを設定します。IPv4の仮想MACアドレスの末尾1バイトにもVRIDが使われます。
 下図で、R1とR2でVRRPを実装しています。ホストAのデフォルトゲートウェイのIPアドレスは、R1やR2の
 物理IPアドレスではなく仮想IPアドレス（VIP）を指定する。ホストAからパケットを受信した仮想ルータは
 物理的には「<strong class="memory-answer">マスタールータ</strong>」と呼ばれるルータ（下図ではR1）で、パケット転送などの処理が行われます。</p>
@@ -58,11 +59,11 @@ IPアドレスとMACアドレスを共有させることができるので、PC�
 </thead>
 <tbody>
 <tr>
-<td>仮想IPアドレス</td>
+<td><strong class="memory-answer">仮想IPアドレス（VIP）</strong></td>
 <td>Masterルータで保持されるIPアドレス。PCなどに設定するデフォルトゲートウェイのIPアドレス。</td>
 </tr>
 <tr>
-<td>仮想MACアドレス</td>
+<td><strong class="memory-answer">仮想MACアドレス</strong></td>
 <td>Masterルータで保持されるMACアドレス。PCなどのARPテーブルにキャッシュされるMACアドレス。</td>
 </tr>
 <tr>

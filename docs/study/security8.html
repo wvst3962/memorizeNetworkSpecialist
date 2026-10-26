@@ -40,12 +40,14 @@ IPsecによるリモートアクセスVPNと、SSLによるリモートアクセ
 必要があるのに対して、SSLによるリモートアクセスVPNの場合はWebブラウザさえあれば通信可能です。
 ※　SSL-VPN（ L2フォワーディング ）の場合、クライアントPCに<strong class="memory-answer">SSL-VPNソフトウェア</strong>をインストールする必要があります。</p>
 <h2 id="ssl-vpn_2">SSL-VPN（リバースプロキシ）</h2>
-<p>SSL-VPNには「<strong class="memory-answer">リバースプロキシ</strong>、<strong class="memory-answer">ポートフォワーディング</strong>、<strong class="memory-answer">L2フォワーディング</strong>」の3方式があります。
+<p>SSL-VPNには「<strong class="memory-answer">リバースプロキシ</strong>、<strong class="memory-answer">ポートフォワーディング</strong>、<strong class="memory-answer">L2フォワーディング</strong>」の3方式があります。</p>
+<p><strong class="memory-answer">フォワードプロキシ</strong>はクライアントの代理として外部サーバへ接続し、<strong class="memory-answer">リバースプロキシ</strong>はサーバ側の入口でクライアントからの要求を受けて内部サーバへ転送します。代理する側（クライアント側／サーバ側）で区別します。
 SSL-VPN接続にて、よく利用されている接続方式は「 SSL技術とリバースプロキシ技術 」を組み合わせた
 <strong class="memory-answer">リバースプロキシ</strong>の接続方式です。リバースプロキシ方式では先ずリモートアクセスを行うクライアント
 PCがSSL-VPNゲートウェイとSSL通信を行うためにWebブラウザでhttps://～のURLを入力します。次に
 アクセスしてきたクライアントPCのユーザ認証を行います。最後に、SSL-VPNゲートウェイは③のような
 URL変換を行います。このようにしてクライアントPCはイントラネット上のWebサーバと通信を行えます。</p>
+<p>この公開URLと内部URLの対応を付けて書き換える処理を<strong class="memory-answer">URLリライティング</strong>と呼びます。リバースプロキシ方式では、クライアントに内部サーバのURLを直接使わせずにアクセスを中継できます。</p>
 <p><img alt="画像" src="../studygif/security8a.png"></p>
 <p>※ リバースプロキシ方式では、Webブラウザ
 だけでSSL-VPNの通信が行えますが、Web

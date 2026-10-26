@@ -92,6 +92,7 @@ S/MIMEの方が信頼性が高いと言えます。ただし、S/MIMEもPGPも�
 </tbody>
 </table>
 <h2 id="_4">なりすましメール対策：送信ドメイン認証</h2>
+<p><strong class="memory-answer">MAIL FROM</strong>はSMTPのエンベロープ上の送信元アドレスを指定するコマンドです。<strong class="memory-answer">SPF</strong>は通常、このエンベロープ送信元のドメインについて、その送信元IPアドレスが許可されているかを検証します。メール本文の <code>From:</code> ヘッダとは別の値です。<strong class="memory-answer">DMARC</strong>では <code>From:</code> ヘッダのドメインとの整合（アライメント）も確認します。</p>
 <p>なりすましメール対策で最も効果的な方法は<strong class="memory-answer">送信ドメイン認証</strong>です。送信ドメイン認証とは、送信元の
 メールサーバのIPアドレスで判別したり、デジタル署名により送信元を認証したりする仕組みのことです。
 送信ドメイン認証には <strong class="memory-answer">SPF</strong>、<strong class="memory-answer">DKIM</strong>、<strong class="memory-answer">DMARC</strong> の大きく3つの方法があります。</p>

@@ -33,9 +33,9 @@
   <article class="article-card prose"><h1 id="garp">GARP</h1>
 <hr>
 <h2 id="garp_1">GARPとは</h2>
-<p>GARP（Gratuitous ARP）はARPパケットの1つであり、以下の2つの役割を持っているプロトコルです。</p>
-<p>①　自分自身に設定する<strong class="memory-answer">IPアドレスが重複していないかどうかを検出</strong>
-②　同一セグメントのネットワーク機器上の<strong class="memory-answer">ARPキャッシュを更新</strong>させる</p>
+<p><strong class="memory-answer">GARP（Gratuitous ARP）</strong>はARPパケットの1つであり、以下の2つの役割を持っているプロトコルです。</p>
+<p>①　自分自身に設定する<strong class="memory-answer">IPアドレス</strong>が<strong class="memory-answer">重複</strong>していないかどうかを検出
+②　同一セグメントのネットワーク機器上の<strong class="memory-answer">ARPキャッシュ</strong>を更新させる</p>
 <p>GARPとは、自分自身に設定するIPアドレスに対するARPのことです。通常のARPでは宛先のIPアドレスに
 対して宛先のMACアドレスを得ようとしますが、GARPでは自身のIPアドレスに対して自身のMACアドレス
 を得ようとします。自身のMACアドレスは知っているはずなのに、なぜ、自身のIPアドレスに対してARPを
@@ -49,7 +49,7 @@
 重複確認のためのARPに加えて、SPAに自身のIPアドレスをセットしたGARPも送信するようになります。</p>
 <h2 id="garp-2">GARPの役割 - その2</h2>
 <p>GARPには、アドレス重複の検出の役割だけでなくもう1つの役割があります。GARPは、同じセグメントの
-ネットワーク機器上のARPキャッシュを更新することによって、VRRPやHSRPなどで切り替わりが発生した
+ネットワーク機器上のARPキャッシュを更新することによって、<strong class="memory-answer">VRRP</strong>やHSRPなどで切り替わりが発生した
 機器とすぐに通信できるようにするためにも使用されます。</p>
 <p><img alt="画像" src="../studygif/tcpip3.5b.png"></p>
 <h2 id="arprarpgarp">ARP、RARP、GARPの違い</h2>
@@ -63,15 +63,15 @@
 <tbody>
 <tr>
 <td>ARP</td>
-<td>・　相手のIPアドレスからMACアドレスを得るためのプロトコル</td>
+<td>・　<strong class="memory-answer">相手のIPアドレス</strong>から<strong class="memory-answer">MACアドレス</strong>を得るためのプロトコル</td>
 </tr>
 <tr>
 <td>RARP</td>
-<td>・　MACアドレスから自身のIPアドレスを得るためのプロトコル</td>
+<td>・　<strong class="memory-answer">MACアドレス</strong>から自身の<strong class="memory-answer">IPアドレス</strong>を得るためのプロトコル</td>
 </tr>
 <tr>
 <td>GARP</td>
-<td>・　自身のIPアドレスが重複していないかどうかを検出するプロトコル<br>・　同一セグメントのネットワーク機器上のARPキャッシュを更新させるプロトコル</td>
+<td>・　自身の<strong class="memory-answer">IPアドレス</strong>が重複していないかどうかを検出するプロトコル<br>・　同一<strong class="memory-answer">セグメント</strong>のネットワーク機器上の<strong class="memory-answer">ARPキャッシュ</strong>を更新させるプロトコル</td>
 </tr>
 </tbody>
 </table>

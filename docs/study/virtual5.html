@@ -69,6 +69,7 @@ SigfoxとLoRaWANなどが分類され、セルラー系にはNB-IoT、LTE-Mな�
 <strong class="memory-answer">電波干渉の影響が少ない</strong>です。NB-IoTとLTE-Mは、<strong class="memory-answer">3GPP</strong>と呼ばれる標準化プロジェクトが作成した技術仕様をもとに
 通信事業者が全国規模で構築したLTE網でサービスが提供されています。以下でメジャーなLPWA規格である
 「<strong class="memory-answer">Sigfox</strong>」「<strong class="memory-answer">LoRaWAN</strong>」「<strong class="memory-answer">NB-IoT</strong>」「<strong class="memory-answer">LTE-M</strong>」の比較表を紹介します。</p>
+<p>セルラー系の通信では、<strong class="memory-answer">SIMカード</strong>（または組込み型のeSIM）が加入者の識別・認証に必要な情報を保持します。<strong class="memory-answer">APN（Access Point Name）</strong>は端末が接続したいパケットデータ網・サービスを示す名称です。SIMによる加入者認証と、APNによる接続先の指定は役割が異なります。</p>
 <table>
 <thead>
 <tr>
@@ -137,7 +138,7 @@ CoAPは、IoTやM2M（Machine to Machine）向けのプロトコルです。CPU�
 CoAPでは伝送効率を考慮してトランスポート層では<strong class="memory-answer">UDP</strong>プロトコルを使用します。また、セキュアな通信を
 実現したい場合には<strong class="memory-answer">DTLS</strong>（Datagram TLS）により伝送路を暗号化することもできます。</p>
 <p>IoTシステムで最も使用されているプロトコルのMQTTでは、パブリッシュ/サブスクライブモデルでデータ
-伝送を行います。一方、CoAPではHTTPを意識して動作することからCoAPはHTTPベースのRESTful APIを
+伝送を行います。一方、CoAPではHTTPを意識して動作することからCoAPはHTTPベースの<strong class="memory-answer">RESTful API</strong>を
 IoTデバイス向けに軽量化したものであると言えます。</p>
 <h2 id="ioeinternet-of-everything">IoE（Internet of Everything）とは</h2>
 <p>IoEとは、Cisco Systems社が提唱する「あらゆるものが接続されたインターネット」という意味であり、

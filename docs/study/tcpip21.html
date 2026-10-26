@@ -76,7 +76,7 @@ SNMPを利用することにより、導入したネットワーク機器を監�
 へのトラップ通知は、SNMPマネージャへの宛先ポートとして、UDP（ポート番号<strong class="memory-answer">162</strong>）が使用されます。</p>
 <p><img alt="画像" src="../studygif/tcpip21b.png"></p>
 <h2 id="mib">MIB ( ミブ ) とは</h2>
-<p>MIB (Management Information Base) とは、SNMPエージェントが持っている<strong class="memory-answer">機器情報の集合体</strong>のこと。
+<p><strong class="memory-answer">MIB</strong> (Management Information Base) とは、SNMPエージェントが持っている<strong class="memory-answer">機器情報の集合体</strong>のこと。
 SNMPマネージャとSNMPエージェントはこのMIBをやりとりすることで、SNMPエージェントのCPU使用率、
 インターフェースの使用状況等を確認しています。MIBにより分類された情報は<strong class="memory-answer">ツリー構造</strong>で管理されます。</p>
 <p>MIBにある情報の1つ1つを<strong class="memory-answer">オブジェクト</strong>と言います。例えばツリーの上から「iso、org、dod、internet」
@@ -127,7 +127,7 @@ RMONにより通信トラフィックの統計情報が得られます。</p>
 <td>SNMPマネージャから要求されたOIDに対して、値を挿入して返信</td>
 </tr>
 <tr>
-<td>TRAP</td>
+<td><strong class="memory-answer">TRAP（Trap）</strong></td>
 <td>SNMPエージェント</td>
 <td>SNMPエージェントが機器の状態に変化があった場合、自発的に送信</td>
 </tr>

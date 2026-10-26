@@ -39,11 +39,11 @@
 IPアドレスの宛先情報については<strong class="memory-answer">IPヘッダ</strong>に含まれています。それではこのIPヘッダを見ていきましょう。</p>
 <p><img alt="画像" src="../studygif/tcpip1a.png"></p>
 <h2 id="ip_2">IPヘッダのフォーマット</h2>
-<p>IPヘッダのフォーマットは以下の通りです。IPヘッダは <strong class="memory-answer">20バイト</strong> のサイズですが、オプションが追加された
-場合は最大で60バイトのサイズとなります。ただ、オプションやパディングは一般的には使用されることは
-ないのであまり意識する必要はありません。「データ」はIPヘッダではなくIPペイロードと呼ばれる部分です。</p>
+<p>IPヘッダのフォーマットは以下の通りです。IPヘッダは <strong class="memory-answer">20</strong>バイト のサイズですが、オプションが追加された
+場合は最大で<strong class="memory-answer">60</strong>バイトのサイズとなります。ただ、オプションやパディングは一般的には使用されることは
+ないのであまり意識する必要はありません。「データ」はIPヘッダではなくIP<strong class="memory-answer">ペイロード</strong>と呼ばれる部分です。</p>
 <p><img alt="画像" src="../studygif/tcpip1b.png"></p>
-<p>※　IPペイロード部分には、TCPやUDPなど上位層プロトコルのヘッダとデータが含まれます。</p>
+<p>※　IP<strong class="memory-answer">ペイロード</strong>部分には、TCPやUDPなど上位層プロトコルのヘッダとデータが含まれます。</p>
 <table>
 <thead>
 <tr>
@@ -55,85 +55,85 @@ IPアドレスの宛先情報については<strong class="memory-answer">IPヘ�
 </thead>
 <tbody>
 <tr>
-<td>バージョン</td>
+<td><strong class="memory-answer">バージョン</strong></td>
 <td>version</td>
-<td>4 bit</td>
+<td><strong class="memory-answer">4</strong> bit</td>
 <td>IPヘッダのバージョン番号の情報。ここでは「4」の値が入る。</td>
 </tr>
 <tr>
-<td>ヘッダ長</td>
+<td><strong class="memory-answer">ヘッダ長</strong></td>
 <td>IHL</td>
-<td>4 bit</td>
-<td>IPヘッダの長さの情報。単位は32ビットであることからオプションを使用しない。<br>IPパケットの場合ここでは「5」の値が入る。32bit×5 = 160bit = 20byte。</td>
+<td><strong class="memory-answer">4</strong> bit</td>
+<td>IPヘッダの長さの情報。単位は<strong class="memory-answer">32</strong>ビットであることからオプションを使用しない。<br>IPパケットの場合ここでは「5」の値が入る。32bit×5 = 160bit = 20byte。</td>
 </tr>
 <tr>
-<td>サービスタイプ</td>
+<td><strong class="memory-answer">サービスタイプ</strong></td>
 <td>Type of Service</td>
-<td>8 bit</td>
-<td>IPパケットの優先順位の情報。例えば音声トラフィックとデータトラフィック<br>とでは音声トラフィックのデータを優先して送出することができる。QoS処理用。</td>
+<td><strong class="memory-answer">8</strong> bit</td>
+<td>IPパケットの<strong class="memory-answer">優先順位</strong>の情報。例えば音声トラフィックとデータトラフィック<br>とでは音声トラフィックのデータを優先して送出することができる。<strong class="memory-answer">QoS</strong>処理用。</td>
 </tr>
 <tr>
-<td>全長</td>
+<td><strong class="memory-answer">全長</strong></td>
 <td>Total Length</td>
-<td>16 bit</td>
+<td><strong class="memory-answer">16</strong> bit</td>
 <td>IPヘッダを含むパケットの全長。パケット長とも呼ばれる。</td>
 </tr>
 <tr>
-<td>識別番号</td>
+<td><strong class="memory-answer">識別番号</strong></td>
 <td>identification</td>
-<td>16 bit</td>
-<td>個々のパケットを識別するための情報。パケットが分割された時に分割された<br>パケットには同じ識別番号にすることで、受信側で複数の分割されたパケット<br>を受信した場合においても、この識別番号に基づき正しく組み立て処理できる。</td>
+<td><strong class="memory-answer">16</strong> bit</td>
+<td>個々のパケットを識別するための情報。パケットが分割された時に分割された<br>パケットには同じ<strong class="memory-answer">識別番号</strong>にすることで、受信側で複数の分割されたパケット<br>を受信した場合においても、この<strong class="memory-answer">識別番号</strong>に基づき正しく組み立て処理できる。</td>
 </tr>
 <tr>
 <td>フラグ</td>
 <td>Flags</td>
-<td>3 bit</td>
-<td>パケット分割における制御の情報。3ビットの内訳は以下の通り。詳細は別途。</td>
+<td><strong class="memory-answer">3</strong> bit</td>
+<td>パケット分割における制御の情報。<strong class="memory-answer">3</strong>ビットの内訳は以下の通り。詳細は別途。</td>
 </tr>
 <tr>
-<td>フラグメント<br>オフセット</td>
+<td><strong class="memory-answer">フラグメント</strong><br><strong class="memory-answer">オフセット</strong></td>
 <td>Fragment<br>Offset</td>
-<td>13 bit</td>
-<td>フラグメントされたパケットが元のパケットのどの位置であったかを示す情報。</td>
+<td><strong class="memory-answer">13</strong> bit</td>
+<td><strong class="memory-answer">フラグメント</strong>されたパケットが元のパケットのどの位置であったかを示す情報。</td>
 </tr>
 <tr>
-<td>生存時間</td>
+<td><strong class="memory-answer">生存時間</strong></td>
 <td>Time to Live<br>( TTL )</td>
-<td>8 bit</td>
-<td>パケットの生存時間を示す情報。実際には、何台のルータ or L3スイッチを<br>通過することができるのかという情報。1台のルータを通過するごとにTTL値は<br>「 1 」つずつ減らされて、TTL値が「 0 」になると、パケットは破棄される。</td>
+<td><strong class="memory-answer">8</strong> bit</td>
+<td>パケットの<strong class="memory-answer">生存時間</strong>を示す情報。実際には、何台の<strong class="memory-answer">ルータ</strong> or <strong class="memory-answer">L3スイッチ</strong>を<br>通過することができるのかという情報。1台の<strong class="memory-answer">ルータ</strong>を通過するごとに<strong class="memory-answer">TTL</strong>値は<br>「 1 」つずつ減らされて、TTL値が「 0 」になると、パケットは<strong class="memory-answer">破棄</strong>される。</td>
 </tr>
 <tr>
-<td>プロトコル</td>
+<td><strong class="memory-answer">プロトコル</strong></td>
 <td>Protocol</td>
-<td>8 bit</td>
-<td>上位層（トランスポート層）のプロトコルが何であるのかを示す情報。この値は<br>ICANNという組織により「プロトコル名」と「番号」が定義されている。例えば、<br>上位層プロトコルにTCPを使用する場合、このプロトコル番号は「6」になる。</td>
+<td><strong class="memory-answer">8</strong> bit</td>
+<td>上位層（<strong class="memory-answer">トランスポート</strong>層）の<strong class="memory-answer">プロトコル</strong>が何であるのかを示す情報。この値は<br><strong class="memory-answer">ICANN</strong>という組織により「<strong class="memory-answer">プロトコル名</strong>」と「<strong class="memory-answer">番号</strong>」が定義されている。例えば、<br>上位層プロトコルにTCPを使用する場合、このプロトコル番号は「6」になる。</td>
 </tr>
 <tr>
-<td>ヘッダ<br>チェックサム</td>
+<td><strong class="memory-answer">ヘッダ</strong><br><strong class="memory-answer">チェックサム</strong></td>
 <td>Header<br>Checksum</td>
-<td>16 bit</td>
-<td>IPヘッダのチェックサムを表す情報。IPヘッダにエラーがないかをチェック。</td>
+<td><strong class="memory-answer">16</strong> bit</td>
+<td>IPヘッダの<strong class="memory-answer">チェックサム</strong>を表す情報。IPヘッダに<strong class="memory-answer">エラー</strong>がないかをチェック。</td>
 </tr>
 <tr>
-<td>送信元IPアドレス</td>
+<td><strong class="memory-answer">送信元IPアドレス</strong></td>
 <td>Source<br>Address</td>
-<td>32 bit</td>
-<td>32ビット（4byte)で構成された、送信元のIPアドレスの情報</td>
+<td><strong class="memory-answer">32</strong> bit</td>
+<td><strong class="memory-answer">32</strong>ビット（4byte)で構成された、<strong class="memory-answer">送信元</strong>のIPアドレスの情報</td>
 </tr>
 <tr>
-<td>宛先IPアドレス</td>
+<td><strong class="memory-answer">宛先IPアドレス</strong></td>
 <td>Destination<br>Address</td>
-<td>32 bit</td>
-<td>32ビット（4byte)で構成された、宛先のIPアドレスの情報</td>
+<td><strong class="memory-answer">32</strong> bit</td>
+<td><strong class="memory-answer">32</strong>ビット（4byte)で構成された、<strong class="memory-answer">宛先</strong>のIPアドレスの情報</td>
 </tr>
 <tr>
-<td>オプション</td>
+<td><strong class="memory-answer">オプション</strong></td>
 <td>Options</td>
 <td>可変長</td>
 <td>通常は使用されないが、デバックやテストを行う際に使用される情報。</td>
 </tr>
 <tr>
-<td>パディング</td>
+<td><strong class="memory-answer">パディング</strong></td>
 <td>Padding</td>
 <td>可変長</td>
 <td>通常使用されないが、上記のオプションを使用した場合にはIPヘッダ長が<br>32ビットの整数倍にならない場合がある。32ビットの整数倍にするために<br>詰め物(Padding)として空データの 「 0 」 の値を入れることにより調整する。</td>
@@ -234,12 +234,12 @@ IPパケットとして転送されることから上位層プロトコルの番
 </thead>
 <tbody>
 <tr>
-<td><strong class="memory-answer">コネクションレス型通信</strong></td>
-<td>ネットワーク通信に際して、事前にコンピュータ間でコネクションを確立しないで<br>いきなりデータ伝送をはじめる通信のことです。ただし、上位層プロトコルにTCP<br>を使用すれば、コンピュータ間の通信でみればコネクション型の通信となります。</td>
+<td><strong class="memory-answer">コネクションレス</strong>型通信</td>
+<td>ネットワーク通信に際して、事前にコンピュータ間で<strong class="memory-answer">コネクション</strong>を確立しないで<br>いきなりデータ伝送をはじめる通信のことです。ただし、上位層プロトコルにTCP<br>を使用すれば、コンピュータ間の通信でみれば<strong class="memory-answer">コネクション</strong>型の通信となります。</td>
 </tr>
 <tr>
-<td><strong class="memory-answer">ベストエフォート型通信</strong></td>
-<td>ネットワーク通信に際して、最善の努力（ベストエフォート）は尽くすが、必ずしも<br>十分な品質は保証しない通信のことです。しかし上位層プロトコルにTCPを使用<br>することで、IPを使用した通信でもパケット損失がないように見せることができます。</td>
+<td><strong class="memory-answer">ベストエフォート</strong>型通信</td>
+<td>ネットワーク通信に際して、最善の努力（<strong class="memory-answer">ベストエフォート</strong>）は尽くすが、必ずしも<br>十分な品質は保証しない通信のことです。しかし上位層プロトコルにTCPを使用<br>することで、IPを使用した通信でもパケット損失がないように見せることができます。</td>
 </tr>
 <tr>
 <td><strong class="memory-answer">階層型アドレッシング</strong></td>

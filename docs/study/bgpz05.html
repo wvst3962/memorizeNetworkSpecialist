@@ -21,7 +21,10 @@
     <a class="back-link" href="../index.html">← 記事一覧</a>
     <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
 <ul>
-<li><a href="#bgp-">BGP - パスアトリビュート</a></li>
+<li><a href="#bgp-">BGP - パスアトリビュート</a><ul>
+<li><a href="#_1">ルートリフレクタの識別子</a></li>
+</ul>
+</li>
 <li><a href="#bgp-_1">BGP - パスアトリビュート</a></li>
 <li><a href="#bgp-_2">BGP - パスアトリビュートの一覧</a></li>
 <li><a href="#bgp-_3">BGP - ベストパス選択のアルゴリズム</a></li>
@@ -33,6 +36,9 @@
   <article class="article-card prose"><h1 id="bgp-path-attribute">BGP - Path Attribute</h1>
 <hr>
 <h2 id="bgp-">BGP - パスアトリビュート</h2>
+<p>BGPの主なメッセージは <strong class="memory-answer">OPEN</strong>（ピア関係の開始）、<strong class="memory-answer">UPDATE</strong>（経路の広告・撤回）、<strong class="memory-answer">KEEPALIVE</strong>（接続維持）、<strong class="memory-answer">NOTIFICATION</strong>（エラー通知と接続終了）の4種類です。経路属性を運ぶのは UPDATE です。</p>
+<h3 id="_1">ルートリフレクタの識別子</h3>
+<p><strong class="memory-answer">クラスターID（CLUSTER_ID）</strong>は、BGPのルートリフレクタとそのクライアントで構成するクラスターの識別子です。反射した経路の <strong class="memory-answer">CLUSTER_LIST</strong> に通過したクラスターIDを記録し、同じクラスターへ戻った経路を検出します。<strong class="memory-answer">ORIGINATOR_ID</strong>は経路を最初に発信したIBGPルータのBGP識別子です。いずれも経路反射のループ防止に使います。</p>
 <p>BGPで交換される4つのメッセージのうち、Updateメッセージがありましたが、Updateメッセージの中に
 パスアトリビュート（パス属性）が含まれています。パスアトリビュートはBGPで使用するメトリックです。
 このパスアトリビュートを組み合わせることで「AS」に対して様々な経路制御が可能となります。</p>

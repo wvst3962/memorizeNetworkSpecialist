@@ -26,6 +26,7 @@
 <li><a href="#sip_1">SIPメッセージの中身</a></li>
 <li><a href="#sip_2">SIPメソッドと応答コード</a></li>
 <li><a href="#sip_3">SIPシーケンス</a></li>
+<li><a href="#webrtc">関連するWebRTCの通信</a></li>
 </ul>
 </div>
 </div>
@@ -95,7 +96,7 @@ H.323、MGCP、SIPなどのシグナリングプロトコルで行います。�
 対応しています（UDPがデフォルトで使用される）。従って、プロトコルの位置づけとしては以下の通りです。
 ※　SIPはメディア制御は行わず、マルチメディアデータの送受信はRTP、マルチメディアセッションの記述はSDPにより行います。</p>
 <p><img alt="画像" src="../studygif/telephony4a.png"></p>
-<p>SIPを使用した最低限の音声システムでは、SIPサーバとUA（User Agent）の大きく2つから構成されます。
+<p>SIPを使用した最低限の音声システムでは、SIPサーバと<strong class="memory-answer">SIP UA（User Agent）</strong>の大きく2つから構成されます。
 IP電話などがUAに該当しますが、リクエストメッセージを送信する側のUAC（User Agent Client）と、その
 レスポンスメッセージを返信する側のUAS（User Agent Server）の2つの機能モジュールで構成しています。
 ※　リクエストの送信、受信がどちらになるかで、UACになるかUASになるのか決定されるため、同じUAソフトウェア内に混在する。</p>
@@ -174,19 +175,19 @@ IP電話などがUAに該当しますが、リクエストメッセージを送�
 </thead>
 <tbody>
 <tr>
-<td>INVITE</td>
+<td><strong class="memory-answer">INVITE</strong></td>
 <td>セッション開始要求</td>
 <td>INFO</td>
 <td>セッション内の情報通知</td>
 </tr>
 <tr>
-<td>ACK</td>
+<td><strong class="memory-answer">ACK</strong></td>
 <td>セッション確立の確認</td>
 <td>SUBSCRIBE</td>
 <td>イベントの通知要請</td>
 </tr>
 <tr>
-<td>BYE</td>
+<td><strong class="memory-answer">BYE</strong></td>
 <td>セッション終了</td>
 <td>NOTIFY</td>
 <td>要請されたイベントの通知</td>
@@ -198,7 +199,7 @@ IP電話などがUAに該当しますが、リクエストメッセージを送�
 <td>テキストメッセージなどの送信</td>
 </tr>
 <tr>
-<td>REGISTER</td>
+<td><strong class="memory-answer">REGISTER</strong></td>
 <td>情報の登録</td>
 <td>UPDATE</td>
 <td>セッションの変更</td>
@@ -310,6 +311,8 @@ IP電話などがUAに該当しますが、リクエストメッセージを送�
 </tr>
 </tbody>
 </table>
+<h2 id="webrtc">関連するWebRTCの通信</h2>
+<p><strong class="memory-answer">WebRTC</strong>では、<strong class="memory-answer">ICE</strong>で通信可能な経路を探す際に<strong class="memory-answer">STUNサーバ</strong>を使い、NAT越しに見えるIPアドレスとポート番号を取得できます。直接接続できない場合は <strong class="memory-answer">TURNサーバ</strong>による中継を候補にできます。接続先の情報を相手へ伝えるシグナリングの方式はWebRTC自体では固定されず、<strong class="memory-answer">WebSocket</strong>を使う構成があります。WebSocketはブラウザとサーバ間の双方向通信であり、STUNとは役割が違います。</p>
 <hr>
 <p><a href="https://www.infraexpert.com/study/study36.html">IP電話とは</a></p></article>
 </main>

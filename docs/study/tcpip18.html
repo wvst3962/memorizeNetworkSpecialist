@@ -21,6 +21,7 @@
     <a class="back-link" href="../index.html">← 記事一覧</a>
     <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
 <ul>
+<li><a href="#smtp-authstarttls">SMTP-AUTHとSTARTTLS</a></li>
 <li><a href="#smtp-">SMTPプロトコル - 認証する場合の問題点</a></li>
 <li><a href="#smtp-_1">SMTPプロトコル - 認証しない場合の問題点</a></li>
 <li><a href="#op25b-outbound-port-25-blocking">OP25B ( Outbound Port 25 Blocking )</a></li>
@@ -33,6 +34,8 @@
   </aside>
   <article class="article-card prose"><h1 id="smtp-submission-port">SMTP Submission Port</h1>
 <hr>
+<h2 id="smtp-authstarttls">SMTP-AUTHとSTARTTLS</h2>
+<p><strong class="memory-answer">SMTP-AUTH（SMTP認証）</strong>は、メールクライアントが送信サーバへメールを投稿する際に利用者を認証する仕組みです。<strong class="memory-answer">サブミッションポート（587/TCP）</strong>で用いられ、<strong class="memory-answer">STARTTLS</strong>は平文で開始したSMTP接続をTLSに切り替える拡張コマンドです。STARTTLSは通信の暗号化、SMTP-AUTHは利用者の認証を担います。</p>
 <h2 id="smtp-">SMTPプロトコル - 認証する場合の問題点</h2>
 <p>前回に解説した<a href="tcpip17.html">SMTPとPOP3の仕組み</a>の通り、POP3の場合はメール受信の際にメールサーバにユーザ名と
 パスワードの情報を送信して認証が行われますが、SMTPの場合は認証が行われていません。SMTPが使用

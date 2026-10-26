@@ -154,34 +154,39 @@ DNSサーバのソフトウェアとして最も使用されている<strong cla
 <td>ゾーンファイルの最初のリソースレコード。以下のDNSサーバの各種管理情報の指定。<br>・ ドメインのDNSサーバ名　・ ドメイン管理者のメールアドレス　・ シリアル番号<br>・ 更新間隔　・ 転送再試行時間　・ レコード有効時間　・ 否定的キャッシュ有効時間</td>
 </tr>
 <tr>
-<td>NS</td>
+<td><strong class="memory-answer">NS</strong></td>
 <td>Name Server</td>
 <td>ドメイン名と、そのドメイン名を管理するDNSサーバを対応付けたレコード。<br>例：infraexpert.com. IN NS ns1.infraexpert.com.<br>→　infraexpert.com のドメインのDNSサーバは、ns1.infraexpert.com であるという意味。</td>
 </tr>
 <tr>
-<td>A</td>
+<td><strong class="memory-answer">A</strong></td>
 <td>Address</td>
-<td>ホストのIPアドレスを指定。<br>例：intra1.infraexpert.com. IN A 192.168.0.1<br>→　intra1.infraexpert.com のIPアドレスは 192.168.0.1 であるという意味。</td>
+<td>ホストのIPv4アドレスを指定。<br>例：intra1.infraexpert.com. IN A 192.168.0.1<br>→　intra1.infraexpert.com のIPアドレスは 192.168.0.1 であるという意味。</td>
 </tr>
 <tr>
-<td>PTR</td>
+<td><strong class="memory-answer">PTR</strong></td>
 <td>Pointer</td>
 <td>IPアドレスに対応するホスト名を指定。（逆引きで使用）<br>例：192.168.0.1 IN PTR intra1.infraexpert.com.<br>→　192.168.0.1 のホスト名は intra1.infraexpert.com であるという意味。</td>
 </tr>
 <tr>
-<td>CNAME</td>
+<td><strong class="memory-answer">CNAME</strong></td>
 <td>Canonical NAME</td>
 <td>ホストの別名を指定。構文は、「 エイリアス名 IN CNAME 本当のホスト名 」 となる。<br>例：www.infraexpert.com. IN CNAME intra1.infraexpert.com.<br>→　intra1.infraexpert.com の別名（エイリアス名）はwww.infraexpert.com という意味。</td>
 </tr>
 <tr>
-<td>MX</td>
+<td><strong class="memory-answer">MX</strong></td>
 <td>Mail exchange</td>
 <td>ドメインのメールサーバを指定。<br>例：infraexpert.com. IN MX 10 mail1.infraexpert.com.<br>→　xxx@infraexpert.com宛のメールはmail1.infraexpert.comに転送すれば届くという意味。</td>
 </tr>
 <tr>
-<td>TXT</td>
+<td><strong class="memory-answer">TXT</strong></td>
 <td>text strings</td>
 <td>ホストへのテキスト情報を指定。<br>例：www.infraexpert.com. IN TXT "cool"<br>→　www.infraexpert.com ってサイトはクールなサイトという意味。</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">AAAA</strong></td>
+<td>IPv6 Address</td>
+<td>ホスト名に対応するIPv6アドレスを指定。</td>
 </tr>
 </tbody>
 </table>
