@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>これだけは絶対に覚えろ！試験直前の暗記語句 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <script defer src="../assets/site.js"></script>
+</head>
+<body class="page-article">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <button class="sheet-switch" type="button" data-sheet-toggle aria-pressed="false"><span class="switch-dot" aria-hidden="true"></span><span data-sheet-label>赤シート OFF</span></button>
+    </div>
+  </header>
+  <main class="article-layout">
+  <aside class="article-aside">
+    <a class="back-link" href="../index.html">← 記事一覧</a>
+    <div class="toc-card"><div class="toc-title">このページの目次</div><div class="toc">
+<ul>
+<li><a href="#510">最初の5分：10問</a></li>
+<li><a href="#1">1. まず番号を混同しない</a><ul>
+<li><a href="#ip">IPプロトコル番号：番号から名前を言う</a></li>
+<li><a href="#_2">よく見るポート：サービスから番号を言う</a></li>
+<li><a href="#ethernetethertype">EthernetのEtherType</a></li>
+</ul>
+</li>
+<li><a href="#2-ipdnsdhcp">2. IPアドレス・DNS・DHCP</a></li>
+<li><a href="#3">3. 経路制御・冗長化</a></li>
+<li><a href="#4-webtls">4. Web・TLS・メール・認可</a></li>
+<li><a href="#5-vpn">5. VPN・セキュリティ</a></li>
+<li><a href="#6-lanpoe">6. LAN・無線・PoE</a></li>
+<li><a href="#7-sdniot">7. 監視・仮想化・SDN・音声／IoT</a></li>
+</ul>
+</div>
+</div>
+    <div class="study-tip"><span class="tip-icon" aria-hidden="true">◎</span><strong>赤シートで復習</strong><p>右上のスイッチで重要語を隠せます。語句をタップすると答えを確認できます。</p></div>
+  </aside>
+  <article class="article-card prose"><h1 id="_1">これだけは絶対に覚えろ！試験直前の暗記語句</h1>
+<p>午後の穴埋めで実際に問われた専門語と、その対になる基本語を集めました。太字が答えです。右上の赤シートをONにして、左側の問いから答えてください。</p>
+<p>5分しかなければ次の10問だけ解きます。10～15分あれば下の分野別の表まで一周し、迷った行だけリンク先の教材を開きます。年度は出題例です。</p>
+<h2 id="510">最初の5分：10問</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPプロトコル番号 1 / 6 / 17 / 47 / 50 / 51 / 89 / 112</td>
+<td><strong class="memory-answer">ICMP / TCP / UDP / GRE / ESP / AH / OSPF / VRRP</strong></td>
+</tr>
+<tr>
+<td>ポート DNS / DHCPサーバ・端末 / SMTP中継・投稿 / BGP</td>
+<td><strong class="memory-answer">53 / 67・68 / 25・587 / 179</strong>（TCP・UDPの区別は次節）</td>
+</tr>
+<tr>
+<td>DHCP取得の4メッセージ</td>
+<td><strong class="memory-answer">DISCOVER → OFFER → REQUEST → ACK</strong></td>
+</tr>
+<tr>
+<td>DNSの MX / NS / CNAME / PTR</td>
+<td><strong class="memory-answer">メール配送先 / 権威DNS / 別名 / 逆引き</strong></td>
+</tr>
+<tr>
+<td>BGPの OPEN / UPDATE / KEEPALIVE / NOTIFICATION</td>
+<td><strong class="memory-answer">開始 / 経路広告・撤回 / 維持 / エラー</strong></td>
+</tr>
+<tr>
+<td>VRRPの識別子と端末のデフォルトゲートウェイ</td>
+<td><strong class="memory-answer">VRID / 仮想IPアドレス</strong></td>
+</tr>
+<tr>
+<td>TLSのクライアント提案とサーバ選択</td>
+<td><strong class="memory-answer">ClientHello / ServerHello</strong></td>
+</tr>
+<tr>
+<td>メール投稿の認証、通信のTLS化、エンベロープ送信元</td>
+<td><strong class="memory-answer">SMTP-AUTH / STARTTLS / MAIL FROM</strong></td>
+</tr>
+<tr>
+<td>SNMPの管理情報、識別子、自発的通知</td>
+<td><strong class="memory-answer">MIB / OID / Trap</strong></td>
+</tr>
+<tr>
+<td>PoEの給電・受電側と、OpenFlowのフロー変更</td>
+<td><strong class="memory-answer">PSE / PD / Flow-Mod</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="1">1. まず番号を混同しない</h2>
+<p><strong class="memory-answer">IPプロトコル番号</strong>はIPv4ヘッダのProtocol値（IPv6ではNext Header値）、<strong class="memory-answer">ポート番号</strong>はTCP/UDPで使う値、<strong class="memory-answer">EtherType</strong>はEthernetフレーム内の識別値です。同じ「番号」でも場所が違います。</p>
+<h3 id="ip">IPプロトコル番号：番号から名前を言う</h3>
+<table>
+<thead>
+<tr>
+<th>番号</th>
+<th>答え・役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong class="memory-answer">ICMP</strong>：IPv4のエラー通知や到達性確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong class="memory-answer">IGMP</strong>：IPv4マルチキャストの参加管理</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong class="memory-answer">TCP</strong>：確認応答・再送・順序制御</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong class="memory-answer">UDP</strong>：コネクションを張らない転送</td>
+</tr>
+<tr>
+<td>47</td>
+<td><strong class="memory-answer">GRE</strong>：トンネリング</td>
+</tr>
+<tr>
+<td>50 / 51</td>
+<td><strong class="memory-answer">ESP / AH</strong>：IPsecのペイロード保護 / 認証ヘッダ</td>
+</tr>
+<tr>
+<td>58</td>
+<td><strong class="memory-answer">ICMPv6</strong>：IPv6の制御、近隣探索にも使用</td>
+</tr>
+<tr>
+<td>89</td>
+<td><strong class="memory-answer">OSPF</strong>：リンクステート型の経路制御</td>
+</tr>
+<tr>
+<td>103</td>
+<td><strong class="memory-answer">PIM</strong>：IPマルチキャストの経路制御</td>
+</tr>
+<tr>
+<td>112</td>
+<td><strong class="memory-answer">VRRP</strong>：デフォルトゲートウェイの冗長化</td>
+</tr>
+</tbody>
+</table>
+<p>OSPFの「89」と、BGPの「TCP/179」は別種の番号です。<a href="bgpz05.html">経路制御</a>・<a href="fhrpz06.html">VRRP</a></p>
+<h3 id="_2">よく見るポート：サービスから番号を言う</h3>
+<table>
+<thead>
+<tr>
+<th>サービス・用途</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSH / DNS</td>
+<td><strong class="memory-answer">TCP/22</strong> / <strong class="memory-answer">UDP・TCP/53</strong></td>
+</tr>
+<tr>
+<td>DHCPサーバ / クライアント</td>
+<td><strong class="memory-answer">UDP/67 / UDP/68</strong>（H25午後I）</td>
+</tr>
+<tr>
+<td>TFTP / NTP</td>
+<td><strong class="memory-answer">UDP/69</strong> / <strong class="memory-answer">UDP/123</strong></td>
+</tr>
+<tr>
+<td>HTTP / HTTPS</td>
+<td><strong class="memory-answer">TCP/80</strong> / <strong class="memory-answer">TCP/443</strong>（HTTP/3はUDP/443）</td>
+</tr>
+<tr>
+<td>SMTP中継 / メール投稿（Submission）</td>
+<td><strong class="memory-answer">TCP/25</strong> / <strong class="memory-answer">TCP/587</strong>（H28午後I）</td>
+</tr>
+<tr>
+<td>SNMP要求 / Trap</td>
+<td><strong class="memory-answer">UDP/161</strong> / <strong class="memory-answer">UDP/162</strong></td>
+</tr>
+<tr>
+<td>BGP</td>
+<td><strong class="memory-answer">TCP/179</strong></td>
+</tr>
+<tr>
+<td>IKE / NAT-T</td>
+<td><strong class="memory-answer">UDP/500</strong> / <strong class="memory-answer">UDP/4500</strong></td>
+</tr>
+<tr>
+<td>SIP / SIP over TLS</td>
+<td><strong class="memory-answer">5060</strong> / <strong class="memory-answer">5061</strong>（利用するトランスポートは構成で確認）</td>
+</tr>
+<tr>
+<td>VXLAN</td>
+<td><strong class="memory-answer">UDP/4789</strong></td>
+</tr>
+</tbody>
+</table>
+<p>ポートは典型的な利用例です。番号だけで通信の安全性は決まりません。<a href="tcpip13.html">DHCP</a>・<a href="tcpip18.html">SMTP</a>・<a href="tcpip21.html">SNMP</a></p>
+<h3 id="ethernetethertype">EthernetのEtherType</h3>
+<table>
+<thead>
+<tr>
+<th>値</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0800 / 0x0806</td>
+<td><strong class="memory-answer">IPv4 / ARP</strong></td>
+</tr>
+<tr>
+<td>0x8100 / 0x86DD</td>
+<td><strong class="memory-answer">802.1QのC-Tag / IPv6</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-ipdnsdhcp">2. IPアドレス・DNS・DHCP</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同一LANで宛先IPv4アドレスからMACアドレスを知る</td>
+<td><strong class="memory-answer">ARP</strong>。自分のIPとMACを周囲へ通知するのは <strong class="memory-answer">GARP</strong>（R1午後I）</td>
+</tr>
+<tr>
+<td>他端末宛てのARP要求にルータが代理で応答する</td>
+<td><strong class="memory-answer">Proxy ARP</strong></td>
+</tr>
+<tr>
+<td>DHCPでアドレスを取得する4メッセージ</td>
+<td><strong class="memory-answer">DHCPDISCOVER → DHCPOFFER → DHCPREQUEST → DHCPACK</strong>（H25午後I）</td>
+</tr>
+<tr>
+<td>DHCPサーバが別セグメントにあるとき、要求を転送する</td>
+<td><strong class="memory-answer">DHCPリレーエージェント</strong>（H25午後I）</td>
+</tr>
+<tr>
+<td>DNSでホスト名→IPv4 / IPv6アドレス</td>
+<td><strong class="memory-answer">A / AAAA</strong> レコード</td>
+</tr>
+<tr>
+<td>DNSでメール配送先 / 権威DNS / 別名 / 逆引き</td>
+<td><strong class="memory-answer">MX / NS / CNAME / PTR</strong> レコード（H21・R5午後）</td>
+</tr>
+<tr>
+<td>MXが複数あるとき、配送優先度が高いのは</td>
+<td><strong class="memory-answer">Preference値が小さい方</strong>（R6午後II）</td>
+</tr>
+<tr>
+<td>DNSキャッシュサーバと権威DNSの違い</td>
+<td><strong class="memory-answer">キャッシュDNS</strong>は名前解決を代行・保存し、<strong class="memory-answer">権威DNS</strong>は担当ゾーンの正式なデータを返す</td>
+</tr>
+</tbody>
+</table>
+<p><a href="tcpip23.html">DNSレコード</a>・<a href="tcpip3.5.html">GARP</a>・<a href="gateway.html">Proxy ARP</a></p>
+<h2 id="3">3. 経路制御・冗長化</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OSPFの経路計算の基礎</td>
+<td><strong class="memory-answer">LSDB</strong>（リンク状態データベース）を共有し、<strong class="memory-answer">ダイクストラ法</strong>で最短経路を計算（R3午後I）</td>
+</tr>
+<tr>
+<td>OSPFの中心となるエリア</td>
+<td><strong class="memory-answer">エリア0（バックボーンエリア）</strong></td>
+</tr>
+<tr>
+<td>BGPの4メッセージを用途順に言う</td>
+<td><strong class="memory-answer">OPEN</strong>：ピア開始、<strong class="memory-answer">UPDATE</strong>：経路広告・撤回、<strong class="memory-answer">KEEPALIVE</strong>：維持、<strong class="memory-answer">NOTIFICATION</strong>：エラー（R5午後II）</td>
+</tr>
+<tr>
+<td>BGPで経路を交換する相手</td>
+<td><strong class="memory-answer">ピア（ネイバー）</strong>。異なるAS間なら <strong class="memory-answer">eBGP</strong>、同じAS内なら <strong class="memory-answer">iBGP</strong></td>
+</tr>
+<tr>
+<td>BGPルートリフレクタのループ防止</td>
+<td><strong class="memory-answer">クラスターID / CLUSTER_LIST</strong> と <strong class="memory-answer">ORIGINATOR_ID</strong>（R6午後II）</td>
+</tr>
+<tr>
+<td>VRRPで仮想ルータを識別する番号</td>
+<td><strong class="memory-answer">VRID</strong>。端末は <strong class="memory-answer">仮想IPアドレス</strong>をGWに設定し、<strong class="memory-answer">仮想MACアドレス</strong>へ送る（R4午後II）</td>
+</tr>
+<tr>
+<td>VRRPの通常時 / 障害時の役割</td>
+<td><strong class="memory-answer">マスター</strong>が転送、故障時は<strong class="memory-answer">バックアップ</strong>が引き継ぐ</td>
+</tr>
+<tr>
+<td>1か所の故障で全体が止まる構成要素</td>
+<td><strong class="memory-answer">SPOF（単一障害点）</strong>（H24午後II）</td>
+</tr>
+</tbody>
+</table>
+<p><a href="bgpz05.html">BGP</a>・<a href="fhrpz06.html">VRRP</a>・<a href="ospfz2.html">OSPF</a></p>
+<h2 id="4-webtls">4. Web・TLS・メール・認可</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クライアントの代理で外部へ / サーバ側の入口で内部へ</td>
+<td><strong class="memory-answer">フォワードプロキシ / リバースプロキシ</strong>（H30午後I）</td>
+</tr>
+<tr>
+<td>HTTP/2で複数の要求を1本のTCP接続上で扱う単位</td>
+<td><strong class="memory-answer">ストリーム</strong>。各フレームは <strong class="memory-answer">ストリームID</strong> で所属を示す（R5・R7午後I）</td>
+</tr>
+<tr>
+<td>HTTP/2でメソッドを示す疑似ヘッダ</td>
+<td><strong class="memory-answer"><code>:method</code></strong>。パスは <strong class="memory-answer"><code>:path</code></strong>、応答コードは <strong class="memory-answer"><code>:status</code></strong>（R5午後I）</td>
+</tr>
+<tr>
+<td>TLSでクライアント提案 / サーバ選択を運ぶ</td>
+<td><strong class="memory-answer">ClientHello / ServerHello</strong>（過去問表記：Client_Hello / Server_Hello、H29午後I）</td>
+</tr>
+<tr>
+<td>メール投稿者の認証 / 通信のTLS化</td>
+<td><strong class="memory-answer">SMTP-AUTH / STARTTLS</strong>（H28午後I）</td>
+</tr>
+<tr>
+<td>SMTPエンベロープの送信元</td>
+<td><strong class="memory-answer">MAIL FROM</strong>。本文の <strong class="memory-answer">From: ヘッダ</strong>とは別（R6午後II）</td>
+</tr>
+<tr>
+<td>送信元IPの検証 / 電子署名 / From:との整合・方針</td>
+<td><strong class="memory-answer">SPF / DKIM / DMARC</strong></td>
+</tr>
+<tr>
+<td>OAuth 2.0でAPI要求に使う / 再取得に使う</td>
+<td><strong class="memory-answer">アクセストークン / リフレッシュトークン</strong>。後者は認可サーバへ送る（H30午後II）</td>
+</tr>
+</tbody>
+</table>
+<p><a href="security8.html">プロキシ</a>・<a href="tcpip16.7.html">HTTP/2</a>・<a href="security7.html">TLS</a>・<a href="security30.html">メール認証</a>・<a href="security18.html">OAuth</a></p>
+<h2 id="5-vpn">5. VPN・セキュリティ</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IKEv2で制御通信を保護 / IPsecデータ通信を保護</td>
+<td><strong class="memory-answer">IKE SA / Child SA</strong>。Child SA は ESP または AH 用（R4午後I）</td>
+</tr>
+<tr>
+<td>IPsecで暗号化もできる / 認証が中心</td>
+<td><strong class="memory-answer">ESP / AH</strong>。ESPのIPプロトコル番号は <strong class="memory-answer">50</strong>、AHは <strong class="memory-answer">51</strong></td>
+</tr>
+<tr>
+<td>既知の攻撃パターンで検知 / 通常時との差で検知</td>
+<td><strong class="memory-answer">シグネチャ検知 / アノマリ検知</strong>（H27午後I）</td>
+</tr>
+<tr>
+<td>IDSが他端末宛ての受信フレームも扱う / スイッチが監視先へ複製する</td>
+<td><strong class="memory-answer">プロミスキャスモード / ポートミラーリング</strong>（H27午後I）</td>
+</tr>
+<tr>
+<td>WebアプリをHTTP要求の内容で守る</td>
+<td><strong class="memory-answer">WAF</strong>。IP・ポート中心のFW、侵入検知・防御のIDS/IPSと役割を区別</td>
+</tr>
+</tbody>
+</table>
+<p><a href="ipsec8.html">IKEv2</a>・<a href="security3.html">IDS/IPS</a>・<a href="security17.html">WAF</a></p>
+<h2 id="6-lanpoe">6. LAN・無線・PoE</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VLANをEthernetフレームに載せる</td>
+<td><strong class="memory-answer">IEEE 802.1Qタグ</strong>。EtherTypeは <strong class="memory-answer">0x8100</strong>（H25午後I）</td>
+</tr>
+<tr>
+<td>ループを防ぎ、冗長リンクの転送先を選ぶ</td>
+<td><strong class="memory-answer">STP/RSTP</strong>。<strong class="memory-answer">ルートブリッジ</strong>からの距離とポートの役割を見る（R3午後II）</td>
+</tr>
+<tr>
+<td>複数リンクを論理的な1本に束ねる</td>
+<td><strong class="memory-answer">LAG</strong>。動的な合意には <strong class="memory-answer">LACP</strong> を使う（R1午後I）</td>
+</tr>
+<tr>
+<td>無線の複数チャネルを束ねて帯域を広げる / 複数アンテナを使う</td>
+<td><strong class="memory-answer">チャネルボンディング / MIMO</strong>（H24午後I）</td>
+</tr>
+<tr>
+<td>3系統の無線を同時利用 / 有線収容を2.5G・5Gに高速化</td>
+<td><strong class="memory-answer">トライバンド / マルチギガビットイーサネット</strong>（R5午後I）</td>
+</tr>
+<tr>
+<td>PoEの給電側 / 受電側</td>
+<td><strong class="memory-answer">PSE / PD</strong>（H24午後I）</td>
+</tr>
+<tr>
+<td>PoE / PoE+ / PoE++ の規格</td>
+<td><strong class="memory-answer">IEEE 802.3af / 802.3at / 802.3bt</strong>（R5・R7午後I）</td>
+</tr>
+</tbody>
+</table>
+<p><a href="catalyst24.html">PoE</a>・<a href="wireless60.html">無線LAN</a>・<a href="ethernet14.html">マルチギガビット</a></p>
+<h2 id="7-sdniot">7. 監視・仮想化・SDN・音声／IoT</h2>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>答え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SNMPで管理情報の定義 / 個別の識別子 / 自発的な通知</td>
+<td><strong class="memory-answer">MIB / OID / Trap</strong>（R1午後I）</td>
+</tr>
+<tr>
+<td>ログの転送 / 機器の簡易ファイル転送</td>
+<td><strong class="memory-answer">Syslog / TFTP</strong>（R4・H23午後I）</td>
+</tr>
+<tr>
+<td>OpenFlowでスイッチ→制御器 / 制御器→スイッチへパケット指示</td>
+<td><strong class="memory-answer">Packet-In / Packet-Out</strong>。フロー表を更新するのは <strong class="memory-answer">Flow-Mod</strong>（H29午後II）</td>
+</tr>
+<tr>
+<td>VXLANの論理ネットワーク識別 / EVPNのMAC等の広告</td>
+<td><strong class="memory-answer">VNI / BGP</strong>。EVPNで宛先未学習なら <strong class="memory-answer">Unknown Unicast</strong>（R6午後II）</td>
+</tr>
+<tr>
+<td>SIPで登録 / 呼の開始 / 確認 / 終了</td>
+<td><strong class="memory-answer">REGISTER / INVITE / ACK / BYE</strong>（R1午後II）</td>
+</tr>
+<tr>
+<td>WebRTCでNAT越しのアドレスを調べる / 中継する</td>
+<td><strong class="memory-answer">STUN / TURN</strong>。シグナリングに <strong class="memory-answer">WebSocket</strong> を使う構成がある（H28午後II）</td>
+</tr>
+<tr>
+<td>IoTで購読するMQTTメッセージ / 軽量なUDPベースの要求応答</td>
+<td><strong class="memory-answer">SUBSCRIBE / CoAP</strong>（H30・R7午後II）</td>
+</tr>
+<tr>
+<td>セルラーIoTの加入者識別 / 接続先ネットワーク指定</td>
+<td><strong class="memory-answer">SIM / APN</strong>（H28午後I・R7午後II）</td>
+</tr>
+</tbody>
+</table>
+<p><a href="tcpip21.html">SNMP</a>・<a href="sdn02.html">OpenFlow</a>・<a href="virtual3.html">EVPN/VXLAN</a>・<a href="telephony4.html">SIP</a>・<a href="virtual5.html">IoT</a></p>
+<hr>
+<p>番号の確認元：<a href="https://www.iana.org/assignments/protocol-numbers/">IANA IP Protocol Numbers</a>、<a href="https://www.iana.org/assignments/service-names-port-numbers/">IANA Service Name and Port Number Registry</a>、<a href="https://www.iana.org/assignments/ieee-802-numbers/">IANA IEEE 802 Numbers</a>。出題例は、この学習フォルダの「午後過去問_出題分野と穴埋めキーワード.md」に基づきます。</p></article>
+</main>
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">一覧に戻る</a></footer>
+</body>
+</html>
