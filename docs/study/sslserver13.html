@@ -36,7 +36,7 @@
 認証局では、そのような証明書をCRLに登録して管理します。CRLは日本語では<strong class="memory-answer">証明書失効リスト</strong>と
 言いますが、正確にはPKIにおける公開鍵証明書のリスト（ 証明書のシリアル番号のリスト ）のこと。</p>
 <h2 id="_1">証明書の有効性のチェック</h2>
-<p>デジタル証明書が<strong class="memory-answer">失効していないものなのか</strong>をチェックする方法は大きく以下の2パターンがあります。</p>
+<p>デジタル証明書が<strong class="memory-answer">失効</strong>していないものなのかをチェックする方法は大きく以下の2パターンがあります。</p>
 <p>①　CRLファイルをダウンロードしてローカルチェック
 デジタル証明書の受け取り側は、デジタル証明書とCRLを照合することで証明書が現在も有効であるかを
 確認できます。CRLは認証局（CA）から定期的に最新情報が配布されるので、それをダウンロードします。
@@ -45,17 +45,17 @@
 <p><img alt="画像" src="../studygif/sslserver13a.png"></p>
 <p>SSL-VPN接続などでは、クライアントPCから提示されたクライアント証明書の有効性をチェックする場合、
 例えばCisco ASAが指定したCRL参照先に問い合わせ、そのクライアント証明書の有効性をチェックします。</p>
-<p>②　OCSP（Online Certificate Status Protocol）によるオンラインチェック
-クライアントがCRLファイルをダウンロードしてチェックする手法の場合は、保存したCRLファイルが最新
-とは限らないので定期的にダウンロードする必要がありますが、ここで紹介する<strong class="memory-answer">OCSP</strong>を使用したオンライン
-チェックでは、デジタル証明書の有効性をリアルタイムで確認できて、クライアントの処理も軽くなります。</p>
+<p>②　<strong class="memory-answer">OCSP</strong>（Online Certificate Status Protocol）によるオンラインチェック
+クライアントがCRLファイルをダウンロードしてチェックする手法の場合は、<strong class="memory-answer">保存したCRLファイルが最新</strong>
+とは限らないので<strong class="memory-answer">定期</strong>的にダウンロードする必要がありますが、ここで紹介する<strong class="memory-answer">OCSP</strong>を使用したオンライン
+チェックでは、デジタル証明書の有効性を<strong class="memory-answer">リアルタイム</strong>で確認できて、クライアントの処理も軽くなります。</p>
 <p>OCSPは、X.509公開鍵証明書の失効状態を取得するための通信プロトコルです。①によるCRLの手法の
 代替手段として策定された実装です。OCSPクライアントがOCSPサーバ（ OCSPレスポンダ ）に対して
 デジタル証明書の有効性を確認させることでクライアントが自力でのCRL取得や照合する手間が省けます。</p>
 <p><img alt="画像" src="../studygif/sslserver13b.png"></p>
 <p>OCSPサーバ（OCSPレスポンダ）は、CA自身やCRLを集中管理する<strong class="memory-answer">VA</strong>（Validation Authority）が運営を
 行っています。VAはデジタル証明書の失効リスト（CRL）を集中管理して証明書の有効性をチェックする
-システムのことです。認証局（CA）とは異なりデジタル証明書の発行は行わず検証機能に特化しています。</p>
+システムのことです。認証局（CA）とは異なり<strong class="memory-answer">デジタル証明書</strong>の発行は行わず検証機能に特化しています。</p>
 <hr>
 <p><a href="https://www.infraexpert.com/study/study44.html">SSL/TLS、SSLサーバ証明書、SSL-VPN</a></p></article>
 </main>

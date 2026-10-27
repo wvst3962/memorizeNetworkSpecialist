@@ -34,37 +34,37 @@
   <article class="article-card prose"><h1 id="ssl-vpn">SSL-VPN</h1>
 <hr>
 <h2 id="ssl-vpn_1">SSL-VPNとは</h2>
-<p>SSL-VPNとは、<strong class="memory-answer">暗号化にSSL技術を使用したリモートアクセスVPN</strong>のことです。リモートアクセスVPNには
-IPsecによるリモートアクセスVPNと、SSLによるリモートアクセスVPNの大きく2つがありますが、IPsec
+<p>SSL-VPNとは、<strong class="memory-answer">暗号化</strong>に<strong class="memory-answer">SSL技術</strong>を使用した<strong class="memory-answer">リモートアクセス</strong>VPNのことです。<strong class="memory-answer">リモートアクセス</strong>VPNには
+<strong class="memory-answer">IPsec</strong>による<strong class="memory-answer">リモートアクセス</strong>VPNと、<strong class="memory-answer">SSL</strong>による<strong class="memory-answer">リモートアクセス</strong>VPNの大きく2つがありますが、<strong class="memory-answer">IPsec</strong>
 によるリモートアクセスVPNの場合、クライアントPCに必ずVPN Clientのソフトウェアをインストールする
-必要があるのに対して、SSLによるリモートアクセスVPNの場合はWebブラウザさえあれば通信可能です。
-※　SSL-VPN（ L2フォワーディング ）の場合、クライアントPCに<strong class="memory-answer">SSL-VPNソフトウェア</strong>をインストールする必要があります。</p>
+必要があるのに対して、<strong class="memory-answer">SSL</strong>によるリモートアクセスVPNの場合は<strong class="memory-answer">Webブラウザ</strong>さえあれば通信可能です。
+※　SSL-VPN（ <strong class="memory-answer">L2フォワーディング</strong> ）の場合、クライアントPCに<strong class="memory-answer">SSL-VPNソフトウェア</strong>をインストールする必要があります。</p>
 <h2 id="ssl-vpn_2">SSL-VPN（リバースプロキシ）</h2>
 <p>SSL-VPNには「<strong class="memory-answer">リバースプロキシ</strong>、<strong class="memory-answer">ポートフォワーディング</strong>、<strong class="memory-answer">L2フォワーディング</strong>」の3方式があります。</p>
 <p><strong class="memory-answer">フォワードプロキシ</strong>はクライアントの代理として外部サーバへ接続し、<strong class="memory-answer">リバースプロキシ</strong>はサーバ側の入口でクライアントからの要求を受けて内部サーバへ転送します。代理する側（クライアント側／サーバ側）で区別します。
 SSL-VPN接続にて、よく利用されている接続方式は「 SSL技術とリバースプロキシ技術 」を組み合わせた
 <strong class="memory-answer">リバースプロキシ</strong>の接続方式です。リバースプロキシ方式では先ずリモートアクセスを行うクライアント
-PCがSSL-VPNゲートウェイとSSL通信を行うためにWebブラウザでhttps://～のURLを入力します。次に
-アクセスしてきたクライアントPCのユーザ認証を行います。最後に、SSL-VPNゲートウェイは③のような
-URL変換を行います。このようにしてクライアントPCはイントラネット上のWebサーバと通信を行えます。</p>
+PCが<strong class="memory-answer">SSL-VPNゲートウェイ</strong>とSSL通信を行うために<strong class="memory-answer">Webブラウザ</strong>でhttps://～のURLを入力します。次に
+アクセスしてきたクライアントPCの<strong class="memory-answer">ユーザ認証</strong>を行います。最後に、SSL-VPNゲートウェイは③のような
+<strong class="memory-answer">URL変換</strong>を行います。このようにしてクライアントPCはイントラネット上のWebサーバと通信を行えます。</p>
 <p>この公開URLと内部URLの対応を付けて書き換える処理を<strong class="memory-answer">URLリライティング</strong>と呼びます。リバースプロキシ方式では、クライアントに内部サーバのURLを直接使わせずにアクセスを中継できます。</p>
 <p><img alt="画像" src="../studygif/security8a.png"></p>
-<p>※ リバースプロキシ方式では、Webブラウザ
-だけでSSL-VPNの通信が行えますが、Web
-ブラウザ上で動作するアプリケーションしか
+<p>※ リバースプロキシ方式では、<strong class="memory-answer">Webブラウザ</strong>
+だけでSSL-VPNの通信が行えますが、<strong class="memory-answer">Web</strong>
+<strong class="memory-answer">ブラウザ</strong>上で動作するアプリケーションしか
 使用できないため、社内のメールサーバと
-通信を行いたい場合、SSL-VPNゲートウェイ
+通信を行いたい場合、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>
 が社内のメールサーバに代理でアクセスして
 その結果をWeb画面に表示させる仕様にする
 必要があります。いわゆるWebメールの仕様。</p>
 <h2 id="ssl-vpn_3">SSL-VPN（ ポートフォワーディング ）</h2>
-<p>リバースプロキシ方式は、Webブラウザで動作しないアプリケーションは使用できない問題点がありました。
+<p>リバースプロキシ方式は、<strong class="memory-answer">Webブラウザ</strong>で動作しないアプリケーションは使用できない問題点がありました。
 そこで、リモートアクセスしてくるクライアントにJavaやActiveXで作成されたモジュールを追加させた上で
 SSL-VPN通信を行う方法が考えられました。その方法が<strong class="memory-answer">ポートフォワーディング</strong>と<strong class="memory-answer">L2フォワーディング</strong>です。</p>
 <p>ポートフォワーディング方式は、基本的に以下の通信フローです。また、このシーケンスのどこかでメーカー
 の仕様に従ってユーザ認証が行われます。ポートフォワーディング方式では、SSL-VPNゲートウェイの設定で
-イントラネット内で使用するサーバのIPアドレスとポート番号を事前に定義する必要があることから、FTPの
-通信中に動的にポート番号が変更するアプリケーションは使用することができない、という問題点があります。</p>
+イントラネット内で使用するサーバの<strong class="memory-answer">IPアドレス</strong>と<strong class="memory-answer">ポート番号</strong>を事前に定義する必要があることから、<strong class="memory-answer">FTP</strong>の
+通信中に<strong class="memory-answer">動的</strong>にポート番号が変更するアプリケーションは<strong class="memory-answer">使用することができない</strong>、という問題点があります。</p>
 <p><img alt="画像" src="../studygif/security8b.png"></p>
 <table>
 <thead>
@@ -76,37 +76,37 @@ SSL-VPN通信を行う方法が考えられました。その方法が<strong cl
 <tbody>
 <tr>
 <td>①</td>
-<td>クライアントPCから、SSL-VPNゲートウェイにアクセスする。</td>
+<td>クライアントPCから、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>にアクセスする。</td>
 </tr>
 <tr>
 <td>②</td>
-<td>クライアントPCは、SSL-VPNゲートウェイからJavaアプレットなどのモジュールを自動的にダウンロードする。</td>
+<td>クライアントPCは、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>からJavaアプレットなどの<strong class="memory-answer">モジュール</strong>を自動的にダウンロードする。</td>
 </tr>
 <tr>
 <td>③</td>
-<td>そのJavaアプレットが、SSL-VPNゲートウェイとSSL通信を確立する。</td>
+<td>そのJavaアプレットが、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>と<strong class="memory-answer">SSL</strong>通信を確立する。</td>
 </tr>
 <tr>
 <td>④</td>
-<td>クライアントPC上で起動したアプリケーションが、そのPC上のSSL-VPNエージェントと通信する。つまり、<br>VPN先にいるイントラネットのサーバにアクセスしようとする場合、そのデータがJavaアプレットに送信される。</td>
+<td>クライアントPC上で起動したアプリケーションが、そのPC上の<strong class="memory-answer">SSL-VPNエージェント</strong>と通信する。つまり、<br>VPN先にいるイントラネットのサーバにアクセスしようとする場合、そのデータがJavaアプレットに送信される。</td>
 </tr>
 <tr>
 <td>⑤</td>
-<td>SSL-VPNエージェントは、アプリからの通信のTCP/UDPポート番号に対応したSSLコネクションを確立。</td>
+<td><strong class="memory-answer">SSL-VPNエージェント</strong>は、アプリからの通信の<strong class="memory-answer">TCP/UDP</strong>ポート番号に対応した<strong class="memory-answer">SSLコネクション</strong>を確立。</td>
 </tr>
 <tr>
 <td>⑥</td>
-<td>SSL-VPNゲートウェイは、事前に定義したイントラネット内のサーバの情報（IPアドレス/ポート番号）に<br>に基づきクライアントPCから送られてきたデータをイントラネット内のサーバに送信する（パケットフォワーダ）</td>
+<td><strong class="memory-answer">SSL-VPNゲートウェイ</strong>は、事前に定義したイントラネット内のサーバの情報（<strong class="memory-answer">IPアドレス</strong>/<strong class="memory-answer">ポート番号</strong>）に<br>に基づきクライアントPCから送られてきたデータをイントラネット内のサーバに送信する（<strong class="memory-answer">パケットフォワーダ</strong>）</td>
 </tr>
 </tbody>
 </table>
 <h2 id="ssl-vpn-l2">SSL-VPN ( L2フォワーディング )</h2>
-<p>リバースプロキシ方式の次に使用されている方式がL2フォワーディング方式。L2フォワーディングでは
+<p>リバースプロキシ方式の次に使用されている方式がL<strong class="memory-answer">2フォワーディング</strong>方式。<strong class="memory-answer">L2フォワーディング</strong>では
 PCに<strong class="memory-answer">SSL-VPNクライアントソフト</strong>がインストールされます。この方式では、全てのアプリケーションを
-SSL-VPN通信で使用することができます。L2フォワーディングでは、アプリケーションのデータをHTTP
-パケットでカプセル化してSSL通信を行います。ポートフォワーディングのように事前にSSL-VPNゲート
-ウェイで通信するサーバのIPアドレス/ポート番号の事前定義は必要ないので、FTPなどの動的にポート
-番号が変わるアプリケーションの通信を実現しています。プロトコル制限もないのでUDP通信もOKです。</p>
+<strong class="memory-answer">SSL-VPN</strong>通信で使用することができます。L2フォワーディングでは、アプリケーションのデータを<strong class="memory-answer">HTTP</strong>
+<strong class="memory-answer">パケット</strong>で<strong class="memory-answer">カプセル</strong>化してSSL通信を行います。<strong class="memory-answer">ポートフォワーディング</strong>のように事前に<strong class="memory-answer">SSL-VPNゲート</strong>
+<strong class="memory-answer">ウェイ</strong>で通信するサーバの<strong class="memory-answer">IPアドレス</strong>/<strong class="memory-answer">ポート番号</strong>の事前定義は必要ないので、<strong class="memory-answer">FTP</strong>などの動的にポート
+番号が変わるアプリケーションの通信を実現しています。<strong class="memory-answer">プロトコル</strong>制限もないのでUDP通信もOKです。</p>
 <p><img alt="画像" src="../studygif/security8c.png"></p>
 <table>
 <thead>
@@ -118,27 +118,27 @@ SSL-VPN通信で使用することができます。L2フォワーディング�
 <tbody>
 <tr>
 <td>①</td>
-<td>クライアントPCから、SSL-VPNゲートウェイにアクセスする。</td>
+<td>クライアントPCから、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>にアクセスする。</td>
 </tr>
 <tr>
 <td>②</td>
-<td>クライアントPCは、SSL-VPNゲートウェイからSSL-VPNクライアントソフトを自動的にダウンロードする。</td>
+<td>クライアントPCは、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>からSSL-VPNクライアントソフトを自動的にダウンロードする。</td>
 </tr>
 <tr>
 <td>③</td>
-<td>そのSSL-VPNクライアントソフトが、SSL-VPNゲートウェイとSSL通信を確立する。</td>
+<td>そのSSL-VPNクライアントソフトが、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>とSSL通信を確立する。</td>
 </tr>
 <tr>
 <td>④</td>
-<td>SSL-VPNクライアントソフトは、クライアントPC上に仮想NICを構築する。<br>その仮想NICには、SSL-VPNゲートウェイで事前に定義されたIPアドレスが割り当てられる。</td>
+<td>SSL-VPNクライアントソフトは、クライアントPC上に<strong class="memory-answer">仮想NIC</strong>を構築する。<br>その<strong class="memory-answer">仮想NIC</strong>には、SSL-VPNゲートウェイで事前に定義された<strong class="memory-answer">IPアドレス</strong>が割り当てられる。</td>
 </tr>
 <tr>
 <td>⑤</td>
-<td>クライアントPCが、イントラネット内のサーバにアクセスしようとすると、仮想NICによって宛先がチェックされて<br>イントラネット内のサーバが宛先である場合、仮想NICを経由してSSL通信し、SSL-VPNゲートウェイに送信される。</td>
+<td>クライアントPCが、イントラネット内のサーバにアクセスしようとすると、<strong class="memory-answer">仮想NIC</strong>によって宛先がチェックされて<br>イントラネット内のサーバが宛先である場合、<strong class="memory-answer">仮想NIC</strong>を経由してSSL通信し、<strong class="memory-answer">SSL-VPNゲートウェイ</strong>に送信される。</td>
 </tr>
 <tr>
 <td>⑥</td>
-<td>SSL-VPNゲートウェイは、イントラネット内のサーバに送信する。</td>
+<td><strong class="memory-answer">SSL-VPNゲートウェイ</strong>は、イントラネット内のサーバに送信する。</td>
 </tr>
 </tbody>
 </table>

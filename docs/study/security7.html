@@ -38,16 +38,16 @@
   <article class="article-card prose"><h1 id="ssltls">SSL/TLS</h1>
 <hr>
 <h2 id="ssl">SSLとは</h2>
-<p>SSL（Secure Sockets Layer）は、インターネット上で<strong class="memory-answer">データを暗号化して送受信</strong>できるプロトコルです。
+<p>SSL（Secure Sockets Layer）は、インターネット上でデータを<strong class="memory-answer">暗号化</strong>して送受信できるプロトコルです。
 例えばクライアントPCとサーバ間のHTTPやFTPなどの通信において、クレジットカード情報の機密性の高い
-データを、SSLにより暗号化して安全にやりとりできます。なお、SSLでの暗号化は公開鍵暗号、秘密鍵暗号、
-デジタル署名、デジタル証明書の技術を組み合わせ実現します。SSLで<strong class="memory-answer">データ改ざんやなりすましを防げます</strong>。</p>
+データを、SSLにより<strong class="memory-answer">暗号化</strong>して安全にやりとりできます。なお、SSLでの暗号化は公開鍵暗号、秘密鍵暗号、
+デジタル署名、デジタル証明書の技術を組み合わせ実現します。SSLで<strong class="memory-answer">データ改ざん</strong>や<strong class="memory-answer">なりすまし</strong>を防げます。</p>
 <h2 id="tls">TLSとは</h2>
-<p>TLS（Transport Layer Security）は、<strong class="memory-answer">SSLの後継プロトコル</strong>であり、SSLをもとに標準化させています。
-現在ではTLSが使用されていますが、SSLの名称が広く使用されていたこともあり、TLSのことをSSLと
-呼んだり、TLSのことをSSL/TLSと表記する場合があります。</p>
+<p>TLS（Transport Layer Security）は、<strong class="memory-answer">SSL</strong>の後継プロトコルであり、<strong class="memory-answer">SSL</strong>をもとに標準化させています。
+現在ではTLSが使用されていますが、<strong class="memory-answer">SSL</strong>の名称が広く使用されていたこともあり、TLSのことを<strong class="memory-answer">SSL</strong>と
+呼んだり、TLSのことを<strong class="memory-answer">SSL/TLS</strong>と表記する場合があります。</p>
 <h2 id="tls_1">TLSハンドシェイクのメッセージ</h2>
-<p><strong class="memory-answer">Client_Hello</strong>（仕様上の表記は ClientHello）はクライアントが対応するTLSバージョン、暗号スイートなどを提示するメッセージです。<strong class="memory-answer">Server_Hello</strong>（ServerHello）はサーバが選択した条件を返します。TLS 1.3 では両者の鍵共有情報も鍵交換に使われ、サーバ認証や通信鍵の確立へ進みます。</p>
+<p><strong class="memory-answer">Client_Hello</strong>（仕様上の表記は ClientHello）はクライアントが対応する<strong class="memory-answer">TLSバージョン</strong>、<strong class="memory-answer">暗号スイート</strong>などを提示するメッセージです。<strong class="memory-answer">Server_Hello</strong>（ServerHello）はサーバが選択した条件を返します。TLS 1.3 では両者の鍵共有情報も鍵交換に使われ、サーバ認証や通信鍵の確立へ進みます。</p>
 <h2 id="ssltls_1">SSL/TLSバージョン</h2>
 <p>現在の最新バージョンはTLS1.3です。SSLとTLSのバージョン、リリース年、脆弱性は以下の通りです。</p>
 <table>
@@ -97,7 +97,7 @@
 </tbody>
 </table>
 <h2 id="ssltls_2">SSL/TLSの動作するレイヤ</h2>
-<p>SSLはセッション層とトランスポート層の境界で動作します。なお、IPsecはネットワーク層で動作します。</p>
+<p>SSLは<strong class="memory-answer">セッション</strong>層と<strong class="memory-answer">トランスポート</strong>層の境界で動作します。なお、IPsecは<strong class="memory-answer">ネットワーク</strong>層で動作します。</p>
 <p><img alt="画像" src="../studygif/security7a.png"></p>
 <h2 id="ssltls_3">SSL/TLSの実装例</h2>
 <p>Webブラウザによる通常のインターネット通信（<strong class="memory-answer">http：</strong>//～）では暗号化されずにデータが送受信されます。
@@ -109,23 +109,23 @@
 のことです。例えば以下URLの楽天証券のWebページでは、送受信されないようにトップページやログイン後
 のページ全てが https://～ となっており、Webサーバとの間でセキュアな通信をしていることが分かります。</p>
 <p><img alt="画像" src="../studygif/security7d.png"></p>
-<p>※　例えば、IEEE802.1XのEAP-TLSでは「<strong class="memory-answer">LANにおいてはTLSが活躍</strong>」していることが分かりますね。</p>
+<p>※　例えば、IEEE802.1XのEAP-TLSでは「LANにおいては<strong class="memory-answer">TLS</strong>が活躍」していることが分かりますね。</p>
 <h2 id="ssltls_4">SSLとTLSの互換性</h2>
 <p>SSL（Secure Socket Layer）は、インターネット上でデータを暗号化し送受信することができるプロトコル。
 SSLはNetscape Communicationsが開発しましたが、SSL3.0を元にしたTLS1.0がRFCに定められています。
-<strong class="memory-answer">SSLとTLSは大枠の仕組みは同じと言えますが互換性がありません</strong>。しかし、現在の主流なWebブラウザでは
+SSLとTLSは大枠の仕組みは同じと言えますが互換性がありません。しかし、現在の主流なWebブラウザでは
 SSLとTLSの両方に対応しており両方が有効になっています。</p>
 <p><img alt="画像" src="../studygif/security7e.png"></p>
 <p>現在のWebブラウザでは、SSLの後継であるTLSを使用するように動作しますが、サーバ側がSSL3.0にしか
 対応していない場合はSSL3.0で通信するため、この設定のように両方にチェックをして有効にしておきます。</p>
 <h2 id="ssl30-201410">SSL3.0の脆弱性問題 - 2014年10月</h2>
 <p>Googleの研究者がSSL3.0に深刻な脆弱性を発見しました。SSL3.0の欠陥を突く攻撃手法を「<strong class="memory-answer">POODLE</strong>」と
-名付けています。POODLEでは、暗号化通信をSSL3.0へと強制的にフォールバックさせて、SSL3.0の欠陥
-を突いて、Cookie情報を盗み出すという手法です。Cookieが盗まれると、例えばWebメールのアカウントに
+名付けています。<strong class="memory-answer">POODLE</strong>では、暗号化通信をSSL3.0へと強制的にフォールバックさせて、SSL3.0の欠陥
+を突いて、<strong class="memory-answer">Cookie</strong>情報を盗み出すという手法です。<strong class="memory-answer">Cookie</strong>が盗まれると、例えばWebメールのアカウントに
 不正にアクセスされる可能性があります。確実な回避策は以下のとおり、ブラウザでSSL3.0を無効化させる
 ことですが、以下の設定をするとSSL3.0でしか動作しないサーバとは通信できないようになってしまいます。</p>
 <p><img alt="画像" src="../studygif/security7f.png"></p>
-<p>POODLEの攻撃を実現するために中間者攻撃が必要なので、攻撃対象となるPC端末がオープン認証の
+<p><strong class="memory-answer">POODLE</strong>の攻撃を実現するために中間者攻撃が必要なので、攻撃対象となるPC端末がオープン認証の
 公衆Wi-Fiなどの公共ネットワークを経由してインターネット通信している際に注意が必要となります。</p>
 <h2 id="ssl_1">SSLの仕組み</h2>
 <p>クライアントPCのWebブラウザとWebサーバは、複数の技術を組み合わせて以下のフローでSSL通信します。
@@ -140,42 +140,42 @@ SSLでは<a href="security4.html">「公開鍵暗号 / 共通鍵暗号」</a>と
 <tbody>
 <tr>
 <td>①</td>
-<td>クライアントPCから、WebサーバにHTTPSアクセスする。( = SSLの接続要求 )</td>
+<td>クライアントPCから、Webサーバに<strong class="memory-answer">HTTPS</strong>アクセスする。( = SSLの接続要求 )</td>
 </tr>
 <tr>
 <td>②</td>
-<td>Webサーバから、クライアントPCにサーバ証明書を提示する。</td>
+<td>Webサーバから、クライアントPCに<strong class="memory-answer">サーバ証明書</strong>を提示する。</td>
 </tr>
 <tr>
 <td>③</td>
-<td>クライアントPCは、その証明書に署名したCAのルート証明書をデフォルトでWebブラウザにインストールされている<br>「信頼できるルート証明書」の一覧から検索を行う。（そのルート証明書がない場合、ブラウザで警告が表示される。）</td>
+<td>クライアントPCは、その<strong class="memory-answer">証明書</strong>に<strong class="memory-answer">署名</strong>した<strong class="memory-answer">CAのルート証明書</strong>をデフォルトでWebブラウザにインストールされている<br>「<strong class="memory-answer">信頼できるルート証明書</strong>」の一覧から検索を行う。（その<strong class="memory-answer">ルート証明書</strong>がない場合、ブラウザで警告が表示される。）</td>
 </tr>
 <tr>
 <td>④</td>
-<td>そのルート証明書がある場合、サーバ証明書内のデジタル署名を、そのルート証明書内に含まれているCAの<br>公開鍵で復号して、その公開鍵が正規のサーバのものであるかどうかを検証する。</td>
+<td>その<strong class="memory-answer">ルート証明書</strong>がある場合、<strong class="memory-answer">サーバ</strong>証明書内の<strong class="memory-answer">デジタル署名</strong>を、その<strong class="memory-answer">ルート証明書</strong>内に含まれている<strong class="memory-answer">CA</strong>の<br><strong class="memory-answer">公開鍵</strong>で復号して、その<strong class="memory-answer">公開鍵</strong>が正規のサーバのものであるかどうかを検証する。</td>
 </tr>
 <tr>
 <td>⑤</td>
-<td>クライアントPCは、共通鍵を生成します。※ 正確には、共通鍵の基となる情報（プリマスターシークレット）を生成。</td>
+<td>クライアントPCは、<strong class="memory-answer">共通</strong>鍵を生成します。※ 正確には、<strong class="memory-answer">共通</strong>鍵の基となる情報（<strong class="memory-answer">プリマスターシークレット</strong>）を生成。</td>
 </tr>
 <tr>
 <td>⑥</td>
-<td>クライアントPCは、サーバ証明書に含まれていた公開鍵を使用して、共通鍵を暗号化した上でサーバに送信する。</td>
+<td>クライアントPCは、サーバ証明書に含まれていた<strong class="memory-answer">公開</strong>鍵を使用して、<strong class="memory-answer">共通</strong>鍵を<strong class="memory-answer">暗号化</strong>した上でサーバに送信する。</td>
 </tr>
 <tr>
 <td>⑦</td>
-<td>Webサーバは、クライアントPCから受信した暗号化された共通鍵を、自身の秘密鍵により復号して取り出す。</td>
+<td>Webサーバは、クライアントPCから受信した暗号化された<strong class="memory-answer">共通</strong>鍵を、自身の<strong class="memory-answer">秘密</strong>鍵により<strong class="memory-answer">復号</strong>して取り出す。</td>
 </tr>
 <tr>
 <td>⑧</td>
-<td>クライアントPCとWebサーバは、この共通鍵によってデータを暗号化して安全にSSL通信を行う。</td>
+<td>クライアントPCとWebサーバは、この<strong class="memory-answer">共通</strong>鍵によってデータを暗号化して安全にSSL通信を行う。</td>
 </tr>
 </tbody>
 </table>
 <p>以下の①～④の詳細説明（認証局を含めた詳細説明）は<a href="security6.html">デジタル証明書の仕組みで解説した①～⑥</a>の通り。</p>
 <p><img alt="画像" src="../studygif/security7b.png"></p>
-<p>PCとWebサーバ間のSSLトンネルはソケットでセッションを識別しているので、同時に複数のSSLトンネル
-を確立できます。ソケットとは「送信元/宛先IPアドレス、送信元/宛先ポート番号の組み合わせ」のことです。</p>
+<p>PCとWebサーバ間のSSLトンネルは<strong class="memory-answer">ソケット</strong>でセッションを識別しているので、同時に複数のSSLトンネル
+を確立できます。<strong class="memory-answer">ソケット</strong>とは「送信元/宛先IPアドレス、送信元/宛先ポート番号の組み合わせ」のことです。</p>
 <p>当サイトでの技術解説では、TLSで使用するデジタル証明書はPCにインストールすることを前提にした解説が
 主となっていますが、例えば、TLSで使用する個人認証用のデジタル証明書は、ICカードにも格納することが
 でき、利用するPCを特定のPCに限定する必要はありません。</p>

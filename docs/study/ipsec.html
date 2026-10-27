@@ -33,15 +33,15 @@
   <article class="article-card prose"><h1 id="vpn-virtual-private-network">VPN ( Virtual Private Network )</h1>
 <hr>
 <h2 id="vpn">VPNとは</h2>
-<p>VPN（Virtual Private Network）とは、<strong class="memory-answer">仮想的なプライベートネットワーク接続</strong>のことです。VPNにより
-インターネットなどの公衆網を利用する場合でも、IPsec等の<strong class="memory-answer">高度なセキュリティ</strong>を実装させられるので、
+<p>VPN（Virtual Private Network）とは、<strong class="memory-answer">仮想的</strong>な<strong class="memory-answer">プライベート</strong>ネットワーク接続のことです。VPNにより
+インターネットなどの公衆網を利用する場合でも、<strong class="memory-answer">IPsec</strong>等の高度なセキュリティを実装させられるので、
 安全に企業の拠点間通信を実現できます。また、安価なFTTHの広帯域な回線をWANとして利用できます。</p>
 <h2 id="vpn_1">VPN の特徴</h2>
 <p>VPN接続は、企業のWAN接続における新たな選択肢の1つとなっています。企業のWAN接続においては、
 広域イーサネット、IP-VPN、ATM、FR、ISDN接続、専用線がありますが、インターネット回線を利用し
 <strong class="memory-answer">インターネットVPN</strong>をWAN回線として使用することで、WAN接続におけるコストを大幅削減することが
 可能になります。ただし、IPsecの実装による<strong class="memory-answer">トンネリング</strong>と<strong class="memory-answer">暗号化</strong>により、もとのIPパケットに対して
-これらのヘッダーが付加されるので、LAN間接続よりMSSサイズを小さくして通信させる必要があります。</p>
+これらのヘッダーが付加されるので、LAN間接続より<strong class="memory-answer">MSS</strong>サイズを小さくして通信させる必要があります。</p>
 <p><img alt="画像" src="../studygif/ipseca.png"></p>
 <h2 id="vpn_2">VPN の種類</h2>
 <p>VPNは<strong class="memory-answer">インターネットVPN</strong>と<strong class="memory-answer">IP-VPN</strong>の大きく2つに分類できます。インターネットVPNはインターネット
@@ -61,12 +61,12 @@ IP-VPNは、<strong class="memory-answer">MPLS-VPN</strong> のことであり�
 <tr>
 <td>インターネットVPN</td>
 <td>IPsec-VPN</td>
-<td>セキュリティプロトコルにIPsecを使用したインターネットを利用したVPNのこと</td>
+<td>セキュリティプロトコルに<strong class="memory-answer">IPsec</strong>を使用したインターネットを利用したVPNのこと</td>
 </tr>
 <tr>
 <td>インターネットVPN</td>
 <td>SSL-VPN</td>
-<td>セキュリティプロトコルにSSLを使用したインターネットを利用したVPNのこと</td>
+<td>セキュリティプロトコルに<strong class="memory-answer">SSL</strong>を使用したインターネットを利用したVPNのこと</td>
 </tr>
 <tr>
 <td>IP-VPN</td>
@@ -77,9 +77,9 @@ IP-VPNは、<strong class="memory-answer">MPLS-VPN</strong> のことであり�
 </table>
 <h2 id="vpn_3">インターネットVPNのタイプ</h2>
 <p>VPN接続のタイプには<strong class="memory-answer">サイト間VPN</strong>と<strong class="memory-answer">リモートアクセスVPN</strong>の大きく2タイプがあります。サイト間VPNでは
-ルータでIPsecによる暗号化とカプセル化を行うので、クライアントPCは暗号化通信を意識することなく通信
-します。リモートアクセスVPNでは、PCにVPNクライアントソフトウェアをインストールして、そのPC上で
-暗号化とカプセル化を行い、リモート接続先のVPNゲートウェイと通信を行います。詳細は以下のとおりです。</p>
+<strong class="memory-answer">ルータ</strong>で<strong class="memory-answer">IPsec</strong>による<strong class="memory-answer">暗号</strong>化と<strong class="memory-answer">カプセル</strong>化を行うので、クライアントPCは暗号化通信を意識することなく通信
+します。リモートアクセスVPNでは、PCに<strong class="memory-answer">VPNクライアントソフトウェア</strong>をインストールして、そのPC上で
+<strong class="memory-answer">暗号</strong>化と<strong class="memory-answer">カプセル</strong>化を行い、リモート接続先の<strong class="memory-answer">VPNゲートウェイ</strong>と通信を行います。詳細は以下のとおりです。</p>
 <table>
 <thead>
 <tr>
@@ -90,11 +90,11 @@ IP-VPNは、<strong class="memory-answer">MPLS-VPN</strong> のことであり�
 <tbody>
 <tr>
 <td>サイト間VPN</td>
-<td>VPNを実装したルータ同士を接続する構成。企業の拠点間を接続する時に使用する構成。<br>VPNの実装（パケットの暗号化、復号、カプセル化、非カプセル化）は、全てルータで行う<br>ことから、クライアントPCにVPNクライアントソフトウェアをインストールする必要はない。<br>※ IPsecを実装したルータやセキュリティ製品は<strong class="memory-answer">VPNゲートウェイ</strong>と呼ばれる。</td>
+<td>VPNを実装した<strong class="memory-answer">ルータ</strong>同士を接続する構成。企業の拠点間を接続する時に使用する構成。<br>VPNの実装（パケットの暗号化、復号、カプセル化、非カプセル化）は、全て<strong class="memory-answer">ルータ</strong>で行う<br>ことから、クライアントPCに<strong class="memory-answer">VPNクライアントソフトウェア</strong>をインストールする必要はない。<br>※ IPsecを実装したルータやセキュリティ製品は<strong class="memory-answer">VPNゲートウェイ</strong>と呼ばれる。</td>
 </tr>
 <tr>
 <td>リモートアクセスVPN</td>
-<td>VPNを実装したルータとVPNクライアントソフトをインストールしたPCとを接続する構成。<br>リモートアクセスVPN接続をするクライアントPCやモバイル端末には、VPNクライアント<br>ソフト（Anyconnect等）をインストールしている必要がある。<strong class="memory-answer">VPNクライアントソフト</strong>と<br>VPNゲートウェイとの間で、パケットの暗号化、復号、カプセル化、非カプセル化を行う。</td>
+<td>VPNを実装したルータと<strong class="memory-answer">VPNクライアントソフト</strong>をインストールしたPCとを接続する構成。<br>リモートアクセスVPN接続をするクライアントPCやモバイル端末には、VPNクライアント<br>ソフト（Anyconnect等）をインストールしている必要がある。<strong class="memory-answer">VPNクライアントソフト</strong>と<br>VPNゲートウェイとの間で、パケットの暗号化、復号、カプセル化、非カプセル化を行う。</td>
 </tr>
 </tbody>
 </table>
