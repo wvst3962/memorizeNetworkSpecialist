@@ -34,13 +34,13 @@
 <hr>
 <h2 id="mpls_1">MPLSとは</h2>
 <p><strong class="memory-answer">MPLS</strong>（ Multi-Protocol Label Switching ）は、<strong class="memory-answer">ラベル</strong>と呼ばれるタグを使用したパケット転送技術です。
-MPLSではIPv4、IPv6、IPXなど<strong class="memory-answer">様々なプロトコルに対応</strong>したラベルを付加しデータをスイッチングできます。
-MPLSはIP-VPNと呼ばれるキャリアのWANサービスで使用されていることで有名です。なお、IP-VPNでは
-レイヤ3のIPv4パケットをラベル付けし網内でラベルスイッチングしていることから、IPv4しか使えません。</p>
+MPLSではIPv4、IPv6、IPXなど様々なプロトコルに対応したラベルを付加しデータをスイッチングできます。
+MPLSは<strong class="memory-answer">IP-VPN</strong>と呼ばれるキャリアのWANサービスで使用されていることで有名です。なお、<strong class="memory-answer">IP-VPN</strong>では
+レイヤ3の<strong class="memory-answer">IPv4</strong>パケットをラベル付けし網内でラベルスイッチングしていることから、<strong class="memory-answer">IPv4</strong>しか使えません。</p>
 <p><img alt="画像" src="../studygif/mpls1a.png"></p>
-<p>※　ラベルの付加方法には<strong class="memory-answer">フレームモード</strong>（パケットモード）と<strong class="memory-answer">セルモード</strong>の2種類がありますが、上図はフレームモードが前提。</p>
-<p>MPLSでは、20byteのIPヘッダを参照したIPルーティングではなくて、<strong class="memory-answer">4byteのMPLSヘッダのみを参照</strong>した
-ラベルスイッチングが行われるため、IPルーティングよりルータの処理を軽減した高速転送を実現しています。</p>
+<p>※　ラベルの付加方法には<strong class="memory-answer">フレーム</strong>モード（<strong class="memory-answer">パケット</strong>モード）と<strong class="memory-answer">セル</strong>モードの2種類がありますが、上図は<strong class="memory-answer">フレーム</strong>モードが前提。</p>
+<p>MPLSでは、<strong class="memory-answer">20</strong>byteのIPヘッダを参照したIPルーティングではなくて、<strong class="memory-answer">4</strong>byteの<strong class="memory-answer">MPLS</strong>ヘッダのみを参照した
+ラベルスイッチングが行われるため、IPルーティングより<strong class="memory-answer">ルータの処理</strong>を軽減した高速転送を実現しています。</p>
 <p><img alt="画像" src="../studygif/mpls1b.png"></p>
 <p>ただしルータの処理能力が格段に向上した今日では、MPLSは高速転送を目的として使用されるのではなく
 ラベル付けを行うことでネットワークに色々な付加サービスを提供する目的として利用しているのが現状。
@@ -55,20 +55,20 @@ IP-VPNのWANサービスのように、顧客ごとのネットワークを識�
 </thead>
 <tbody>
 <tr>
-<td>MPLS-VPN</td>
+<td><strong class="memory-answer">MPLS-VPN</strong></td>
 <td>サービスプロバイダーにより提供されるMPLSを使用したVPNサービス</td>
 </tr>
 <tr>
-<td>MPLS-QoS</td>
+<td><strong class="memory-answer">MPLS-QoS</strong></td>
 <td>MPLSネットワーク内のさまざまなタイプのトラフィックに対するQoSサービス</td>
 </tr>
 <tr>
-<td>MPLS-Traffic Engineering</td>
+<td><strong class="memory-answer">MPLS-Traffic Engineering</strong></td>
 <td>MPLSネットワークのトラフィック状況から判断して、ネットワーク構成を最適化する技術</td>
 </tr>
 </tbody>
 </table>
-<p>※　本コンテンツ「MPLSをはじめから」では、実務で役立つだけでなくCCIE試験範囲の<strong class="memory-answer">MPLS-VPNに重点を置いて解説</strong>します。</p>
+<p>※　本コンテンツ「MPLSをはじめから」では、実務で役立つだけでなくCCIE試験範囲の<strong class="memory-answer">MPLS-VPN</strong>に重点を置いて解説します。</p>
 <h2 id="mpls_2">MPLSにおける各ルータの役割 &amp; 用語説明</h2>
 <p>下図の構成でMPLSを稼働させるルータは<strong class="memory-answer">LER</strong>と<strong class="memory-answer">LSR</strong>です。CEは顧客ルータで、MPLSは有効にしません。
 LERは<strong class="memory-answer">エッジLSR</strong>とも呼ばれます。受信したIPパケットにラベルを付加する方を<strong class="memory-answer">Ingress LER</strong>と呼びます。
@@ -85,28 +85,32 @@ LERは<strong class="memory-answer">エッジLSR</strong>とも呼ばれます�
 </thead>
 <tbody>
 <tr>
-<td>LER</td>
+<td><strong class="memory-answer">LER</strong></td>
 <td>Label Edge Router。MPLS網のエッジに配置される企業ネットワークのルータと接続する<br>キャリアのルータ。パケットのラベルの取り付け、取り外しを行う。<strong class="memory-answer">PEルータ</strong>とも呼ばれる。</td>
 </tr>
 <tr>
-<td>LSR</td>
+<td><strong class="memory-answer">LSR</strong></td>
 <td>Label Switching Router。ラベル付けされたパケットを受信して、ラベルテーブルに従って<br>ラベルの付け替えを行い転送していく。<strong class="memory-answer">Pルータ</strong>とも呼ばれる。※　P = Provider の意味。</td>
 </tr>
 <tr>
-<td>CE</td>
-<td>Customer Edge。顧客側のルータ。MPLSは有効にしないルータ。</td>
+<td><strong class="memory-answer">CE</strong></td>
+<td>Customer Edge。顧客側のルータ。顧客側の出口となるルータ</td>
+</tr>
+<tr>
+<td><strong class="memory-answer">PE</strong></td>
+<td>Provider Edge。プロバイダ側のルータ。プロバイダ側の入り口となるルータ</td>
 </tr>
 <tr>
 <td>ラベル配布プロトコル</td>
 <td>ラベルの情報に関して広報するためのプロトコル。ラベルテーブルは、このラベル配布<br>プロトコルにより作成される。LDP、MP-BGPなどがラベル配布プロトコルとして使用される。</td>
 </tr>
 <tr>
-<td>FEC</td>
-<td>Forwarding Equivalence Class。MPLS網で同じ宛先のパケットや同じ扱いをさせるパケットの集まり。</td>
+<td><strong class="memory-answer">FEC</strong></td>
+<td>Forwarding Equivalence Class。MPLS網で同じ宛先のパケットや同じ扱いをさせるパケットの集まり。<br>QoSや宛先IPアドレス等で分類することで効率的な伝送が可能になる。</td>
 </tr>
 <tr>
-<td>LSP</td>
-<td>Label Switched Path。ラベル付けされたパケットがラベルスイッチングされていく片方向のパス。</td>
+<td><strong class="memory-answer">LSP</strong></td>
+<td>Label Switched Path。ラベルが付与されたパケットが辿る経路。</td>
 </tr>
 </tbody>
 </table>
