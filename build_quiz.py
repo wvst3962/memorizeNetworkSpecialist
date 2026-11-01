@@ -17,6 +17,7 @@ def build() -> list[dict[str, str]]:
     section = ""
     questions: list[dict[str, str]] = []
     seen_questions: set[str] = set()
+    seen_ids: set[str] = set()
 
     for line_number, line in enumerate(SOURCE.read_text(encoding="utf-8").splitlines(), 1):
         if line.startswith("## "):
@@ -28,9 +29,8 @@ def build() -> list[dict[str, str]]:
         if len(cells) != 5 or not section:
             raise ValueError(f"{SOURCE.name}:{line_number}: invalid question row")
         question_id, prompt, answer, note, link = cells
-        expected_id = f"Q{len(questions) + 1:03d}"
-        if question_id != expected_id:
-            raise ValueError(f"{SOURCE.name}:{line_number}: expected {expected_id}")
+        if question_id in seen_ids:
+            raise ValueError(f"{SOURCE.name}:{line_number}: repeated ID: {question_id}")
         if not prompt or not answer or not note or prompt in seen_questions:
             raise ValueError(f"{SOURCE.name}:{line_number}: empty or repeated content")
 
@@ -38,6 +38,7 @@ def build() -> list[dict[str, str]]:
         if not match or not (ROOT / match.group(2)).is_file():
             raise ValueError(f"{SOURCE.name}:{line_number}: missing study page: {link}")
         seen_questions.add(prompt)
+        seen_ids.add(question_id)
         questions.append(
             {
                 "id": question_id,
@@ -52,6 +53,11 @@ def build() -> list[dict[str, str]]:
 
     if not questions:
         raise ValueError("No questions found")
+    expected_ids = {f"Q{number:03d}" for number in range(1, len(questions) + 1)}
+    if seen_ids != expected_ids:
+        missing = sorted(expected_ids - seen_ids)
+        unexpected = sorted(seen_ids - expected_ids)
+        raise ValueError(f"Question IDs must be contiguous; missing={missing}, unexpected={unexpected}")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(questions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return questions

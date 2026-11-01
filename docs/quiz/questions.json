@@ -90,6 +90,60 @@
     "study_href": "../study/ethernet6.html"
   },
   {
+    "id": "Q181",
+    "section": "01 ネットワークの基礎",
+    "question": "OSI参照モデルで、電気信号や光信号によるビットの伝送を扱う層は？",
+    "answer": "物理層（第1層）",
+    "note": "ケーブルやコネクタなど物理的な接続条件も扱う。",
+    "study_title": "OSI参照モデル",
+    "study_href": "../study/networking4.html"
+  },
+  {
+    "id": "Q182",
+    "section": "01 ネットワークの基礎",
+    "question": "OSI参照モデルで、端末間の通信をアプリケーションへ提供する第4層は？",
+    "answer": "トランスポート層",
+    "note": "TCPやUDPがこの層に相当する。",
+    "study_title": "OSI参照モデル",
+    "study_href": "../study/networking4.html"
+  },
+  {
+    "id": "Q183",
+    "section": "01 ネットワークの基礎",
+    "question": "送信時に上位層のデータへ各層の制御情報を付けて包む処理は？",
+    "answer": "カプセル化",
+    "note": "受信時は付けた情報を順に外す。",
+    "study_title": "カプセル化",
+    "study_href": "../study/networking3.html"
+  },
+  {
+    "id": "Q184",
+    "section": "01 ネットワークの基礎",
+    "question": "受信側で下位層から上位層へ制御情報を外していく処理は？",
+    "answer": "非カプセル化",
+    "note": "送信側のカプセル化と逆の処理。",
+    "study_title": "カプセル化",
+    "study_href": "../study/networking3.html"
+  },
+  {
+    "id": "Q185",
+    "section": "01 ネットワークの基礎",
+    "question": "OSI第2層で扱うデータ単位は？",
+    "answer": "フレーム",
+    "note": "第3層ではパケット、第4層のTCPではセグメントと呼ぶ。",
+    "study_title": "各層のデータ単位",
+    "study_href": "../study/networking3.html"
+  },
+  {
+    "id": "Q186",
+    "section": "01 ネットワークの基礎",
+    "question": "パケットやフレームの制御情報を除いた、運びたいデータ部分は？",
+    "answer": "ペイロード",
+    "note": "ヘッダなどを除いた中身を指す。",
+    "study_title": "各層のデータ単位",
+    "study_href": "../study/networking3.html"
+  },
+  {
     "id": "Q011",
     "section": "02 IP・TCP・UDP",
     "question": "同一リンク上で、宛先IPv4アドレスに対応するMACアドレスを調べるプロトコルは？",
@@ -178,6 +232,69 @@
     "note": "TCPとUDPはそれぞれポート番号空間を持つ。",
     "study_title": "TCPヘッダ",
     "study_href": "../study/tcpip8.html"
+  },
+  {
+    "id": "Q187",
+    "section": "02 IP・TCP・UDP",
+    "question": "IPが標準では到達や順序を保証しない通信方式を何という？",
+    "answer": "ベストエフォート型",
+    "note": "必要な信頼性はTCPなど上位層が補う。",
+    "study_title": "IP",
+    "study_href": "../study/tcpip1.html"
+  },
+  {
+    "id": "Q188",
+    "section": "02 IP・TCP・UDP",
+    "question": "IPv4で「分割禁止」を示すフラグは？",
+    "answer": "DFフラグ",
+    "note": "経路のMTUを超えるパケットを分割せず扱うための指定。",
+    "study_title": "IPv4ヘッダ",
+    "study_href": "../study/tcpip1.html"
+  },
+  {
+    "id": "Q189",
+    "section": "02 IP・TCP・UDP",
+    "question": "分割されたIPv4パケットの、元のパケット内での位置を示すフィールドは？",
+    "answer": "フラグメントオフセット",
+    "note": "複数の断片を元の順序に組み立てる手掛かり。",
+    "study_title": "IPv4ヘッダ",
+    "study_href": "../study/tcpip1.html"
+  },
+  {
+    "id": "Q190",
+    "section": "02 IP・TCP・UDP",
+    "question": "TCPの確認応答番号が通常示すのは、受信済みの最後のバイトか次に期待するバイトか？",
+    "answer": "次に期待するバイトの番号",
+    "note": "連続して受信できた範囲を相手へ伝える。",
+    "study_title": "TCPヘッダ",
+    "study_href": "../study/tcpip8.html"
+  },
+  {
+    "id": "Q191",
+    "section": "02 IP・TCP・UDP",
+    "question": "TCPで確認応答が得られないデータを再び送る制御は？",
+    "answer": "再送制御",
+    "note": "欠落を補い、アプリケーションへ順序どおりのデータを渡す。",
+    "study_title": "TCPの再送制御",
+    "study_href": "../study/tcpip10.html"
+  },
+  {
+    "id": "Q192",
+    "section": "02 IP・TCP・UDP",
+    "question": "TCPで受信側が送信側へ通知する、受け入れ可能なデータ量は？",
+    "answer": "受信ウィンドウ",
+    "note": "受信側のバッファをあふれさせないためのフロー制御に使う。",
+    "study_title": "TCPのフロー制御",
+    "study_href": "../study/tcpip11.html"
+  },
+  {
+    "id": "Q193",
+    "section": "02 IP・TCP・UDP",
+    "question": "ルータがIPv4パケットのTTLを0にして破棄したとき、送信元へ返す代表的なICMPメッセージは？",
+    "answer": "Time Exceeded（時間超過）",
+    "note": "tracerouteが経路上のルータを調べる際にも利用する。",
+    "study_title": "ICMP",
+    "study_href": "../study/tcpip4.html"
   },
   {
     "id": "Q021",
@@ -270,6 +387,69 @@
     "study_href": "../study/tcpip20.html"
   },
   {
+    "id": "Q194",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DHCPが端末へ割り当てるIPアドレスを利用できる期間は？",
+    "answer": "リース期間",
+    "note": "期限があるため端末は必要に応じて更新する。",
+    "study_title": "DHCP",
+    "study_href": "../study/tcpip13.html"
+  },
+  {
+    "id": "Q195",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DNSでドメイン名に対応するIPv6アドレスを表すレコードは？",
+    "answer": "AAAAレコード",
+    "note": "AレコードはIPv4アドレスを表す。",
+    "study_title": "DNSレコード",
+    "study_href": "../study/tcpip23.html"
+  },
+  {
+    "id": "Q196",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DNSでIPアドレスからホスト名を調べる逆引きに用いるレコードは？",
+    "answer": "PTRレコード",
+    "note": "名前からアドレスへの正引きと方向が逆。",
+    "study_title": "DNSレコード",
+    "study_href": "../study/tcpip23.html"
+  },
+  {
+    "id": "Q197",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DNSの再帰問い合わせを受け、必要な問い合わせを代行して最終結果を返すのは？",
+    "answer": "フルサービスリゾルバ（キャッシュDNSサーバ）",
+    "note": "端末側のスタブリゾルバに代わって名前解決する。",
+    "study_title": "DNSリゾルバ",
+    "study_href": "../study/tcpip24.html"
+  },
+  {
+    "id": "Q198",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "HTTP/2で1本のTCP接続上に複数の要求と応答を並行して載せる仕組みは？",
+    "answer": "ストリームによる多重化",
+    "note": "各ストリームをIDで区別し、フレームを交互に送れる。",
+    "study_title": "HTTP/2",
+    "study_href": "../study/tcpip16.7.html"
+  },
+  {
+    "id": "Q199",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "メールクライアントが送信サーバへ投稿する際の標準的なサブミッションポート番号は？",
+    "answer": "587/TCP",
+    "note": "サーバ間配送で用いる25/TCPと用途を区別する。",
+    "study_title": "SMTP Submission",
+    "study_href": "../study/tcpip18.html"
+  },
+  {
+    "id": "Q200",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "SNMPで監視対象の装置から管理側へ自発的に送る通知は？",
+    "answer": "Trap",
+    "note": "管理側から定期的に問い合わせるポーリングと区別する。",
+    "study_title": "SNMP",
+    "study_href": "../study/tcpip21.html"
+  },
+  {
     "id": "Q031",
     "section": "04 Ethernet・LAN",
     "question": "Ethernetフレームの転送先を同一リンク内で識別するアドレスは？",
@@ -358,6 +538,60 @@
     "note": "ブロードキャストドメインはVLANなどで分ける。",
     "study_title": "ネットワーク機器",
     "study_href": "../study/ethernet6.html"
+  },
+  {
+    "id": "Q201",
+    "section": "04 Ethernet・LAN",
+    "question": "Ethernetフレーム末尾のFCSで主に検出するものは？",
+    "answer": "伝送中に生じたフレームの誤り",
+    "note": "誤りを検出したフレームは破棄される。",
+    "study_title": "Ethernetフレーム",
+    "study_href": "../study/ethernet4.html"
+  },
+  {
+    "id": "Q202",
+    "section": "04 Ethernet・LAN",
+    "question": "Ethernetフレームで、上位層のプロトコルを識別するフィールドは？",
+    "answer": "EtherType（タイプ）",
+    "note": "例えばIPv4かARPかを区別する。",
+    "study_title": "Ethernetフレーム",
+    "study_href": "../study/ethernet4.html"
+  },
+  {
+    "id": "Q203",
+    "section": "04 Ethernet・LAN",
+    "question": "一般的なEthernetのMACアドレスは何ビット？",
+    "answer": "48ビット",
+    "note": "通常は6オクテットを16進数で表す。",
+    "study_title": "Ethernetフレーム",
+    "study_href": "../study/ethernet4.html"
+  },
+  {
+    "id": "Q204",
+    "section": "04 Ethernet・LAN",
+    "question": "L2スイッチが宛先MACを表で発見した場合、通常どこへフレームを転送する？",
+    "answer": "対応するポートだけ",
+    "note": "未学習の宛先を広く送るフラッディングと区別する。",
+    "study_title": "L2スイッチ",
+    "study_href": "../study/ethernet7.html"
+  },
+  {
+    "id": "Q205",
+    "section": "04 Ethernet・LAN",
+    "question": "L2スイッチが同じ送信元MACを別ポートで受信したら、MACアドレス表をどうする？",
+    "answer": "そのMACの対応ポートを更新する",
+    "note": "端末の接続先が変わっても学習し直せる。",
+    "study_title": "L2スイッチ",
+    "study_href": "../study/ethernet7.html"
+  },
+  {
+    "id": "Q206",
+    "section": "04 Ethernet・LAN",
+    "question": "Ethernetで全端末を宛先にするブロードキャストMACアドレスは？",
+    "answer": "FF:FF:FF:FF:FF:FF",
+    "note": "同じブロードキャストドメイン内へ配送する。",
+    "study_title": "ブロードキャストMAC",
+    "study_href": "../study/multicastz02.html"
   },
   {
     "id": "Q041",
@@ -450,6 +684,69 @@
     "study_href": "../study/etherchannel2.html"
   },
   {
+    "id": "Q207",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "802.1Qトランクで、通常タグを付けずに送るVLANを何という？",
+    "answer": "ネイティブVLAN",
+    "note": "両端で異なるVLAN IDにすると意図しない通信の原因になる。",
+    "study_title": "トランクポート",
+    "study_href": "../study/vlanz2.html"
+  },
+  {
+    "id": "Q208",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "異なるVLANに所属する端末間で通信するために必要な転送は？",
+    "answer": "L3でのルーティング",
+    "note": "VLANはL2のブロードキャスト範囲を分離する。",
+    "study_title": "VLAN",
+    "study_href": "../study/vlanz1.html"
+  },
+  {
+    "id": "Q209",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "STPで非ルートブリッジが、ルートへ向かう最良の経路として選ぶポートは？",
+    "answer": "ルートポート",
+    "note": "ルートパスコストなどで最良のBPDUを比較する。",
+    "study_title": "STPのポート選出",
+    "study_href": "../study/stpz2.html"
+  },
+  {
+    "id": "Q210",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "STPで各リンク上のフレーム転送を担当するよう選ばれるポートは？",
+    "answer": "指定ポート",
+    "note": "ルートブリッジ上のポートは通常すべて指定ポート。",
+    "study_title": "STPのポート選出",
+    "study_href": "../study/stpz2.html"
+  },
+  {
+    "id": "Q211",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "STPのスイッチ間でルートや経路情報を交換する制御フレームは？",
+    "answer": "BPDU",
+    "note": "受信したBPDUを比較してツリーを決める。",
+    "study_title": "STPの動作",
+    "study_href": "../study/stpz2.html"
+  },
+  {
+    "id": "Q212",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "RSTPでルートポートの代替経路として待機するポートの役割は？",
+    "answer": "代替ポート（Alternate Port）",
+    "note": "障害時にルートポートへ切り替えられる。",
+    "study_title": "RSTP",
+    "study_href": "../study/stpz8.html"
+  },
+  {
+    "id": "Q213",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "リンクアグリゲーションを両端で動的に交渉する標準プロトコルは？",
+    "answer": "LACP",
+    "note": "複数リンクを同じ論理グループへまとめる。",
+    "study_title": "リンクアグリゲーション",
+    "study_href": "../study/etherchannel.html"
+  },
+  {
     "id": "Q051",
     "section": "06 IPv4アドレス・NAT",
     "question": "/24 のIPv4ネットワークでホスト部は何ビット？",
@@ -540,6 +837,69 @@
     "study_href": "../study/ethernet10.html"
   },
   {
+    "id": "Q214",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "IPv4のプレフィックス長 /26 を10進数のサブネットマスクで表すと？",
+    "answer": "255.255.255.192",
+    "note": "最後のオクテットは先頭2ビットが1。",
+    "study_title": "サブネットマスク",
+    "study_href": "../study/ip6.html"
+  },
+  {
+    "id": "Q215",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "/28 の通常のIPv4サブネットで、利用可能なホストアドレス数は？",
+    "answer": "14個",
+    "note": "ホスト部4ビットの16個からネットワーク・ブロードキャスト各1個を除く。",
+    "study_title": "アドレス数の計算",
+    "study_href": "../study/ip7.html"
+  },
+  {
+    "id": "Q216",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "192.0.2.0/24 を同じ大きさの4サブネットに分けると、各プレフィックス長は？",
+    "answer": "/26",
+    "note": "追加で2ビットをサブネット識別に使う。",
+    "study_title": "サブネット",
+    "study_href": "../study/ip6.html"
+  },
+  {
+    "id": "Q217",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "192.0.2.130/27 が属するネットワークアドレスは？",
+    "answer": "192.0.2.128",
+    "note": "/27のブロック幅は32。",
+    "study_title": "ネットワークアドレス",
+    "study_href": "../study/ip4.html"
+  },
+  {
+    "id": "Q218",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "172.16.0.0/12 はグローバルアドレスとプライベートアドレスのどちら？",
+    "answer": "プライベートアドレス",
+    "note": "範囲は172.16.0.0～172.31.255.255。",
+    "study_title": "プライベートIP",
+    "study_href": "../study/ip5.html"
+  },
+  {
+    "id": "Q219",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "固定した内部アドレスと外部アドレスを1対1に対応付けるNATは？",
+    "answer": "スタティックNAT",
+    "note": "外部からの接続先を固定したい場合にも利用する。",
+    "study_title": "NATの種類",
+    "study_href": "../study/ip11.html"
+  },
+  {
+    "id": "Q220",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "利用可能な外部IPアドレスのプールから、変換先を一時的に割り当てるNATは？",
+    "answer": "ダイナミックNAT",
+    "note": "静的な1対1対応をあらかじめ固定しない。",
+    "study_title": "NATの種類",
+    "study_href": "../study/ip11.html"
+  },
+  {
     "id": "Q061",
     "section": "07 ルーティング・BGP",
     "question": "192.0.2.0/24 と 192.0.2.128/25 の両方に一致する宛先 192.0.2.200 は、どちらの経路を選ぶ？",
@@ -626,6 +986,69 @@
     "question": "BGPで新規経路の広告や既存経路の撤回に使うメッセージは？",
     "answer": "UPDATE",
     "note": "OPENは接続開始、KEEPALIVEは維持に使う。",
+    "study_title": "BGPパス属性",
+    "study_href": "../study/bgpz05.html"
+  },
+  {
+    "id": "Q221",
+    "section": "07 ルーティング・BGP",
+    "question": "ルーティング表で、より具体的な経路がない宛先に適用するIPv4経路は？",
+    "answer": "デフォルトルート（0.0.0.0/0）",
+    "note": "どのIPv4宛先にも一致するが、より長いプレフィックスが優先される。",
+    "study_title": "ルーティングテーブル",
+    "study_href": "../study/routing2.html"
+  },
+  {
+    "id": "Q222",
+    "section": "07 ルーティング・BGP",
+    "question": "ルータの稼働中のインターフェースに直接つながるネットワークの経路は？",
+    "answer": "直接接続ルート",
+    "note": "次ホップを別のルータに設定する必要がない。",
+    "study_title": "ルーティングテーブル",
+    "study_href": "../study/routing2.html"
+  },
+  {
+    "id": "Q223",
+    "section": "07 ルーティング・BGP",
+    "question": "障害で経路が変わったとき、ルータ間の情報交換で代替経路を学習できる方式は？",
+    "answer": "ダイナミックルーティング",
+    "note": "静的経路と異なり、経路情報を自動更新できる。",
+    "study_title": "ダイナミックルーティング",
+    "study_href": "../study/routing5.html"
+  },
+  {
+    "id": "Q224",
+    "section": "07 ルーティング・BGP",
+    "question": "BGPでAS内から外へ出る経路の優先度を示し、値が大きい方を優先する属性は？",
+    "answer": "LOCAL_PREF",
+    "note": "同一AS内のBGPルータ間で方針を共有する。",
+    "study_title": "BGPパス属性",
+    "study_href": "../study/bgpz05.html"
+  },
+  {
+    "id": "Q225",
+    "section": "07 ルーティング・BGP",
+    "question": "BGPで、その経路へパケットを送る際の次の転送先を示す属性は？",
+    "answer": "NEXT_HOP",
+    "note": "指されたIPアドレスへ到達できることが経路利用の前提。",
+    "study_title": "BGPパス属性",
+    "study_href": "../study/bgpz05.html"
+  },
+  {
+    "id": "Q226",
+    "section": "07 ルーティング・BGP",
+    "question": "1台のルータで顧客ごとに独立した経路表を持たせる仕組みは？",
+    "answer": "VRF",
+    "note": "同じアドレス帯を使う顧客同士も経路表を分けられる。",
+    "study_title": "VRF",
+    "study_href": "../study/mpls5.html"
+  },
+  {
+    "id": "Q227",
+    "section": "07 ルーティング・BGP",
+    "question": "BGPでAS_PATHに自AS番号が既に含まれる経路を受け取ったらどうする？",
+    "answer": "ループと判断して採用しない",
+    "note": "通過ASの履歴でAS間の経路ループを抑える。",
     "study_title": "BGPパス属性",
     "study_href": "../study/bgpz05.html"
   },
@@ -720,6 +1143,69 @@
     "study_href": "../study/ospfz4.html"
   },
   {
+    "id": "Q228",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "RIPで到達不能を表すホップ数は？",
+    "answer": "16",
+    "note": "到達可能な経路は最大15ホップまで。",
+    "study_title": "ディスタンスベクタの問題",
+    "study_href": "../study/distancevector3.html"
+  },
+  {
+    "id": "Q229",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "障害が起きた経路を到達不能のメトリックで広告するループ抑止策は？",
+    "answer": "ルートポイズニング",
+    "note": "RIPならメトリックを16として周囲へ知らせる。",
+    "study_title": "ルートポイズニング",
+    "study_href": "../study/distancevector3.html"
+  },
+  {
+    "id": "Q230",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "障害経路をすぐ誤って再登録しないため、一定期間その経路の更新を抑える仕組みは？",
+    "answer": "ホールドダウンタイマー",
+    "note": "古い経路情報が周囲に残る間のループを抑える。",
+    "study_title": "ディスタンスベクタのタイマー",
+    "study_href": "../study/distancevector5.html"
+  },
+  {
+    "id": "Q231",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFで隣接ルータ同士がLSDBの概要を交換するパケットは？",
+    "answer": "DBD（Database Description）",
+    "note": "不足しているLSAを見つける手掛かりになる。",
+    "study_title": "OSPFパケット",
+    "study_href": "../study/ospfz5.html"
+  },
+  {
+    "id": "Q232",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFで各ルータが自身のリンク状態を同一エリアに知らせるLSAは何型？",
+    "answer": "タイプ1（Router LSA）",
+    "note": "同じエリア内でフラッディングされる。",
+    "study_title": "OSPFのLSA",
+    "study_href": "../study/ospfz15.html"
+  },
+  {
+    "id": "Q233",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFでABRが別エリアの経路情報を知らせるLSAは何型？",
+    "answer": "タイプ3（Summary LSA）",
+    "note": "エリア間の経路情報を伝える。",
+    "study_title": "OSPFのLSA",
+    "study_href": "../study/ospfz15.html"
+  },
+  {
+    "id": "Q234",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFの同一ブロードキャストネットワークで、DRの故障に備えて選ばれるルータは？",
+    "answer": "BDR",
+    "note": "Backup Designated Router の略。",
+    "study_title": "DRとBDR",
+    "study_href": "../study/ospfz7.html"
+  },
+  {
     "id": "Q081",
     "section": "09 セキュリティ・認証",
     "question": "HTTPリクエストの内容を調べ、Webアプリへの攻撃を防ぐ装置・機能は？",
@@ -808,6 +1294,69 @@
     "note": "公開鍵をDNSから取得して検証する。",
     "study_title": "メール認証",
     "study_href": "../study/security30.html"
+  },
+  {
+    "id": "Q235",
+    "section": "09 セキュリティ・認証",
+    "question": "不審な通信を検知し、通信経路上で遮断も行う仕組みは？",
+    "answer": "IPS",
+    "note": "IDSは通常、検知と通知が中心。",
+    "study_title": "Firewall・IDS・IPS",
+    "study_href": "../study/security3.html"
+  },
+  {
+    "id": "Q236",
+    "section": "09 セキュリティ・認証",
+    "question": "チケットを使い、利用者が複数サービスへ認証情報を毎回入力せずアクセスできる認証方式は？",
+    "answer": "Kerberos",
+    "note": "時刻のずれが大きいとチケット検証に影響する。",
+    "study_title": "Kerberos認証",
+    "study_href": "../study/security18.html"
+  },
+  {
+    "id": "Q237",
+    "section": "09 セキュリティ・認証",
+    "question": "利用者や組織の情報をディレクトリから検索・参照するためのプロトコルは？",
+    "answer": "LDAP",
+    "note": "ディレクトリサービスへのアクセスに用いる。",
+    "study_title": "LDAP",
+    "study_href": "../study/security19.html"
+  },
+  {
+    "id": "Q238",
+    "section": "09 セキュリティ・認証",
+    "question": "SPFやDKIMの結果とFromドメインの整合を確認し、失敗時の扱いを送信側が公開する仕組みは？",
+    "answer": "DMARC",
+    "note": "DNS上のポリシーで受信・隔離・拒否などを示す。",
+    "study_title": "メール認証",
+    "study_href": "../study/security30.html"
+  },
+  {
+    "id": "Q239",
+    "section": "09 セキュリティ・認証",
+    "question": "LAN内に偽のアドレス配布サーバを置き、端末へ不正なDNSやゲートウェイを教える攻撃は？",
+    "answer": "DHCPスプーフィング",
+    "note": "DHCPスヌーピングで不正なサーバ応答を抑える。",
+    "study_title": "DHCPスプーフィング",
+    "study_href": "../study/dhcpz5.html"
+  },
+  {
+    "id": "Q240",
+    "section": "09 セキュリティ・認証",
+    "question": "スイッチでARPパケットのIP・MAC対応を検査し、ARPスプーフィングを抑える機能は？",
+    "answer": "DAI（Dynamic ARP Inspection）",
+    "note": "DHCPスヌーピングの対応表などを検査に利用する。",
+    "study_title": "ARPスプーフィング",
+    "study_href": "../study/dhcpz6.html"
+  },
+  {
+    "id": "Q241",
+    "section": "09 セキュリティ・認証",
+    "question": "ファイアウォール、IPS、アンチウイルスなど複数の対策を一つに統合する仕組みは？",
+    "answer": "UTM",
+    "note": "製品ごとに統合される機能は異なる。",
+    "study_title": "UTM",
+    "study_href": "../study/security14.html"
   },
   {
     "id": "Q091",
@@ -900,6 +1449,60 @@
     "study_href": "../study/mpls1.html"
   },
   {
+    "id": "Q242",
+    "section": "10 VPN・IPsec",
+    "question": "GREトンネルだけを設定した場合、通信内容は暗号化される？",
+    "answer": "暗号化されない",
+    "note": "機密性が必要ならIPsecなどを組み合わせる。",
+    "study_title": "VPNのトンネルと暗号化",
+    "study_href": "../study/ipsec2.html"
+  },
+  {
+    "id": "Q243",
+    "section": "10 VPN・IPsec",
+    "question": "相手と共通の秘密を安全に合意するため、IPsecの鍵交換でも利用される方式は？",
+    "answer": "Diffie-Hellman鍵交換",
+    "note": "その仕組み自体がデータ本体を暗号化するわけではない。",
+    "study_title": "暗号と鍵交換",
+    "study_href": "../study/ipsec4.html"
+  },
+  {
+    "id": "Q244",
+    "section": "10 VPN・IPsec",
+    "question": "MPLS網の端でパケットへのラベル付与・除去を担うルータは？",
+    "answer": "LER（ラベルエッジルータ）",
+    "note": "網内のLSRは主にラベルを交換して転送する。",
+    "study_title": "MPLS",
+    "study_href": "../study/mpls1.html"
+  },
+  {
+    "id": "Q245",
+    "section": "10 VPN・IPsec",
+    "question": "MPLSで帯域などの条件に合わせてLSPの経路を制御する技術は？",
+    "answer": "MPLS-TE",
+    "note": "最短経路だけに偏らないトラフィック設計に使う。",
+    "study_title": "MPLS-TE",
+    "study_href": "../study/mpls8.html"
+  },
+  {
+    "id": "Q246",
+    "section": "10 VPN・IPsec",
+    "question": "IPsecのトンネルモードで、元のIPパケットを外側から運ぶために追加するものは？",
+    "answer": "新しい外側のIPヘッダ",
+    "note": "内側には元の送信元・宛先を含むIPパケットが残る。",
+    "study_title": "IPsecのモード",
+    "study_href": "../study/ipsec6.html"
+  },
+  {
+    "id": "Q247",
+    "section": "10 VPN・IPsec",
+    "question": "IPsecのSAが片方向であるため、双方向通信には通常何個のSAが必要？",
+    "answer": "2個",
+    "note": "送信方向と受信方向で別々のSAを使う。",
+    "study_title": "SA",
+    "study_href": "../study/ipsec7.html"
+  },
+  {
     "id": "Q101",
     "section": "11 TLS・証明書",
     "question": "HTTPSでHTTPの通信を保護するために使うプロトコルは？",
@@ -988,6 +1591,60 @@
     "note": "単独のハッシュ値だけでは送信者認証はできない。",
     "study_title": "デジタル署名",
     "study_href": "../study/security6.html"
+  },
+  {
+    "id": "Q248",
+    "section": "11 TLS・証明書",
+    "question": "公開鍵暗号で、受信者だけが読めるように送信者が暗号化するとき使う鍵は？",
+    "answer": "受信者の公開鍵",
+    "note": "復号には対になる受信者の秘密鍵を使う。",
+    "study_title": "公開鍵暗号",
+    "study_href": "../study/security4.html"
+  },
+  {
+    "id": "Q249",
+    "section": "11 TLS・証明書",
+    "question": "CAへサーバ証明書の発行を依頼するとき、公開鍵などを含めて提出する要求は？",
+    "answer": "CSR（証明書署名要求）",
+    "note": "サーバ側で鍵ペアを作り、秘密鍵は外部へ渡さない。",
+    "study_title": "サーバ証明書の発行",
+    "study_href": "../study/sslserver2.html"
+  },
+  {
+    "id": "Q250",
+    "section": "11 TLS・証明書",
+    "question": "証明書の失効状態をオンラインで問い合わせるプロトコルは？",
+    "answer": "OCSP",
+    "note": "失効証明書一覧を取得するCRLと対比する。",
+    "study_title": "CRLとOCSP",
+    "study_href": "../study/sslserver13.html"
+  },
+  {
+    "id": "Q251",
+    "section": "11 TLS・証明書",
+    "question": "証明書チェーンの検証で、端末があらかじめ信頼している最上位の証明書は？",
+    "answer": "ルートCA証明書",
+    "note": "信頼の起点として端末の信頼ストアに登録される。",
+    "study_title": "ルート証明書",
+    "study_href": "../study/sslserver1.html"
+  },
+  {
+    "id": "Q252",
+    "section": "11 TLS・証明書",
+    "question": "TLSで通信相手を認証した後、アプリケーションデータの暗号化に主に使う方式は？",
+    "answer": "共通鍵暗号",
+    "note": "鍵交換などで共有した鍵を使い効率よく暗号化する。",
+    "study_title": "TLS",
+    "study_href": "../study/security7.html"
+  },
+  {
+    "id": "Q253",
+    "section": "11 TLS・証明書",
+    "question": "ブラウザを使って社内Webアプリへ安全にリモートアクセスさせる代表的なVPNは？",
+    "answer": "TLS-VPN（SSL-VPN）",
+    "note": "Web経由のリバースプロキシ方式などがある。",
+    "study_title": "SSL-VPN",
+    "study_href": "../study/security8.html"
   },
   {
     "id": "Q111",
@@ -1080,6 +1737,69 @@
     "study_href": "../study/wireless17.html"
   },
   {
+    "id": "Q254",
+    "section": "12 無線LAN",
+    "question": "無線LANのAPが周囲へ定期的にSSIDなどを知らせる管理フレームは？",
+    "answer": "Beacon",
+    "note": "端末が接続可能なネットワークを発見する手掛かり。",
+    "study_title": "無線LANの接続手順",
+    "study_href": "../study/wireless8.html"
+  },
+  {
+    "id": "Q255",
+    "section": "12 無線LAN",
+    "question": "無線LAN端末が利用可能なAPを能動的に探すとき送る管理フレームは？",
+    "answer": "Probe Request",
+    "note": "APからのProbe Responseと組で探索する。",
+    "study_title": "無線LANの接続手順",
+    "study_href": "../study/wireless8.html"
+  },
+  {
+    "id": "Q256",
+    "section": "12 無線LAN",
+    "question": "無線LAN端末がAPと通信を始めるために所属関係を確立する手順は？",
+    "answer": "Association（アソシエーション）",
+    "note": "APの発見や認証の後に行う。",
+    "study_title": "無線LANの接続手順",
+    "study_href": "../study/wireless8.html"
+  },
+  {
+    "id": "Q257",
+    "section": "12 無線LAN",
+    "question": "複数アンテナと複数の伝送路を使って無線LANの転送効率を上げる技術は？",
+    "answer": "MIMO",
+    "note": "複数の空間ストリームを利用できる。",
+    "study_title": "802.11nとMIMO",
+    "study_href": "../study/wireless15.html"
+  },
+  {
+    "id": "Q258",
+    "section": "12 無線LAN",
+    "question": "Wi-Fi 6で、周波数資源を小さな単位に分けて複数端末へ割り当てる技術は？",
+    "answer": "OFDMA",
+    "note": "多数の端末の通信を効率よく扱う。",
+    "study_title": "Wi-Fi 6",
+    "study_href": "../study/wireless57.html"
+  },
+  {
+    "id": "Q259",
+    "section": "12 無線LAN",
+    "question": "WPA3で保護を必須とした無線LANの管理フレーム保護機能は？",
+    "answer": "PMF",
+    "note": "切断を狙う偽の管理フレームへの対策になる。",
+    "study_title": "WPA3",
+    "study_href": "../study/wireless56.html"
+  },
+  {
+    "id": "Q260",
+    "section": "12 無線LAN",
+    "question": "802.1XのEAP方式で、端末と認証サーバの双方の証明書を使う方式は？",
+    "answer": "EAP-TLS",
+    "note": "証明書の発行・管理が必要。",
+    "study_title": "EAP認証方式",
+    "study_href": "../study/wireless51.html"
+  },
+  {
     "id": "Q121",
     "section": "13 負荷分散・CDN",
     "question": "複数サーバにクライアントの要求を振り分ける装置・機能は？",
@@ -1168,6 +1888,60 @@
     "note": "単純な順番配分とは違い負荷状況を反映する。",
     "study_title": "負荷分散方式",
     "study_href": "../study/loadbalancer4.html"
+  },
+  {
+    "id": "Q261",
+    "section": "13 負荷分散・CDN",
+    "question": "負荷分散先のサーバへ要求を順番に均等に振り分ける方式は？",
+    "answer": "ラウンドロビン",
+    "note": "サーバごとの処理能力の差は基本設定では考慮しない。",
+    "study_title": "負荷分散方式",
+    "study_href": "../study/loadbalancer4.html"
+  },
+  {
+    "id": "Q262",
+    "section": "13 負荷分散・CDN",
+    "question": "サーバごとに重みを付け、その比率に応じて要求を振り分ける方式は？",
+    "answer": "Ratio（重み付け）方式",
+    "note": "性能の異なるサーバへ配分割合を変えられる。",
+    "study_title": "負荷分散方式",
+    "study_href": "../study/loadbalancer4.html"
+  },
+  {
+    "id": "Q263",
+    "section": "13 負荷分散・CDN",
+    "question": "ロードバランサがCookieの値を使って、同じ利用者を同じサーバへ送る仕組みは？",
+    "answer": "Cookieによるパーシステンス",
+    "note": "利用者の連続する要求の転送先を維持する。",
+    "study_title": "パーシステンス",
+    "study_href": "../study/loadbalancer5.html"
+  },
+  {
+    "id": "Q264",
+    "section": "13 負荷分散・CDN",
+    "question": "ロードバランサを通信経路上のスイッチに横付けして接続する構成は？",
+    "answer": "ワンアーム構成",
+    "note": "往復経路や送信元・宛先アドレスの扱いを設計する必要がある。",
+    "study_title": "ワンアーム構成",
+    "study_href": "../study/loadbalancer10.html"
+  },
+  {
+    "id": "Q265",
+    "section": "13 負荷分散・CDN",
+    "question": "CDNで、配信するコンテンツの元データを保持するサーバは？",
+    "answer": "オリジンサーバ",
+    "note": "エッジのキャッシュサーバはそのデータを近くから配信する。",
+    "study_title": "CDN",
+    "study_href": "../study/loadbalancer13.html"
+  },
+  {
+    "id": "Q266",
+    "section": "13 負荷分散・CDN",
+    "question": "サーバのIPが応答していてもWebアプリが停止している場合、ロードバランサでは何を確認する監視が有効？",
+    "answer": "HTTPの応答を確認するヘルスチェック",
+    "note": "ICMPの到達性だけではアプリの正常動作まで分からない。",
+    "study_title": "ヘルスチェック",
+    "study_href": "../study/loadbalancer6.html"
   },
   {
     "id": "Q131",
@@ -1260,6 +2034,69 @@
     "study_href": "../study/ipv6z1.html"
   },
   {
+    "id": "Q267",
+    "section": "14 IPv6",
+    "question": "同じIPv6アドレスを複数ノードに設定し、経路上で近い1台へ届ける方式は？",
+    "answer": "エニーキャスト",
+    "note": "マルチキャストのように全参加者へ複製して送らない。",
+    "study_title": "IPv6エニーキャスト",
+    "study_href": "../study/ipv6z11.html"
+  },
+  {
+    "id": "Q268",
+    "section": "14 IPv6",
+    "question": "IPv6で、まだ自分のアドレスを持たない端末が送信元に使える全ビット0のアドレスは？",
+    "answer": "未指定アドレス（::）",
+    "note": "宛先アドレスとして通常の通信に使うものではない。",
+    "study_title": "IPv6アドレス",
+    "study_href": "../study/ipv6z4.html"
+  },
+  {
+    "id": "Q269",
+    "section": "14 IPv6",
+    "question": "IPv6で自分自身への通信に使うループバックアドレスは？",
+    "answer": "::1",
+    "note": "IPv4の127.0.0.1に相当する。",
+    "study_title": "IPv6アドレス",
+    "study_href": "../study/ipv6z4.html"
+  },
+  {
+    "id": "Q270",
+    "section": "14 IPv6",
+    "question": "MACアドレスを基に64ビットのIPv6インターフェースIDを作る形式は？",
+    "answer": "EUI-64",
+    "note": "自動設定の一方式であり、すべてのIPv6アドレスがこれで作られるわけではない。",
+    "study_title": "EUI-64",
+    "study_href": "../study/ipv6z4.html"
+  },
+  {
+    "id": "Q271",
+    "section": "14 IPv6",
+    "question": "IPv6アドレスを使用する前に、同じリンク上で重複していないか確かめる仕組みは？",
+    "answer": "DAD（重複アドレス検出）",
+    "note": "ICMPv6の近隣探索メッセージを利用する。",
+    "study_title": "ICMPv6",
+    "study_href": "../study/ipv6z12.html"
+  },
+  {
+    "id": "Q272",
+    "section": "14 IPv6",
+    "question": "IPv6の経路でパケットが大きすぎるときに返されるICMPv6メッセージは？",
+    "answer": "Packet Too Big",
+    "note": "送信元が経路MTUに合わせて送信サイズを調整する。",
+    "study_title": "ICMPv6",
+    "study_href": "../study/ipv6z12.html"
+  },
+  {
+    "id": "Q273",
+    "section": "14 IPv6",
+    "question": "1台の機器でIPv4とIPv6の両方を動かす移行方式は？",
+    "answer": "デュアルスタック",
+    "note": "相手や経路に応じて両方のプロトコルを利用する。",
+    "study_title": "IPv6移行技術",
+    "study_href": "../study/ipv6z8.html"
+  },
+  {
     "id": "Q141",
     "section": "15 ストレージ・バックアップ",
     "question": "ネットワーク越しにファイル共有を提供するストレージ構成は？",
@@ -1350,6 +2187,60 @@
     "study_href": "../study/networking10.html"
   },
   {
+    "id": "Q274",
+    "section": "15 ストレージ・バックアップ",
+    "question": "分散パリティでディスク2台の故障に耐えられるRAIDは？",
+    "answer": "RAID 6",
+    "note": "RAID 5よりパリティの分だけ容量効率は下がる。",
+    "study_title": "RAID",
+    "study_href": "../study/networking9.html"
+  },
+  {
+    "id": "Q275",
+    "section": "15 ストレージ・バックアップ",
+    "question": "ミラーリングした組をストライピングするRAIDは？",
+    "answer": "RAID 10（1+0）",
+    "note": "少なくとも4台のディスクが必要。",
+    "study_title": "RAID",
+    "study_href": "../study/networking9.html"
+  },
+  {
+    "id": "Q276",
+    "section": "15 ストレージ・バックアップ",
+    "question": "直近のフルバックアップ以降に変更されたデータを毎回取得する方式は？",
+    "answer": "差分バックアップ",
+    "note": "増分は前回のバックアップ以降の変更を取得する。",
+    "study_title": "バックアップ方式",
+    "study_href": "../study/networking10.html"
+  },
+  {
+    "id": "Q277",
+    "section": "15 ストレージ・バックアップ",
+    "question": "差分バックアップから最新状態へ復元するとき、基本的に必要なバックアップは？",
+    "answer": "直近のフルバックアップと最新の差分バックアップ",
+    "note": "増分のように途中の全回分を順に適用する必要はない。",
+    "study_title": "バックアップ方式",
+    "study_href": "../study/networking10.html"
+  },
+  {
+    "id": "Q278",
+    "section": "15 ストレージ・バックアップ",
+    "question": "稼働中サーバの障害時に待機系サーバへ処理を引き継ぐ動作は？",
+    "answer": "フェイルオーバー",
+    "note": "クラスタでサービス継続に利用する。",
+    "study_title": "クラスタシステム",
+    "study_href": "../study/networking11.html"
+  },
+  {
+    "id": "Q279",
+    "section": "15 ストレージ・バックアップ",
+    "question": "故障が起きてもサービスを続けられるよう冗長化などで備える考え方は？",
+    "answer": "フォールトトレランス",
+    "note": "故障そのものを減らすフォールトアボイダンスと区別する。",
+    "study_title": "耐障害性",
+    "study_href": "../study/networking12.html"
+  },
+  {
     "id": "Q151",
     "section": "16 音声通信・QoS",
     "question": "IP電話で音声データをリアルタイムに運ぶ代表的なプロトコルは？",
@@ -1436,6 +2327,60 @@
     "question": "QoSでパケットを識別し、DSCPなどの値を付ける2つの処理は？",
     "answer": "分類とマーキング",
     "note": "その後のキューイング・スケジューリングに利用する。",
+    "study_title": "DiffServ",
+    "study_href": "../study/telephony7.html"
+  },
+  {
+    "id": "Q280",
+    "section": "16 音声通信・QoS",
+    "question": "SIPで相手に呼の開始を要求するメソッドは？",
+    "answer": "INVITE",
+    "note": "呼を切るときはBYEを使う。",
+    "study_title": "SIP",
+    "study_href": "../study/telephony4.html"
+  },
+  {
+    "id": "Q281",
+    "section": "16 音声通信・QoS",
+    "question": "SIPで確立済みの呼を終了させるメソッドは？",
+    "answer": "BYE",
+    "note": "音声データ本体を運ぶRTPの役割とは異なる。",
+    "study_title": "SIP",
+    "study_href": "../study/telephony4.html"
+  },
+  {
+    "id": "Q282",
+    "section": "16 音声通信・QoS",
+    "question": "RTPの音声パケットの欠落や順序の乱れを調べる手掛かりになる値は？",
+    "answer": "シーケンス番号",
+    "note": "受信側が連続性を確認する。",
+    "study_title": "RTP",
+    "study_href": "../study/telephony3.html"
+  },
+  {
+    "id": "Q283",
+    "section": "16 音声通信・QoS",
+    "question": "RTPと組み合わせ、パケット損失率などの通信品質を報告するプロトコルは？",
+    "answer": "RTCP",
+    "note": "RTPは音声などのメディアデータを運ぶ。",
+    "study_title": "RTPとRTCP",
+    "study_href": "../study/telephony3.html"
+  },
+  {
+    "id": "Q284",
+    "section": "16 音声通信・QoS",
+    "question": "設定した速度を超える通信を破棄して流量を制限するQoS処理は？",
+    "answer": "ポリシング",
+    "note": "超過分を一時的にためて送るシェーピングと区別する。",
+    "study_title": "DiffServ",
+    "study_href": "../study/telephony7.html"
+  },
+  {
+    "id": "Q285",
+    "section": "16 音声通信・QoS",
+    "question": "設定した速度を超える通信をバッファにため、後から送るQoS処理は？",
+    "answer": "シェーピング",
+    "note": "急な送出を平滑化する。",
     "study_title": "DiffServ",
     "study_href": "../study/telephony7.html"
   },
@@ -1530,6 +2475,69 @@
     "study_href": "../study/multicastz11.html"
   },
   {
+    "id": "Q286",
+    "section": "17 マルチキャスト",
+    "question": "IPv4マルチキャストの宛先アドレス範囲は？",
+    "answer": "224.0.0.0/4",
+    "note": "224.0.0.0から239.255.255.255まで。",
+    "study_title": "マルチキャストIP",
+    "study_href": "../study/multicastz03.html"
+  },
+  {
+    "id": "Q287",
+    "section": "17 マルチキャスト",
+    "question": "IPv4マルチキャスト用Ethernet MACアドレスの先頭3オクテットは？",
+    "answer": "01:00:5E",
+    "note": "後続ビットへグループアドレスの一部を写す。",
+    "study_title": "マルチキャストMAC",
+    "study_href": "../study/multicastz04.html"
+  },
+  {
+    "id": "Q288",
+    "section": "17 マルチキャスト",
+    "question": "IGMPv2の端末がマルチキャストグループから離れるときに送るメッセージは？",
+    "answer": "Leave Group",
+    "note": "ルータへ離脱を知らせ、不要な転送を早く止められる。",
+    "study_title": "IGMPv2",
+    "study_href": "../study/multicastz10.html"
+  },
+  {
+    "id": "Q289",
+    "section": "17 マルチキャスト",
+    "question": "IGMPv2でLeave受信後、同じグループの受信者が残っているか確認する問い合わせは？",
+    "answer": "グループスペシフィッククエリー",
+    "note": "グループ全体への転送をすぐ止めないための確認。",
+    "study_title": "IGMPv2",
+    "study_href": "../study/multicastz10.html"
+  },
+  {
+    "id": "Q290",
+    "section": "17 マルチキャスト",
+    "question": "IGMPv2で同一LANの複数ルータからクエリー送信役を選ぶとき、優先されるIPアドレスは？",
+    "answer": "最も小さいIPアドレス",
+    "note": "選ばれたルータをクエリアと呼ぶ。",
+    "study_title": "IGMPv2",
+    "study_href": "../study/multicastz10.html"
+  },
+  {
+    "id": "Q291",
+    "section": "17 マルチキャスト",
+    "question": "PIM-DMで受信者のいない枝への配送を止める操作は？",
+    "answer": "Prune（枝刈り）",
+    "note": "最初に広く転送してから不要な枝を止める。",
+    "study_title": "PIM-DM",
+    "study_href": "../study/multicastz14.html"
+  },
+  {
+    "id": "Q292",
+    "section": "17 マルチキャスト",
+    "question": "IPv4マルチキャストパケットで、グループアドレスを設定するのは送信元と宛先のどちら？",
+    "answer": "宛先IPアドレス",
+    "note": "送信元IPアドレスには通常ユニキャストアドレスを使う。",
+    "study_title": "マルチキャストIP",
+    "study_href": "../study/multicastz03.html"
+  },
+  {
     "id": "Q171",
     "section": "18 仮想化・SDN",
     "question": "物理サーバ上で複数の仮想マシンを動かす基盤ソフトウェアは？",
@@ -1618,5 +2626,77 @@
     "note": "アプリケーションや回線状態に応じた制御に使う。",
     "study_title": "SD-WAN",
     "study_href": "../study/sdn11.html"
+  },
+  {
+    "id": "Q293",
+    "section": "18 仮想化・SDN",
+    "question": "利用者のデスクトップ環境をサーバ上の仮想マシンで動かし、画面を端末へ届ける構成は？",
+    "answer": "VDI（仮想デスクトップ基盤）",
+    "note": "処理やデータを端末側へ置かずに利用できる。",
+    "study_title": "VDI",
+    "study_href": "../study/virtual6.html"
+  },
+  {
+    "id": "Q294",
+    "section": "18 仮想化・SDN",
+    "question": "仮想マシンやストレージなどの基盤をクラウドから利用するサービス形態は？",
+    "answer": "IaaS",
+    "note": "OSやアプリの管理は利用者側の範囲に含まれる。",
+    "study_title": "クラウドサービス",
+    "study_href": "../study/virtual4.html"
+  },
+  {
+    "id": "Q295",
+    "section": "18 仮想化・SDN",
+    "question": "アプリの実行・開発に必要なプラットフォームをクラウドから利用する形態は？",
+    "answer": "PaaS",
+    "note": "基盤の構築よりアプリの開発・運用に集中できる。",
+    "study_title": "クラウドサービス",
+    "study_href": "../study/virtual4.html"
+  },
+  {
+    "id": "Q296",
+    "section": "18 仮想化・SDN",
+    "question": "完成したアプリケーションをクラウドからサービスとして利用する形態は？",
+    "answer": "SaaS",
+    "note": "利用者はアプリそのものを使う。",
+    "study_title": "クラウドサービス",
+    "study_href": "../study/virtual4.html"
+  },
+  {
+    "id": "Q297",
+    "section": "18 仮想化・SDN",
+    "question": "SDNコントローラが転送装置を制御する側のインターフェースは？",
+    "answer": "Southbound API",
+    "note": "アプリケーションがコントローラを利用する側はNorthbound API。",
+    "study_title": "SDNの構成",
+    "study_href": "../study/sdn01.html"
+  },
+  {
+    "id": "Q298",
+    "section": "18 仮想化・SDN",
+    "question": "OpenFlowでコントローラがスイッチのフローエントリの追加・変更・削除を指示するメッセージは？",
+    "answer": "Flow Mod（Flow-Mod）",
+    "note": "フロー表の規則をコントローラから設定する。",
+    "study_title": "OpenFlow",
+    "study_href": "../study/sdn02.html"
+  },
+  {
+    "id": "Q299",
+    "section": "18 仮想化・SDN",
+    "question": "REST APIで操作対象のリソースを一意に示すものは？",
+    "answer": "URI",
+    "note": "HTTPメソッドでそのリソースに対する操作を表す。",
+    "study_title": "REST API",
+    "study_href": "../study/sdn09.html"
+  },
+  {
+    "id": "Q300",
+    "section": "18 仮想化・SDN",
+    "question": "管理対象へ専用エージェントを入れず、SSHなどで構成を適用できるツールは？",
+    "answer": "Ansible",
+    "note": "エージェントレスの構成管理ツール。",
+    "study_title": "Ansible",
+    "study_href": "../study/sdn10.html"
   }
 ]
