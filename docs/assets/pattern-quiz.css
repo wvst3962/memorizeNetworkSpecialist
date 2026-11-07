@@ -1,0 +1,14 @@
+.page-patterns .quiz-intro { background: #1a4043; }
+.page-patterns .quiz-intro h1 em { color: #b8e6d8; }
+.page-patterns .quiz-step-number { background: #1a4043; }
+.pattern-caveat { margin: 16px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.pattern-situation-label { margin: 2px 0 8px; color: var(--teal); font-size: 12px; font-weight: 900; letter-spacing: .08em; }
+.pattern-situation { margin: 0 0 22px; padding: 18px 21px; border-left: 4px solid var(--teal); border-radius: 0 10px 10px 0; background: #edf7f2; font-size: clamp(17px, 2.2vw, 21px); font-weight: 800; line-height: 1.65; }
+.page-patterns .quiz-card h2 { margin-bottom: 25px; font-size: clamp(21px, 2.8vw, 28px); }
+.page-patterns .quiz-answer-text { color: #24483e; font-size: clamp(18px, 2.4vw, 24px); }
+.page-patterns .quiz-answer-panel { border-color: #b9d8cc; border-left-color: var(--teal); background: #f1faf5; }
+.page-patterns .quiz-answer-caption { color: #2d6a57; }
+.pattern-source { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid #c7dfd2; color: var(--muted); font-size: 13px; line-height: 1.6; }
+@media (max-width: 760px) {
+  .pattern-situation { padding: 15px 17px; }
+}

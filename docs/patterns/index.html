@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, noimageindex">
+  <title>論述パターン演習 | ネットワークスペシャリスト 学習ノート</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../assets/quiz.css">
+  <link rel="stylesheet" href="../assets/pattern-quiz.css">
+  <script defer src="../assets/pattern-quiz.js"></script>
+</head>
+<body class="page-quiz page-patterns">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">N</span><span>ネットワークスペシャリスト 学習ノート</span></a>
+      <a class="quiz-header-link" href="../quiz/">用語の1問1答へ</a>
+    </div>
+  </header>
+
+  <main class="quiz-main">
+    <section class="quiz-intro" aria-labelledby="pattern-title">
+      <p class="quiz-eyebrow">NETWORK SPECIALIST / ANSWER PATTERNS</p>
+      <h1 id="pattern-title">場面を読み、<br><em>解答の着眼点を思い出す。</em></h1>
+      <p>過去問から取り出した条件を見て、理由・対策・確認事項を先に考えます。答えを開き、自分の記述に必要な要素が入っているか確かめてください。</p>
+      <div class="quiz-intro-stats"><strong data-bank-size>—</strong><span>問</span><span class="quiz-stat-divider" aria-hidden="true"></span><strong data-section-size>—</strong><span>分野</span></div>
+    </section>
+
+    <section class="quiz-setup" aria-labelledby="setup-title">
+      <div class="quiz-section-heading"><span class="quiz-step-number">01</span><div><p class="quiz-small-label">CHOOSE YOUR PRACTICE</p><h2 id="setup-title">出題範囲を選ぶ</h2></div></div>
+      <div class="quiz-controls">
+        <label for="quiz-section">分野<select id="quiz-section"><option value="all">全分野から</option></select></label>
+        <label for="quiz-count">問題数<select id="quiz-count"><option value="10">10問</option><option value="20">20問</option><option value="50">50問</option><option value="all">すべて</option></select></label>
+        <button class="quiz-button quiz-button-primary" type="button" id="quiz-start" disabled>出題を始める <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="quiz-status" id="quiz-load-status" role="status">問題を読み込んでいます…</p>
+      <p class="pattern-caveat">この問題集の元になる解答パターン一覧は精査中です。解答の核を丸暗記せず、本文の対象機器・通信方向・数値に合わせて考えてください。</p>
+    </section>
+
+    <section class="quiz-session" id="quiz-session" aria-labelledby="question-title" hidden>
+      <div class="quiz-progress-row"><span id="quiz-position">1 / 10</span><span id="quiz-category">分野</span></div>
+      <progress id="quiz-progress" max="10" value="1" aria-label="出題の進み具合"></progress>
+      <div class="quiz-card">
+        <p class="quiz-question-id" id="quiz-question-id">P001</p>
+        <p class="pattern-situation-label">出題の場面・問われ方</p>
+        <p class="pattern-situation" id="pattern-situation"></p>
+        <h2 id="question-title" tabindex="-1">この場面で、何を確認・記述する？</h2>
+        <label class="quiz-answer-label" for="quiz-own-answer">あなたの答え <span>入力は任意です</span></label>
+        <textarea id="quiz-own-answer" rows="4" autocomplete="off" aria-describedby="quiz-input-hint" placeholder="理由・対策・確認事項を自分の言葉で書く"></textarea>
+        <p class="quiz-input-hint" id="quiz-input-hint">答えを開いて、必要な要素が入っているか確認しましょう。入力内容は保存しません。</p>
+        <button class="quiz-button quiz-button-primary" type="button" id="quiz-reveal">解答の核を見る</button>
+        <div class="quiz-answer-panel" id="quiz-answer-panel" tabindex="-1" hidden>
+          <p class="quiz-answer-caption">解答の核</p>
+          <p class="quiz-answer-text" id="quiz-answer"></p>
+          <p class="pattern-source" id="pattern-source"></p>
+          <button class="quiz-button quiz-button-next" type="button" id="quiz-next">次の問題へ <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="quiz-complete" id="quiz-complete" aria-labelledby="complete-title" hidden>
+      <p class="quiz-small-label">SESSION COMPLETE</p>
+      <h2 id="complete-title" tabindex="-1">今回の問題は終了です。</h2>
+      <p>答えの核を、設問の条件と結び付けて説明できたか振り返りましょう。</p>
+      <button class="quiz-button quiz-button-primary" type="button" id="quiz-again">もう一度出題する</button>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>ネットワークスペシャリスト 学習ノート</span><a href="../index.html">記事一覧に戻る</a></footer>
+</body>
+</html>
