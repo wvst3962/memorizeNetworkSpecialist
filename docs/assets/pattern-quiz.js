@@ -40,6 +40,7 @@
     progressElement.value = currentIndex + 1;
     questionIdElement.textContent = item.id;
     situationElement.textContent = item.situation;
+    questionElement.textContent = item.question;
     ownAnswer.value = "";
     answerElement.textContent = item.answer;
     sourceElement.textContent = `出典：${item.sources.join("、")}`;
