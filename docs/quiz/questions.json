@@ -144,6 +144,24 @@
     "study_href": "../study/networking3.html"
   },
   {
+    "id": "Q301",
+    "section": "01 ネットワークの基礎",
+    "question": "NATを使わずEthernetリンクのルータを経由して転送するとき、各リンクで付け直される宛先アドレスは？",
+    "answer": "宛先MACアドレス",
+    "note": "IPパケットの最終宛先は維持し、各ホップの次ホップに合わせてL2フレームを作り直す。",
+    "study_title": "ルータの動作",
+    "study_href": "../study/ethernet10.html"
+  },
+  {
+    "id": "Q302",
+    "section": "01 ネットワークの基礎",
+    "question": "TCPセグメントにIPヘッダを付けた、OSI第3層のデータ単位は？",
+    "answer": "IPパケット",
+    "note": "第2層ではさらにEthernetヘッダなどを付けてフレームにする。",
+    "study_title": "各層のデータ単位",
+    "study_href": "../study/networking3.html"
+  },
+  {
     "id": "Q011",
     "section": "02 IP・TCP・UDP",
     "question": "同一リンク上で、宛先IPv4アドレスに対応するMACアドレスを調べるプロトコルは？",
@@ -295,6 +313,24 @@
     "note": "tracerouteが経路上のルータを調べる際にも利用する。",
     "study_title": "ICMP",
     "study_href": "../study/tcpip4.html"
+  },
+  {
+    "id": "Q303",
+    "section": "02 IP・TCP・UDP",
+    "question": "MTUが1500バイトで、IPv4とTCPのヘッダが各20バイト、オプションがないときのTCPデータの最大長（MSS）は？",
+    "answer": "1460バイト",
+    "note": "1500−20−20で求める。MSSにはIP・TCPヘッダを含めない。",
+    "study_title": "TCPヘッダとMSS",
+    "study_href": "../study/tcpip8.html"
+  },
+  {
+    "id": "Q304",
+    "section": "02 IP・TCP・UDP",
+    "question": "TCPサーバがSYNを受けてSYN/ACKを返し、最後のACKを待っている状態は？",
+    "answer": "SYN_RECEIVED",
+    "note": "3ウェイハンドシェイク完了前で、まだESTABLISHEDではない。",
+    "study_title": "TCPの状態遷移",
+    "study_href": "../study/tcpip31.html"
   },
   {
     "id": "Q021",
@@ -450,6 +486,24 @@
     "study_href": "../study/tcpip21.html"
   },
   {
+    "id": "Q305",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DNSレコードをキャッシュしてよい時間を秒数で指定する値は？",
+    "answer": "TTL",
+    "note": "TTLを過ぎたキャッシュは再利用せず、改めて名前解決する。",
+    "study_title": "DNSレコードとTTL",
+    "study_href": "../study/tcpip23.html"
+  },
+  {
+    "id": "Q306",
+    "section": "03 DHCP・DNS・アプリケーション",
+    "question": "DNSで、あるゾーンの権威サーバを示し、委任にも使うレコードは？",
+    "answer": "NSレコード",
+    "note": "A・AAAAレコードはホスト名に対するアドレスを示す。",
+    "study_title": "DNSレコード",
+    "study_href": "../study/tcpip23.html"
+  },
+  {
     "id": "Q031",
     "section": "04 Ethernet・LAN",
     "question": "Ethernetフレームの転送先を同一リンク内で識別するアドレスは？",
@@ -592,6 +646,24 @@
     "note": "同じブロードキャストドメイン内へ配送する。",
     "study_title": "ブロードキャストMAC",
     "study_href": "../study/multicastz02.html"
+  },
+  {
+    "id": "Q307",
+    "section": "04 Ethernet・LAN",
+    "question": "全二重Ethernetのスイッチ接続で、衝突検出のCSMA/CDは必要か？",
+    "answer": "不要",
+    "note": "送受信を分離した全二重リンクでは、半二重の共有媒体で起こる衝突がない。",
+    "study_title": "全二重通信",
+    "study_href": "../study/ethernet8.html"
+  },
+  {
+    "id": "Q308",
+    "section": "04 Ethernet・LAN",
+    "question": "ストアアンドフォワード型スイッチがFCS検査で誤りを見つけたフレームはどう扱う？",
+    "answer": "破棄する",
+    "note": "フレーム全体を受信して誤りを検査し、正常なものだけを転送する。",
+    "study_title": "L2スイッチの転送方式",
+    "study_href": "../study/ethernet7.html"
   },
   {
     "id": "Q041",
@@ -747,6 +819,24 @@
     "study_href": "../study/etherchannel.html"
   },
   {
+    "id": "Q309",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "STPのルートブリッジ選出でブリッジ優先度が同じ場合、次に比較する値は？",
+    "answer": "MACアドレス",
+    "note": "ブリッジIDの小さい方が選ばれるため、同じ優先度ならMACアドレスが小さい方を選ぶ。",
+    "study_title": "STPのルートブリッジ",
+    "study_href": "../study/stpz2.html"
+  },
+  {
+    "id": "Q310",
+    "section": "05 VLAN・STP・リンク冗長化",
+    "question": "1Gbpsリンク4本のリンクアグリゲーションで、通常1つの通信フローが4Gbpsで送れるか？",
+    "answer": "送れない",
+    "note": "フローは通常1本の物理リンクに割り当て、複数フローを分散する。",
+    "study_title": "リンクアグリゲーション",
+    "study_href": "../study/etherchannel1.html"
+  },
+  {
     "id": "Q051",
     "section": "06 IPv4アドレス・NAT",
     "question": "/24 のIPv4ネットワークでホスト部は何ビット？",
@@ -900,6 +990,24 @@
     "study_href": "../study/ip11.html"
   },
   {
+    "id": "Q311",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "192.0.2.96/27 の通常のIPv4サブネットで、最後に使えるホストアドレスは？",
+    "answer": "192.0.2.126",
+    "note": "/27の範囲は192.0.2.96～127。127はブロードキャストアドレス。",
+    "study_title": "サブネット計算",
+    "study_href": "../study/ip7.html"
+  },
+  {
+    "id": "Q312",
+    "section": "06 IPv4アドレス・NAT",
+    "question": "192.0.2.0/25 と 192.0.2.128/25 を過不足なく集約した経路は？",
+    "answer": "192.0.2.0/24",
+    "note": "隣接する2つの/25が192.0.2.0～255を連続して覆う。",
+    "study_title": "CIDRと経路集約",
+    "study_href": "../study/ip8.html"
+  },
+  {
     "id": "Q061",
     "section": "07 ルーティング・BGP",
     "question": "192.0.2.0/24 と 192.0.2.128/25 の両方に一致する宛先 192.0.2.200 は、どちらの経路を選ぶ？",
@@ -1049,6 +1157,24 @@
     "question": "BGPでAS_PATHに自AS番号が既に含まれる経路を受け取ったらどうする？",
     "answer": "ループと判断して採用しない",
     "note": "通過ASの履歴でAS間の経路ループを抑える。",
+    "study_title": "BGPパス属性",
+    "study_href": "../study/bgpz05.html"
+  },
+  {
+    "id": "Q313",
+    "section": "07 ルーティング・BGP",
+    "question": "BGPで同一の隣接ASから来た2経路を比較し、上位の選択条件が同じなら、MEDは大きい方と小さい方のどちらを優先する？",
+    "answer": "小さい方",
+    "note": "MEDは隣接ASへの入口を示す指標で、通常は同一の隣接ASからの経路間で比較する。",
+    "study_title": "BGPパス属性",
+    "study_href": "../study/bgpz05.html"
+  },
+  {
+    "id": "Q314",
+    "section": "07 ルーティング・BGP",
+    "question": "BGPでLOCAL_PREFなどの上位条件が等しいとき、AS_PATHに並ぶAS数が2と3の経路ならどちらを優先する？",
+    "answer": "AS数が2の経路",
+    "note": "AS_PATHが短い経路を優先する。",
     "study_title": "BGPパス属性",
     "study_href": "../study/bgpz05.html"
   },
@@ -1206,6 +1332,24 @@
     "study_href": "../study/ospfz7.html"
   },
   {
+    "id": "Q315",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFのブロードキャストネットワークで優先度を0にしたルータは、DRやBDRに選ばれるか？",
+    "answer": "選ばれない",
+    "note": "優先度0のルータはDROTHERとなる。",
+    "study_title": "OSPFのDRとBDR",
+    "study_href": "../study/ospfz7.html"
+  },
+  {
+    "id": "Q316",
+    "section": "08 ディスタンスベクタ・OSPF",
+    "question": "OSPFのブロードキャストネットワークで、タイプ2のNetwork LSAを生成するのはどのルータか？",
+    "answer": "DR",
+    "note": "そのネットワークに接続するルータの情報をDRが通知する。",
+    "study_title": "OSPFのLSA",
+    "study_href": "../study/ospfz15.html"
+  },
+  {
     "id": "Q081",
     "section": "09 セキュリティ・認証",
     "question": "HTTPリクエストの内容を調べ、Webアプリへの攻撃を防ぐ装置・機能は？",
@@ -1359,6 +1503,24 @@
     "study_href": "../study/security14.html"
   },
   {
+    "id": "Q317",
+    "section": "09 セキュリティ・認証",
+    "question": "メールのSPFは合格したが、そのドメインがFrom欄と整合せず、DKIMも不合格だった。DMARCの認証結果は？",
+    "answer": "不合格",
+    "note": "DMARCには、From欄と整合するSPFまたはDKIMの合格が必要。",
+    "study_title": "メールの送信ドメイン認証",
+    "study_href": "../study/security30.html"
+  },
+  {
+    "id": "Q318",
+    "section": "09 セキュリティ・認証",
+    "question": "DAIがARPのIP・MAC対応を検査するとき、DHCPで得た正規の対応関係として参照する表は？",
+    "answer": "DHCPスヌーピングのバインディングテーブル",
+    "note": "DHCPで学習した端末のIP・MAC・ポート対応を使い、ARPのなりすましを抑える。",
+    "study_title": "DHCPスヌーピングとDAI",
+    "study_href": "../study/dhcpz5.html"
+  },
+  {
     "id": "Q091",
     "section": "10 VPN・IPsec",
     "question": "公衆回線などの上に、拠点間・端末間の論理的な専用通信路を作る技術の総称は？",
@@ -1503,6 +1665,24 @@
     "study_href": "../study/ipsec7.html"
   },
   {
+    "id": "Q319",
+    "section": "10 VPN・IPsec",
+    "question": "リプレイ防止を有効にしたIPsecのESPで、同じパケットの再受信を検出するために使う値は？",
+    "answer": "シーケンス番号",
+    "note": "受信側がSAごとに番号の重複や受信窓を確認する。",
+    "study_title": "IPsecのESP",
+    "study_href": "../study/ipsec5.html"
+  },
+  {
+    "id": "Q320",
+    "section": "10 VPN・IPsec",
+    "question": "ESPで暗号化するIPsecトンネルモードでは、内側と外側のIPヘッダのうち暗号化対象に含まれるのは？",
+    "answer": "内側のIPヘッダ",
+    "note": "元のIPパケットを暗号化して包み、配送用の外側IPヘッダを追加する。",
+    "study_title": "IPsecのトンネルモード",
+    "study_href": "../study/ipsec6.html"
+  },
+  {
     "id": "Q101",
     "section": "11 TLS・証明書",
     "question": "HTTPSでHTTPの通信を保護するために使うプロトコルは？",
@@ -1645,6 +1825,24 @@
     "note": "Web経由のリバースプロキシ方式などがある。",
     "study_title": "SSL-VPN",
     "study_href": "../study/security8.html"
+  },
+  {
+    "id": "Q321",
+    "section": "11 TLS・証明書",
+    "question": "信頼するCAが発行した有効なサーバ証明書でも、接続先のホスト名と証明書の名前が一致しない場合はどう判定する？",
+    "answer": "サーバ認証に失敗する",
+    "note": "発行元の信頼だけでなく、接続先の名前との一致も検証する。",
+    "study_title": "サーバ証明書の名前",
+    "study_href": "../study/sslserver2.html"
+  },
+  {
+    "id": "Q322",
+    "section": "11 TLS・証明書",
+    "question": "サーバ証明書を申請するCSRに含めず、サーバ側で厳重に保管する鍵は？",
+    "answer": "秘密鍵",
+    "note": "CSRには公開鍵や申請者の情報を含める。秘密鍵はCAへ送らない。",
+    "study_title": "CSRと鍵ペア",
+    "study_href": "../study/sslserver2.html"
   },
   {
     "id": "Q111",
@@ -1800,6 +1998,24 @@
     "study_href": "../study/wireless51.html"
   },
   {
+    "id": "Q323",
+    "section": "12 無線LAN",
+    "question": "2.4GHz帯の無線LANで20MHz幅を使い、近接する3台のAPのチャネル重複を抑える代表的な組合せは？",
+    "answer": "1・6・11チャネル",
+    "note": "チャネル間隔を空け、隣接チャネルの干渉を減らす。",
+    "study_title": "無線LANのチャネル設計",
+    "study_href": "../study/wireless3.html"
+  },
+  {
+    "id": "Q324",
+    "section": "12 無線LAN",
+    "question": "Wi-Fi 6で、APと端末が起床時刻を調整して端末の消費電力を抑える機能は？",
+    "answer": "TWT（Target Wake Time）",
+    "note": "通信の必要な時刻まで端末を休止させやすくする。",
+    "study_title": "Wi-Fi 6",
+    "study_href": "../study/wireless57.html"
+  },
+  {
     "id": "Q121",
     "section": "13 負荷分散・CDN",
     "question": "複数サーバにクライアントの要求を振り分ける装置・機能は？",
@@ -1942,6 +2158,24 @@
     "note": "ICMPの到達性だけではアプリの正常動作まで分からない。",
     "study_title": "ヘルスチェック",
     "study_href": "../study/loadbalancer6.html"
+  },
+  {
+    "id": "Q325",
+    "section": "13 負荷分散・CDN",
+    "question": "Webサーバを複数台にしたのに、入口のロードバランサ1台の故障で全サービスが止まる。この入口は何と呼ばれる？",
+    "answer": "単一障害点（SPOF）",
+    "note": "サーバだけでなく、入口のロードバランサも冗長化を検討する。",
+    "study_title": "負荷分散の単一障害点",
+    "study_href": "../study/loadbalancer2.html"
+  },
+  {
+    "id": "Q326",
+    "section": "13 負荷分散・CDN",
+    "question": "DNSラウンドロビンだけで複数Webサーバを分散し、1台が停止した。障害検知とDNS応答の変更がなければ何が起きる？",
+    "answer": "停止したサーバのIPアドレスも返り続ける",
+    "note": "DNSラウンドロビン自体はサーバの稼働状態を判定しない。",
+    "study_title": "DNSラウンドロビン",
+    "study_href": "../study/loadbalancer1.html"
   },
   {
     "id": "Q131",
@@ -2097,6 +2331,24 @@
     "study_href": "../study/ipv6z8.html"
   },
   {
+    "id": "Q327",
+    "section": "14 IPv6",
+    "question": "IPv6のRAでMフラグが1のとき、利用可能だと示されるアドレス取得方式は？",
+    "answer": "DHCPv6によるステートフル設定",
+    "note": "MフラグはDHCPv6からアドレスを取得できることを示す。OフラグはDNSなど他の情報の取得を示す。",
+    "study_title": "IPv6アドレス自動設定",
+    "study_href": "../study/ipv6z5.html"
+  },
+  {
+    "id": "Q328",
+    "section": "14 IPv6",
+    "question": "IPv6のリンクローカルアドレスを宛先にしたパケットは、ルータを越えて別リンクへ届くか？",
+    "answer": "届かない",
+    "note": "リンクローカルアドレスのスコープは同一リンク内に限られる。",
+    "study_title": "IPv6アドレスのスコープ",
+    "study_href": "../study/ipv6z3.html"
+  },
+  {
     "id": "Q141",
     "section": "15 ストレージ・バックアップ",
     "question": "ネットワーク越しにファイル共有を提供するストレージ構成は？",
@@ -2241,6 +2493,24 @@
     "study_href": "../study/networking12.html"
   },
   {
+    "id": "Q329",
+    "section": "15 ストレージ・バックアップ",
+    "question": "フルバックアップ後に毎日増分バックアップを取った。3日目の状態へ復元するために必要なデータは？",
+    "answer": "フルバックアップと1～3日目の増分バックアップ全部",
+    "note": "増分は直前のバックアップ以降の変更分なので、途中の増分を飛ばせない。",
+    "study_title": "増分バックアップ",
+    "study_href": "../study/networking10.html"
+  },
+  {
+    "id": "Q330",
+    "section": "15 ストレージ・バックアップ",
+    "question": "RAID 5でディスク1台が故障し、まだ再構築していない。この時点で追加のディスク故障に耐えられるか？",
+    "answer": "耐えられない",
+    "note": "RAID 5の冗長性は1台分。再構築までは冗長性を失う。",
+    "study_title": "RAID 5",
+    "study_href": "../study/networking9.html"
+  },
+  {
     "id": "Q151",
     "section": "16 音声通信・QoS",
     "question": "IP電話で音声データをリアルタイムに運ぶ代表的なプロトコルは？",
@@ -2382,6 +2652,24 @@
     "answer": "シェーピング",
     "note": "急な送出を平滑化する。",
     "study_title": "DiffServ",
+    "study_href": "../study/telephony7.html"
+  },
+  {
+    "id": "Q331",
+    "section": "16 音声通信・QoS",
+    "question": "RTPで、受信側が音声を再生するタイミングを決める手掛かりになるヘッダ値は？",
+    "answer": "タイムスタンプ",
+    "note": "シーケンス番号は欠落や順序の確認に使い、タイムスタンプは再生時刻の基準に使う。",
+    "study_title": "RTP",
+    "study_href": "../study/telephony3.html"
+  },
+  {
+    "id": "Q332",
+    "section": "16 音声通信・QoS",
+    "question": "常に最優先キューから送出する方式で、低優先トラフィックが長く待たされ得るキュー制御は？",
+    "answer": "PQ（Priority Queuing）",
+    "note": "優先通信が多すぎると低優先キューが処理されにくくなる。",
+    "study_title": "QoSのキュー制御",
     "study_href": "../study/telephony7.html"
   },
   {
@@ -2536,6 +2824,24 @@
     "note": "送信元IPアドレスには通常ユニキャストアドレスを使う。",
     "study_title": "マルチキャストIP",
     "study_href": "../study/multicastz03.html"
+  },
+  {
+    "id": "Q333",
+    "section": "17 マルチキャスト",
+    "question": "SSMで送信元Sを指定してマルチキャストを受信する場合、PIM-SMの共有木で使うRPの設定は必要か？",
+    "answer": "不要",
+    "note": "SSMは送信元を指定した送信元ツリーを使う。",
+    "study_title": "SSM",
+    "study_href": "../study/multicastz40.html"
+  },
+  {
+    "id": "Q334",
+    "section": "17 マルチキャスト",
+    "question": "IGMPv3で、指定した送信元からのマルチキャストだけを受け取るフィルタモードは？",
+    "answer": "INCLUDEモード",
+    "note": "送信元を列挙して受信対象を限定する。",
+    "study_title": "IGMPv3",
+    "study_href": "../study/multicastz11.html"
   },
   {
     "id": "Q171",
@@ -2698,5 +3004,23 @@
     "note": "エージェントレスの構成管理ツール。",
     "study_title": "Ansible",
     "study_href": "../study/sdn10.html"
+  },
+  {
+    "id": "Q335",
+    "section": "18 仮想化・SDN",
+    "question": "VXLANの離れたVTEP間でフレームを運ぶため、基盤となるL3ネットワークに必要な条件は？",
+    "answer": "VTEP間のIP到達性",
+    "note": "VXLANはEthernetフレームをUDP/IPでカプセル化して転送する。",
+    "study_title": "VXLAN",
+    "study_href": "../study/virtual3.html"
+  },
+  {
+    "id": "Q336",
+    "section": "18 仮想化・SDN",
+    "question": "EVPN/VXLANで遠隔端末のMACアドレスをBGPで事前に学習すると、特に減らせる通信は？",
+    "answer": "宛先不明ユニキャストのフラッディング",
+    "note": "宛先MACとVTEPの対応が分かれば、未知宛先として全体へばらまく必要が減る。",
+    "study_title": "EVPN/VXLAN",
+    "study_href": "../study/virtual3.html"
   }
 ]
